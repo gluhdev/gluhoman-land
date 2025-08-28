@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏞️ Глухомань - Рекреаційний Комплекс
 
-## Getting Started
+Сучасний веб-сайт для рекреаційного комплексу "Глухомань" у селі Нижні Млини, Полтавська область.
 
-First, run the development server:
+## 🚀 Технології
+
+- **Next.js 15** - React фреймворк з App Router
+- **TypeScript** - Типізована JavaScript
+- **Tailwind CSS** - Utility-first CSS фреймворк  
+- **shadcn/ui** - Модульні UI компоненти
+- **Lucide React** - Іконки
+- **Responsive Design** - Адаптивний дизайн для всіх пристроїв
+
+## 🏃‍♂️ Запуск проекту
 
 ```bash
+# Встановити залежності
+npm install
+
+# Запустити dev сервер
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Білд для продакшена
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🌐 Деплой на Vercel
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Імпортуй проект з GitHub на vercel.com
+2. Vercel автоматично розпізнає Next.js налаштування
+3. Натисни Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📞 Контакти
 
-## Learn More
+**Рекреаційний комплекс "Глухомань"**
+- 📍 с. Нижні Млини, Полтавська область, Україна
+- 📞 +38 053 264 8548
+- 📞 +38 050 850 3355  
+- 📞 +38 050 406 3555
 
-To learn more about Next.js, take a look at the following resources:
+## 🏨 Послуги
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- 🏊‍♂️ **Аквапарк** - Сучасний аквапарк з гірками та басейнами
+- 🍽️ **Ресторан** - Традиційна українська кухня
+- 🏨 **Готель** - Комфортне проживання на природі  
+- 🔥 **Лазня на дровах** - Традиційна українська лазня
+- 🍯 **Апітерапія** - Оздоровчі процедури
+- 💒 **Весільні церемонії** - Організація заходів
+- 🎯 **Пейнтбол** - Активний відпочинок
+- 🐴 **Прогулянки на конях** - Романтичні прогулянки
+- 🎂 **Дитячі свята** - Організація днів народження
+- 🔥 **Мангальна зона** - Зона для барбекю
+- 🍺 **Тур по пивоварні** - Власна пивоварня
+- 🐐 **Контактний зоопарк** - Спілкування з тваринами
