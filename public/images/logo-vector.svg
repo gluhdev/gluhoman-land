@@ -1,0 +1,205 @@
+<svg width="400" height="133" viewBox="0 0 400 133" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="treeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2D7A32;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4CAF50;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2E7D32;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4CAF50;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Дерево - основной элемент логотипа -->
+  <g id="tree">
+    <!-- Ствол -->
+    <rect x="32" y="80" width="8" height="25" fill="url(#treeGradient)" rx="2"/>
+    
+    <!-- Крона дерева -->
+    <ellipse cx="36" cy="75" rx="18" ry="15" fill="url(#treeGradient)"/>
+    
+    <!-- Ветки -->
+    <path d="M20 70 Q30 65 40 70 M32 75 Q42 70 52 75 M25 80 Q35 75 45 80" 
+          stroke="url(#treeGradient)" 
+          stroke-width="2" 
+          fill="none" 
+          stroke-linecap="round"/>
+    
+    <!-- Листья -->
+    <circle cx="25" cy="68" r="3" fill="#4CAF50"/>
+    <circle cx="47" cy="72" r="3" fill="#4CAF50"/>
+    <circle cx="30" cy="82" r="2.5" fill="#4CAF50"/>
+    <circle cx="42" cy="85" r="2.5" fill="#4CAF50"/>
+  </g>
+  
+  <!-- Белочка на дереве -->
+  <g id="squirrel">
+    <ellipse cx="45" cy="65" rx="4" ry="3" fill="#8D4004"/>
+    <circle cx="43" cy="63" r="1" fill="#000"/>
+    <path d="M48 62 Q52 58 50 65" stroke="#8D4004" stroke-width="1.5" fill="none"/>
+  </g>
+  
+  <!-- Текст "ГЛУХОМАНЬ" -->
+  <g id="main-text" class="logo-text-main">
+    <!-- Г -->
+    <path d="M80 35 L80 55 L95 55 M80 45 L90 45" 
+          stroke="url(#textGradient)" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round"
+          class="letter letter-g"/>
+    
+    <!-- Л -->
+    <path d="M105 35 L105 55 M105 35 L115 55 M115 35 L115 55" 
+          stroke="url(#textGradient)" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round"
+          class="letter letter-l"/>
+    
+    <!-- У -->
+    <path d="M125 35 L125 45 Q125 50 130 50 Q135 50 135 45 L135 35" 
+          stroke="url(#textGradient)" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round"
+          class="letter letter-u"/>
+    
+    <!-- Х -->
+    <path d="M145 35 L155 55 M155 35 L145 55" 
+          stroke="url(#textGradient)" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round"
+          class="letter letter-h"/>
+    
+    <!-- О -->
+    <ellipse cx="170" cy="45" rx="8" ry="10" 
+             stroke="url(#textGradient)" 
+             stroke-width="3" 
+             fill="none"
+             class="letter letter-o"/>
+    
+    <!-- М -->
+    <path d="M185 55 L185 35 L195 45 L205 35 L205 55" 
+          stroke="url(#textGradient)" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round"
+          class="letter letter-m"/>
+    
+    <!-- А -->
+    <path d="M215 55 L220 35 L225 55 M218 47 L222 47" 
+          stroke="url(#textGradient)" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round"
+          class="letter letter-a"/>
+    
+    <!-- Н -->
+    <path d="M235 35 L235 55 M235 45 L245 45 M245 35 L245 55" 
+          stroke="url(#textGradient)" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round"
+          class="letter letter-n"/>
+    
+    <!-- Ь -->
+    <path d="M255 35 L255 55 M255 45 L262 45 Q267 45 267 50 Q267 55 262 55 L255 55" 
+          stroke="url(#textGradient)" 
+          stroke-width="3" 
+          fill="none" 
+          stroke-linecap="round"
+          class="letter letter-soft"/>
+  </g>
+  
+  <!-- Подпись "РЕСТОРАННО-ГОТЕЛЬНИЙ КОМПЛЕКС" -->
+  <g id="subtitle-text" class="logo-text-subtitle">
+    <text x="80" y="85" 
+          font-family="Arial, sans-serif" 
+          font-size="12" 
+          font-weight="600" 
+          fill="url(#textGradient)" 
+          letter-spacing="1px"
+          class="subtitle-text">
+      РЕСТОРАННО-ГОТЕЛЬНИЙ КОМПЛЕКС
+    </text>
+  </g>
+  
+  <style>
+    .letter {
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+    }
+    
+    .letter-g { animation: drawLetter 0.8s ease-out 0.2s both; }
+    .letter-l { animation: drawLetter 0.8s ease-out 0.4s both; }
+    .letter-u { animation: drawLetter 0.8s ease-out 0.6s both; }
+    .letter-h { animation: drawLetter 0.8s ease-out 0.8s both; }
+    .letter-o { animation: drawLetter 0.8s ease-out 1.0s both; }
+    .letter-m { animation: drawLetter 0.8s ease-out 1.2s both; }
+    .letter-a { animation: drawLetter 0.8s ease-out 1.4s both; }
+    .letter-n { animation: drawLetter 0.8s ease-out 1.6s both; }
+    .letter-soft { animation: drawLetter 0.8s ease-out 1.8s both; }
+    
+    .subtitle-text {
+      opacity: 0;
+      animation: fadeInText 0.8s ease-out 2.2s both;
+    }
+    
+    #tree {
+      transform-origin: center;
+      animation: scaleIn 0.6s ease-out 0s both;
+    }
+    
+    #squirrel {
+      opacity: 0;
+      animation: fadeInText 0.4s ease-out 0.8s both;
+    }
+    
+    @keyframes drawLetter {
+      from {
+        stroke-dashoffset: 200;
+        opacity: 0;
+      }
+      to {
+        stroke-dashoffset: 0;
+        opacity: 1;
+      }
+    }
+    
+    @keyframes fadeInText {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes scaleIn {
+      from {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    
+    /* Hover effects for interactive use */
+    .logo-text-main:hover .letter {
+      stroke-width: 4;
+      filter: drop-shadow(0 0 8px #4CAF50);
+      transition: all 0.3s ease;
+    }
+    
+    .logo-text-subtitle:hover .subtitle-text {
+      filter: drop-shadow(0 0 6px #4CAF50);
+      transition: all 0.3s ease;
+    }
+  </style>
+</svg>

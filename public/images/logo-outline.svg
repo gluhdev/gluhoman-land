@@ -1,0 +1,140 @@
+<svg width="300" height="100" viewBox="0 0 300 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logoGradientOutline" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Дерево - основная форма логотипа -->
+  <path d="M50 80 L50 60 L40 50 Q45 45 50 50 Q55 45 60 50 L50 60 Z" 
+        stroke="url(#logoGradientOutline)" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        pathLength="1"
+        class="logo-path"/>
+  
+  <!-- Ветки дерева -->
+  <path d="M45 55 Q40 50 35 55 M55 55 Q60 50 65 55 M42 58 Q37 53 32 58 M58 58 Q63 53 68 58" 
+        stroke="url(#logoGradientOutline)" 
+        stroke-width="1.5" 
+        fill="none" 
+        stroke-linecap="round"
+        pathLength="1"
+        class="logo-path logo-path-delay-1"/>
+  
+  <!-- Птичка на дереве -->
+  <ellipse cx="52" cy="45" rx="3" ry="2" 
+           stroke="url(#logoGradientOutline)" 
+           stroke-width="1.5" 
+           fill="none"
+           pathLength="1"
+           class="logo-path logo-path-delay-2"/>
+  
+  <!-- Текст "ГЛУХОМАНЬ" -->
+  <path d="M90 25 L90 45 L105 45 M90 35 L100 35" 
+        stroke="url(#logoGradientOutline)" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round"
+        pathLength="1"
+        class="logo-path logo-path-delay-3"/>
+  
+  <path d="M115 25 L115 45 M115 25 L125 45 M125 25 L125 45" 
+        stroke="url(#logoGradientOutline)" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round"
+        pathLength="1"
+        class="logo-path logo-path-delay-4"/>
+  
+  <path d="M135 25 L135 45 L150 25 L150 45" 
+        stroke="url(#logoGradientOutline)" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round"
+        pathLength="1"
+        class="logo-path logo-path-delay-5"/>
+  
+  <!-- Дополнительные буквы -->
+  <path d="M160 25 L160 45 M160 35 L170 35" 
+        stroke="url(#logoGradientOutline)" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round"
+        pathLength="1"
+        class="logo-path logo-path-delay-6"/>
+  
+  <circle cx="180" cy="35" r="10" 
+          stroke="url(#logoGradientOutline)" 
+          stroke-width="2" 
+          fill="none"
+          pathLength="1"
+          class="logo-path logo-path-delay-7"/>
+  
+  <path d="M200 25 L200 45 M200 25 L210 35 L200 45" 
+        stroke="url(#logoGradientOutline)" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round"
+        pathLength="1"
+        class="logo-path logo-path-delay-8"/>
+  
+  <path d="M220 25 L220 45 L235 45 M220 35 L230 35" 
+        stroke="url(#logoGradientOutline)" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round"
+        pathLength="1"
+        class="logo-path logo-path-delay-9"/>
+  
+  <path d="M245 25 L245 45 M245 25 L255 45 M255 25 L255 45" 
+        stroke="url(#logoGradientOutline)" 
+        stroke-width="2" 
+        fill="none" 
+        stroke-linecap="round"
+        pathLength="1"
+        class="logo-path logo-path-delay-10"/>
+  
+  <!-- Подпись -->
+  <path d="M90 65 Q95 60 100 65 Q105 60 110 65 M115 65 L125 65 M130 60 L130 70 M135 60 L135 70 L140 70" 
+        stroke="url(#logoGradientOutline)" 
+        stroke-width="1" 
+        fill="none" 
+        stroke-linecap="round"
+        pathLength="1"
+        class="logo-path logo-path-delay-11"/>
+  
+  <style>
+    .logo-path {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: drawPath 0.8s ease-out forwards;
+    }
+    
+    .logo-path-delay-1 { animation-delay: 0.2s; }
+    .logo-path-delay-2 { animation-delay: 0.4s; }
+    .logo-path-delay-3 { animation-delay: 0.6s; }
+    .logo-path-delay-4 { animation-delay: 0.8s; }
+    .logo-path-delay-5 { animation-delay: 1.0s; }
+    .logo-path-delay-6 { animation-delay: 1.2s; }
+    .logo-path-delay-7 { animation-delay: 1.4s; }
+    .logo-path-delay-8 { animation-delay: 1.6s; }
+    .logo-path-delay-9 { animation-delay: 1.8s; }
+    .logo-path-delay-10 { animation-delay: 2.0s; }
+    .logo-path-delay-11 { animation-delay: 2.2s; }
+    
+    @keyframes drawPath {
+      from {
+        stroke-dashoffset: 1;
+        opacity: 0;
+      }
+      to {
+        stroke-dashoffset: 0;
+        opacity: 1;
+      }
+    }
+  </style>
+</svg>
