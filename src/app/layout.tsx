@@ -32,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="uk">
       <body className={`${manrope.variable} font-sans antialiased`}>
+        <div className="absolute inset-0 -z-10 h-full w-full bg-radial-gradient-green"></div>
         <Preloader />
         <div className="min-h-screen flex flex-col">
           <Header />

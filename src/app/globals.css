@@ -673,4 +673,9 @@
     animation: spinner-appear 0.5s ease-out 1.3s both;
   }
 
+  /* Зеленый радиальный градиент фон */
+  .bg-radial-gradient-green {
+    background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #22c55e 100%);
+  }
+
 }
