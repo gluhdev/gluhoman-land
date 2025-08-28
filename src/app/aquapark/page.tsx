@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
-import { Phone, MapPin, Clock, Waves, Users, Shield, Baby, Star, ArrowRight, Droplets, Sparkles, Instagram } from 'lucide-react';
+import { Phone, MapPin, Clock, Waves, Users, Shield, Baby, ArrowRight, Droplets, Instagram } from 'lucide-react';
 import { CONTACT_INFO } from '@/constants';
 import Link from 'next/link';
 import InstagramFeed from '@/components/ui/InstagramFeed';

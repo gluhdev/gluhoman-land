@@ -217,7 +217,7 @@ export default function Header() {
               <div className="mt-8 pt-6 border-t border-white/20">
                 <div className="space-y-3">
                   <div className="text-sm font-medium text-white/60 mb-4 animate-mobile-menu-item" style={{ animationDelay: '600ms' }}>
-                    Зв'яжіться з нами
+                    Зв&apos;яжіться з нами
                   </div>
                   {CONTACT_INFO.phone.slice(0, 2).map((phone, index) => (
                     <a

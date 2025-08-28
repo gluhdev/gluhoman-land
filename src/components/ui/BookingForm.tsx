@@ -63,7 +63,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
           </h2>
           
           <p className="text-muted-foreground">
-            Заповніть форму і ми зв'яжемося з вами протягом 15 хвилин
+            Заповніть форму і ми зв&apos;яжемося з вами протягом 15 хвилин
           </p>
         </div>
 
@@ -73,7 +73,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold mb-2" htmlFor="name">
-                Ім'я та прізвище *
+                Ім&apos;я та прізвище *
               </label>
               <input
                 type="text"
@@ -235,7 +235,7 @@ export default function BookingForm({ isOpen, onClose }: BookingFormProps) {
           {/* Contact Info */}
           <div className="text-center pt-6 border-t border-muted">
             <p className="text-sm text-muted-foreground mb-4">
-              Або зв'яжіться з нами напряму:
+              Або зв&apos;яжіться з нами напряму:
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-sm">
               <div className="flex items-center gap-2">

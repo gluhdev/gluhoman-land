@@ -304,7 +304,7 @@ export default function Home() {
                 
                 <div className="space-y-6 text-lg lg:text-xl text-muted-foreground leading-relaxed">
                   <p>
-                    Ресторанно-готельний комплекс <strong className="text-foreground">"Глухомань"</strong> розташований 
+                    Ресторанно-готельний комплекс <strong className="text-foreground">&quot;Глухомань&quot;</strong> розташований 
                     у мальовничій місцевості Полтавської області.
                   </p>
                   

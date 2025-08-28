@@ -208,8 +208,8 @@ export default function SaunaPage() {
                   </div>
                   <div className="space-y-2 text-muted-foreground">
                     <p><strong>Понеділок-Четвер:</strong> 12:00 - 22:00</p>
-                    <p><strong>П'ятниця-Неділя:</strong> 10:00 - 23:00</p>
-                    <p className="text-primary font-semibold">Попереднє бронювання обов'язкове</p>
+                    <p><strong>П&apos;ятниця-Неділя:</strong> 10:00 - 23:00</p>
+                    <p className="text-primary font-semibold">Попереднє бронювання обов&apos;язкове</p>
                   </div>
                 </div>
 

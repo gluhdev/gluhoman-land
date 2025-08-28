@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
-import { Phone, MapPin, Bed, Wifi, Car, Coffee, Star, ArrowRight, Bath, Tv, Wind, Users, Instagram, BookOpen } from 'lucide-react';
+import { Phone, MapPin, Bed, Wifi, Car, Coffee, Star, ArrowRight, Bath, Tv, Wind, Users, BookOpen } from 'lucide-react';
 import { CONTACT_INFO } from '@/constants';
-import Link from 'next/link';
 import BookingReviews from '@/components/ui/BookingReviews';
 
 export const metadata: Metadata = {

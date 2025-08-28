@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Button } from '@/components/ui/button';
-import { Phone, MapPin, Clock, ChefHat, Users, Star, ArrowRight, Heart, Utensils, Coffee, Instagram, Wine } from 'lucide-react';
+import { Phone, Clock, ChefHat, Users, Star, ArrowRight, Heart, Utensils, Coffee, Instagram, Wine } from 'lucide-react';
 import { CONTACT_INFO } from '@/constants';
 import Link from 'next/link';
 
@@ -203,7 +203,7 @@ export default function RestaurantPage() {
               </div>
               <h3 className="text-2xl font-bold mb-4">Режим роботи</h3>
               <div className="space-y-2 text-muted-foreground">
-                <p>Понеділок - П'ятниця: 11:00 - 23:00</p>
+                <p>Понеділок - П&apos;ятниця: 11:00 - 23:00</p>
                 <p>Субота - Неділя: 10:00 - 24:00</p>
                 <p className="text-primary font-semibold">Бронювання до 22:00</p>
               </div>
