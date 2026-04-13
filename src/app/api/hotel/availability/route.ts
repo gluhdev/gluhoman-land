@@ -9,6 +9,25 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { bookingStorage } from '@/lib/booking-storage';
 import { getNights } from '@/types/booking';
+import { prisma } from '@/lib/prisma';
+
+const STALE_PENDING_MS = 30 * 60 * 1000;
+
+async function cancelStalePending() {
+  const cutoff = new Date(Date.now() - STALE_PENDING_MS);
+  try {
+    await prisma.hotelBooking.updateMany({
+      where: {
+        paymentStatus: 'pending',
+        status: 'pending',
+        createdAt: { lt: cutoff },
+      },
+      data: { status: 'cancelled' },
+    });
+  } catch {
+    // best-effort sweep; never block availability on it
+  }
+}
 
 const Schema = z.object({
   checkIn: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'YYYY-MM-DD'),
@@ -33,6 +52,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Виїзд має бути після заїзду' }, { status: 400 });
   }
 
+  await cancelStalePending();
   const rooms = await bookingStorage.findAvailableRooms(checkIn, checkOut, guests);
   return NextResponse.json({
     nights,
