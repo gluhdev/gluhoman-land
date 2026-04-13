@@ -1,4 +1,5 @@
 import { Save } from 'lucide-react';
+import { ImageUploader } from '@/components/admin/ImageUploader';
 
 interface Room {
   id?: string;
@@ -27,14 +28,13 @@ export function RoomForm({
   action: (formData: FormData) => Promise<unknown> | void;
   submitLabel?: string;
 }) {
-  // Decode images from JSON to newline-separated for editing
-  let imagesValue = '';
+  let initialImages: string[] = [];
   if (initial?.images) {
     try {
       const arr = JSON.parse(initial.images);
-      if (Array.isArray(arr)) imagesValue = arr.join('\n');
+      if (Array.isArray(arr)) initialImages = arr.filter((x) => typeof x === 'string');
     } catch {
-      imagesValue = initial.images;
+      initialImages = [];
     }
   }
 
@@ -106,14 +106,8 @@ export function RoomForm({
         />
       </Field>
 
-      <Field label="Фото (по одному URL на рядок або через кому)">
-        <textarea
-          name="images"
-          rows={3}
-          defaultValue={imagesValue}
-          placeholder="/images/room-101.jpg&#10;/images/room-101-bath.jpg"
-          className={`${inputClass} resize-none font-mono text-xs`}
-        />
+      <Field label="Фото номера">
+        <ImageUploader name="images" initial={initialImages} />
       </Field>
 
       <label className="flex items-center gap-3 cursor-pointer">

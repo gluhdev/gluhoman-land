@@ -12,8 +12,8 @@ export default function HomeLocation() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
+            viewport={{ once: true, margin: "0px" }}
+            transition={{ duration: 0.36 }}
             className="lg:col-span-5"
           >
             <p className="mb-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.32em] text-[#1a3d2e]/70">
@@ -77,22 +77,76 @@ export default function HomeLocation() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.9, delay: 0.1 }}
+            viewport={{ once: true, margin: "0px" }}
+            transition={{ duration: 0.41, delay: 0.05 }}
             className="lg:col-span-7"
           >
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-sm border border-[#1a3d2e]/15 bg-[#1a3d2e]/5 md:aspect-[16/11]">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2637.389!2d34.513!3d49.583!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z0J3QuNC20L3RltC80LvQuNC90Lg!5e0!3m2!1suk!2sua!4v1700000000000"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Карта Глухомань"
-              />
-            </div>
+            <figure className="relative">
+              {/* Decorative outer frame — editorial cartographic style */}
+              <div className="relative border border-[#1a3d2e]/25 bg-[#faf6ec] p-4 md:p-6 shadow-[0_30px_60px_-30px_rgba(26,61,46,0.25)]">
+                {/* Top meta strip */}
+                <div className="mb-3 flex items-center justify-between gap-4 border-b border-dashed border-[#1a3d2e]/20 pb-3">
+                  <span className="text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/60">
+                    49°33′18″ N · 34°35′12″ E
+                  </span>
+                  <span className="text-[9px] md:text-[10px] font-semibold uppercase tracking-[0.22em] text-[#c9a95c]">
+                    Полтавщина
+                  </span>
+                </div>
+
+                {/* Corner decorations */}
+                <div aria-hidden className="pointer-events-none absolute left-2 top-2 h-3 w-3 border-l border-t border-[#c9a95c]" />
+                <div aria-hidden className="pointer-events-none absolute right-2 top-2 h-3 w-3 border-r border-t border-[#c9a95c]" />
+                <div aria-hidden className="pointer-events-none absolute left-2 bottom-2 h-3 w-3 border-l border-b border-[#c9a95c]" />
+                <div aria-hidden className="pointer-events-none absolute right-2 bottom-2 h-3 w-3 border-r border-b border-[#c9a95c]" />
+
+                {/* Inner map well */}
+                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2px] border border-[#1a3d2e]/15 bg-[#1a3d2e]/5 md:aspect-[16/11] shadow-inner">
+                  <iframe
+                    src="https://maps.google.com/maps?q=49.554961,34.5867374&z=16&output=embed"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Карта Глухомань"
+                  />
+                  {/* Subtle vignette to blend into paper */}
+                  <div aria-hidden className="pointer-events-none absolute inset-0 shadow-[inset_0_0_40px_rgba(26,61,46,0.15)]" />
+                </div>
+
+                {/* Bottom meta strip */}
+                <div className="mt-3 flex flex-col gap-2 border-t border-dashed border-[#1a3d2e]/20 pt-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="font-display italic text-base text-[#1a3d2e]/80">
+                      с. Нижні Млини
+                    </span>
+                    <span className="text-[10px] uppercase tracking-wider text-[#1a3d2e]/45">
+                      · 10 хв від Полтави
+                    </span>
+                  </div>
+                  <a
+                    href="https://maps.app.goo.gl/dVGkQZU4KVFgk5hq9"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#c9a95c] hover:text-[#1a3d2e] transition-colors"
+                  >
+                    <span>Відкрити в Google Maps</span>
+                    <span className="inline-block transition-transform group-hover:translate-x-0.5">↗</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Figure caption — editorial */}
+              <figcaption className="mt-4 flex items-center gap-3">
+                <span className="h-px flex-1 bg-[#1a3d2e]/20" />
+                <span className="text-[9px] uppercase tracking-[0.28em] text-[#1a3d2e]/50">
+                  Карта · Мапа території
+                </span>
+                <span className="h-px flex-1 bg-[#1a3d2e]/20" />
+              </figcaption>
+            </figure>
           </motion.div>
         </div>
       </div>

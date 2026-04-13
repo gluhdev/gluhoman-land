@@ -104,7 +104,7 @@ export default function GalleryPage() {
   const telHref = `tel:${primaryPhone.replace(/[^+\d]/g, "")}`;
 
   return (
-    <main className="min-h-screen bg-[#faf6ec]">
+    <main className="min-h-[100svh] bg-[#faf6ec]">
       {/* Hero — deep forest */}
       <section className="relative isolate overflow-hidden bg-[#0b1410]">
         <div className="absolute inset-0">

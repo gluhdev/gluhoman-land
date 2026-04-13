@@ -3,17 +3,24 @@
 # ---- Stage 1: deps ----
 FROM node:20-alpine AS deps
 WORKDIR /app
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat openssl
 COPY package.json package-lock.json* ./
-RUN npm ci --no-audit --no-fund
+COPY prisma ./prisma
+RUN npm ci --no-audit --no-fund && npx prisma generate
 
 # ---- Stage 2: builder ----
 FROM node:20-alpine AS builder
 WORKDIR /app
+RUN apk add --no-cache libc6-compat openssl
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/prisma ./prisma
 COPY . .
+# Re-run prisma generate in case schema changed
+RUN npx prisma generate
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+# Skip Sentry instrumentation files (keep .prod suffix so they're not picked up)
+RUN rm -f instrumentation.ts instrumentation-client.ts sentry.server.config.ts sentry.edge.config.ts 2>/dev/null || true
 RUN npm run build
 
 # ---- Stage 3: runner ----
@@ -28,12 +35,17 @@ ENV HOSTNAME="0.0.0.0"
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-# Static assets
-COPY --from=builder /app/public ./public
+# Static assets (must be readable by nextjs user)
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 
 # Standalone output (server.js + minimal node_modules + .next/server)
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Prisma schema and CLI for running migrations from runner
+COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
 
 USER nextjs
 

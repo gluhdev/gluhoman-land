@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import { aquaparkStorage } from '@/lib/aquapark-storage';
 import { BuyFlow } from './BuyFlow';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: 'Квитки в аквапарк — Глухомань',
   description:

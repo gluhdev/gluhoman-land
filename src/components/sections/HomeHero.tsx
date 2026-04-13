@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useIsTouch } from "@/lib/use-is-touch";
 import { useRef } from "react";
 import { openBookingDialog } from "@/components/ui/BookingDialog";
 import { ArrowDown } from "lucide-react";
@@ -69,7 +70,7 @@ export default function HomeHero() {
           <motion.p
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.1 }}
+            transition={{ duration: 0.41, delay: 0.05 }}
             className="mb-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.36em] text-[#e6d9b8]"
           >
             <span className="h-px w-10 bg-[#e6d9b8]" />
@@ -79,7 +80,7 @@ export default function HomeHero() {
           <motion.h1
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.5, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="font-display text-white"
             style={{
               fontSize: "clamp(3.25rem, 10vw, 11rem)",
@@ -94,7 +95,7 @@ export default function HomeHero() {
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
+            transition={{ duration: 1, delay: 0.25 }}
             className="mt-10 grid gap-10 md:grid-cols-[1fr_auto] md:items-end"
           >
             <p className="max-w-xl font-display text-lg leading-relaxed text-white/85 md:text-xl">
@@ -127,7 +128,7 @@ export default function HomeHero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.4, duration: 1 }}
+        transition={{ delay: 0.7, duration: 1 }}
         className="absolute bottom-6 right-6 z-20 hidden text-[10px] uppercase tracking-[0.3em] text-white/60 md:right-12 md:block lg:right-16"
       >
         <span className="inline-block [writing-mode:vertical-rl]">

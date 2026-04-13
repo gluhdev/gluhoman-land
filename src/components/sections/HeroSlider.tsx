@@ -120,8 +120,8 @@ export default function HeroSlider() {
 
   return (
     <section
-      className="relative h-[100svh] max-h-[100svh] w-full overflow-hidden bg-black"
-      style={{ width: '100vw', maxWidth: '100vw' }}
+      id="hero-section"
+      className="hero-section relative h-[100svh] max-h-[100svh] w-full overflow-hidden bg-black"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={onTouchStart}
@@ -156,7 +156,7 @@ export default function HeroSlider() {
                         priority={i === 0}
                         sizes="50vw"
                         quality={90}
-                        className="object-cover transition-transform duration-[1400ms] ease-out group-hover/tile:scale-[1.06]"
+                        className="object-cover [@media(hover:hover)]:transition-transform [@media(hover:hover)]:duration-[1400ms] ease-out [@media(hover:hover)]:group-hover/tile:scale-[1.06]"
                       />
                       <div className="absolute inset-0 bg-black/25 transition-opacity duration-500 group-hover/tile:bg-black/15" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
@@ -283,14 +283,14 @@ export default function HeroSlider() {
       <button
         onClick={prev}
         aria-label="Попередній слайд"
-        className="group absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/30 bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/20 hover:scale-110 transition-all duration-300"
+        className="group absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/30 bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/20 [@media(hover:hover)]:hover:scale-110 transition-all duration-300"
       >
         <ChevronLeft className="h-6 w-6 group-hover:-translate-x-0.5 transition-transform" />
       </button>
       <button
         onClick={next}
         aria-label="Наступний слайд"
-        className="group absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/30 bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/20 hover:scale-110 transition-all duration-300"
+        className="group absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/30 bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/20 [@media(hover:hover)]:hover:scale-110 transition-all duration-300"
       >
         <ChevronRight className="h-6 w-6 group-hover:translate-x-0.5 transition-transform" />
       </button>

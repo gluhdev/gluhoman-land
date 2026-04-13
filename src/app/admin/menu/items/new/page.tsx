@@ -4,6 +4,8 @@ import { prisma } from '@/lib/prisma';
 import { ItemForm } from '../../ItemForm';
 import { createItem } from '../../actions';
 
+export const dynamic = 'force-dynamic';
+
 export default async function NewItemPage({
   searchParams,
 }: {

@@ -11,11 +11,15 @@ const phoneDigits = CONTACT_INFO.phone[0].replace(/\D/g, '');
 export default function FloatingButtons() {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showContactOptions, setShowContactOptions] = useState(false);
+  const [showFab, setShowFab] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 300);
+      // Hide the floating button on the hero (first ~80% of viewport)
+      setShowFab(window.scrollY > window.innerHeight * 0.8);
     };
+    handleScroll();
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -57,7 +61,10 @@ export default function FloatingButtons() {
   ];
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+    <div
+      className={`fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 transition-opacity duration-500 ${showFab ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+      aria-hidden={!showFab}
+    >
       {/* Contact Options */}
       {showContactOptions && (
         <div className="flex flex-col gap-3 items-end">

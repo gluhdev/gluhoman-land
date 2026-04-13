@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { useIsTouch } from "@/lib/use-is-touch";
 import { useRef } from "react";
 import Image from "next/image";
 import { Calendar, Phone } from "lucide-react";
@@ -17,6 +18,8 @@ const CONTACT_PHONE = "+38 050 850 3555";
 export default function HomeBookingCta() {
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
+  const isTouch = useIsTouch();
+  const disableParallax = reduceMotion || isTouch;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -30,7 +33,7 @@ export default function HomeBookingCta() {
     >
       {/* Background photo with parallax */}
       <motion.div
-        style={reduceMotion ? undefined : { y: bgY }}
+        style={disableParallax ? undefined : { y: bgY }}
         className="absolute inset-[-8%] will-change-transform"
       >
         <Image
@@ -101,8 +104,8 @@ export default function HomeBookingCta() {
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
+            viewport={{ once: true, margin: "0px" }}
+            transition={{ duration: 0.36 }}
             className="mb-10 flex items-center gap-5"
           >
             <span className="h-px w-12 bg-[#c9a95c]/70" />
@@ -116,8 +119,8 @@ export default function HomeBookingCta() {
           <motion.h2
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.05, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, margin: "0px" }}
+            transition={{ duration: 0.47, ease: [0.16, 1, 0.3, 1] }}
             className="font-display text-[#f4ecd8]"
             style={{
               fontSize: "clamp(3rem, 8.5vw, 9rem)",
@@ -136,8 +139,8 @@ export default function HomeBookingCta() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.9, delay: 0.2 }}
+            viewport={{ once: true, margin: "0px" }}
+            transition={{ duration: 0.41, delay: 0.1 }}
             className="mt-14 flex items-center gap-5"
           >
             <span className="h-px w-16 bg-[#c9a95c]/60" />
@@ -148,8 +151,8 @@ export default function HomeBookingCta() {
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.9, delay: 0.3 }}
+            viewport={{ once: true, margin: "0px" }}
+            transition={{ duration: 0.41, delay: 0.15 }}
             className="mt-10 max-w-xl font-display italic text-xl leading-[1.6] text-[#f4ecd8]/90 md:text-2xl"
           >
             На краю села, над ставом з лебедями й фонтанами —
@@ -159,8 +162,8 @@ export default function HomeBookingCta() {
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.9, delay: 0.38 }}
+            viewport={{ once: true, margin: "0px" }}
+            transition={{ duration: 0.41, delay: 0.19 }}
             className="mt-6 max-w-xl text-sm leading-relaxed text-[#f4ecd8]/65 md:text-base"
           >
             Номер у готелі, стіл у ресторані, чан на дровах, банкет на
@@ -172,8 +175,8 @@ export default function HomeBookingCta() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.9, delay: 0.5 }}
+            viewport={{ once: true, margin: "0px" }}
+            transition={{ duration: 0.41, delay: 0.25 }}
             className="mt-14 grid max-w-3xl grid-cols-1 gap-5 md:grid-cols-2"
           >
             {/* Primary — book online */}
@@ -215,8 +218,8 @@ export default function HomeBookingCta() {
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1, delay: 0.7 }}
+            viewport={{ once: true, margin: "0px" }}
+            transition={{ duration: 1, delay: 0.35 }}
             className="mt-16 flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] text-[#e6d9b8]/45"
           >
             <span className="h-px w-10 bg-[#e6d9b8]/30" />

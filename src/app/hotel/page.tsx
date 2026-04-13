@@ -241,7 +241,7 @@ export default function HotelPage() {
       </Script>
 
       {/* ───────────────────── HERO ───────────────────── */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-[#0b1410]">
+      <section id="hero-section" className="hero-section relative min-h-[90svh] flex items-center justify-center overflow-hidden bg-[#0b1410]">
         <Image
           src="/images/9.jpg"
           alt="Готель Глухомань серед соснового лісу"

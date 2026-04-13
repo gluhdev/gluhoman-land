@@ -142,7 +142,7 @@ export default function HomeFeatures() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+      transition: { duration: 0.36, ease: [0.22, 1, 0.36, 1] },
     },
   };
 
@@ -236,12 +236,13 @@ export default function HomeFeatures() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.12 }}
           variants={container}
-          className="grid grid-cols-1 gap-px bg-[#c9a95c]/15 sm:grid-cols-2 md:grid-cols-3 md:auto-rows-[minmax(280px,auto)]"
+          className="flex snap-x snap-mandatory gap-px overflow-x-auto scroll-smooth bg-[#c9a95c]/15 px-6 -mx-6 pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-2 sm:overflow-visible sm:mx-0 sm:px-0 sm:pb-0 md:grid-cols-3 md:auto-rows-[minmax(280px,auto)]"
         >
           {features.map((f, idx) => {
             // Clean rhythm: first tile is a full-width banner across all 3 columns,
             // then the remaining 9 tiles form a uniform 3x3 grid.
             const span = idx === 0 ? "md:col-span-3 md:row-span-1" : "md:col-span-1";
+            const mobileTile = "w-[82vw] max-w-[340px] flex-shrink-0 snap-center sm:w-auto sm:max-w-none sm:flex-shrink";
             const isHero = idx === 0;
             const isTall = false;
             const hasImage = Boolean(f.image);
@@ -251,12 +252,12 @@ export default function HomeFeatures() {
               <motion.li
                 key={f.number}
                 variants={item}
-                className={`group relative ${span}`}
+                className={`group relative ${mobileTile} ${span}`}
               >
                 <Link
                   href={f.href}
                   aria-label={f.title}
-                  className={`relative flex ${isHero ? 'md:min-h-[440px]' : 'min-h-[280px]'} flex-col justify-between overflow-hidden bg-[#0f1f18] p-7 md:p-10 h-full`}
+                  className={`relative flex ${isHero ? 'min-h-[300px] md:min-h-[440px]' : 'min-h-[260px] sm:min-h-[280px]'} flex-col justify-between overflow-hidden bg-[#0f1f18] p-7 md:p-10 h-full`}
                 >
                 {/* Background image */}
                 {hasImage && f.image && (
@@ -354,7 +355,7 @@ export default function HomeFeatures() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.3 }}
+          transition={{ duration: 1, delay: 0.15 }}
           className="mt-16 flex items-center gap-5 text-[#c9a95c]/60"
         >
           <span className="h-px flex-1 bg-[#c9a95c]/25" />

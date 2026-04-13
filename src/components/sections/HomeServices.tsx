@@ -243,8 +243,8 @@ function PanelHotel({ p, reduced }: PanelProps) {
         <motion.div
           initial={reduced ? undefined : { opacity: 0, y: 40 }}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, margin: "0px" }}
+          transition={{ duration: 0.41, ease: [0.16, 1, 0.3, 1] }}
           className="col-span-12 lg:col-span-7"
         >
           <Link href={p.href} className="group block">
@@ -277,8 +277,8 @@ function PanelHotel({ p, reduced }: PanelProps) {
         <motion.div
           initial={reduced ? undefined : { opacity: 0, y: 40 }}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, margin: "0px" }}
+          transition={{ duration: 0.41, delay: 0.07, ease: [0.16, 1, 0.3, 1] }}
           className="col-span-12 lg:col-span-5 lg:pl-4"
         >
           <p className="mb-6 flex items-center gap-3 text-[10px] uppercase tracking-[0.32em]">
@@ -414,7 +414,7 @@ function PanelAqua({ p, reduced }: PanelProps) {
       style={{ backgroundColor: FOREST, color: CREAM }}
     >
       {/* full-bleed photo band */}
-      <div className="relative h-[60vh] min-h-[520px] w-full">
+      <div className="relative h-[60svh] min-h-[520px] w-full">
         <Image
           src={p.image}
           alt={p.imageAlt}
@@ -451,8 +451,8 @@ function PanelAqua({ p, reduced }: PanelProps) {
         <motion.div
           initial={reduced ? undefined : { opacity: 0, y: 50 }}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, margin: "0px" }}
+          transition={{ duration: 0.41, ease: [0.16, 1, 0.3, 1] }}
           className="relative grid grid-cols-12 gap-6"
         >
           {/* sticky-ish number rail */}
@@ -607,8 +607,8 @@ function PanelRestaurant({ p, reduced }: PanelProps) {
         <motion.div
           initial={reduced ? undefined : { opacity: 0, y: 40 }}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, margin: "0px" }}
+          transition={{ duration: 0.41, ease: [0.16, 1, 0.3, 1] }}
           className="col-span-12 lg:col-span-5"
         >
           <p className="mb-6 flex items-center gap-3 text-[10px] uppercase tracking-[0.32em]">
@@ -676,8 +676,8 @@ function PanelRestaurant({ p, reduced }: PanelProps) {
         <motion.div
           initial={reduced ? undefined : { opacity: 0, y: 40 }}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, margin: "0px" }}
+          transition={{ duration: 0.41, delay: 0.07, ease: [0.16, 1, 0.3, 1] }}
           className="relative col-span-12 lg:col-span-7"
         >
           <Link href={p.href} className="group block">
@@ -784,8 +784,8 @@ function PanelBanya({ p, reduced }: PanelProps) {
         <motion.div
           initial={reduced ? undefined : { opacity: 0, y: 40 }}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, margin: "0px" }}
+          transition={{ duration: 0.41, ease: [0.16, 1, 0.3, 1] }}
           className="mx-auto max-w-3xl text-center"
         >
           <p
@@ -824,8 +824,8 @@ function PanelBanya({ p, reduced }: PanelProps) {
         <motion.div
           initial={reduced ? undefined : { opacity: 0, y: 50 }}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.95, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, margin: "0px" }}
+          transition={{ duration: 0.43, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
           className="relative mt-14 grid grid-cols-12 gap-6 md:gap-10"
         >
           {/* Main wide photo — takes 8 of 12 columns on desktop */}
@@ -918,8 +918,8 @@ function PanelBanya({ p, reduced }: PanelProps) {
         <motion.div
           initial={reduced ? undefined : { opacity: 0, y: 30 }}
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true, margin: "0px" }}
+          transition={{ duration: 0.41, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="mt-14 grid grid-cols-12 gap-y-10 gap-x-8"
         >
           <div className="col-span-12 md:col-span-3">
@@ -1010,8 +1010,8 @@ export default function HomeServices() {
           <motion.div
             initial={reduced ? undefined : { opacity: 0, y: 30 }}
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            viewport={{ once: true, margin: "0px" }}
+            transition={{ duration: 0.41, ease: [0.16, 1, 0.3, 1] }}
             className="grid grid-cols-12 items-end gap-y-8 gap-x-10"
           >
             <div className="col-span-12 lg:col-span-8">

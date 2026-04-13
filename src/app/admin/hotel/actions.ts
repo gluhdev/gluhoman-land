@@ -27,19 +27,13 @@ const RoomSchema = z.object({
 
 function parseImages(input?: string): string {
   if (!input) return JSON.stringify([]);
-  // Accept comma/newline-separated URLs OR JSON array
-  const trimmed = input.trim();
-  if (trimmed.startsWith('[')) {
-    try {
-      const arr = JSON.parse(trimmed);
-      if (Array.isArray(arr)) return JSON.stringify(arr);
-    } catch {}
-  }
-  const urls = trimmed
-    .split(/[\n,]+/)
-    .map((s) => s.trim())
-    .filter(Boolean);
-  return JSON.stringify(urls);
+  try {
+    const arr = JSON.parse(input);
+    if (Array.isArray(arr)) {
+      return JSON.stringify(arr.filter((x) => typeof x === 'string'));
+    }
+  } catch {}
+  return JSON.stringify([]);
 }
 
 export async function createRoom(formData: FormData) {
@@ -98,12 +92,27 @@ export async function updateRoom(id: string, formData: FormData) {
 
 export async function deleteRoom(id: string) {
   await requireAdmin();
-  // Check if there are any bookings — refuse delete if so
-  const count = await prisma.hotelBooking.count({ where: { roomId: id } });
-  if (count > 0) {
-    throw new Error(`Не можна видалити: ${count} бронювань пов'язано з цим номером`);
+  const activeCount = await prisma.hotelBooking.count({
+    where: {
+      roomId: id,
+      status: { notIn: ['cancelled', 'completed'] },
+    },
+  });
+  if (activeCount > 0) {
+    throw new Error(
+      `Не можна видалити: ${activeCount} активних бронювань пов'язано з цим номером. Спочатку завершіть або скасуйте їх.`
+    );
   }
-  await prisma.hotelRoom.delete({ where: { id } });
+  const totalBookings = await prisma.hotelBooking.count({ where: { roomId: id } });
+  if (totalBookings > 0) {
+    // Historical bookings exist — soft-delete by archiving
+    await prisma.hotelRoom.update({
+      where: { id },
+      data: { active: false, number: `ARCHIVED-${Date.now()}` },
+    });
+  } else {
+    await prisma.hotelRoom.delete({ where: { id } });
+  }
   revalidatePath('/admin/hotel/rooms');
   revalidatePath('/hotel/booking');
   redirect('/admin/hotel/rooms');

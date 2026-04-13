@@ -5,6 +5,7 @@ import HomeServices from "@/components/sections/HomeServices";
 import HomeFeatures from "@/components/sections/HomeFeatures";
 import HomeGallery from "@/components/sections/HomeGallery";
 import HomeLocation from "@/components/sections/HomeLocation";
+import HomeReviews from "@/components/sections/HomeReviews";
 import HomeBookingCta from "@/components/sections/HomeBookingCta";
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function Home() {
       <HomeServices />
       <HomeGallery />
       <HomeLocation />
+      <HomeReviews />
       <HomeBookingCta />
     </div>
   );

@@ -1,0 +1,269 @@
+/* Мобильная адаптация для FCP */
+
+/* ВАЖНО: Базовые стили для прокрутки */
+html {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+  /* Фиксируем высоту чтобы не реагировать на адресную строку */
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+  height: 100%;
+  min-height: 100%;
+}
+
+/* Фикс hero секции на мобильных - блокировка ресайза */
+@media screen and (max-width: 768px) {
+  #hero-section {
+    overflow: hidden !important;
+    transform: translateZ(0);
+  }
+}
+
+/* Фикс для мобильного viewport - предотвращает resize при скролле */
+@supports (height: 100svh) {
+  :root {
+    --vh: 1svh;
+  }
+}
+
+/* GPU ускорение для fixed элементов */
+header {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Базовые стили для мобильных */
+@media screen and (max-width: 768px) {
+  /* Скрываем горизонтальный скролл */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
+
+  /* Главный контейнер - разрешаем прокрутку */
+  body > div {
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+    min-height: 100% !important;
+  }
+
+  /* Все секции */
+  section {
+    overflow: visible !important;
+    max-width: 100vw !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Все div элементы */
+  div {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Hero секция */
+  .hero-section {
+    height: 100svh !important;
+    min-height: 100svh !important;
+  }
+
+  .hero-title {
+    font-size: 1.75rem !important;
+    line-height: 1.2 !important;
+    padding: 0 1rem !important;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem !important;
+    padding: 0 1rem !important;
+  }
+
+  /* Кнопки */
+  .hero-buttons {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+    padding: 0 1rem !important;
+  }
+
+  .hero-button {
+    width: 100% !important;
+    max-width: 250px !important;
+    font-size: 0.9rem !important;
+    padding: 0.75rem 1.5rem !important;
+  }
+
+  /* Секции */
+  .section-padding {
+    padding: 2rem 1rem !important;
+  }
+
+  .section-title {
+    font-size: 1.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .section-text {
+    font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Карточки */
+  .cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    padding: 0 0.5rem !important;
+  }
+
+  .card {
+    padding: 1.25rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .card-title {
+    font-size: 1.1rem !important;
+  }
+
+  .card-text {
+    font-size: 0.85rem !important;
+  }
+
+  /* Панель шрифтов */
+  .font-panel {
+    width: 100% !important;
+    bottom: 0 !important;
+    top: auto !important;
+    border-radius: 20px 20px 0 0 !important;
+    max-height: 100svh !important;
+  }
+
+  .font-panel-button {
+    top: -45px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    border-radius: 10px 10px 0 0 !important;
+    padding: 0.5rem 1.5rem !important;
+  }
+
+  /* Контактная форма */
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .form-input {
+    font-size: 16px !important; /* Предотвращает зум на iOS */
+    padding: 0.75rem !important;
+  }
+
+  /* Карусель контролы */
+  .carousel-controls {
+    bottom: 15px !important;
+    gap: 0.5rem !important;
+  }
+
+  .carousel-button {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .carousel-dot {
+    width: 8px !important;
+    height: 8px !important;
+  }
+
+  .carousel-dot.active {
+    width: 20px !important;
+  }
+
+  /* Хедер */
+  .header-logo {
+    font-size: 1rem !important;
+  }
+
+  .header-tagline {
+    font-size: 0.65rem !important;
+  }
+
+  /* Предотвращаем переполнение */
+  * {
+    max-width: 100vw !important;
+  }
+
+  /* Фиксим изображения */
+  img, video {
+    max-width: 100% !important;
+  }
+
+  /* Фикс для main контейнера */
+  main {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  /* Футер */
+  footer {
+    position: relative !important;
+    z-index: 10 !important;
+  }
+}
+
+/* Очень маленькие экраны */
+@media screen and (max-width: 380px) {
+  .hero-title {
+    font-size: 1.5rem !important;
+  }
+
+  .section-title {
+    font-size: 1.5rem !important;
+  }
+
+  .hero-button {
+    font-size: 0.85rem !important;
+    padding: 0.65rem 1.25rem !important;
+  }
+
+  .card {
+    padding: 1rem !important;
+  }
+}
+
+/* Планшеты */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .hero-title {
+    font-size: 3rem !important;
+  }
+
+  .section-title {
+    font-size: 2.5rem !important;
+  }
+
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Фиксы для iOS Safari */
+@supports (-webkit-touch-callout: none) {
+  /* iOS only styles */
+  input, textarea {
+    font-size: 16px !important;
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+}

@@ -47,7 +47,7 @@ function SectionHeading({
 
 export default function TermsPage() {
   return (
-    <main className="min-h-screen bg-[#faf6ec]">
+    <main className="min-h-[100svh] bg-[#faf6ec]">
       {/* Editorial hero */}
       <section className="py-24 bg-[#faf6ec]">
         <div className="max-w-3xl mx-auto px-6 text-center">

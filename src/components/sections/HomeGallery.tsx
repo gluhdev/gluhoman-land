@@ -48,8 +48,8 @@ export default function HomeGallery() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "0px" }}
+          transition={{ duration: 0.36 }}
           className="flex items-end justify-between gap-8 border-b border-[#1a3d2e]/15 pb-10"
         >
           <div>

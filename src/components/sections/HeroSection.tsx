@@ -16,7 +16,7 @@ export default function HeroSection({
   showCTA = true 
 }: HeroSectionProps) {
   return (
-    <section className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-blue-600 via-green-500 to-teal-600">
+    <section className="relative min-h-[80svh] flex items-center justify-center bg-gradient-to-br from-blue-600 via-green-500 to-teal-600">
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/40" />
       

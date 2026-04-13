@@ -4,9 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingButtons from "@/components/ui/FloatingButtons";
-import FontSwitcher from "@/components/ui/FontSwitcher";
 import BookingDialog from "@/components/ui/BookingDialog";
-import CookieConsent from "@/components/ui/CookieConsent";
 import { LocalBusinessJsonLd } from "@/components/seo/StructuredData";
 import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 
@@ -50,14 +48,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="uk">
+    <html lang="uk" className="overscroll-y-none">
       <head>
         <link rel="preconnect" href="https://static.shaketopay.com.ua" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://static.shaketopay.com.ua" />
         <link rel="manifest" href="/manifest.json" />
         <LocalBusinessJsonLd />
       </head>
-      <body className={`${manrope.variable} ${cormorant.variable} font-sans antialiased bg-radial-gradient-green`}>
+      <body className={`${manrope.variable} ${cormorant.variable} font-sans antialiased bg-radial-gradient-green overscroll-y-none`}>
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-primary focus:shadow-lg"
@@ -65,7 +63,7 @@ export default function RootLayout({
           Перейти до контенту
         </a>
         <SmoothScrollProvider>
-          <div className="min-h-screen flex flex-col prevent-horizontal-scroll">
+          <div className="min-h-[100svh] flex flex-col prevent-horizontal-scroll">
             <Header />
             <main id="main" className="flex-1">
               {children}
@@ -74,8 +72,6 @@ export default function RootLayout({
           </div>
         </SmoothScrollProvider>
         <FloatingButtons />
-        <FontSwitcher />
-        <CookieConsent />
         <BookingDialog />
       </body>
     </html>
