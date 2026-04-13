@@ -88,6 +88,6 @@ jobs:
     needs: lint
     steps:
       - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v4
       - name: Build bot Docker image
         run: docker build -f bot/Dockerfile -t gluhoman-bot:ci bot/
