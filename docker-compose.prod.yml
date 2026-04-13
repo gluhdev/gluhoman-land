@@ -1,0 +1,105 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-gluhoman}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-gluhoman}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./scripts/backup-postgres.sh:/backup.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-gluhoman}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data:/data
+    networks:
+      - internal
+
+  site:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gluhoman-site:latest
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-gluhoman}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-gluhoman}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - RESEND_API_KEY=${RESEND_API_KEY:-}
+      - BOOKING_EMAIL_FROM=${BOOKING_EMAIL_FROM:-}
+      - BOOKING_EMAIL_TO=${BOOKING_EMAIL_TO:-}
+      - REDIS_URL=redis://redis:6379
+      - SENTRY_DSN=${SENTRY_DSN:-}
+      - NEXT_PUBLIC_PLAUSIBLE_DOMAIN=${NEXT_PUBLIC_PLAUSIBLE_DOMAIN:-}
+    ports:
+      - "127.0.0.1:3000:3000"  # nginx host will reverse-proxy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
+    networks:
+      - internal
+
+  bot:
+    profiles: ["bot"]  # only starts when --profile bot is passed
+    build:
+      context: .
+      dockerfile: bot/Dockerfile
+    image: gluhoman-bot:latest
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-gluhoman}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-gluhoman}
+      - BOT_TOKEN=${BOT_TOKEN}
+      - ADMIN_CHAT_IDS=${ADMIN_CHAT_IDS}
+    networks:
+      - internal
+
+  backup:
+    image: postgres:16-alpine
+    profiles: ["backup"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - PGHOST=postgres
+      - PGUSER=${POSTGRES_USER:-gluhoman}
+      - PGPASSWORD=${POSTGRES_PASSWORD}
+      - PGDATABASE=${POSTGRES_DB:-gluhoman}
+    volumes:
+      - ./backups:/backups
+    entrypoint: /bin/sh
+    command: -c "pg_dump -Fc -f /backups/gluhoman-$$(date +%Y%m%d-%H%M%S).dump && find /backups -name '*.dump' -mtime +7 -delete"
+    networks:
+      - internal
+
+volumes:
+  postgres-data:
+  redis-data:
+
+networks:
+  internal:
+    driver: bridge

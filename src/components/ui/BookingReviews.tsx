@@ -107,7 +107,7 @@ export default function BookingReviews() {
           </div>
           
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
+            <span className="text-primary">
               Що кажуть гості на Booking.com
             </span>
           </h2>

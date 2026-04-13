@@ -14,7 +14,7 @@ export default function LocationSection() {
           </div>
           
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="text-primary">
               Як нас знайти
             </span>
           </h2>

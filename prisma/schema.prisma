@@ -1,0 +1,300 @@
+// =============================================================================
+// Глухомань CRM — Prisma schema
+// =============================================================================
+// SQLite for v1 — handles thousands of bookings/day. Migrate to PostgreSQL
+// (Supabase/Neon) by changing the provider line and DATABASE_URL.
+//
+// All money values are stored as Int in грн (UAH whole units, no kopecks).
+// =============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// =============================================================================
+// EXISTING (legacy booking system — keep as-is for `actions/booking.ts`)
+// =============================================================================
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum BookingService {
+  HOTEL
+  AQUAPARK
+  RESTAURANT
+  SAUNA
+}
+
+enum DeliveryStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+model Booking {
+  id        String         @id @default(cuid())
+  service   BookingService
+  status    BookingStatus  @default(PENDING)
+
+  // Guest contact
+  name      String
+  phone     String
+  email     String?
+
+  // Booking details
+  guests    Int
+  dateFrom  DateTime
+  dateTo    DateTime?
+  time      String?
+  comment   String?
+
+  // Delivery tracking — did the notification reach the operator?
+  telegramStatus DeliveryStatus @default(PENDING)
+  telegramError  String?
+  emailStatus    DeliveryStatus @default(PENDING)
+  emailError     String?
+
+  // Audit
+  ipAddress String?
+  userAgent String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([service])
+  @@index([status])
+  @@index([dateFrom])
+  @@index([createdAt])
+}
+
+// =============================================================================
+// CRM PHASE 2 — full schema for orders, menu, hotel, aquapark, sauna, payments
+// =============================================================================
+
+// ─── AUTH ───
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // bcrypt hash
+  name      String?
+  role      String   @default("admin") // "admin" | "manager"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ─── MENU (mirror of src/data/menu.json, editable from admin) ───
+model MenuCategory {
+  id        String     @id @default(cuid())
+  slug      String     @unique
+  name      String
+  icon      String?
+  order     Int        @default(0)
+  active    Boolean    @default(true)
+  items     MenuItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model MenuItem {
+  id          String       @id @default(cuid())
+  slug        String       @unique
+  name        String
+  description String?
+  price       Int          // грн
+  weight      String?
+  image       String?
+  active      Boolean      @default(true)
+  order       Int          @default(0)
+  category    MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId  String
+  orderItems  OrderItem[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([categoryId])
+  @@index([active])
+}
+
+// ─── ORDERS (delivery / pickup) ───
+model Order {
+  id                String      @id @default(cuid())
+  number            Int         @unique
+  status            String      @default("PENDING") // PENDING|PAID|CONFIRMED|PREPARING|DELIVERING|COMPLETED|CANCELLED
+  paymentStatus     String      @default("pending") // pending|paid|failed
+  // Customer
+  customerName      String
+  customerPhone     String
+  // Delivery
+  deliveryType      String      // "delivery" | "pickup"
+  address           String?
+  scheduledAt       DateTime?
+  comment           String?
+  // Money (грн)
+  subtotal          Int
+  deliveryFee       Int
+  total             Int
+  // Items
+  items             OrderItem[]
+  // Payment (1:1)
+  payment           Payment?
+  paymentExternalId String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([createdAt])
+}
+
+model OrderItem {
+  id         String    @id @default(cuid())
+  order      Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId    String
+  menuItem   MenuItem? @relation(fields: [menuItemId], references: [id])
+  menuItemId String?
+  // Snapshot (in case the menu item is later deleted/renamed)
+  name       String
+  price      Int       // грн (price at time of order)
+  quantity   Int
+
+  @@index([orderId])
+}
+
+// ─── HOTEL (Phase 3) ───
+model HotelRoom {
+  id            String         @id @default(cuid())
+  number        String         @unique
+  type          String         // "standard" | "lux" | "family"
+  capacity      Int
+  pricePerNight Int            // грн
+  description   String?
+  images        String?        // JSON-encoded array of image URLs (SQLite has no String[])
+  active        Boolean        @default(true)
+  bookings      HotelBooking[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model HotelBooking {
+  id            String    @id @default(cuid())
+  number        Int       @unique
+  room          HotelRoom @relation(fields: [roomId], references: [id])
+  roomId        String
+  customerName  String
+  customerPhone String
+  customerEmail String?
+  checkIn       DateTime
+  checkOut      DateTime
+  guests        Int
+  total         Int       // грн
+  status        String    @default("pending") // pending|paid|confirmed|completed|cancelled
+  paymentStatus String    @default("pending")
+  payment       Payment?
+  comment       String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([roomId])
+  @@index([checkIn, checkOut])
+  @@index([status])
+}
+
+// ─── AQUAPARK TICKETS (Phase 4) ───
+model AquaparkTariff {
+  id          String               @id @default(cuid())
+  name        String
+  price       Int                  // грн
+  description String?
+  active      Boolean              @default(true)
+  tickets     AquaparkTicketItem[]
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+}
+
+model AquaparkTicket {
+  id            String               @id @default(cuid())
+  number        Int                  @unique
+  date          DateTime
+  customerName  String
+  customerPhone String
+  customerEmail String?
+  items         AquaparkTicketItem[]
+  total         Int                  // грн
+  status        String               @default("pending")
+  paymentStatus String               @default("pending")
+  payment       Payment?
+  qrCode        String?              @unique
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
+
+  @@index([date])
+  @@index([status])
+}
+
+model AquaparkTicketItem {
+  id        String         @id @default(cuid())
+  ticket    AquaparkTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId  String
+  tariff    AquaparkTariff @relation(fields: [tariffId], references: [id])
+  tariffId  String
+  name      String         // snapshot
+  price     Int            // snapshot, грн
+  quantity  Int
+
+  @@index([ticketId])
+}
+
+// ─── SAUNA (Phase 5) ───
+model SaunaSlot {
+  id            String   @id @default(cuid())
+  number        Int      @unique
+  date          DateTime
+  startTime     String   // "18:00"
+  endTime       String   // "20:00"
+  saunaType     String   // "small" | "big"
+  customerName  String?
+  customerPhone String?
+  customerEmail String?
+  status        String   @default("free") // free|reserved|paid|completed|cancelled
+  paymentStatus String   @default("pending")
+  payment       Payment?
+  total         Int?     // грн
+  comment       String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([date, startTime, saunaType])
+  @@index([date])
+}
+
+// ─── PAYMENTS (polymorphic, one row per payment attempt) ───
+model Payment {
+  id         String   @id @default(cuid())
+  provider   String   // "liqpay" | "monobank" | "stub"
+  externalId String?  @unique
+  status     String   // pending|success|failure|refund
+  amount     Int      // грн
+  currency   String   @default("UAH")
+  payload    String?  // raw response JSON (string for SQLite)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Polymorphic association — exactly one of these is set
+  orderId          String?         @unique
+  order            Order?          @relation(fields: [orderId], references: [id])
+  hotelBookingId   String?         @unique
+  hotelBooking     HotelBooking?   @relation(fields: [hotelBookingId], references: [id])
+  aquaparkTicketId String?         @unique
+  aquaparkTicket   AquaparkTicket? @relation(fields: [aquaparkTicketId], references: [id])
+  saunaSlotId      String?         @unique
+  saunaSlot        SaunaSlot?      @relation(fields: [saunaSlotId], references: [id])
+}

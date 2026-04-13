@@ -2,7 +2,6 @@ export interface ServiceCard {
   id: string;
   title: string;
   description: string;
-  image: string;
   href: string;
   category: 'main' | 'additional';
 }

@@ -43,7 +43,7 @@ const mockInstagramPosts: InstagramPost[] = [
   },
   {
     id: '3',
-    imageUrl: '/images/otel_gluhoman_photo31.jpg',
+    imageUrl: '/images/restaurant/exterior_summer_terrace_water.jpg',
     caption: '🍽️ Нове літнє меню вже у нашому ресторані! Свіжі салати, ароматний борщ, домашні вареники та багато інших смачностей від шеф-кухаря. Відвідайте нас сьогодні! ✨ #НовеМеню #УкраїнськаКухня #Ресторан #Глухомань #СмачноЇсти',
     likes: 189,
     comments: 31,
@@ -130,7 +130,7 @@ export default function InstagramFeed({
           </div>
           
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-primary">
               {title}
             </span>
           </h2>

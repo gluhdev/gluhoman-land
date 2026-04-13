@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:gluhoman.com.ua)"
+      "WebFetch(domain:gluhoman.com.ua)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)",
+      "Bash(pkill:*)",
+      "Bash(npm run dev:*)",
+      "Read(/Users/ivangomunkul/.config/**)"
     ],
     "deny": [],
     "ask": []

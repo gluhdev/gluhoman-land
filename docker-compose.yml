@@ -1,0 +1,30 @@
+services:
+  gluhoman:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gluhoman-site:latest
+    container_name: gluhoman-site
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      # Public URL — used by sitemap, robots, JSON-LD, OG metadata
+      - NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL:-https://gluhoman.com.ua}
+      # Telegram bot for booking notifications
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      # Email delivery (optional, second channel)
+      - RESEND_API_KEY=${RESEND_API_KEY:-}
+      - BOOKING_EMAIL_FROM=${BOOKING_EMAIL_FROM:-}
+      - BOOKING_EMAIL_TO=${BOOKING_EMAIL_TO:-}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3

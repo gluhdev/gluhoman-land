@@ -86,3 +86,20 @@ Thumbs.db
 
 # Claude settings
 .claude/
+
+# Sentry
+.sentryclirc
+
+# Prisma
+prisma/dev.db
+prisma/dev.db-journal
+prisma/migrations/dev.db
+*.db
+*.db-journal
+
+# Phase 1: file-based order storage (swap to Prisma in Phase 2)
+.data/
+
+# Playwright
+test-results/
+playwright-report/

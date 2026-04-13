@@ -1,8 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MessageCircle, Phone, ChevronUp, Send, X, Headphones } from 'lucide-react';
+import { CalendarCheck, MessageCircle, Phone, ChevronUp, Send, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { CONTACT_INFO } from '@/constants';
+import { openBookingDialog } from '@/components/ui/BookingDialog';
+
+const phoneDigits = CONTACT_INFO.phone[0].replace(/\D/g, '');
 
 export default function FloatingButtons() {
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -23,16 +27,23 @@ export default function FloatingButtons() {
 
   const contactOptions = [
     {
+      icon: CalendarCheck,
+      label: 'Забронювати',
+      action: () => { openBookingDialog(); },
+      className: 'bg-primary hover:bg-primary/90',
+      delay: 0
+    },
+    {
       icon: Phone,
       label: 'Зателефонувати',
-      action: () => window.location.href = 'tel:+380501234567',
+      action: () => { window.location.href = `tel:+${phoneDigits}`; },
       className: 'bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90',
-      delay: 0
+      delay: 50
     },
     {
       icon: MessageCircle,
       label: 'Написати в WhatsApp',
-      action: () => window.open('https://wa.me/380501234567?text=Привіт! Я хочу забронювати...', '_blank'),
+      action: () => window.open(`https://wa.me/${phoneDigits}?text=${encodeURIComponent('Вітаю! Хочу забронювати у Глухомань.')}`, '_blank'),
       className: 'bg-green-500 hover:bg-green-600',
       delay: 100
     },
@@ -71,7 +82,7 @@ export default function FloatingButtons() {
               {/* Button */}
               <Button
                 size="lg"
-                className={`w-14 h-14 rounded-full ${option.className} text-white shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 p-0`}
+                className={`w-14 h-14 rounded-full ${option.className} text-white shadow-2xl hover:shadow-3xl transition-all duration-300 p-0`}
                 onClick={option.action}
               >
                 <option.icon className="h-6 w-6" />
@@ -84,7 +95,7 @@ export default function FloatingButtons() {
       {/* Main Contact Button */}
       <Button
         size="lg"
-        className={`w-16 h-16 rounded-full text-white shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 p-0 ${
+        className={`w-16 h-16 rounded-full text-white shadow-2xl hover:shadow-3xl transition-all duration-300 p-0 ${
           showContactOptions 
             ? 'bg-red-500 hover:bg-red-600' 
             : 'bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90'
@@ -104,7 +115,7 @@ export default function FloatingButtons() {
         <Button
           size="lg"
           variant="outline"
-          className="w-14 h-14 rounded-full bg-white/90 backdrop-blur-sm border-2 border-primary/20 hover:bg-white hover:border-primary/40 text-primary shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 p-0"
+          className="w-14 h-14 rounded-full bg-white/90 backdrop-blur-sm border-2 border-primary/20 hover:bg-white hover:border-primary/40 text-primary shadow-2xl hover:shadow-3xl transition-all duration-300 p-0"
           onClick={scrollToTop}
           title="Вгору"
         >

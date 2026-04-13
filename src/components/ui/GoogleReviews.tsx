@@ -98,7 +98,7 @@ export default function GoogleReviews() {
           </div>
           
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <span className="text-primary">
               Що кажуть наші гості
             </span>
           </h2>
