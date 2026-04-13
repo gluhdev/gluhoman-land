@@ -10,9 +10,12 @@
  *               → redirect to LiqPay or stub success
  */
 
-import { useState, FormEvent } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { DayPicker, DateRange } from 'react-day-picker';
+import { uk } from 'date-fns/locale';
+import 'react-day-picker/dist/style.css';
 import {
   Calendar,
   Users,
@@ -56,6 +59,13 @@ const todayISO = (offset = 0) => {
   return d.toISOString().slice(0, 10);
 };
 
+const toISODate = (d: Date): string => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${dd}`;
+};
+
 export function BookingFlow() {
   const router = useRouter();
   const [step, setStep] = useState<Step>('search');
@@ -70,11 +80,52 @@ export function BookingFlow() {
   const [customer, setCustomer] = useState({ name: '', phone: '+380', email: '', comment: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [displayMonth, setDisplayMonth] = useState<Date>(new Date());
+  const [fullyBooked, setFullyBooked] = useState<Date[]>([]);
+  const [range, setRange] = useState<DateRange | undefined>({
+    from: new Date(search.checkIn),
+    to: new Date(search.checkOut),
+  });
+
+  useEffect(() => {
+    const y = displayMonth.getFullYear();
+    const m = displayMonth.getMonth() + 1;
+    const controller = new AbortController();
+    fetch(`/api/hotel/availability/month?year=${y}&month=${m}&guests=${search.guests}`, {
+      signal: controller.signal,
+    })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!data) return;
+        const booked: Date[] = [];
+        for (const day of data.days as { date: string; availableRooms: number }[]) {
+          if (day.availableRooms <= 0) {
+            const [yy, mm, dd] = day.date.split('-').map(Number);
+            booked.push(new Date(yy, mm - 1, dd));
+          }
+        }
+        setFullyBooked(booked);
+      })
+      .catch(() => {});
+    return () => controller.abort();
+  }, [displayMonth, search.guests]);
+
+  useEffect(() => {
+    if (range?.from && range?.to) {
+      const ci = toISODate(range.from);
+      const co = toISODate(range.to);
+      setSearch((s) => ({ ...s, checkIn: ci, checkOut: co }));
+    }
+  }, [range]);
 
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
-    if (new Date(search.checkOut) <= new Date(search.checkIn)) {
+    if (!range?.from || !range?.to) {
+      setError('Оберіть дати заїзду та виїзду');
+      return;
+    }
+    if (range.to.getTime() <= range.from.getTime()) {
       setError('Дата виїзду має бути після дати заїзду');
       return;
     }
@@ -189,28 +240,33 @@ export function BookingFlow() {
         </h2>
 
         <form onSubmit={handleSearch} className="space-y-4">
-          <div className="grid sm:grid-cols-2 gap-3">
-            <Field label="Заїзд" icon={<Calendar className="h-3.5 w-3.5" />}>
-              <input
-                type="date"
-                required
-                min={todayISO()}
-                value={search.checkIn}
-                onChange={(e) => setSearch((s) => ({ ...s, checkIn: e.target.value }))}
-                className={inputClass}
+          <Field label="Дати заїзду та виїзду" icon={<Calendar className="h-3.5 w-3.5" />}>
+            <div className="rdp-wrapper rounded-2xl border border-[#1a3d2e]/15 bg-white p-2 sm:p-3 overflow-x-auto">
+              <DayPicker
+                mode="range"
+                locale={uk}
+                selected={range}
+                onSelect={setRange}
+                month={displayMonth}
+                onMonthChange={setDisplayMonth}
+                disabled={[{ before: new Date() }, ...fullyBooked]}
+                numberOfMonths={1}
+                modifiersClassNames={{
+                  selected: 'rdp-day_selected-custom',
+                  range_start: 'rdp-day_range-start',
+                  range_end: 'rdp-day_range-end',
+                  range_middle: 'rdp-day_range-middle',
+                  disabled: 'rdp-day_disabled-custom',
+                }}
               />
-            </Field>
-            <Field label="Виїзд" icon={<Calendar className="h-3.5 w-3.5" />}>
-              <input
-                type="date"
-                required
-                min={search.checkIn}
-                value={search.checkOut}
-                onChange={(e) => setSearch((s) => ({ ...s, checkOut: e.target.value }))}
-                className={inputClass}
-              />
-            </Field>
-          </div>
+            </div>
+            {range?.from && range?.to && (
+              <p className="text-[11px] text-[#1a3d2e]/60 mt-2">
+                {range.from.toLocaleDateString('uk-UA', { dateStyle: 'long' })} →{' '}
+                {range.to.toLocaleDateString('uk-UA', { dateStyle: 'long' })}
+              </p>
+            )}
+          </Field>
 
           <Field label="Кількість гостей" icon={<Users className="h-3.5 w-3.5" />}>
             <select
