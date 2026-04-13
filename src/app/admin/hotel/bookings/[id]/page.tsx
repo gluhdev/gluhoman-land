@@ -137,6 +137,14 @@ export default async function BookingDetailPage({ params }: { params: Promise<{ 
               Поточний: <strong className="text-[#1a3d2e]">{STATUS_LABEL[booking.status] ?? booking.status}</strong>
             </p>
             <BookingStatusActions bookingId={booking.id} currentStatus={booking.status} />
+            {booking.status !== 'completed' && booking.status !== 'cancelled' && (
+              <Link
+                href={`/admin/hotel/bookings/${booking.id}/edit`}
+                className="mt-4 block text-center px-4 py-2 rounded-full border border-[#1a3d2e]/20 text-[#1a3d2e] font-semibold text-sm hover:bg-[#1a3d2e]/5"
+              >
+                Редагувати
+              </Link>
+            )}
           </div>
         </div>
       </div>
