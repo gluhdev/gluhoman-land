@@ -51,8 +51,15 @@ USER nextjs
 
 EXPOSE 3000
 
-# Healthcheck — hits the homepage every 30s
-HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
+# Healthcheck — hits the homepage every 30s.
+# MUST use 127.0.0.1, not "localhost": BusyBox wget resolves localhost
+# to ::1 (IPv6) first and Node listens only on IPv4 0.0.0.0, which
+# produces a permanent Connection-refused and keeps the container
+# marked unhealthy forever.
+# Label is read by the `autoheal` sidecar container on the VPS which
+# auto-restarts any container marked unhealthy.
+LABEL autoheal=true
+HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://127.0.0.1:3000/ || exit 1
 
 CMD ["node", "server.js"]
