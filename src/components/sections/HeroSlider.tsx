@@ -113,13 +113,21 @@ export default function HeroSlider() {
     return () => window.removeEventListener('keydown', onKey);
   }, [next, prev]);
 
-  const onPointerDown = (e: React.PointerEvent) => {
+  const onPointerDown = (e: React.PointerEvent<HTMLElement>) => {
     // Only react to left mouse button / touch / pen. Middle/right click
     // should fall through to default browser behavior.
     if (e.button !== 0) return;
     dragStartX.current = e.clientX;
     dragStartY.current = e.clientY;
     dragDistance.current = 0;
+    // Capture all subsequent pointer events on this section regardless
+    // of which child element the pointer moves over. Without this,
+    // native HTML5 image/link drag can steal pointermove events mid-drag.
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      // Some browsers reject capture on non-touch pointers, fine to ignore.
+    }
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
@@ -164,7 +172,7 @@ export default function HeroSlider() {
   return (
     <section
       id="hero-section"
-      className="hero-section relative h-[100svh] max-h-[100svh] w-full overflow-hidden bg-black touch-pan-y cursor-grab active:cursor-grabbing"
+      className="hero-section relative h-[100svh] max-h-[100svh] w-full overflow-hidden bg-black touch-pan-y select-none cursor-grab active:cursor-grabbing"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onPointerDown={onPointerDown}
@@ -172,6 +180,11 @@ export default function HeroSlider() {
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerCancel}
       onClickCapture={onClickCapture}
+      // Kill native HTML5 drag-and-drop for ALL descendants (<img>, <a>).
+      // Without this the browser starts a link/image drag on mousedown
+      // and steals subsequent pointermove events from React, so the
+      // slider drag handler never sees the movement.
+      onDragStart={(e) => e.preventDefault()}
       aria-roledescription="carousel"
     >
       {/* Slides */}
