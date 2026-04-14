@@ -11,6 +11,7 @@ import {
   Hotel,
   Waves,
   Flame,
+  FileText,
   LogOut,
   Menu as MenuIcon,
   X,
@@ -29,6 +30,7 @@ const NAV = [
   { href: '/admin/hotel', label: 'Готель', icon: Hotel },
   { href: '/admin/aquapark', label: 'Аквапарк', icon: Waves },
   { href: '/admin/sauna', label: 'Лазня', icon: Flame },
+  { href: '/admin/content', label: 'Контент сайту', icon: FileText },
 ];
 
 const SECTION_LABEL: Record<string, string> = {
@@ -41,6 +43,7 @@ const SECTION_LABEL: Record<string, string> = {
   '/admin/today': 'Сьогодні',
   '/admin/telegram': 'Telegram',
   '/admin/exports': 'Експорт',
+  '/admin/content': 'Контент сайту',
 };
 
 function currentSectionLabel(pathname: string): string {

@@ -298,3 +298,17 @@ model Payment {
   saunaSlotId      String?         @unique
   saunaSlot        SaunaSlot?      @relation(fields: [saunaSlotId], references: [id])
 }
+
+// =============================================================================
+// SITE CONTENT CMS — editable text/images keyed by "page.section.field"
+// =============================================================================
+
+model SiteContent {
+  key       String   @id           // e.g. "home.hero.title"
+  type      String                 // text | richtext | image | number | url
+  value     String                 // JSON-encoded (SQLite has no native JSON)
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+
+  @@index([updatedAt])
+}
