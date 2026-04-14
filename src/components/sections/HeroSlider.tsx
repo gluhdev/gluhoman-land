@@ -82,7 +82,9 @@ const SPLASH_AUTOPLAY_MS = 4000;
 export default function HeroSlider() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const touchStartX = useRef<number | null>(null);
+  const dragStartX = useRef<number | null>(null);
+  const dragStartY = useRef<number | null>(null);
+  const isDragging = useRef(false);
 
   const goTo = useCallback((i: number) => {
     setIndex((prev) => (i + SLIDES.length) % SLIDES.length);
@@ -108,24 +110,48 @@ export default function HeroSlider() {
     return () => window.removeEventListener('keydown', onKey);
   }, [next, prev]);
 
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
+  const onPointerDown = (e: React.PointerEvent) => {
+    // Ignore drags that begin on interactive elements so panel <Link>s
+    // still click normally.
+    const target = e.target as HTMLElement;
+    if (target.closest('a,button,[role="button"]')) return;
+    dragStartX.current = e.clientX;
+    dragStartY.current = e.clientY;
+    isDragging.current = true;
   };
-  const onTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-    const dx = e.changedTouches[0].clientX - touchStartX.current;
-    if (Math.abs(dx) > 50) (dx < 0 ? next : prev)();
-    touchStartX.current = null;
+
+  const onPointerUp = (e: React.PointerEvent) => {
+    if (!isDragging.current || dragStartX.current === null || dragStartY.current === null) {
+      isDragging.current = false;
+      return;
+    }
+    const dx = e.clientX - dragStartX.current;
+    const dy = e.clientY - dragStartY.current;
+    // Require mostly-horizontal drag of at least 50 px. Prevents accidental
+    // swipes from vertical scroll momentum.
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
+      (dx < 0 ? next : prev)();
+    }
+    dragStartX.current = null;
+    dragStartY.current = null;
+    isDragging.current = false;
+  };
+
+  const onPointerCancel = () => {
+    dragStartX.current = null;
+    dragStartY.current = null;
+    isDragging.current = false;
   };
 
   return (
     <section
       id="hero-section"
-      className="hero-section relative h-[100svh] max-h-[100svh] w-full overflow-hidden bg-black"
+      className="hero-section relative h-[100svh] max-h-[100svh] w-full overflow-hidden bg-black touch-pan-y select-none cursor-grab active:cursor-grabbing"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerCancel}
       aria-roledescription="carousel"
     >
       {/* Slides */}
