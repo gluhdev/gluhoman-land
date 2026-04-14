@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Script from 'next/script';
 import { BLUR_DATA_URL } from '@/lib/blur-placeholder';
+import { EditableText } from '@/components/content/EditableText';
+import { getText, getImage } from '@/lib/site-content';
 import { BookingButton } from '@/components/ui/BookingButton';
 import { GalleryGrid } from '@/components/ui/GalleryGrid';
 import {
@@ -233,7 +235,12 @@ const amenities = [
   { icon: Baby, label: 'Дитяча кімната', hint: 'Ігрова зона для малечі' },
 ];
 
-export default function HotelPage() {
+export default async function HotelPage() {
+  const heroImage = await getImage('hotel.hero.image', '/images/9.jpg');
+  const heroSubtitle = await getText(
+    'hotel.hero.subtitle',
+    'Затишні номери серед соснового лісу Полтавщини, авторська кухня й тиша природи — місце, де час нарешті уповільнюється.'
+  );
   return (
     <div className="bg-[#faf6ec]">
       <Script id="hotel-jsonld" type="application/ld+json" strategy="afterInteractive">
@@ -243,29 +250,29 @@ export default function HotelPage() {
       {/* ───────────────────── HERO ───────────────────── */}
       <section id="hero-section" className="hero-section relative min-h-[90svh] flex items-center justify-center overflow-hidden bg-[#0b1410]">
         <Image
-          src="/images/9.jpg"
+          src={heroImage}
           alt="Готель Глухомань серед соснового лісу"
           fill
           priority
           quality={85}
           sizes="100vw"
-          placeholder="blur"
+          placeholder={heroImage === '/images/9.jpg' ? 'blur' : 'empty'}
           blurDataURL={BLUR_DATA_URL}
+          unoptimized={heroImage.startsWith('/uploads/')}
           className="object-cover opacity-55"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0b1410]/40 via-[#0b1410]/20 to-[#0b1410]" />
 
         <div className="relative z-10 max-w-5xl px-6 text-center text-[#f4ecd8]">
           <p className="text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8] mb-6">
-            Проживання · I
+            <EditableText k="hotel.hero.eyebrow" fallback="Проживання · I" as="span" />
           </p>
           <h1 className="font-display text-5xl md:text-8xl leading-[0.9] mb-8">
-            Готель
+            <EditableText k="hotel.hero.title" fallback="Готель" as="span" />
             <span className="block italic text-[#e6d9b8] mt-2">«Глухомань»</span>
           </h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto text-[#f4ecd8]/80 mb-10 font-light leading-relaxed">
-            Затишні номери серед соснового лісу Полтавщини, авторська кухня й тиша
-            природи — місце, де час нарешті уповільнюється.
+            {heroSubtitle}
           </p>
           <BookingButton
             service="hotel"

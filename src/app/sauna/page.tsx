@@ -21,6 +21,8 @@ import {
   Snowflake,
 } from 'lucide-react';
 import { CONTACT_INFO } from '@/constants';
+import { EditableText } from '@/components/content/EditableText';
+import { getText, getImage } from '@/lib/site-content';
 
 export const metadata: Metadata = {
   title: 'Лазня на дровах Глухомань — Чани, віники та масажі під Полтавою',
@@ -181,7 +183,15 @@ const tips = [
   'За хронічних захворювань — порадьтеся з лікарем.',
 ];
 
-export default function SaunaPage() {
+export default async function SaunaPage() {
+  const heroImage = await getImage(
+    'sauna.hero.image',
+    '/images/sauna/exterior_small_sauna_building.jpg'
+  );
+  const heroSubtitle = await getText(
+    'sauna.hero.subtitle',
+    'Чани на дровах з карпатськими травами, дубові та бамбукові віники, масажі і кімнати відпочинку з самоварами.'
+  );
   const phoneHref = `tel:${CONTACT_INFO.phone[0].replace(/\s+/g, '')}`;
 
   return (
@@ -195,26 +205,26 @@ export default function SaunaPage() {
         <Image
           fill
           priority
-          src="/images/sauna/exterior_small_sauna_building.jpg"
+          src={heroImage}
           alt="Будівля лазні на дровах у Глухомані серед природи"
           className="object-cover opacity-60"
           sizes="100vw"
           quality={90}
-          placeholder="blur"
+          placeholder={heroImage === '/images/sauna/exterior_small_sauna_building.jpg' ? 'blur' : 'empty'}
           blurDataURL={BLUR_DATA_URL}
+          unoptimized={heroImage.startsWith('/uploads/')}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0b1410]/30 via-[#0b1410]/20 to-[#0b1410]" />
         <div className="relative z-10 max-w-5xl px-6 text-center text-[#f4ecd8]">
           <p className="text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8] mb-6">
-            Тіло та дух • IV
+            <EditableText k="sauna.hero.eyebrow" fallback="Тіло та дух • IV" as="span" />
           </p>
           <h1 className="font-display text-5xl md:text-8xl leading-[0.9] mb-6">
-            Лазня
+            <EditableText k="sauna.hero.title" fallback="Лазня" as="span" />
             <span className="block italic text-[#e6d9b8]">на дровах</span>
           </h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto text-[#f4ecd8]/80 mb-10 font-light leading-relaxed">
-            Чани на дровах з карпатськими травами, дубові та бамбукові віники,
-            масажі і кімнати відпочинку з самоварами.
+            {heroSubtitle}
           </p>
           <a
             href={phoneHref}

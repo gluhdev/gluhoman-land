@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Script from 'next/script';
 import { BLUR_DATA_URL } from '@/lib/blur-placeholder';
 import { BookingButton } from '@/components/ui/BookingButton';
+import { EditableText } from '@/components/content/EditableText';
+import { getText, getImage } from '@/lib/site-content';
 import {
   Phone,
   ArrowUpRight,
@@ -265,7 +267,12 @@ const faqItems = [
   },
 ];
 
-export default function AquaparkPage() {
+export default async function AquaparkPage() {
+  const heroImage = await getImage('aquapark.hero.image', '/images/akvapark.webp');
+  const heroSubtitle = await getText(
+    'aquapark.hero.subtitle',
+    'Водні гірки, басейни з підігрівом та окрема дитяча зона. Цілий день відпочинку для всієї родини — від ранку до заходу сонця.'
+  );
   return (
     <>
       <Script
@@ -284,13 +291,14 @@ export default function AquaparkPage() {
         <Image
           fill
           priority
-          src="/images/akvapark.webp"
+          src={heroImage}
           alt="Аквапарк Глухомань"
           className="object-cover opacity-55"
           sizes="100vw"
           quality={90}
-          placeholder="blur"
+          placeholder={heroImage === '/images/akvapark.webp' ? 'blur' : 'empty'}
           blurDataURL={BLUR_DATA_URL}
+          unoptimized={heroImage.startsWith('/uploads/')}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0b1410]/40 via-[#0b1410]/20 to-[#0b1410]" />
         <div
@@ -305,7 +313,7 @@ export default function AquaparkPage() {
         <div className="relative z-10 max-w-5xl px-6 text-center text-[#f4ecd8]">
           <p className="mb-6 flex items-center justify-center gap-4 text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8]">
             <span className="h-px w-10 bg-[#e6d9b8]/50" />
-            Вода та сонце • II
+            <EditableText k="aquapark.hero.eyebrow" fallback="Вода та сонце • II" as="span" />
             <span className="h-px w-10 bg-[#e6d9b8]/50" />
           </p>
           <h1
@@ -317,12 +325,11 @@ export default function AquaparkPage() {
               fontWeight: 300,
             }}
           >
-            Аквапарк
+            <EditableText k="aquapark.hero.title" fallback="Аквапарк" as="span" />
             <span className="block italic text-[#e6d9b8]">«Глухомань»</span>
           </h1>
           <p className="mx-auto mb-12 max-w-2xl text-lg md:text-xl font-light leading-relaxed text-[#f4ecd8]/80">
-            Водні гірки, басейни з підігрівом та окрема дитяча зона. Цілий день
-            відпочинку для всієї родини — від ранку до заходу сонця.
+            {heroSubtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-5 items-center justify-center">
             <BookingButton

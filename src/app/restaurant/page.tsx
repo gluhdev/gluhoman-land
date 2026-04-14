@@ -28,6 +28,8 @@ import { BookingButton } from "@/components/ui/BookingButton";
 import { GalleryGrid } from "@/components/ui/GalleryGrid";
 import { EmbeddedMenu } from "@/components/menu/EmbeddedMenu";
 import { CONTACT_INFO } from "@/constants";
+import { EditableText } from "@/components/content/EditableText";
+import { getText, getImage } from "@/lib/site-content";
 
 export const metadata: Metadata = {
   title: "Ресторан «Глухомань» — Кухня та музика у Полтавській області",
@@ -375,7 +377,15 @@ const events = [
   },
 ];
 
-export default function RestaurantPage() {
+export default async function RestaurantPage() {
+  const heroImage = await getImage(
+    'restaurant.hero.image',
+    '/images/restaurant/exterior_summer_terrace_water.jpg'
+  );
+  const heroSubtitle = await getText(
+    'restaurant.hero.subtitle',
+    'Європейсько-українська кухня, українська піч на дровах, крафтове пиво власної пивоварні, павлінарій у залі «Жар-Птиці» та жива музика на вихідних.'
+  );
   const primaryPhone = CONTACT_INFO.phone[0];
   const telHref = `tel:${primaryPhone.replace(/\s+/g, "")}`;
 
@@ -432,26 +442,25 @@ export default function RestaurantPage() {
         <Image
           fill
           priority
-          src="/images/restaurant/exterior_summer_terrace_water.jpg"
+          src={heroImage}
           alt="Літня тераса ресторану Глухомань біля води"
           className="object-cover opacity-55"
           sizes="100vw"
-          placeholder="blur"
+          placeholder={heroImage === '/images/restaurant/exterior_summer_terrace_water.jpg' ? 'blur' : 'empty'}
           blurDataURL={BLUR_DATA_URL}
+          unoptimized={heroImage.startsWith('/uploads/')}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0b1410]/40 via-[#0b1410]/20 to-[#0b1410]" />
         <div className="relative z-10 max-w-5xl px-6 text-center text-[#f4ecd8]">
           <p className="text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8] mb-6">
-            Кухня та музика • III
+            <EditableText k="restaurant.hero.eyebrow" fallback="Кухня та музика • III" as="span" />
           </p>
           <h1 className="font-display text-6xl md:text-8xl leading-[0.9] mb-6">
-            Ресторан
+            <EditableText k="restaurant.hero.title" fallback="Ресторан" as="span" />
             <span className="block italic text-[#e6d9b8]">«Глухомань»</span>
           </h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto text-[#f4ecd8]/80 mb-10 font-light leading-relaxed">
-            Європейсько-українська кухня, українська піч на дровах, крафтове
-            пиво власної пивоварні, павлінарій у залі «Жар-Птиці» та жива
-            музика на вихідних.
+            {heroSubtitle}
           </p>
           <BookingButton
             service="restaurant"
