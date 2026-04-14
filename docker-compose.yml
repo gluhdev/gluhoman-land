@@ -6,6 +6,11 @@ services:
     image: gluhoman-site:latest
     container_name: gluhoman-site
     restart: unless-stopped
+    labels:
+      # Watched by the willfarrell/autoheal sidecar — auto-restarts
+      # the container when healthcheck fails (Docker itself only
+      # restarts on process exit, not on `unhealthy` status).
+      - autoheal=true
     ports:
       - "3000:3000"
     # Load DATABASE_URL, AUTH_SECRET, NEXTAUTH_SECRET, NEXTAUTH_URL,
