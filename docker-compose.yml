@@ -8,6 +8,12 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+    # Load DATABASE_URL, AUTH_SECRET, NEXTAUTH_SECRET, NEXTAUTH_URL,
+    # ADMIN_EMAIL/PASSWORD, POSTGRES_*, SENTRY_DSN etc. from .env.
+    # Without this the site crashes with "MissingSecret" from NextAuth
+    # on the first middleware invocation.
+    env_file:
+      - .env
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
@@ -31,8 +37,12 @@ services:
       # On first deploy: mkdir -p uploads && chmod 755 uploads
       - ./uploads:/app/public/uploads
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
+      # Use 127.0.0.1 explicitly: BusyBox wget (alpine base) resolves
+      # "localhost" to ::1 (IPv6) first, but Node listens on IPv4 only,
+      # so "localhost" gives a permanent Connection-refused and marks
+      # the container unhealthy forever even when the site works fine.
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/"]
       interval: 30s
       timeout: 5s
-      start_period: 15s
+      start_period: 30s
       retries: 3
