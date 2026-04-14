@@ -1,54 +1,22 @@
 "use client";
 
-import { useEffect } from "react";
-import Lenis from "lenis";
-
 /**
- * Smooth scroll wrapper — desktop only.
+ * SmoothScrollProvider — currently a NO-OP pass-through.
  *
- * On touch devices (mobile/tablet) Lenis is DISABLED because:
- *  - It hijacks the browser native momentum scrolling and causes jank
- *  - touchMultiplier adds measurable lag
- *  - fighting iOS/Android overscroll causes visible stutters
+ * Removed Lenis because the combination of Lenis' wheel hijacking
+ * with the surrounding CSS (see mobile.css / globals.css html+body
+ * rules) caused mouse-wheel scroll to break on desktop. Native
+ * browser scroll works fine now; smooth easing is a nice-to-have
+ * that is not worth a P0 regression.
  *
- * Desktop (mouse wheel) still benefits from the smooth easing.
+ * If smooth scrolling becomes a requirement again, prefer the
+ * one-liner `html { scroll-behavior: smooth }` in globals.css over
+ * a JS library — it never fights the browser scroller.
  */
 export default function SmoothScrollProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // Respect user motion preference
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) return;
-
-    // Detect touch-primary device OR small viewport -> skip Lenis entirely
-    const isTouch = window.matchMedia("(pointer: coarse)").matches;
-    const isSmallViewport = window.innerWidth < 1024;
-    if (isTouch || isSmallViewport) return;
-
-    const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      syncTouch: false,
-    });
-
-    let rafId = 0;
-    const raf = (time: number) => {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    };
-    rafId = requestAnimationFrame(raf);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      lenis.destroy();
-    };
-  }, []);
-
   return <>{children}</>;
 }

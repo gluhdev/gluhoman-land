@@ -1,25 +1,27 @@
 /* Мобильная адаптация для FCP */
 
-/* ВАЖНО: Базовые стили для прокрутки */
-html {
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch !important;
+/*
+ * Базовые overflow-правила: только горизонтальное скрытие.
+ * ВАЖНО: НЕ ставить height:100% или overflow-y:auto на html/body без
+ * media-query — это ломает wheel-скролл на десктопе (см. коммит
+ * "fix(scroll): restore desktop wheel scroll"). Вертикальное поведение
+ * оставляем дефолтным, чтобы browser сам управлял корневым scroller-ом.
+ */
+html, body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
   overscroll-behavior-y: none;
-  /* Фиксируем высоту чтобы не реагировать на адресную строку */
-  height: 100%;
-  min-height: 100%;
 }
 
-body {
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
-  -webkit-overflow-scrolling: touch !important;
-  overscroll-behavior: none;
-  overscroll-behavior-y: none;
-  height: 100%;
-  min-height: 100%;
+/* iOS-специфичная фиксация высоты — применяется ТОЛЬКО на мобильных,
+   где iOS Safari схлопывает address bar и ломает vh. */
+@media screen and (max-width: 768px) {
+  html, body {
+    height: 100%;
+    min-height: 100%;
+    overflow-y: auto;
+  }
 }
 
 /* Фикс hero секции на мобильных - блокировка ресайза */
