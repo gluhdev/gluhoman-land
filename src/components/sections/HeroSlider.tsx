@@ -84,7 +84,10 @@ export default function HeroSlider() {
   const [paused, setPaused] = useState(false);
   const dragStartX = useRef<number | null>(null);
   const dragStartY = useRef<number | null>(null);
-  const isDragging = useRef(false);
+  // Max horizontal distance travelled between pointerdown and pointerup.
+  // Read by onClickCapture to decide whether to suppress the click on
+  // child <Link>s — so drags don't accidentally trigger navigation.
+  const dragDistance = useRef(0);
 
   const goTo = useCallback((i: number) => {
     setIndex((prev) => (i + SLIDES.length) % SLIDES.length);
@@ -111,20 +114,22 @@ export default function HeroSlider() {
   }, [next, prev]);
 
   const onPointerDown = (e: React.PointerEvent) => {
-    // Ignore drags that begin on interactive elements so panel <Link>s
-    // still click normally.
-    const target = e.target as HTMLElement;
-    if (target.closest('a,button,[role="button"]')) return;
+    // Only react to left mouse button / touch / pen. Middle/right click
+    // should fall through to default browser behavior.
+    if (e.button !== 0) return;
     dragStartX.current = e.clientX;
     dragStartY.current = e.clientY;
-    isDragging.current = true;
+    dragDistance.current = 0;
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (dragStartX.current === null) return;
+    const dx = Math.abs(e.clientX - dragStartX.current);
+    if (dx > dragDistance.current) dragDistance.current = dx;
   };
 
   const onPointerUp = (e: React.PointerEvent) => {
-    if (!isDragging.current || dragStartX.current === null || dragStartY.current === null) {
-      isDragging.current = false;
-      return;
-    }
+    if (dragStartX.current === null || dragStartY.current === null) return;
     const dx = e.clientX - dragStartX.current;
     const dy = e.clientY - dragStartY.current;
     // Require mostly-horizontal drag of at least 50 px. Prevents accidental
@@ -134,24 +139,39 @@ export default function HeroSlider() {
     }
     dragStartX.current = null;
     dragStartY.current = null;
-    isDragging.current = false;
+    // dragDistance.current is read by onClickCapture right after this
+    // in the click event flow — it is reset there.
   };
 
   const onPointerCancel = () => {
     dragStartX.current = null;
     dragStartY.current = null;
-    isDragging.current = false;
+    dragDistance.current = 0;
+  };
+
+  // Capture-phase click handler runs BEFORE child <Link> click handlers.
+  // If the user just finished a real drag (> 10 px horizontally), we
+  // suppress the child click so the slider doesn't accidentally navigate
+  // away to a panel route. Small movements are treated as genuine clicks.
+  const onClickCapture = (e: React.MouseEvent) => {
+    if (dragDistance.current > 10) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    dragDistance.current = 0;
   };
 
   return (
     <section
       id="hero-section"
-      className="hero-section relative h-[100svh] max-h-[100svh] w-full overflow-hidden bg-black touch-pan-y select-none cursor-grab active:cursor-grabbing"
+      className="hero-section relative h-[100svh] max-h-[100svh] w-full overflow-hidden bg-black touch-pan-y cursor-grab active:cursor-grabbing"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerCancel}
+      onClickCapture={onClickCapture}
       aria-roledescription="carousel"
     >
       {/* Slides */}
