@@ -9,18 +9,22 @@
  */
 html, body {
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
   overscroll-behavior: none;
   overscroll-behavior-y: none;
 }
 
-/* iOS-специфичная фиксация высоты — применяется ТОЛЬКО на мобильных,
-   где iOS Safari схлопывает address bar и ломает vh. */
+/* iOS-специфичная фиксация высоты + iOS momentum scroll.
+   ВАЖНО: -webkit-overflow-scrolling: touch ДОЛЖНО применяться ТОЛЬКО
+   на iOS. На macOS Safari / Chrome это свойство превращает элемент
+   в "touch-styled scroll container", который после hydration глотает
+   wheel events → страница перестаёт скроллиться мышкой. Мы держим
+   это только внутри мобильного media-query. */
 @media screen and (max-width: 768px) {
   html, body {
     height: 100%;
     min-height: 100%;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

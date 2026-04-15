@@ -2,11 +2,15 @@
 @import "tw-animate-css";
 @import "./mobile.css";
 
-/* Hard iOS overscroll lock */
+/* Hard iOS overscroll lock — NO -webkit-overflow-scrolling here.
+   That property is iOS-only and, if left on desktop html/body, turns
+   the element into a touch-styled scroll container on macOS Safari
+   and Chrome/Mac, which consumes wheel events and breaks mouse
+   scrolling after hydration. iOS momentum scrolling is handled in
+   mobile.css inside a (max-width: 768px) media query. */
 html, body {
   overscroll-behavior: none !important;
   overscroll-behavior-y: none !important;
-  -webkit-overflow-scrolling: touch;
 }
 
 
