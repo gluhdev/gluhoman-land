@@ -32,6 +32,13 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://gluhoman.com.ua"),
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   title: "Глухомань - Ресторанно-готельний комплекс",
   description: "Відпочинок для всієї родини: аквапарк, ресторан, готель та багато інших послуг в серці природи",
   keywords: "глухомань, відпочинок, аквапарк, ресторан, готель, україна",
