@@ -114,20 +114,15 @@ export default function HeroSlider() {
   }, [next, prev]);
 
   const onPointerDown = (e: React.PointerEvent<HTMLElement>) => {
-    // Only react to left mouse button / touch / pen. Middle/right click
-    // should fall through to default browser behavior.
     if (e.button !== 0) return;
     dragStartX.current = e.clientX;
     dragStartY.current = e.clientY;
     dragDistance.current = 0;
-    // Capture all subsequent pointer events on this section regardless
-    // of which child element the pointer moves over. Without this,
-    // native HTML5 image/link drag can steal pointermove events mid-drag.
-    try {
-      e.currentTarget.setPointerCapture(e.pointerId);
-    } catch {
-      // Some browsers reject capture on non-touch pointers, fine to ignore.
-    }
+    // NO setPointerCapture — it redirects all pointer events to the
+    // section, which prevents child <Link> elements from receiving
+    // their click events. onDragStart={preventDefault} on the section
+    // already blocks native HTML5 image/link drag, so pointermove
+    // events bubble up normally without capture.
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
