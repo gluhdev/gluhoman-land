@@ -40,10 +40,8 @@ body {
    value that is rock-solid across address-bar state changes. */
 @layer base {
   html {
-    /* No explicit height here — desktop needs html to grow with content
-       so wheel-scroll works on the window. On mobile, mobile.css pins
-       html to 100% inside its media query for iOS svh-fix. */
-    overscroll-behavior-y: none;
+    /* NO overscroll-behavior here — putting it on html breaks macOS
+       trackpad scroll chain. Only body gets it (below). */
     -webkit-tap-highlight-color: transparent;
     -webkit-text-size-adjust: 100%;
   }
