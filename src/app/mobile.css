@@ -7,10 +7,9 @@
  * "fix(scroll): restore desktop wheel scroll"). Вертикальное поведение
  * оставляем дефолтным, чтобы browser сам управлял корневым scroller-ом.
  */
+/* Base horizontal overflow only — vertical rules are in globals.css */
 html, body {
   overflow-x: hidden;
-  overscroll-behavior: none;
-  overscroll-behavior-y: none;
 }
 
 /* iOS-специфичная фиксация высоты + iOS momentum scroll.

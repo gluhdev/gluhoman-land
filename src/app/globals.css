@@ -2,15 +2,33 @@
 @import "tw-animate-css";
 @import "./mobile.css";
 
-/* Hard iOS overscroll lock — NO -webkit-overflow-scrolling here.
-   That property is iOS-only and, if left on desktop html/body, turns
-   the element into a touch-styled scroll container on macOS Safari
-   and Chrome/Mac, which consumes wheel events and breaks mouse
-   scrolling after hydration. iOS momentum scrolling is handled in
-   mobile.css inside a (max-width: 768px) media query. */
-html, body {
-  overscroll-behavior: none !important;
-  overscroll-behavior-y: none !important;
+/*
+ * Root scroll setup — macOS trackpad compatibility is critical.
+ *
+ * Rules:
+ * 1. html MUST have height: auto (not 100%) so it grows with content
+ *    and becomes the natural root scroller.
+ * 2. body MUST have overflow-y: visible (not auto/hidden) so it does
+ *    NOT become a competing scroll container.
+ * 3. overscroll-behavior: none only on body, NOT on html — putting it
+ *    on html breaks macOS trackpad scroll chain.
+ * 4. scroll-behavior: smooth for native CSS smooth scrolling (replaces
+ *    the removed Lenis library).
+ * 5. NEVER put -webkit-overflow-scrolling: touch on html/body outside
+ *    a mobile media query — it breaks macOS wheel scroll.
+ * 6. .hero-section uses overflow: clip (not hidden) to avoid creating
+ *    a scroll container that traps wheel events.
+ */
+html {
+  height: auto !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+body {
+  overflow-y: visible !important;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
 }
 
 
@@ -807,9 +825,15 @@ html, body {
     overflow-x: hidden;
   }
 
-  /* Предотвращение горизонтального скролла */
+  /* Предотвращение горизонтального скролла.
+     overflow-x: hidden (not clip) + overflow-y: visible — clip on x
+     with visible on y can break scroll chain on some WebKit versions.
+     Using hidden+visible explicitly: per spec, hidden on one axis
+     forces auto on the perpendicular, but the !important on body
+     overflow-y: visible in the root rules above wins. */
   .prevent-horizontal-scroll {
-    overflow-x: clip;
+    overflow-x: hidden;
+    overflow-y: visible;
     width: 100%;
     max-width: 100vw;
   }

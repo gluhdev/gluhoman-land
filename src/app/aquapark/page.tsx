@@ -287,7 +287,7 @@ export default async function AquaparkPage() {
       />
 
       {/* 1. HERO — dark forest */}
-      <section id="hero-section" className="hero-section relative min-h-[90svh] flex items-center justify-center overflow-hidden bg-[#0b1410]">
+      <section id="hero-section" className="hero-section relative min-h-[90svh] flex items-center justify-center overflow-clip bg-[#0b1410]">
         <Image
           fill
           priority

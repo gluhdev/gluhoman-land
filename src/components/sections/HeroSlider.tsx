@@ -172,7 +172,7 @@ export default function HeroSlider() {
   return (
     <section
       id="hero-section"
-      className="hero-section relative h-[100svh] max-h-[100svh] w-full overflow-hidden bg-black touch-pan-y select-none cursor-grab active:cursor-grabbing"
+      className="hero-section relative h-[100svh] max-h-[100svh] w-full overflow-clip bg-black touch-pan-y select-none cursor-grab active:cursor-grabbing"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onPointerDown={onPointerDown}
