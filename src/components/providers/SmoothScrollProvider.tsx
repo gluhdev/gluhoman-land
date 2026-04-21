@@ -1,22 +1,55 @@
 "use client";
 
+import { useEffect } from "react";
+import Lenis from "lenis";
+
 /**
- * SmoothScrollProvider — currently a NO-OP pass-through.
+ * Smooth scroll via Lenis — desktop only.
  *
- * Removed Lenis because the combination of Lenis' wheel hijacking
- * with the surrounding CSS (see mobile.css / globals.css html+body
- * rules) caused mouse-wheel scroll to break on desktop. Native
- * browser scroll works fine now; smooth easing is a nice-to-have
- * that is not worth a P0 regression.
+ * CRITICAL: html and body MUST NOT have overflow-x:hidden,
+ * overflow:hidden, overscroll-behavior, or height:100% — any of
+ * these creates a scroll container that fights Lenis on macOS.
+ * See memory: feedback_macos_scroll_fix.md
  *
- * If smooth scrolling becomes a requirement again, prefer the
- * one-liner `html { scroll-behavior: smooth }` in globals.css over
- * a JS library — it never fights the browser scroller.
+ * On touch devices Lenis is DISABLED — native momentum scrolling
+ * is better than anything JS can replicate.
  */
 export default function SmoothScrollProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduced) return;
+
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    const isSmallViewport = window.innerWidth < 1024;
+    if (isTouch || isSmallViewport) return;
+
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      syncTouch: false,
+    });
+
+    let rafId = 0;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
+  }, []);
+
   return <>{children}</>;
 }

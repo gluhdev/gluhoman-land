@@ -1,70 +1,58 @@
-import { chromium } from 'playwright';
+import { chromium, webkit } from 'playwright';
 
-const browser = await chromium.launch({ headless: true });
-const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
-const page = await ctx.newPage();
+async function test(name, launcher) {
+  const browser = await launcher.launch({ headless: true });
+  const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await ctx.newPage();
 
-const consoleLines = [];
-page.on('console', (msg) => consoleLines.push(`[${msg.type()}] ${msg.text()}`));
-page.on('pageerror', (err) => consoleLines.push(`[error] ${err.message}`));
+  const errors = [];
+  page.on('pageerror', (err) => errors.push(err.message));
 
-console.log('==> GET http://localhost:3000/');
-await page.goto('http://localhost:3000/', { waitUntil: 'networkidle', timeout: 30000 });
-await page.waitForTimeout(500);
+  await page.goto('http://localhost:3000/', { waitUntil: 'networkidle', timeout: 30000 });
+  // Wait for Lenis to initialize (useEffect + rAF)
+  await page.waitForTimeout(2000);
 
-// 1. Build marker check
-console.log('\n--- 1. BUILD MARKER (console logs from page) ---');
-const marker = consoleLines.filter((l) => l.includes('gluhoman build'));
-console.log(marker.length ? marker.join('\n') : '❌ no build marker in console');
+  // Check Lenis initialized
+  const hasLenis = await page.evaluate(() => {
+    // Lenis adds a 'lenis' class or data attribute to html
+    return document.documentElement.classList.contains('lenis') ||
+           document.documentElement.classList.contains('lenis-smooth') ||
+           !!document.querySelector('[data-lenis-prevent]');
+  });
 
-// 2. CSS state on html/body
-console.log('\n--- 2. COMPUTED CSS ---');
-const css = await page.evaluate(() => {
-  const h = getComputedStyle(document.documentElement);
-  const b = getComputedStyle(document.body);
-  return {
-    html: { height: h.height, overflow: h.overflow, overflowY: h.overflowY },
-    body: { height: b.height, overflow: b.overflow, overflowY: b.overflowY },
-    scrollingElement: document.scrollingElement?.tagName,
-    docScrollHeight: document.documentElement.scrollHeight,
-    docClientHeight: document.documentElement.clientHeight,
-  };
-});
-console.log(JSON.stringify(css, null, 2));
-
-// 3. Initial scroll state
-console.log('\n--- 3. INITIAL SCROLL ---');
-const initialScroll = await page.evaluate(() => window.scrollY);
-console.log(`scrollY on load: ${initialScroll}`);
-
-// 4. Programmatic scroll
-console.log('\n--- 4. window.scrollTo(0, 500) ---');
-await page.evaluate(() => window.scrollTo(0, 500));
-await page.waitForTimeout(200);
-const progScroll = await page.evaluate(() => window.scrollY);
-console.log(`scrollY after scrollTo: ${progScroll} ${progScroll === 500 ? '✓' : '✗'}`);
-
-// 5. Mouse wheel scroll — 5 events, 200px each
-console.log('\n--- 5. MOUSE WHEEL x5 (200px each) ---');
-await page.evaluate(() => window.scrollTo(0, 0));
-await page.waitForTimeout(100);
-await page.mouse.move(720, 450);
-for (let i = 1; i <= 5; i++) {
-  const before = await page.evaluate(() => window.scrollY);
-  await page.mouse.wheel(0, 200);
+  // Test wheel scroll
+  await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(200);
-  const after = await page.evaluate(() => window.scrollY);
-  const ok = after > before ? '✓' : '✗';
-  console.log(`  wheel #${i}: ${before} -> ${after} (delta ${after - before}) ${ok}`);
+  await page.mouse.move(720, 450);
+
+  for (let i = 0; i < 5; i++) {
+    await page.mouse.wheel(0, 200);
+    await page.waitForTimeout(200);
+  }
+  // Lenis animates smoothly — wait for interpolation to finish
+  await page.waitForTimeout(1500);
+
+  const scrollY = await page.evaluate(() => window.scrollY);
+  const htmlClasses = await page.evaluate(() => document.documentElement.className);
+  const bodyOverflow = await page.evaluate(() => getComputedStyle(document.body).overflow);
+
+  console.log(
+    `[${name}] scrollY=${scrollY} ${scrollY > 300 ? '✓' : '✗'} | ` +
+    `htmlClass="${htmlClasses}" | bodyOverflow="${bodyOverflow}" | ` +
+    `errors=${errors.length} ${errors.length ? errors[0].slice(0, 80) : ''}`
+  );
+
+  await browser.close();
 }
 
-const final = await page.evaluate(() => window.scrollY);
-console.log(`\nFINAL scrollY after 5x wheel: ${final}`);
-
-if (final >= 800) {
-  console.log('\n✅ VERDICT: desktop wheel scroll WORKS. Code is fine.');
-} else {
-  console.log('\n❌ VERDICT: scroll is broken in the headless browser too.');
+// Wait for dev server
+for (let i = 0; i < 30; i++) {
+  try {
+    const res = await fetch('http://localhost:3000/', { signal: AbortSignal.timeout(2000) });
+    if (res.ok) break;
+  } catch { /* retry */ }
+  await new Promise(r => setTimeout(r, 1000));
 }
 
-await browser.close();
+await test('chromium', chromium);
+await test('webkit', webkit);
