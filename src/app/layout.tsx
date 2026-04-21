@@ -49,14 +49,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="uk" className="overscroll-y-none">
+    <html lang="uk">
       <head>
         <link rel="preconnect" href="https://static.shaketopay.com.ua" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://static.shaketopay.com.ua" />
         <link rel="manifest" href="/manifest.json" />
         <LocalBusinessJsonLd />
       </head>
-      <body className={`${manrope.variable} ${cormorant.variable} font-sans antialiased bg-radial-gradient-green overscroll-y-none`}>
+      <body className={`${manrope.variable} ${cormorant.variable} font-sans antialiased bg-radial-gradient-green`}>
         <BuildMarker />
         <a
           href="#main"
