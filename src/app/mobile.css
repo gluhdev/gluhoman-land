@@ -7,10 +7,10 @@
  * "fix(scroll): restore desktop wheel scroll"). Вертикальное поведение
  * оставляем дефолтным, чтобы browser сам управлял корневым scroller-ом.
  */
-/* Base horizontal overflow only — vertical rules are in globals.css */
-html, body {
-  overflow-x: hidden;
-}
+/* NO overflow on html/body at global scope — any overflow-x:hidden
+   on body forces overflow-y:visible→auto (CSS spec), turning body
+   into a scroll container that traps macOS trackpad events.
+   Horizontal clipping lives on .prevent-horizontal-scroll wrapper. */
 
 /* iOS-специфичная фиксация высоты + iOS momentum scroll.
    ВАЖНО: -webkit-overflow-scrolling: touch ДОЛЖНО применяться ТОЛЬКО

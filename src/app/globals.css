@@ -21,14 +21,15 @@
  */
 html {
   height: auto !important;
-  overflow-y: auto;
-  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 body {
-  overflow-y: visible !important;
-  overflow-x: hidden;
-  overscroll-behavior-y: none;
+  /* NO overflow rules on body — bg-radial-gradient-green and other
+     classes must also NOT set overflow on body, or the CSS spec rule
+     "visible+hidden → auto" kicks in and body becomes a scroll
+     container that traps macOS trackpad wheel events. Horizontal
+     overflow is clipped by .prevent-horizontal-scroll on the wrapper
+     div INSIDE body, not on body itself. */
 }
 
 
@@ -47,7 +48,6 @@ body {
   }
   body {
     min-height: 100svh;
-    overscroll-behavior-y: none;
   }
   /* Respect reduced motion + touch — let agents skip expensive effects */
   @media (pointer: coarse) {
@@ -820,7 +820,11 @@ body {
     min-height: 100svh;
     width: 100%;
     max-width: 100vw;
-    overflow-x: hidden;
+    /* NO overflow-x: hidden here — it's on <body>, and per CSS spec
+       overflow-x:hidden forces overflow-y:visible→auto, making body
+       a scroll container that traps macOS trackpad wheel events.
+       Horizontal clipping is handled by .prevent-horizontal-scroll
+       on the wrapper div inside body. */
   }
 
   /* Предотвращение горизонтального скролла.
