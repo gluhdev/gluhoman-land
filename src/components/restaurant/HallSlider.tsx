@@ -14,6 +14,7 @@ interface Props {
   photos: HallSlide[];
   light?: boolean;
   aspect?: string;
+  base?: string;
 }
 
 /**
@@ -28,6 +29,7 @@ export function HallSlider({
   photos,
   light = false,
   aspect = 'aspect-[16/10]',
+  base = '/images/restaurant/doc/',
 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const thumbsRef = useRef<HTMLDivElement>(null);
@@ -110,7 +112,7 @@ export function HallSlider({
               className={`group relative ${aspect} overflow-hidden rounded-[4px] ring-1 ${ringColor} ${shadow}`}
             >
               <Image
-                src={`/images/restaurant/doc/${p.n}.jpg`}
+                src={`${base}${p.n}.jpg`}
                 alt={p.alt}
                 fill
                 sizes="(min-width: 1024px) 66vw, 100vw"
@@ -174,7 +176,7 @@ export function HallSlider({
                     }`}
                   >
                     <Image
-                      src={`/images/restaurant/doc/${p.n}.jpg`}
+                      src={`${base}${p.n}.jpg`}
                       alt=""
                       fill
                       sizes="88px"

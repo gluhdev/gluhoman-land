@@ -8,7 +8,7 @@ interface Entry {
   label: string;
 }
 
-const entries: Entry[] = [
+const defaultEntries: Entry[] = [
   { id: 'intro', roman: '0', label: 'Про ресторан' },
   { id: 'cuisine', roman: '§', label: 'Кухня та пиво' },
   { id: 'music', roman: '♪', label: 'Жива музика' },
@@ -30,8 +30,12 @@ const entries: Entry[] = [
  * automatically inverts against whatever section is behind it — readable
  * on both cream and dark-green backgrounds without theme tracking.
  */
-export function FloatingNav() {
-  const [activeId, setActiveId] = useState<string>('intro');
+export function FloatingNav({
+  entries = defaultEntries,
+}: {
+  entries?: Entry[];
+} = {}) {
+  const [activeId, setActiveId] = useState<string>(entries[0]?.id ?? 'intro');
 
   useEffect(() => {
     const targets = entries
@@ -61,7 +65,7 @@ export function FloatingNav() {
 
     targets.forEach((t) => observer.observe(t));
     return () => observer.disconnect();
-  }, []);
+  }, [entries]);
 
   const jumpTo = (id: string) => {
     const el = document.getElementById(id);
