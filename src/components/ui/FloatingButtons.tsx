@@ -62,7 +62,7 @@ export default function FloatingButtons() {
 
   return (
     <div
-      className={`fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 transition-opacity duration-500 ${showFab ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+      className={`fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-6 z-50 w-fit max-w-[calc(100vw-3rem)] flex flex-col items-end gap-3 transition-opacity duration-500 ${showFab ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
       aria-hidden={!showFab}
     >
       {/* Contact Options */}

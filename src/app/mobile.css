@@ -57,8 +57,11 @@ header {
     max-width: 100vw !important;
   }
 
-  /* Главный контейнер - разрешаем прокрутку */
-  body > div {
+  /* Главный контейнер - разрешаем прокрутку.
+     Таргетируем только обёртку страницы, не все body > div —
+     иначе fixed-элементы (FAB, диалоги) растягиваются на весь экран
+     и перекрывают клики по остальной странице. */
+  body > .prevent-horizontal-scroll {
     overflow-x: hidden !important;
     overflow-y: visible !important;
     max-width: 100vw !important;
