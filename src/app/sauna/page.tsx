@@ -8,7 +8,7 @@ import { Reveal } from "@/components/restaurant/Reveal";
 import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { FloatingNav } from "@/components/restaurant/FloatingNav";
-import { PriceGrid } from "@/components/sauna/PriceGrid";
+import { PriceList } from "@/components/sauna/PriceList";
 
 export const metadata: Metadata = {
   title: "Лазня на дровах Глухомань — Чани, віники та масажі під Полтавою",
@@ -491,9 +491,9 @@ export default function SaunaPage() {
         reverse
         aspect="aspect-[4/3]"
         photos={[
-          { n: 7, alt: "Басейн Великої лазні в приміщенні" },
           { n: 5, alt: "Карпатський чан на вулиці Великої лазні" },
           { n: 6, alt: "Кімната відпочинку з листям, шкіряний диван" },
+          { n: 7, alt: "Басейн Великої лазні в приміщенні" },
           { n: 8, alt: "Кімната відпочинку з самоваром у Великій лазні" },
         ]}
       />
@@ -540,21 +540,9 @@ export default function SaunaPage() {
           <Reveal delay={0.15}>
             <div className="max-w-5xl mx-auto">
               <p className="text-center text-[10px] uppercase tracking-[0.32em] text-[#1a3d2e]/50 mb-6">
-                Перелік послуг 2025–2026
+                Прайс-лист 2025–2026
               </p>
-              <PriceGrid
-                cards={[
-                  { n: 9, label: "Послуги та процедури", caption: "Оренда лазні, чани, оздоровчі процедури — повний прайс" },
-                  { n: 10, label: "Масажі", caption: "Класичний, стоун, тайський, бамбуковий — усі види масажу" },
-                  { n: 11, label: "Слов'янський еліксир", caption: "Комплексна програма «Слов'янський еліксир»" },
-                  { n: 12, label: "Богатир", caption: "Комплексна програма «Богатир»" },
-                  { n: 13, label: "Новачок", caption: "Комплексна програма «Новачок» та контакти" },
-                ]}
-              />
-              <p className="text-center text-[13px] text-[#0f1f18]/55 mt-6 italic">
-                Натисніть на картку, щоб відкрити повний прайс у великому
-                розмірі.
-              </p>
+              <PriceList />
             </div>
           </Reveal>
 
@@ -615,9 +603,9 @@ export default function SaunaPage() {
         }
         light
         photos={[
-          { n: 16, alt: "Охолодження в басейні після парної" },
-          { n: 15, alt: "Дубовий віник розкриває ефірні олії" },
           { n: 14, alt: "Масаж дубовими віниками в парній", objectPosition: "center 30%" },
+          { n: 15, alt: "Дубовий віник розкриває ефірні олії" },
+          { n: 16, alt: "Охолодження в басейні після парної" },
         ]}
       />
 
@@ -723,8 +711,8 @@ export default function SaunaPage() {
         reverse
         aspect="aspect-[4/3]"
         photos={[
-          { n: 20, alt: "Цитрусовий чан — вид згори" },
           { n: 19, alt: "Пара в чані з цитрусовими і хвоєю" },
+          { n: 20, alt: "Цитрусовий чан — вид згори" },
         ]}
       />
 
@@ -770,8 +758,8 @@ export default function SaunaPage() {
         noCta
         aspect="aspect-[4/3]"
         photos={[
-          { n: 22, alt: "Самовар і кошик з баранками" },
           { n: 21, alt: "Крафтовий квас «Глухомань»" },
+          { n: 22, alt: "Самовар і кошик з баранками" },
           { n: 23, alt: "Квітковий мед з пасіки «Глухомані»" },
           { n: 24, alt: "Мед у глиняному горщику з баранками" },
         ]}
@@ -847,8 +835,8 @@ export default function SaunaPage() {
                 base="/images/sauna/doc/"
                 photos={[
                   { n: 25, alt: "Крафтове пиво та копчене м'ясо в лазні" },
-                  { n: 27, alt: "Дегустація пива «Глухомані»" },
                   { n: 26, alt: "Гості у лазні за пивом" },
+                  { n: 27, alt: "Дегустація пива «Глухомані»" },
                 ]}
               />
             </Reveal>
@@ -879,9 +867,9 @@ export default function SaunaPage() {
         }
         aspect="aspect-[4/3]"
         photos={[
-          { n: 30, alt: "Стоун масаж у лазні «Глухомань»" },
           { n: 28, alt: "Гаряче каміння на спині при свічках" },
           { n: 29, alt: "Сертифікати SPA Professional майстрів лазні" },
+          { n: 30, alt: "Стоун масаж у лазні «Глухомань»" },
         ]}
       />
 
@@ -911,8 +899,8 @@ export default function SaunaPage() {
         reverse
         aspect="aspect-[4/3]"
         photos={[
-          { n: 32, alt: "Класичний масаж тіла — майстер лазні" },
           { n: 31, alt: "Класичний масаж — близький кадр" },
+          { n: 32, alt: "Класичний масаж тіла — майстер лазні" },
         ]}
       />
 
@@ -990,9 +978,9 @@ export default function SaunaPage() {
         reverse
         aspect="aspect-[4/3]"
         photos={[
+          { n: 35, alt: "Бамбукові палички підготовлені до процедури" },
           { n: 36, alt: "Бамбуковий масаж у лазні" },
           { n: 37, alt: "Бамбукові віники — майстер за роботою" },
-          { n: 35, alt: "Бамбукові палички підготовлені до процедури" },
         ]}
       />
 
