@@ -8,6 +8,7 @@ import { Reveal } from "@/components/restaurant/Reveal";
 import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { FloatingNav } from "@/components/restaurant/FloatingNav";
+import { PriceGrid } from "@/components/sauna/PriceGrid";
 
 export const metadata: Metadata = {
   title: "Лазня на дровах Глухомань — Чани, віники та масажі під Полтавою",
@@ -541,20 +542,18 @@ export default function SaunaPage() {
               <p className="text-center text-[10px] uppercase tracking-[0.32em] text-[#1a3d2e]/50 mb-6">
                 Перелік послуг 2025–2026
               </p>
-              <HallSlider
-                aspect="aspect-[3/4]"
-                base="/images/sauna/doc/"
-                photos={[
-                  { n: 9, alt: "Прайс: оренда лазні, чани, оздоровчі процедури" },
-                  { n: 10, alt: "Прайс: масажі та оздоровчі комплекси" },
-                  { n: 11, alt: "Комплексна програма «Слов'янський еліксир»" },
-                  { n: 12, alt: "Комплексна програма «Богатир»" },
-                  { n: 13, alt: "Комплексна програма «Новачок» та контакти" },
+              <PriceGrid
+                cards={[
+                  { n: 9, label: "Послуги та процедури", caption: "Оренда лазні, чани, оздоровчі процедури — повний прайс" },
+                  { n: 10, label: "Масажі", caption: "Класичний, стоун, тайський, бамбуковий — усі види масажу" },
+                  { n: 11, label: "Слов'янський еліксир", caption: "Комплексна програма «Слов'янський еліксир»" },
+                  { n: 12, label: "Богатир", caption: "Комплексна програма «Богатир»" },
+                  { n: 13, label: "Новачок", caption: "Комплексна програма «Новачок» та контакти" },
                 ]}
               />
               <p className="text-center text-[13px] text-[#0f1f18]/55 mt-6 italic">
-                Портретні картки — проведіть пальцем або клікніть стрілки, щоб
-                подивитись повний перелік послуг і цін.
+                Натисніть на картку, щоб відкрити повний прайс у великому
+                розмірі.
               </p>
             </div>
           </Reveal>

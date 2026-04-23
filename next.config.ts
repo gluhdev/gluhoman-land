@@ -25,12 +25,31 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Cache headers для сирих public-картинок: ревалідація щогодини, щоб
+  // після регенерації файлу (той самий шлях, новий вміст) користувачі
+  // побачили свіже зображення ≤1 год без чистки кешу вручну.
+  async headers() {
+    return [
+      {
+        source: "/images/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, must-revalidate",
+          },
+        ],
+      },
+    ];
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 2560],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     qualities: [75, 85, 90, 95],
-    minimumCacheTTL: 60 * 60 * 24 * 30,
+    // 1 година: після регенерації зображення всі браузери бачать свіже ≤1 год
+    // без необхідності ручного скидання кешу. ETag/Last-Modified роблять
+    // повторні запити дешевими (304 Not Modified).
+    minimumCacheTTL: 60 * 60,
     remotePatterns: [
       {
         protocol: 'https',
