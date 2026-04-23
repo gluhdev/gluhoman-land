@@ -427,11 +427,6 @@ export default function RestaurantPage() {
                 photos={[
                   { n: 5, alt: "Крафтове пиво з власної пивоварні" },
                   { n: 4, alt: "Персонал ресторану" },
-                  {
-                    n: 10,
-                    alt: "Барна стійка у казковому стилі",
-                    objectPosition: "center 85%",
-                  },
                 ]}
               />
             </Reveal>
@@ -478,10 +473,46 @@ export default function RestaurantPage() {
             </Reveal>
 
             <Reveal className="md:col-span-7" delay={0.15}>
-              <HallSlider
-                aspect="aspect-[4/5]"
-                photos={[{ n: 6, alt: "DANIL REVEKA виконує пісні" }]}
-              />
+              <div className="relative aspect-[4/5] overflow-hidden rounded-[4px] ring-1 ring-[#1a3d2e]/15 shadow-[0_25px_60px_-18px_rgba(26,61,46,0.25)]">
+                <Image
+                  src="/images/restaurant/doc/6.jpg"
+                  alt="DANIL REVEKA виконує пісні"
+                  fill
+                  sizes="(min-width: 1024px) 66vw, 100vw"
+                  className="object-cover"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-2 rounded-[2px] ring-1 ring-inset ring-[#1a3d2e]/10 pointer-events-none"
+                />
+                {/* QR overlay — Instagram музиканта. На мобайлі компактніше. */}
+                <div className="absolute bottom-3 right-3 md:bottom-6 md:right-6 flex items-end gap-2 md:gap-3">
+                  <div className="hidden sm:block rounded-sm bg-[#0f1f18]/80 backdrop-blur-sm ring-1 ring-[#e6d9b8]/25 px-3 py-2 text-[#f4ecd8] text-right">
+                    <p className="text-[9px] uppercase tracking-[0.28em] text-[#e6d9b8]/70">Instagram</p>
+                    <p className="font-display italic text-sm">@danilreveka</p>
+                  </div>
+                  <a
+                    href="https://instagram.com/danilreveka"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram музиканта DANIL REVEKA — @danilreveka"
+                    className="block w-20 h-20 md:w-28 md:h-28 rounded-sm overflow-hidden bg-white p-1.5 md:p-2 shadow-[0_12px_30px_-8px_rgba(0,0,0,0.5)] ring-1 ring-[#e6d9b8]/25 transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98]"
+                  >
+                    <Image
+                      src="/images/restaurant/doc/40.jpg"
+                      alt="QR-код Instagram музиканта"
+                      width={224}
+                      height={224}
+                      className="w-full h-full object-contain"
+                    />
+                  </a>
+                </div>
+                {/* Підпис під QR на мобайлі (ховається коли є плашка поруч) */}
+                <div className="sm:hidden absolute bottom-[calc(0.75rem+5rem+0.5rem)] right-3 rounded-sm bg-[#0f1f18]/80 backdrop-blur-sm ring-1 ring-[#e6d9b8]/25 px-2.5 py-1.5 text-[#f4ecd8]">
+                  <p className="text-[8px] uppercase tracking-[0.24em] text-[#e6d9b8]/70 leading-none">Instagram</p>
+                  <p className="font-display italic text-xs leading-tight mt-0.5">@danilreveka</p>
+                </div>
+              </div>
             </Reveal>
           </div>
         </div>
@@ -504,7 +535,7 @@ export default function RestaurantPage() {
         photos={[
           { n: 8, alt: "Українська піч, розписана вручну" },
           { n: 9, alt: "Зал з піччю взимку" },
-          { n: 17, alt: "Інтер'єр залу" },
+          { n: 10, alt: "Зал ресторану у день Св. Валентина" },
         ]}
         reverse
       />
@@ -521,7 +552,7 @@ export default function RestaurantPage() {
         eyebrow="Відокремлений зал · І поверх · 8 місць"
         titleBold="Відокремлений зал"
         titleItalic="для двох або сім'ї."
-        body="Затишна атмосфера, що ідеально підходить як для вечірніх побачень, так і для сімейних обідів."
+        body="Відокремлений зал на 8 осіб — ідеальний вибір для романтичних побачень удвох, невеликих сімейних святкувань та приватних зустрічей у камерній атмосфері. Свій столик, своя штора, своє тепло."
         photos={[
           { n: 13, alt: "Відокремлений столик для двох" },
           { n: 11, alt: "Відокремлений зал з квітковими шторами" },
@@ -548,6 +579,7 @@ export default function RestaurantPage() {
           { n: 15, alt: "Павич у павлінарії залу «Жар-Птиці»" },
           { n: 14, alt: "Зал «Жар-Птиці» з дерев'яними лампами" },
           { n: 16, alt: "Столики у залі «Жар-Птиці»" },
+          { n: 17, alt: "Сервірований стіл у залі «Жар-Птиці»" },
         ]}
         reverse
       />
@@ -613,6 +645,7 @@ export default function RestaurantPage() {
           { n: 28, alt: "Сервірування довгого столу" },
           { n: 26, alt: "Тераса у денному світлі" },
           { n: 31, alt: "Логотип Глухомань на зеленій стіні" },
+          { n: 30, alt: "Святкова композиція з кулями для дня народження" },
         ]}
       />
 
