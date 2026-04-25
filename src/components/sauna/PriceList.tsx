@@ -181,10 +181,8 @@ function PriceRow({ item }: { item: PriceItem }) {
   return (
     <li className="group/row flex items-baseline gap-3 py-3 border-b border-[#1a3d2e]/10 last:border-b-0">
       <span
-        className={`flex-1 text-[15px] md:text-[16px] leading-snug ${
-          item.accent
-            ? 'font-display text-[#0f1f18]'
-            : 'text-[#0f1f18]/90'
+        className={`flex-1 text-[15px] md:text-[16px] leading-snug text-[#0f1f18]/90 ${
+          item.accent ? 'font-semibold text-[#0f1f18]' : ''
         }`}
       >
         {item.label}
@@ -199,10 +197,8 @@ function PriceRow({ item }: { item: PriceItem }) {
         className="flex-1 border-b border-dotted border-[#1a3d2e]/20 translate-y-[-2px] hidden sm:block"
       />
       <span
-        className={`shrink-0 tracking-tight whitespace-nowrap ${
-          item.accent
-            ? 'font-display text-[20px] md:text-[22px] text-[#1a3d2e]'
-            : 'text-[15px] md:text-[16px] text-[#1a3d2e] font-medium'
+        className={`shrink-0 tracking-tight whitespace-nowrap text-[15px] md:text-[16px] text-[#1a3d2e] ${
+          item.accent ? 'font-semibold' : 'font-medium'
         }`}
       >
         {item.price}
