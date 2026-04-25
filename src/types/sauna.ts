@@ -25,10 +25,10 @@ export const TIME_WINDOWS: Array<{ start: string; end: string }> = [
   { start: '22:00', end: '24:00' },
 ];
 
-/** Price per slot (2 hours) — based on src/app/sauna/page.tsx (900 грн/год × 2 = 1800) */
+/** Price per slot (2 hours) — based on src/app/sauna/page.tsx (1000 грн/год × 2 = 2000) */
 export const SAUNA_PRICE: Record<SaunaType, number> = {
-  small: 1800,
-  big: 1800,
+  small: 2000,
+  big: 2000,
 };
 
 export const SAUNA_TYPE_LABEL: Record<SaunaType, string> = {

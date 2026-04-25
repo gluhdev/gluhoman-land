@@ -523,11 +523,14 @@ export default function SaunaPage() {
               <SectionEyebrow>Оренда та ціни</SectionEyebrow>
             </div>
             <SectionTitle>
-              Оренда лазні — 900 грн/год
+              Оренда лазні — 1000 грн/год
               <span className="block font-display italic text-[#1a3d2e]/65 mt-2">
                 мінімальне замовлення 2 години, до 7-ми осіб.
               </span>
             </SectionTitle>
+            <div className="mt-7 flex justify-center">
+              <BookingCTA label="Забронювати лазню" />
+            </div>
             <Paragraph className="max-w-2xl mx-auto">
               Як влаштована лазня на дровах? По-перше, справжні лазні повністю
               дерев&apos;яні, за винятком печі-кам&apos;янки. Лазня в
