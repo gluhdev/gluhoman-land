@@ -640,7 +640,7 @@ export default function SaunaPage() {
               <p className="text-[10px] uppercase tracking-[0.22em] text-[#1a3d2e]/55 mb-1">
                 із замовленням лазні
               </p>
-              <p className="font-display text-2xl text-[#1a3d2e]">600 грн/год</p>
+              <p className="font-display text-2xl text-[#1a3d2e]">700 грн/год</p>
               <p className="text-[11px] text-[#0f1f18]/55 mt-0.5 italic">
                 мін. замовлення 2 год
               </p>
@@ -649,7 +649,7 @@ export default function SaunaPage() {
               <p className="text-[10px] uppercase tracking-[0.22em] text-[#1a3d2e]/55 mb-1">
                 без замовлення лазні
               </p>
-              <p className="font-display text-2xl text-[#1a3d2e]">1000 грн/год</p>
+              <p className="font-display text-2xl text-[#1a3d2e]">1200 грн/год</p>
               <p className="text-[11px] text-[#0f1f18]/55 mt-0.5 italic">
                 мін. замовлення 2 год
               </p>
@@ -686,7 +686,7 @@ export default function SaunaPage() {
               <p className="text-[10px] uppercase tracking-[0.22em] text-[#e6d9b8]/65 mb-1">
                 із замовленням лазні
               </p>
-              <p className="font-display text-2xl text-[#e6d9b8]">950 грн/год</p>
+              <p className="font-display text-2xl text-[#e6d9b8]">1100 грн/год</p>
               <p className="text-[11px] text-[#f4ecd8]/55 mt-0.5 italic">
                 мін. замовлення 2 год
               </p>
@@ -695,7 +695,7 @@ export default function SaunaPage() {
               <p className="text-[10px] uppercase tracking-[0.22em] text-[#e6d9b8]/65 mb-1">
                 без замовлення лазні
               </p>
-              <p className="font-display text-2xl text-[#e6d9b8]">1350 грн/год</p>
+              <p className="font-display text-2xl text-[#e6d9b8]">1500 грн/год</p>
               <p className="text-[11px] text-[#f4ecd8]/55 mt-0.5 italic">
                 мін. замовлення 2 год
               </p>
@@ -1023,63 +1023,6 @@ export default function SaunaPage() {
         ]}
       />
 
-      {/* ═══════════════════════════════════════════════════════════
-          FINAL CTA
-          ═══════════════════════════════════════════════════════════ */}
-      <section className="relative py-24 md:py-32 bg-[#0b1410] text-[#f4ecd8] overflow-hidden rest-grain">
-        <Image
-          src={S(17)}
-          alt=""
-          fill
-          aria-hidden
-          sizes="100vw"
-          className="object-cover opacity-25"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0b1410]/80 via-[#0b1410]/70 to-[#0b1410]" />
-        <Reveal className="relative z-10 max-w-3xl mx-auto px-6 text-center">
-          <p className="text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8] mb-6">
-            Лазня «Глухомань»
-          </p>
-          <h2 className="font-display text-4xl md:text-6xl leading-[1.05] mb-5">
-            Тіло, дух і вогонь дров.
-          </h2>
-          <p className="font-display italic text-xl md:text-3xl text-[#e6d9b8]/85 mb-10">
-            Приїздіть — ми нагріємо парну заздалегідь.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-            <BookingButton
-              service="sauna"
-              className="inline-flex items-center justify-center gap-2 bg-[#e6d9b8] text-[#0f1f18] px-8 sm:px-10 py-4 text-sm font-medium tracking-wide hover:bg-[#f4ecd8] transition-colors min-h-[44px] w-full sm:w-auto"
-            >
-              <Phone className="w-4 h-4" strokeWidth={2} />
-              Забронювати лазню
-            </BookingButton>
-            <a
-              href={`tel:${PHONE_SAUNA_TEL}`}
-              className="inline-flex items-center justify-center gap-2 border border-[#e6d9b8]/70 text-[#f4ecd8] px-8 sm:px-10 py-4 text-sm font-medium tracking-wide hover:bg-[#e6d9b8]/10 transition-colors min-h-[44px] w-full sm:w-auto"
-            >
-              <Phone className="w-4 h-4" strokeWidth={2} />
-              {PHONE_SAUNA}
-            </a>
-          </div>
-
-          <div className="mt-10 pt-8 border-t border-[#e6d9b8]/15 text-[13px] text-[#f4ecd8]/60 flex flex-wrap justify-center gap-x-6 gap-y-2">
-            <span>
-              Комплекс: <span className="text-[#e6d9b8]">{PHONE_COMPLEX}</span>
-            </span>
-            <span className="text-[#e6d9b8]/25">·</span>
-            <span>
-              Ресторан: <span className="text-[#e6d9b8]">{PHONE_RESTAURANT}</span>
-            </span>
-            <span className="text-[#e6d9b8]/25">·</span>
-            <span>
-              Готель: <span className="text-[#e6d9b8]">{PHONE_HOTEL}</span>,{" "}
-              <span className="text-[#e6d9b8]">{PHONE_HOTEL_2}</span>
-            </span>
-          </div>
-        </Reveal>
-      </section>
     </div>
   );
 }

@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Expand } from 'lucide-react';
-import { Lightbox, useLightbox } from '@/components/ui/Lightbox';
 
 /* ══════════════════════════════════════════════════════════════════
    Data — дослівно спарсено з прайс-карток /images/sauna/doc/9–13.jpg
@@ -30,7 +28,7 @@ const GROUPS: PriceGroup[] = [
     title: 'Оренда лазні',
     subtitle: 'Мінімальне замовлення — 2 години, до 7-ми осіб',
     items: [
-      { label: 'Оренда лазні', note: 'до 7-ми осіб, мін. 2 год', price: '900 грн/год', accent: true },
+      { label: 'Оренда лазні', note: 'до 7-ми осіб, мін. 2 год', price: '1000 грн/год', accent: true },
       { label: 'З 8-ої людини', note: 'за кожну додаткову', price: '200 грн/год' },
       { label: 'Бронювання альтанки', note: 'літній період', price: '700 грн/год' },
     ],
@@ -41,10 +39,10 @@ const GROUPS: PriceGroup[] = [
     title: 'Карпатські чани',
     subtitle: 'Мінімальне замовлення — 2 години',
     items: [
-      { label: 'Карпатський чан', note: 'при замовленні лазні', price: '600 грн/год' },
-      { label: 'Хвойно-цитрусовий чан', note: 'при замовленні лазні', price: '950 грн/год' },
-      { label: 'Карпатський чан', note: 'без замовлення лазні', price: '1000 грн/год' },
-      { label: 'Хвойно-цитрусовий чан', note: 'без замовлення лазні', price: '1350 грн/год' },
+      { label: 'Карпатський чан', note: 'при замовленні лазні', price: '700 грн/год' },
+      { label: 'Хвойно-цитрусовий чан', note: 'при замовленні лазні', price: '1100 грн/год' },
+      { label: 'Карпатський чан', note: 'без замовлення лазні', price: '1200 грн/год' },
+      { label: 'Хвойно-цитрусовий чан', note: 'без замовлення лазні', price: '1500 грн/год' },
     ],
   },
   {
@@ -60,14 +58,14 @@ const GROUPS: PriceGroup[] = [
       { label: 'Тайський фут-масаж (стоп)', note: '35 хв', price: '450 грн' },
       { label: 'Класичний масаж', note: '20 / 30 / 50 хв', price: '350 / 450 / 550 грн' },
       { label: 'Масаж «Глухомань»', price: '400 грн' },
-      { label: 'Масаж «Снігур»', price: '400 грн' },
+      { label: 'Масаж «Сибір»', price: '400 грн' },
       { label: 'Масаж «Медовий»', price: '400 грн' },
       { label: 'Масаж бамбуковими віниками', note: '20 хв', price: '400 грн' },
       { label: 'Кріомасаж з віниками', price: '400 грн' },
       { label: 'Прогрів ніг віниками', note: 'до поперекового відділу', price: '200 грн' },
       { label: 'Масаж віниками', price: '400 грн' },
       { label: 'Гарячий мильно-березовий обмив', price: '250 грн' },
-      { label: 'Релакс-процедура «Банні втіхи»', price: '400 грн' },
+      { label: 'Релакс-процедура «Банні втіхи»', price: '300 грн' },
       { label: 'Прогрівання льняним простирадлом', price: '170 грн' },
     ],
   },
@@ -123,7 +121,7 @@ const GROUPS: PriceGroup[] = [
       { label: 'Віник при замовленні процедур', price: '170 грн' },
       { label: 'Простирадло', price: '45 грн' },
       { label: 'Рушник', price: '45 грн' },
-      { label: 'Банні напої', note: "трав'яний чай, бублики, мед", price: '270 грн' },
+      { label: 'Банні напої', note: "трав'яний збір, бублики, мед", price: '350 грн' },
       { label: 'Капці одноразові', price: '40 грн' },
     ],
   },
@@ -140,22 +138,19 @@ interface ComplexProgram {
 
 const PROGRAMS: ComplexProgram[] = [
   {
-    id: 'novachok',
-    title: 'Новачок',
+    id: 'health',
+    title: "Здоров'я",
     duration: '3 години без вартості часу',
-    price: '2900 грн / особа',
-    includes: ['Простирадла і рушники', 'Одноразові капці', 'Віники (дуб, береза, хвоя)', "Трав'яний чай"],
+    price: '2400 грн / особа',
+    includes: ['Простирадла та рушники', 'Одноразові капці', 'Віники (дуб, береза)', "Трав'яний чай"],
     procedures: [
       'Аромотерапія',
-      'Сольове обгортання',
       'Прогрів ніг віником',
       'Сольові ванночки',
-      'Прогрів льняним простирадлом',
-      'Натирання березовим крошином',
-      'Релакс-процедура «Банні втіхи»',
-      'Гарячий мильно-березовий обмив',
-      'Фруктова аплікація',
+      'Сольовий скраб',
+      'Масаж віниками',
       'Медовий масаж',
+      'Мильно-березовий масаж',
     ],
   },
   {
@@ -163,7 +158,7 @@ const PROGRAMS: ComplexProgram[] = [
     title: "Слов'янський еліксир",
     duration: '3 години без вартості часу',
     price: '2800 грн / особа',
-    includes: ['Простирадла і рушники', 'Одноразові капці', 'Віники (дуб, береза)', "Трав'яний чай"],
+    includes: ['Простирадла та рушники', 'Одноразові капці', 'Віники (дуб/береза)', "Трав'яний чай"],
     procedures: [
       'Аромотерапія',
       'Сольове обгортання',
@@ -173,26 +168,7 @@ const PROGRAMS: ComplexProgram[] = [
       'Кріомасаж з віниками',
       'Релакс-процедура «Банні втіхи»',
       'Гарячий мильно-березовий обмив',
-      'Сольний скраб',
-    ],
-  },
-  {
-    id: 'bogatyr',
-    title: 'Богатир',
-    duration: '3 години без вартості часу',
-    price: '3100 грн / особа',
-    includes: ['Простирадла і рушники', 'Одноразові капці', 'Віники (дуб, береза)', "Трав'яний чай"],
-    procedures: [
-      'Аромотерапія',
-      'Сольові ванночки',
-      'Прогрів ніг віником',
-      'Прогрів льняним простирадлом',
-      'Масаж «Снігур»',
-      'Холодні мінеральні обливання',
-      'Релакс-процедура «Банні втіхи»',
-      'Гарячий мильно-березовий обмив',
-      'Сольний скраб',
-      'Фруктова аплікація',
+      'Соляний скраб',
     ],
   },
 ];
@@ -361,15 +337,7 @@ const TABS: { id: string; label: string }[] = [
   { id: 'programs', label: 'Програми' },
 ];
 
-const ORIGINAL_CARDS = [9, 10, 11, 12, 13];
-
 export function PriceList() {
-  const lightboxImages = ORIGINAL_CARDS.map((n) => ({
-    src: `/images/sauna/doc/${n}.jpg`,
-    alt: `Оригінальна прайс-картка ${n}`,
-  }));
-  const { openAt, lightboxProps } = useLightbox(lightboxImages);
-
   const [activeTab, setActiveTab] = useState<string>('rent');
 
   const scrollToSection = (id: string) => {
@@ -409,46 +377,25 @@ export function PriceList() {
           <SectionCard key={g.id} group={g} />
         ))}
 
-        {/* Complex programs — highlighted 3-up */}
+        {/* Complex wellness programs */}
         <div id="price-programs" className="pt-6 scroll-mt-24">
           <div className="text-center mb-8">
             <p className="text-[11px] uppercase tracking-[0.28em] text-[#1a3d2e]/55 mb-3">
               VIII · Комплексні оздоровчі програми
             </p>
-            <h3 className="font-display text-3xl md:text-4xl text-[#0f1f18] leading-tight">
-              Повний день у лазні
-              <span className="block font-display italic text-[#1a3d2e]/65 text-2xl md:text-3xl mt-1.5">
-                — три авторські програми на 3 години.
+            <h3 className="font-display italic text-3xl md:text-4xl text-[#0f1f18] leading-tight">
+              Авторські програми
+              <span className="block text-[#1a3d2e]/65 text-2xl md:text-3xl mt-1.5">
+                на 3 години.
               </span>
             </h3>
           </div>
-          <div className="grid md:grid-cols-3 gap-5 md:gap-6">
+          <div className="grid md:grid-cols-2 gap-5 md:gap-6 max-w-4xl mx-auto">
             <ProgramCard p={PROGRAMS[0]} />
-            <ProgramCard p={PROGRAMS[2]} featured />
-            <ProgramCard p={PROGRAMS[1]} />
+            <ProgramCard p={PROGRAMS[1]} featured />
           </div>
         </div>
       </div>
-
-      {/* View original price cards — fallback for verification */}
-      <div className="mt-12 text-center">
-        <p className="text-[12px] uppercase tracking-[0.2em] text-[#1a3d2e]/55 mb-4">
-          Оригінальний прайс-лист
-        </p>
-        <button
-          type="button"
-          onClick={() => openAt(0)}
-          className="inline-flex items-center gap-2.5 rounded-sm bg-white/80 ring-1 ring-[#1a3d2e]/15 px-5 py-3 text-[13px] tracking-wide text-[#0f1f18] hover:bg-white hover:ring-[#1a3d2e]/30 hover:shadow-md transition-all"
-        >
-          <Expand className="w-4 h-4" strokeWidth={1.75} />
-          Переглянути друковані прайс-картки
-        </button>
-        <p className="text-[11px] italic text-[#0f1f18]/50 mt-3">
-          5 оригінальних карток «Глухомань» 2025–2026
-        </p>
-      </div>
-
-      <Lightbox {...lightboxProps} />
     </>
   );
 }
