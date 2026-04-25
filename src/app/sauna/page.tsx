@@ -528,9 +528,6 @@ export default function SaunaPage() {
                 мінімальне замовлення 2 години, до 7-ми осіб.
               </span>
             </SectionTitle>
-            <div className="mt-7 flex justify-center">
-              <BookingCTA label="Забронювати лазню" />
-            </div>
             <Paragraph className="max-w-2xl mx-auto">
               Як влаштована лазня на дровах? По-перше, справжні лазні повністю
               дерев&apos;яні, за винятком печі-кам&apos;янки. Лазня в
@@ -538,6 +535,18 @@ export default function SaunaPage() {
               виготовленими з липи. Температура повітря в парній досягає 90
               - 100 °С.
             </Paragraph>
+            <div className="mt-7 flex flex-col items-center gap-3">
+              <BookingCTA label="Забронювати лазню" />
+              <p className="text-[13px] text-[#0f1f18]/65">
+                або за тел:{" "}
+                <a
+                  href={`tel:${PHONE_SAUNA_TEL}`}
+                  className="font-display italic text-[#1a3d2e] hover:text-[#0f1f18] underline underline-offset-[5px] decoration-1 decoration-[#1a3d2e]/30 hover:decoration-[#1a3d2e] transition-colors"
+                >
+                  {PHONE_SAUNA}
+                </a>
+              </p>
+            </div>
           </Reveal>
 
           <Reveal delay={0.15}>
