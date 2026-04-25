@@ -1129,10 +1129,44 @@
       "icon": "🍕",
       "items": [
         {
-          "id": "pizza-info",
-          "name": "Меню піци уточнюйте у адміністратора",
-          "description": "Свіжі піцці на дровах. Повний перелік позицій та цін уточнюйте за телефоном (066) 007-65-56 або у адміністратора при відвідуванні.",
-          "weight": ""
+          "id": "pizza-pitsa-hlukhoman",
+          "name": "Піца Глухомань",
+          "description": "Ковбаски мисливські, салямі, бекон,буженина, сир Моцарела, соус томатний, помідор, основа",
+          "price": 380,
+          "weight": "30см",
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080555.jpg?t=1744116960231"
+        },
+        {
+          "id": "pizza-pitsa-chotyry-syry",
+          "name": "Піца Чотири сири",
+          "description": "Сир Дор-Блю, Пармезан, Чеддер, Моцарелла,вершки, основа, груша",
+          "price": 420,
+          "weight": "30см",
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080556.jpg?t=1744111113931"
+        },
+        {
+          "id": "pizza-pitsa-tropikano",
+          "name": "Піца Тропікано",
+          "description": "Копчене куряче філе, ананас консервований, кукурудзя консервована, спаржева квасоля, шпинат, вершки, сир Моцарела, часник, основа",
+          "price": 380,
+          "weight": "30см",
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080558.jpg?t=1744373051214"
+        },
+        {
+          "id": "pizza-pitsa-barbekiu",
+          "name": "Піца Барбекю",
+          "description": "Салямі, бекон, ковбаски мисливські, перець болгарський, помідор чері, цибуля, соус BBQ, сир Моцарелла, основа",
+          "price": 380,
+          "weight": "30см",
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080561.jpg?t=1744373024500"
+        },
+        {
+          "id": "pizza-pitsa-saliami",
+          "name": "Піца Салямі",
+          "description": "Помідори, салямі, сир Моцарелла, соус томатний, орегано, базилік, основа",
+          "price": 330,
+          "weight": "30см",
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080562.jpg?t=1744372956257"
         }
       ]
     },
