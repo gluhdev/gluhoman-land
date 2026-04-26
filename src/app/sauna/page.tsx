@@ -558,10 +558,6 @@ export default function SaunaPage() {
               процедур.
             </p>
           </Reveal>
-
-          <div className="mt-10 flex justify-center">
-            <BookingCTA label="Забронювати лазню" />
-          </div>
         </div>
       </section>
 
