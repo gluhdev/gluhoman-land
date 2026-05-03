@@ -90,6 +90,15 @@ const PROGRAMME_LABEL: Record<NonNullable<BookingPayload["programme"]>, string> 
   family: "Сімейна",
 };
 
+// Maps English sauna slot IDs (stored in DB) to Ukrainian display labels for
+// staff-facing Telegram / email notifications. Source of truth: messages/uk.json
+// keys booking_dialog_sauna.slot_*_label + slot_*_time.
+const SAUNA_SLOT_LABEL_UK: Record<string, string> = {
+  morning:   "Ранок 10:00–13:00",
+  afternoon: "День 14:00–17:00",
+  evening:   "Вечір 18:00–22:00",
+};
+
 function validate(p: BookingPayload): string | null {
   if (!p.service || !SERVICE_LABEL[p.service]) return "Оберіть послугу";
   if (!p.name || p.name.trim().length < 2) return "Введіть ім'я";
@@ -135,7 +144,10 @@ function formatMessage(p: BookingPayload, bookingId: string): string {
     if (p.toddlersCount != null) lines.push(`👶 До 3 років: ${p.toddlersCount}`);
   } else if (p.service === "sauna") {
     lines.push(`📅 Дата: ${p.dateFrom}`);
-    if (p.time) lines.push(`🕐 Час: ${p.time}`);
+    if (p.time) {
+      const slotLabel = SAUNA_SLOT_LABEL_UK[p.time] ?? p.time;
+      lines.push(`🕐 Час: ${slotLabel}`);
+    }
     if (p.programme) lines.push(`🌿 Програма: ${PROGRAMME_LABEL[p.programme]}`);
   }
   if (p.comment) lines.push(`💬 ${p.comment}`);
