@@ -2509,5 +2509,201 @@
       "back_to_menu_link": "Повернутись до меню",
       "payment_failed_body_menu": "Спробуйте ще раз або зв'яжіться з нами по телефону."
     }
+  },
+  "ui": {
+    "booking_dialog": {
+      "eyebrow": "Бронювання · Глухомань",
+      "title": "Залиште",
+      "title_em": "заявку",
+      "service_tabs_aria": "Послуга",
+      "close_aria": "Закрити",
+      "next_label": "Далі",
+      "back_label": "Назад",
+      "submit_label": "Надіслати заявку",
+      "submit_loading": "Надсилаємо…",
+      "privacy_note": "Натискаючи, ви погоджуєтеся з обробкою персональних даних",
+      "field_name_label": "Ім'я",
+      "field_name_placeholder": "Олександр",
+      "field_phone_label": "Телефон",
+      "field_phone_placeholder": "+38 050 123-45-67",
+      "field_email_label": "Email",
+      "field_comment_label": "Коментар",
+      "field_comment_placeholder": "Особливі побажання…"
+    },
+    "booking_dialog_validation": {
+      "hotel_dates_required": "Оберіть дати заїзду та виїзду",
+      "hotel_checkout_after_checkin": "Виїзд має бути після заїзду",
+      "hotel_min_adults": "Мінімум 1 дорослий",
+      "date_required": "Оберіть дату",
+      "restaurant_time_required": "Оберіть час",
+      "restaurant_party_range": "Від 1 до 20",
+      "aquapark_min_guest": "Додайте хоча б одного гостя",
+      "sauna_time_required": "Оберіть час",
+      "sauna_group_range": "Від 2 до 12",
+      "name_min": "Введіть ім'я",
+      "phone_invalid": "Введіть коректний телефон",
+      "email_invalid": "Некоректний email"
+    },
+    "booking_dialog_services": {
+      "hotel_label": "Готель",
+      "hotel_description": "Затишні номери з видом на природу",
+      "aquapark_label": "Аквапарк",
+      "aquapark_description": "Водні розваги для всієї родини",
+      "restaurant_label": "Ресторан",
+      "restaurant_description": "Українська кухня з душею",
+      "sauna_label": "Лазня",
+      "sauna_description": "Лазня на дровах з карпатськими травами"
+    },
+    "booking_dialog_hotel": {
+      "room_type_label": "Тип номеру",
+      "room_standard_label": "Стандарт",
+      "room_standard_hint": "2 особи",
+      "room_family_label": "Сімейний",
+      "room_family_hint": "до 4 осіб",
+      "room_lux_label": "Люкс",
+      "room_lux_hint": "з терасою",
+      "adults_label": "Дорослих",
+      "children_label": "Дітей",
+      "breakfast_label": "Сніданок включений"
+    },
+    "booking_dialog_aquapark": {
+      "tariff_label": "Тариф",
+      "tariff_full_day_label": "Повний день",
+      "tariff_full_day_hint": "10:00 – 22:00",
+      "tariff_half_day_label": "Пів дня",
+      "tariff_half_day_hint": "4 години",
+      "adults_label": "Дорослих",
+      "kids_label": "Діти 3–12",
+      "toddlers_label": "До 3 років"
+    },
+    "booking_dialog_restaurant": {
+      "time_label": "Час",
+      "guests_label": "Гостей",
+      "occasion_label": "Привід",
+      "occ_birthday": "День народж.",
+      "occ_business": "Бізнес",
+      "occ_romantic": "Романтика",
+      "occ_casual": "Дружня",
+      "occ_other": "Інше",
+      "dietary_label": "Дієтичні побажання",
+      "dietary_placeholder": "Вегетаріанське, без глютену…"
+    },
+    "booking_dialog_sauna": {
+      "slot_label": "Часовий слот",
+      "slot_morning_label": "Ранок",
+      "slot_morning_time": "10:00–13:00",
+      "slot_afternoon_label": "День",
+      "slot_afternoon_time": "14:00–17:00",
+      "slot_evening_label": "Вечір",
+      "slot_evening_time": "18:00–22:00",
+      "group_size_label": "Кількість гостей",
+      "programme_label": "Програма",
+      "prog_classic": "Класична",
+      "prog_herbal": "Фіто",
+      "prog_family": "Сімейна"
+    },
+    "booking_dialog_counter": {
+      "decrease_aria": "{label} менше",
+      "increase_aria": "{label} більше"
+    },
+    "booking_dialog_success": {
+      "title": "Дякуємо!",
+      "subtitle": "Ваша заявка отримана",
+      "booking_ref": "Номер заявки · #{id}",
+      "follow_up": "Ми зв'яжемося з вами найближчим часом",
+      "follow_up_phone": "Ми зв'яжемося з вами найближчим часом за номером {phone}.",
+      "close_label": "Закрити"
+    },
+    "calendar": {
+      "previous_month_aria": "Попередній місяць",
+      "next_month_aria": "Наступний місяць",
+      "months": {
+        "1": "Січень",
+        "2": "Лютий",
+        "3": "Березень",
+        "4": "Квітень",
+        "5": "Травень",
+        "6": "Червень",
+        "7": "Липень",
+        "8": "Серпень",
+        "9": "Вересень",
+        "10": "Жовтень",
+        "11": "Листопад",
+        "12": "Грудень"
+      },
+      "weekdays": {
+        "mon": "Пн",
+        "tue": "Вт",
+        "wed": "Ср",
+        "thu": "Чт",
+        "fri": "Пт",
+        "sat": "Сб",
+        "sun": "Нд"
+      }
+    },
+    "cookie_consent": {
+      "dialog_aria": "Згода на використання cookie",
+      "close_aria": "Закрити",
+      "badge": "Використання Cookie",
+      "message": "Ми використовуємо cookie для покращення роботи сайту, аналітики та зручності бронювання. Продовжуючи перегляд, ви погоджуєтеся з нашою",
+      "privacy_link": "Політикою конфіденційності",
+      "accept": "Прийняти",
+      "decline": "Відхилити"
+    },
+    "floating_buttons": {
+      "book_label": "Забронювати",
+      "call_label": "Зателефонувати",
+      "whatsapp_label": "Написати в WhatsApp",
+      "whatsapp_message": "Вітаю! Хочу забронювати у Глухомань.",
+      "telegram_label": "Написати в Telegram",
+      "open_title": "Зв'язатися з нами",
+      "close_title": "Закрити",
+      "scroll_top_title": "Вгору"
+    },
+    "google_reviews": {
+      "badge": "Google Reviews",
+      "heading": "Що кажуть наші гості",
+      "review_count": "з {count} відгуків",
+      "body": "Відгуки реальних гостей про наш ресторанно-готельний комплекс",
+      "show_all": "Показати всі відгуки ({count})",
+      "open_maps": "Переглянути на Google Maps",
+      "leave_review": "Залишити відгук"
+    },
+    "booking_reviews": {
+      "badge": "Booking.com відгуки",
+      "heading": "Що кажуть гості на Booking.com",
+      "body": "Автентичні відгуки від гостей, які забронювали наш готель через Booking.com",
+      "show_all": "Показати всі відгуки ({count})",
+      "view_on_booking": "Переглянути на Booking.com",
+      "book_on_booking": "Забронювати на Booking.com",
+      "rating_excellent": "Чудово",
+      "rating_very_good": "Дуже добре",
+      "rating_good": "Добре",
+      "rating_satisfactory": "Задовільно",
+      "positive_label": "Позитивні моменти",
+      "negative_label": "Що можна покращити",
+      "review_count": "{count} відгуків"
+    },
+    "instagram_feed": {
+      "default_title": "Наш Instagram",
+      "default_description": "Слідкуйте за нашими новинами та подіями",
+      "follow_btn": "Підписатися на @{username}",
+      "view_post": "Переглянути",
+      "show_more": "Показати більше постів",
+      "follow_on_instagram": "Підписатися на Instagram",
+      "view_all_posts": "Переглянути всі пости",
+      "time_minutes": "{n} хв тому",
+      "time_hours": "{n} год тому",
+      "time_days": "{n} д тому"
+    },
+    "lightbox": {
+      "dialog_aria": "Галерея",
+      "close_aria": "Закрити",
+      "previous_aria": "Попереднє фото",
+      "next_aria": "Наступне фото"
+    },
+    "gallery_grid": {
+      "open_image_aria": "Відкрити зображення: {alt}"
+    }
   }
 }

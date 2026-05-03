@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Star, User, ExternalLink, Calendar, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface BookingReview {
   id: string;
@@ -69,6 +70,8 @@ const mockBookingReviews: BookingReview[] = [
 ];
 
 export default function BookingReviews() {
+  const t = useTranslations('ui.booking_reviews');
+  const locale = useLocale();
   const [visibleReviews, setVisibleReviews] = useState(2);
   
   const averageRating = mockBookingReviews.reduce((sum, review) => sum + review.rating, 0) / mockBookingReviews.length;
@@ -82,15 +85,15 @@ export default function BookingReviews() {
   };
 
   const getRatingText = (rating: number) => {
-    if (rating >= 9) return 'Чудово';
-    if (rating >= 8) return 'Дуже добре';
-    if (rating >= 7) return 'Добре';
-    return 'Задовільно';
+    if (rating >= 9) return t('rating_excellent');
+    if (rating >= 8) return t('rating_very_good');
+    if (rating >= 7) return t('rating_good');
+    return t('rating_satisfactory');
   };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('uk-UA', {
+    return date.toLocaleDateString(locale === 'en' ? 'en-US' : 'uk-UA', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -103,15 +106,15 @@ export default function BookingReviews() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500/10 to-blue-600/10 text-blue-600 rounded-full text-sm font-semibold mb-8">
             <MapPin className="h-5 w-5" />
-            Booking.com відгуки
+            {t('badge')}
           </div>
-          
+
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
             <span className="text-primary">
-              Що кажуть гості на Booking.com
+              {t('heading')}
             </span>
           </h2>
-          
+
           <div className="flex items-center justify-center gap-6 mb-6">
             <div className={`px-6 py-3 rounded-2xl font-bold text-2xl ${getRatingColor(averageRating)}`}>
               {averageRating.toFixed(1)}
@@ -121,13 +124,13 @@ export default function BookingReviews() {
                 {getRatingText(averageRating)}
               </div>
               <div className="text-sm text-muted-foreground">
-                {totalReviews} відгуків
+                {t('review_count', { count: totalReviews })}
               </div>
             </div>
           </div>
-          
+
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Автентичні відгуки від гостей, які забронювали наш готель через Booking.com
+            {t('body')}
           </p>
         </div>
 
@@ -180,7 +183,7 @@ export default function BookingReviews() {
                     <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span className="text-sm font-semibold text-green-700">Позитивні моменти</span>
+                        <span className="text-sm font-semibold text-green-700">{t('positive_label')}</span>
                       </div>
                       <p className="text-sm text-green-700">
                         {review.positivePoints}
@@ -191,7 +194,7 @@ export default function BookingReviews() {
                       <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
                         <div className="flex items-center gap-2 mb-2">
                           <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                          <span className="text-sm font-semibold text-orange-700">Що можна покращити</span>
+                          <span className="text-sm font-semibold text-orange-700">{t('negative_label')}</span>
                         </div>
                         <p className="text-sm text-orange-700">
                           {review.negativePoints}
@@ -213,7 +216,7 @@ export default function BookingReviews() {
               onClick={() => setVisibleReviews(mockBookingReviews.length)}
               className="px-8 py-3 text-lg hover:bg-primary/10"
             >
-              Показати всі відгуки ({mockBookingReviews.length})
+              {t('show_all', { count: mockBookingReviews.length })}
             </Button>
           )}
           
@@ -224,7 +227,7 @@ export default function BookingReviews() {
               className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-8 py-3 text-lg"
             >
               <MapPin className="mr-3 h-5 w-5" />
-              Переглянути на Booking.com
+              {t('view_on_booking')}
             </Button>
             
             <Button
@@ -234,7 +237,7 @@ export default function BookingReviews() {
               className="hover:bg-blue-50 border-blue-200 text-blue-600 px-8 py-3 text-lg"
             >
               <ExternalLink className="mr-3 h-5 w-5" />
-              Забронювати на Booking.com
+              {t('book_on_booking')}
             </Button>
           </div>
         </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Instagram, ExternalLink, Heart, MessageCircle, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface InstagramPost {
   id: string;
@@ -52,12 +53,16 @@ const mockInstagramPosts: InstagramPost[] = [
   }
 ];
 
-export default function InstagramFeed({ 
-  username, 
-  title = "Наш Instagram", 
-  description = "Слідкуйте за нашими новинами та подіями", 
-  maxPosts = 3 
+export default function InstagramFeed({
+  username,
+  title,
+  description,
+  maxPosts = 3
 }: InstagramFeedProps) {
+  const t = useTranslations('ui.instagram_feed');
+  const locale = useLocale();
+  const resolvedTitle = title ?? t('default_title');
+  const resolvedDescription = description ?? t('default_description');
   const [visiblePosts, setVisiblePosts] = useState(maxPosts);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -74,16 +79,16 @@ export default function InstagramFeed({
     const now = new Date();
     const postTime = new Date(timestamp);
     const diffInMinutes = Math.floor((now.getTime() - postTime.getTime()) / (1000 * 60));
-    
-    if (diffInMinutes < 60) return `${diffInMinutes} хв тому`;
-    
+
+    if (diffInMinutes < 60) return t('time_minutes', { n: diffInMinutes });
+
     const diffInHours = Math.floor(diffInMinutes / 60);
-    if (diffInHours < 24) return `${diffInHours} год тому`;
-    
+    if (diffInHours < 24) return t('time_hours', { n: diffInHours });
+
     const diffInDays = Math.floor(diffInHours / 24);
-    if (diffInDays < 7) return `${diffInDays} д тому`;
-    
-    return postTime.toLocaleDateString('uk-UA');
+    if (diffInDays < 7) return t('time_days', { n: diffInDays });
+
+    return postTime.toLocaleDateString(locale === 'en' ? 'en-US' : 'uk-UA');
   };
 
   const formatNumber = (num: number) => {
@@ -131,12 +136,12 @@ export default function InstagramFeed({
           
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
             <span className="text-primary">
-              {title}
+              {resolvedTitle}
             </span>
           </h2>
-          
+
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            {description}
+            {resolvedDescription}
           </p>
 
           <Button
@@ -146,7 +151,7 @@ export default function InstagramFeed({
             className="border-pink-200 text-pink-600 hover:bg-pink-50 px-8 py-3"
           >
             <Instagram className="mr-2 h-5 w-5" />
-            Підписатися на @{username}
+            {t('follow_btn', { username })}
           </Button>
         </div>
 
@@ -233,7 +238,7 @@ export default function InstagramFeed({
                     onClick={() => window.open(post.permalink, '_blank')}
                     className="text-pink-600 hover:text-pink-700 p-0 h-auto font-medium"
                   >
-                    Переглянути
+                    {t('view_post')}
                   </Button>
                 </div>
               </div>
@@ -249,7 +254,7 @@ export default function InstagramFeed({
               onClick={() => setVisiblePosts(mockInstagramPosts.length)}
               className="px-8 py-3 text-lg hover:bg-pink-50 border-pink-200 text-pink-600"
             >
-              Показати більше постів
+              {t('show_more')}
             </Button>
           )}
           
@@ -260,7 +265,7 @@ export default function InstagramFeed({
               className="bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-600 hover:to-purple-600 text-white px-8 py-3 text-lg"
             >
               <Instagram className="mr-3 h-5 w-5" />
-              Підписатися на Instagram
+              {t('follow_on_instagram')}
             </Button>
             
             <Button
@@ -270,7 +275,7 @@ export default function InstagramFeed({
               className="hover:bg-pink-50 border-pink-200 text-pink-600 px-8 py-3 text-lg"
             >
               <Eye className="mr-3 h-5 w-5" />
-              Переглянути всі пости
+              {t('view_all_posts')}
             </Button>
           </div>
         </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { Lightbox, useLightbox, type LightboxImage } from './Lightbox';
+import { useTranslations } from 'next-intl';
 
 type Columns = 2 | 3 | 4;
 type AspectPreset = 'square' | 'landscape' | 'portrait' | 'auto';
@@ -34,6 +35,7 @@ export function GalleryGrid({
   className = '',
   itemClassName = '',
 }: GalleryGridProps) {
+  const t = useTranslations('ui.gallery_grid');
   const { openAt, lightboxProps } = useLightbox(images);
 
   return (
@@ -44,7 +46,7 @@ export function GalleryGrid({
             key={img.src}
             type="button"
             onClick={() => openAt(i)}
-            aria-label={`Відкрити зображення: ${img.alt}`}
+            aria-label={t('open_image_aria', { alt: img.alt })}
             className={`group block overflow-hidden rounded-2xl border border-neutral-200 bg-white text-left shadow-sm transition-all hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2 ${itemClassName}`}
           >
             {aspect === 'auto' ? (

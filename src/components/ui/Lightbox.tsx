@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 export interface LightboxImage {
   src: string;
@@ -29,6 +30,7 @@ export function Lightbox({
   initialIndex = 0,
   onClose,
 }: LightboxProps): JSX.Element | null {
+  const t = useTranslations('ui.lightbox');
   const [mounted, setMounted] = useState(false);
   const [index, setIndex] = useState(initialIndex);
   const touchStartX = useRef<number | null>(null);
@@ -145,7 +147,7 @@ export function Lightbox({
       ref={containerRef}
       role="dialog"
       aria-modal="true"
-      aria-label="Галерея"
+      aria-label={t('dialog_aria')}
       tabIndex={-1}
       className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-black/95 backdrop-blur-sm outline-none"
       onClick={(e) => {
@@ -165,7 +167,7 @@ export function Lightbox({
       <button
         type="button"
         onClick={onClose}
-        aria-label="Закрити"
+        aria-label={t('close_aria')}
         className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/60"
       >
         <X className="h-6 w-6" />
@@ -176,7 +178,7 @@ export function Lightbox({
         <button
           type="button"
           onClick={goPrev}
-          aria-label="Попереднє фото"
+          aria-label={t('previous_aria')}
           className="absolute left-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/60 md:h-14 md:w-14"
         >
           <ChevronLeft className="h-7 w-7" />
@@ -188,7 +190,7 @@ export function Lightbox({
         <button
           type="button"
           onClick={goNext}
-          aria-label="Наступне фото"
+          aria-label={t('next_aria')}
           className="absolute right-4 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/60 md:h-14 md:w-14"
         >
           <ChevronRight className="h-7 w-7" />

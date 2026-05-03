@@ -2,23 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-const MONTHS = [
-  "Січень",
-  "Лютий",
-  "Березень",
-  "Квітень",
-  "Травень",
-  "Червень",
-  "Липень",
-  "Серпень",
-  "Вересень",
-  "Жовтень",
-  "Листопад",
-  "Грудень",
-];
-
-const WEEKDAYS = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд"];
+import { useTranslations } from "next-intl";
 
 export interface DateRange {
   from?: Date;
@@ -32,7 +16,6 @@ interface CalendarProps {
   onRangeSelect?: (range: DateRange) => void;
   minDate?: Date;
   maxDate?: Date;
-  locale?: "uk";
 }
 
 function startOfDay(d: Date): Date {
@@ -75,6 +58,33 @@ export function Calendar({
   minDate,
   maxDate,
 }: CalendarProps) {
+  const t = useTranslations("ui.calendar");
+
+  const MONTHS = [
+    t("months.1"),
+    t("months.2"),
+    t("months.3"),
+    t("months.4"),
+    t("months.5"),
+    t("months.6"),
+    t("months.7"),
+    t("months.8"),
+    t("months.9"),
+    t("months.10"),
+    t("months.11"),
+    t("months.12"),
+  ];
+
+  const WEEKDAYS = [
+    t("weekdays.mon"),
+    t("weekdays.tue"),
+    t("weekdays.wed"),
+    t("weekdays.thu"),
+    t("weekdays.fri"),
+    t("weekdays.sat"),
+    t("weekdays.sun"),
+  ];
+
   const today = useMemo(() => startOfDay(new Date()), []);
   const effectiveMin = useMemo(
     () => startOfDay(minDate ?? today),
@@ -172,7 +182,7 @@ export function Calendar({
         <button
           type="button"
           onClick={prevMonth}
-          aria-label="Попередній місяць"
+          aria-label={t("previous_month_aria")}
           className="flex h-9 w-9 items-center justify-center rounded-full text-[#1a3d2e] hover:bg-[#f4ecd8] transition"
         >
           <ChevronLeft className="h-5 w-5" />
@@ -183,7 +193,7 @@ export function Calendar({
         <button
           type="button"
           onClick={nextMonth}
-          aria-label="Наступний місяць"
+          aria-label={t("next_month_aria")}
           className="flex h-9 w-9 items-center justify-center rounded-full text-[#1a3d2e] hover:bg-[#f4ecd8] transition"
         >
           <ChevronRight className="h-5 w-5" />

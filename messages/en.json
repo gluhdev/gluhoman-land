@@ -2509,5 +2509,201 @@
       "back_to_menu_link": "Back to the menu",
       "payment_failed_body_menu": "Try again or contact us by phone."
     }
+  },
+  "ui": {
+    "booking_dialog": {
+      "eyebrow": "Booking - Glukhoman",
+      "title": "Leave",
+      "title_em": "application",
+      "service_tabs_aria": "Service",
+      "close_aria": "Close",
+      "next_label": "Next",
+      "back_label": "Back",
+      "submit_label": "Send a request",
+      "submit_loading": "We are sending..",
+      "privacy_note": "By clicking, you agree to the processing of personal data",
+      "field_name_label": "Name",
+      "field_name_placeholder": "Alexander",
+      "field_phone_label": "Phone",
+      "field_phone_placeholder": "+38 050 123-45-67",
+      "field_email_label": "Email",
+      "field_comment_label": "Commentary",
+      "field_comment_placeholder": "Special wishes.."
+    },
+    "booking_dialog_validation": {
+      "hotel_dates_required": "Select arrival and departure dates",
+      "hotel_checkout_after_checkin": "Departure must be after check-in",
+      "hotel_min_adults": "Minimum 1 adult",
+      "date_required": "Choose a date",
+      "restaurant_time_required": "Choose a time",
+      "restaurant_party_range": "From 1 to 20",
+      "aquapark_min_guest": "Add at least one guest",
+      "sauna_time_required": "Choose a time",
+      "sauna_group_range": "From 2 to 12",
+      "name_min": "Enter a name",
+      "phone_invalid": "Enter the correct phone number",
+      "email_invalid": "Incorrect email"
+    },
+    "booking_dialog_services": {
+      "hotel_label": "Hotel",
+      "hotel_description": "Cozy rooms with nature views",
+      "aquapark_label": "Water park",
+      "aquapark_description": "Water activities for the whole family",
+      "restaurant_label": "Restaurant",
+      "restaurant_description": "Ukrainian cuisine with a soul",
+      "sauna_label": "Bathhouse",
+      "sauna_description": "Wood-fired sauna with Carpathian herbs"
+    },
+    "booking_dialog_hotel": {
+      "room_type_label": "Room type",
+      "room_standard_label": "Standard",
+      "room_standard_hint": "2 persons",
+      "room_family_label": "Family",
+      "room_family_hint": "up to 4 people",
+      "room_lux_label": "Suite",
+      "room_lux_hint": "with terrace",
+      "adults_label": "Adults",
+      "children_label": "Children",
+      "breakfast_label": "Breakfast is included"
+    },
+    "booking_dialog_aquapark": {
+      "tariff_label": "Tariff",
+      "tariff_full_day_label": "Full day",
+      "tariff_full_day_hint": "10:00 - 22:00",
+      "tariff_half_day_label": "Half a day",
+      "tariff_half_day_hint": "4 hours",
+      "adults_label": "Adults",
+      "kids_label": "Children 3-12",
+      "toddlers_label": "Up to 3 years old"
+    },
+    "booking_dialog_restaurant": {
+      "time_label": "Time",
+      "guests_label": "Guests",
+      "occasion_label": "Reason",
+      "occ_birthday": "Birthday.",
+      "occ_business": "Business",
+      "occ_romantic": "Romance",
+      "occ_casual": "Friendly",
+      "occ_other": "Other",
+      "dietary_label": "Dietary wishes",
+      "dietary_placeholder": "Vegetarian, gluten-free.."
+    },
+    "booking_dialog_sauna": {
+      "slot_label": "Time slot",
+      "slot_morning_label": "Morning",
+      "slot_morning_time": "10:00-13:00",
+      "slot_afternoon_label": "Day",
+      "slot_afternoon_time": "14:00-17:00",
+      "slot_evening_label": "Evening",
+      "slot_evening_time": "18:00-22:00",
+      "group_size_label": "Number of guests",
+      "programme_label": "Program",
+      "prog_classic": "gLOSSARY_2__",
+      "prog_herbal": "Phyto",
+      "prog_family": "Family"
+    },
+    "booking_dialog_counter": {
+      "decrease_aria": "{label} less",
+      "increase_aria": "{label} more"
+    },
+    "booking_dialog_success": {
+      "title": "Thank you!",
+      "subtitle": "Your application has been received",
+      "booking_ref": "Application number - #{id}",
+      "follow_up": "We will contact you shortly",
+      "follow_up_phone": "We will contact you shortly at {phone}.",
+      "close_label": "Close"
+    },
+    "calendar": {
+      "previous_month_aria": "Previous month",
+      "next_month_aria": "Next month",
+      "months": {
+        "1": "January",
+        "2": "February",
+        "3": "March",
+        "4": "April",
+        "5": "May",
+        "6": "June",
+        "7": "July",
+        "8": "August",
+        "9": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+      },
+      "weekdays": {
+        "mon": "Mon",
+        "tue": "W",
+        "wed": "Wed",
+        "thu": "Thur",
+        "fri": "Pt",
+        "sat": "Sat",
+        "sun": "Nd"
+      }
+    },
+    "cookie_consent": {
+      "dialog_aria": "Consent to the use of cookies",
+      "close_aria": "Close",
+      "badge": "Use of cookies",
+      "message": "We use cookies to improve the site's performance, analytics, and booking experience. By continuing to browse, you agree to our",
+      "privacy_link": "Privacy policy",
+      "accept": "Accept",
+      "decline": "Reject"
+    },
+    "floating_buttons": {
+      "book_label": "Book",
+      "call_label": "Call",
+      "whatsapp_label": "Write to WhatsApp",
+      "whatsapp_message": "Hello! I would like to book at Glukhoman.",
+      "telegram_label": "Write to Telegram",
+      "open_title": "Contact us",
+      "close_title": "Close",
+      "scroll_top_title": "Up"
+    },
+    "google_reviews": {
+      "badge": "Google Reviews",
+      "heading": "What our guests say",
+      "review_count": "with {count} reviews",
+      "body": "Reviews of real guests about our restaurant and hotel complex",
+      "show_all": "Show all reviews ({count})",
+      "open_maps": "View on Google Maps",
+      "leave_review": "Leave a review"
+    },
+    "booking_reviews": {
+      "badge": "Booking.com reviews",
+      "heading": "What guests say on Booking.com",
+      "body": "Authentic reviews from guests who booked our hotel through Booking.com",
+      "show_all": "Show all reviews ({count})",
+      "view_on_booking": "View on Booking.com",
+      "book_on_booking": "Book on Booking.com",
+      "rating_excellent": "Great",
+      "rating_very_good": "Very good",
+      "rating_good": "Okay",
+      "rating_satisfactory": "Satisfactory",
+      "positive_label": "Positive aspects",
+      "negative_label": "What can be improved",
+      "review_count": "{count} reviews"
+    },
+    "instagram_feed": {
+      "default_title": "Our Instagram",
+      "default_description": "Follow our news and events",
+      "follow_btn": "Subscribe to @{username}",
+      "view_post": "View",
+      "show_more": "Show more posts",
+      "follow_on_instagram": "Follow us on Instagram",
+      "view_all_posts": "View all posts",
+      "time_minutes": "{n} min ago",
+      "time_hours": "{n} h ago",
+      "time_days": "{n} days ago"
+    },
+    "lightbox": {
+      "dialog_aria": "Gallery",
+      "close_aria": "Close",
+      "previous_aria": "Previous photo",
+      "next_aria": "Next photo"
+    },
+    "gallery_grid": {
+      "open_image_aria": "Open image: {alt}"
+    }
   }
 }

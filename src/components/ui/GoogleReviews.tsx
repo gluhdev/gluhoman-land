@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Star, User, MapPin, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface GoogleReview {
   id: string;
@@ -53,6 +54,8 @@ const mockReviews: GoogleReview[] = [
 ];
 
 export default function GoogleReviews() {
+  const t = useTranslations('ui.google_reviews');
+  const locale = useLocale();
   const [visibleReviews, setVisibleReviews] = useState(3);
   const [averageRating, setAverageRating] = useState(0);
 
@@ -81,7 +84,7 @@ export default function GoogleReviews() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('uk-UA', {
+    return date.toLocaleDateString(locale === 'en' ? 'en-US' : 'uk-UA', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -94,23 +97,23 @@ export default function GoogleReviews() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-primary/10 to-accent/10 text-primary rounded-full text-sm font-semibold mb-8">
             <MapPin className="h-5 w-5" />
-            Google Reviews
+            {t('badge')}
           </div>
-          
+
           <h2 className="text-4xl lg:text-5xl font-bold mb-6">
             <span className="text-primary">
-              Що кажуть наші гості
+              {t('heading')}
             </span>
           </h2>
-          
+
           <div className="flex items-center justify-center gap-4 mb-6">
             {renderStars(Math.floor(averageRating), 'lg')}
             <span className="text-3xl font-bold text-primary">{averageRating}</span>
-            <span className="text-muted-foreground">з {mockReviews.length} відгуків</span>
+            <span className="text-muted-foreground">{t('review_count', { count: mockReviews.length })}</span>
           </div>
-          
+
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Відгуки реальних гостей про наш ресторанно-готельний комплекс
+            {t('body')}
           </p>
         </div>
 
@@ -155,7 +158,7 @@ export default function GoogleReviews() {
               onClick={() => setVisibleReviews(mockReviews.length)}
               className="px-8 py-3 text-lg hover:bg-primary/10"
             >
-              Показати всі відгуки ({mockReviews.length})
+              {t('show_all', { count: mockReviews.length })}
             </Button>
           )}
           
@@ -166,7 +169,7 @@ export default function GoogleReviews() {
               className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white px-8 py-3 text-lg"
             >
               <MapPin className="mr-3 h-5 w-5" />
-              Переглянути на Google Maps
+              {t('open_maps')}
             </Button>
             
             <Button
@@ -176,7 +179,7 @@ export default function GoogleReviews() {
               className="hover:bg-primary/10 px-8 py-3 text-lg"
             >
               <ExternalLink className="mr-3 h-5 w-5" />
-              Залишити відгук
+              {t('leave_review')}
             </Button>
           </div>
         </div>

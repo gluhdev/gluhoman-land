@@ -24,6 +24,7 @@ import {
   Users,
   Sparkles,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   submitBooking,
   type BookingService,
@@ -32,37 +33,12 @@ import {
 import { CONTACT_INFO } from "@/constants";
 import { Calendar, toISO, fromISO, type DateRange } from "./Calendar";
 
-const SERVICES: {
-  id: BookingService;
-  label: string;
-  icon: typeof Hotel;
-  description: string;
-}[] = [
-  {
-    id: "hotel",
-    label: "Готель",
-    icon: Hotel,
-    description: "Затишні номери з видом на природу",
-  },
-  {
-    id: "aquapark",
-    label: "Аквапарк",
-    icon: Waves,
-    description: "Водні розваги для всієї родини",
-  },
-  {
-    id: "restaurant",
-    label: "Ресторан",
-    icon: UtensilsCrossed,
-    description: "Українська кухня з душею",
-  },
-  {
-    id: "sauna",
-    label: "Лазня",
-    icon: Flame,
-    description: "Лазня на дровах з карпатськими травами",
-  },
-];
+const SERVICE_ICONS: Record<BookingService, typeof Hotel> = {
+  hotel: Hotel,
+  aquapark: Waves,
+  restaurant: UtensilsCrossed,
+  sauna: Flame,
+};
 
 const BOOKING_OPEN_EVENT = "gluhoman:booking:open";
 
@@ -124,14 +100,32 @@ const RESTAURANT_TIMES = (() => {
   return out;
 })();
 
-const SAUNA_SLOTS = [
-  { id: "Ранок 10:00–13:00", label: "Ранок", time: "10:00–13:00" },
-  { id: "День 14:00–17:00", label: "День", time: "14:00–17:00" },
-  { id: "Вечір 18:00–22:00", label: "Вечір", time: "18:00–22:00" },
-];
+// Slot IDs are stable server-side keys (not translated)
+const SAUNA_SLOT_IDS = [
+  "morning",
+  "afternoon",
+  "evening",
+] as const;
+type SaunaSlotId = (typeof SAUNA_SLOT_IDS)[number];
 
 // ── Main component ─────────────────────────────────────────────────────────
 export default function BookingDialog() {
+  const t = useTranslations("ui.booking_dialog");
+  const tv = useTranslations("ui.booking_dialog_validation");
+  const ts = useTranslations("ui.booking_dialog_services");
+
+  const SERVICES: {
+    id: BookingService;
+    label: string;
+    icon: typeof Hotel;
+    description: string;
+  }[] = [
+    { id: "hotel", label: ts("hotel_label"), icon: SERVICE_ICONS.hotel, description: ts("hotel_description") },
+    { id: "aquapark", label: ts("aquapark_label"), icon: SERVICE_ICONS.aquapark, description: ts("aquapark_description") },
+    { id: "restaurant", label: ts("restaurant_label"), icon: SERVICE_ICONS.restaurant, description: ts("restaurant_description") },
+    { id: "sauna", label: ts("sauna_label"), icon: SERVICE_ICONS.sauna, description: ts("sauna_description") },
+  ];
+
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<1 | 2>(1);
   const [service, setService] = useState<BookingService>("hotel");
@@ -170,7 +164,7 @@ export default function BookingDialog() {
   const [dietary, setDietary] = useState("");
 
   // Sauna
-  const [saunaSlot, setSaunaSlot] = useState(SAUNA_SLOTS[1].id);
+  const [saunaSlot, setSaunaSlot] = useState<SaunaSlotId>("afternoon");
   const [saunaGroup, setSaunaGroup] = useState(4);
   const [programme, setProgramme] = useState<"classic" | "herbal" | "family">(
     "classic"
@@ -205,7 +199,7 @@ export default function BookingDialog() {
     setPartySize(2);
     setOccasion("casual");
     setDietary("");
-    setSaunaSlot(SAUNA_SLOTS[1].id);
+    setSaunaSlot("afternoon");
     setSaunaGroup(4);
     setProgramme("classic");
     setErrors({});
@@ -249,36 +243,36 @@ export default function BookingDialog() {
     const errs: Errors = {};
     if (service === "hotel") {
       if (!dateRange.from || !dateRange.to) {
-        errs.dateFrom = "Оберіть дати заїзду та виїзду";
+        errs.dateFrom = tv("hotel_dates_required");
       } else if (dateRange.to.getTime() <= dateRange.from.getTime()) {
-        errs.dateTo = "Виїзд має бути після заїзду";
+        errs.dateTo = tv("hotel_checkout_after_checkin");
       }
-      if (adults < 1) errs.guests = "Мінімум 1 дорослий";
+      if (adults < 1) errs.guests = tv("hotel_min_adults");
     } else {
-      if (!dateSingle) errs.dateFrom = "Оберіть дату";
+      if (!dateSingle) errs.dateFrom = tv("date_required");
     }
     if (service === "restaurant") {
-      if (!time) errs.time = "Оберіть час";
-      if (partySize < 1 || partySize > 20) errs.guests = "Від 1 до 20";
+      if (!time) errs.time = tv("restaurant_time_required");
+      if (partySize < 1 || partySize > 20) errs.guests = tv("restaurant_party_range");
     }
     if (service === "aquapark") {
       if (adultsCount + kidsCount + toddlersCount < 1)
-        errs.guests = "Додайте хоча б одного гостя";
+        errs.guests = tv("aquapark_min_guest");
     }
     if (service === "sauna") {
-      if (!saunaSlot) errs.time = "Оберіть час";
-      if (saunaGroup < 2 || saunaGroup > 12) errs.guests = "Від 2 до 12";
+      if (!saunaSlot) errs.time = tv("sauna_time_required");
+      if (saunaGroup < 2 || saunaGroup > 12) errs.guests = tv("sauna_group_range");
     }
     return errs;
   };
 
   const validateStep2 = (): Errors => {
     const errs: Errors = {};
-    if (!name.trim() || name.trim().length < 2) errs.name = "Введіть ім'я";
+    if (!name.trim() || name.trim().length < 2) errs.name = tv("name_min");
     const digits = phone.replace(/\D/g, "");
-    if (digits.length < 10) errs.phone = "Введіть коректний телефон";
+    if (digits.length < 10) errs.phone = tv("phone_invalid");
     if (email.trim() && !isValidEmail(email.trim()))
-      errs.email = "Некоректний email";
+      errs.email = tv("email_invalid");
     return errs;
   };
 
@@ -399,7 +393,7 @@ export default function BookingDialog() {
         <button
           type="button"
           onClick={close}
-          aria-label="Закрити"
+          aria-label={t("close_aria")}
           className="absolute right-5 top-5 z-20 flex h-10 w-10 items-center justify-center border border-[#e6d9b8] text-[#1a3d2e] hover:bg-[#f4ecd8] transition"
         >
           <X className="h-5 w-5" />
@@ -410,19 +404,19 @@ export default function BookingDialog() {
         ) : (
           <div className="px-6 pt-10 pb-8 sm:px-10 sm:pt-12">
             <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70 mb-3">
-              Бронювання · Глухомань
+              {t("eyebrow")}
             </p>
             <h2
               id="booking-title"
               className="font-display text-3xl sm:text-4xl text-[#0b1410] mb-6"
             >
-              Залиште <em className="italic text-[#1a3d2e]">заявку</em>
+              {t("title")} <em className="italic text-[#1a3d2e]">{t("title_em")}</em>
             </h2>
 
             {/* Service tabs */}
             <div
               role="tablist"
-              aria-label="Послуга"
+              aria-label={t("service_tabs_aria")}
               className="grid grid-cols-2 sm:grid-cols-4 gap-2 border-y border-[#e6d9b8] py-3"
             >
               {SERVICES.map((s) => {
@@ -548,7 +542,7 @@ export default function BookingDialog() {
                         onClick={goNext}
                         className="w-full inline-flex items-center justify-center gap-2 bg-[#1a3d2e] text-[#f4ecd8] px-6 py-4 text-[11px] uppercase tracking-[0.22em] hover:bg-[#0f1f18] transition"
                       >
-                        Далі
+                        {t("next_label")}
                         <ArrowRight className="h-4 w-4" />
                       </button>
                     </div>
@@ -558,29 +552,29 @@ export default function BookingDialog() {
                 {step === 2 && (
                   <form onSubmit={handleSubmit} className="space-y-5 max-w-xl mx-auto">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <Field label="Ім'я" required error={errors.name}>
+                      <Field label={t("field_name_label")} required error={errors.name}>
                         <input
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           className={inputCls(errors.name)}
-                          placeholder="Олександр"
+                          placeholder={t("field_name_placeholder")}
                           autoComplete="name"
                         />
                       </Field>
-                      <Field label="Телефон" required error={errors.phone}>
+                      <Field label={t("field_phone_label")} required error={errors.phone}>
                         <input
                           type="tel"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           onBlur={handlePhoneBlur}
                           className={inputCls(errors.phone)}
-                          placeholder="+38 050 123-45-67"
+                          placeholder={t("field_phone_placeholder")}
                           autoComplete="tel"
                         />
                       </Field>
                     </div>
 
-                    <Field label="Email" error={errors.email}>
+                    <Field label={t("field_email_label")} error={errors.email}>
                       <input
                         type="email"
                         value={email}
@@ -591,12 +585,12 @@ export default function BookingDialog() {
                       />
                     </Field>
 
-                    <Field label="Коментар">
+                    <Field label={t("field_comment_label")}>
                       <textarea
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         className={`${inputCls()} min-h-[90px] resize-y`}
-                        placeholder="Особливі побажання…"
+                        placeholder={t("field_comment_placeholder")}
                         rows={3}
                       />
                     </Field>
@@ -618,7 +612,7 @@ export default function BookingDialog() {
                         className="inline-flex items-center justify-center gap-2 border border-[#1a3d2e] text-[#1a3d2e] px-5 py-4 text-[11px] uppercase tracking-[0.22em] hover:bg-[#1a3d2e] hover:text-[#f4ecd8] transition"
                       >
                         <ArrowLeft className="h-4 w-4" />
-                        Назад
+                        {t("back_label")}
                       </button>
                       <button
                         type="submit"
@@ -626,12 +620,12 @@ export default function BookingDialog() {
                         className="flex-1 inline-flex items-center justify-center gap-2 bg-[#1a3d2e] text-[#f4ecd8] px-6 py-4 text-[11px] uppercase tracking-[0.22em] hover:bg-[#0f1f18] disabled:opacity-60 disabled:cursor-not-allowed transition"
                       >
                         {pending && <Loader2 className="h-4 w-4 animate-spin" />}
-                        {pending ? "Надсилаємо…" : "Надіслати заявку"}
+                        {pending ? t("submit_loading") : t("submit_label")}
                       </button>
                     </div>
 
                     <p className="text-[10px] uppercase tracking-[0.18em] text-[#1a3d2e]/60 text-center">
-                      Натискаючи, ви погоджуєтеся з обробкою персональних даних
+                      {t("privacy_note")}
                     </p>
                   </form>
                 )}
@@ -666,15 +660,17 @@ function HotelExtras({
   breakfast: boolean;
   setBreakfast: (v: boolean) => void;
 }) {
+  const t = useTranslations("ui.booking_dialog_hotel");
+  const tc = useTranslations("ui.booking_dialog_counter");
   const rooms: { id: "standard" | "family" | "lux"; label: string; hint: string }[] = [
-    { id: "standard", label: "Стандарт", hint: "2 особи" },
-    { id: "family", label: "Сімейний", hint: "до 4 осіб" },
-    { id: "lux", label: "Люкс", hint: "з терасою" },
+    { id: "standard", label: t("room_standard_label"), hint: t("room_standard_hint") },
+    { id: "family", label: t("room_family_label"), hint: t("room_family_hint") },
+    { id: "lux", label: t("room_lux_label"), hint: t("room_lux_hint") },
   ];
   return (
     <div className="space-y-5">
       <div>
-        <Label>Тип номеру</Label>
+        <Label>{t("room_type_label")}</Label>
         <div className="grid grid-cols-3 gap-2 mt-2">
           {rooms.map((r) => {
             const active = roomType === r.id;
@@ -699,8 +695,8 @@ function HotelExtras({
         </div>
       </div>
       <div className="grid grid-cols-2 gap-3">
-        <Counter label="Дорослих" value={adults} setValue={setAdults} min={1} max={4} />
-        <Counter label="Дітей" value={childrenCount} setValue={setChildrenCount} min={0} max={4} />
+        <Counter label={t("adults_label")} decreaseAria={tc("decrease_aria", { label: t("adults_label") })} increaseAria={tc("increase_aria", { label: t("adults_label") })} value={adults} setValue={setAdults} min={1} max={4} />
+        <Counter label={t("children_label")} decreaseAria={tc("decrease_aria", { label: t("children_label") })} increaseAria={tc("increase_aria", { label: t("children_label") })} value={childrenCount} setValue={setChildrenCount} min={0} max={4} />
       </div>
       <button
         type="button"
@@ -711,7 +707,7 @@ function HotelExtras({
             : "border-[#e6d9b8] hover:bg-[#f4ecd8]"
         }`}
       >
-        <span className="text-sm text-[#0b1410]">Сніданок включений</span>
+        <span className="text-sm text-[#0b1410]">{t("breakfast_label")}</span>
         <span
           className={`h-5 w-9 relative rounded-full transition ${
             breakfast ? "bg-[#1a3d2e]" : "bg-[#e6d9b8]"
@@ -747,30 +743,33 @@ function AquaparkExtras({
   toddlersCount: number;
   setToddlersCount: (n: number) => void;
 }) {
+  const ta = useTranslations("ui.booking_dialog_aquapark");
+  const tc = useTranslations("ui.booking_dialog_counter");
+  const tariffs: { id: "full_day" | "half_day"; label: string; hint: string }[] = [
+    { id: "full_day", label: ta("tariff_full_day_label"), hint: ta("tariff_full_day_hint") },
+    { id: "half_day", label: ta("tariff_half_day_label"), hint: ta("tariff_half_day_hint") },
+  ];
   return (
     <div className="space-y-5">
       <div>
-        <Label>Тариф</Label>
+        <Label>{ta("tariff_label")}</Label>
         <div className="grid grid-cols-2 gap-2 mt-2">
-          {[
-            { id: "full_day" as const, label: "Повний день", hint: "10:00 – 22:00" },
-            { id: "half_day" as const, label: "Пів дня", hint: "4 години" },
-          ].map((t) => {
-            const active = tariff === t.id;
+          {tariffs.map((tr) => {
+            const active = tariff === tr.id;
             return (
               <button
-                key={t.id}
+                key={tr.id}
                 type="button"
-                onClick={() => setTariff(t.id)}
+                onClick={() => setTariff(tr.id)}
                 className={`flex flex-col items-center border p-4 transition ${
                   active
                     ? "border-[#1a3d2e] bg-[#1a3d2e] text-[#f4ecd8]"
                     : "border-[#e6d9b8] text-[#1a3d2e] hover:bg-[#f4ecd8]"
                 }`}
               >
-                <span className="font-display text-lg">{t.label}</span>
+                <span className="font-display text-lg">{tr.label}</span>
                 <span className="text-[10px] uppercase tracking-[0.15em] opacity-70 mt-1">
-                  {t.hint}
+                  {tr.hint}
                 </span>
               </button>
             );
@@ -778,9 +777,9 @@ function AquaparkExtras({
         </div>
       </div>
       <div className="space-y-3">
-        <Counter label="Дорослих" value={adultsCount} setValue={setAdultsCount} min={0} max={20} />
-        <Counter label="Діти 3–12" value={kidsCount} setValue={setKidsCount} min={0} max={20} />
-        <Counter label="До 3 років" value={toddlersCount} setValue={setToddlersCount} min={0} max={10} />
+        <Counter label={ta("adults_label")} decreaseAria={tc("decrease_aria", { label: ta("adults_label") })} increaseAria={tc("increase_aria", { label: ta("adults_label") })} value={adultsCount} setValue={setAdultsCount} min={0} max={20} />
+        <Counter label={ta("kids_label")} decreaseAria={tc("decrease_aria", { label: ta("kids_label") })} increaseAria={tc("increase_aria", { label: ta("kids_label") })} value={kidsCount} setValue={setKidsCount} min={0} max={20} />
+        <Counter label={ta("toddlers_label")} decreaseAria={tc("decrease_aria", { label: ta("toddlers_label") })} increaseAria={tc("increase_aria", { label: ta("toddlers_label") })} value={toddlersCount} setValue={setToddlersCount} min={0} max={10} />
       </div>
     </div>
   );
@@ -807,22 +806,24 @@ function RestaurantExtras({
   setDietary: (v: string) => void;
   error?: string;
 }) {
+  const tr = useTranslations("ui.booking_dialog_restaurant");
+  const tc = useTranslations("ui.booking_dialog_counter");
   const occ: {
     id: "birthday" | "business" | "romantic" | "casual" | "other";
     label: string;
     Icon: typeof Cake;
   }[] = [
-    { id: "birthday", label: "День народж.", Icon: Cake },
-    { id: "business", label: "Бізнес", Icon: Briefcase },
-    { id: "romantic", label: "Романтика", Icon: Heart },
-    { id: "casual", label: "Дружня", Icon: Users },
-    { id: "other", label: "Інше", Icon: Sparkles },
+    { id: "birthday", label: tr("occ_birthday"), Icon: Cake },
+    { id: "business", label: tr("occ_business"), Icon: Briefcase },
+    { id: "romantic", label: tr("occ_romantic"), Icon: Heart },
+    { id: "casual", label: tr("occ_casual"), Icon: Users },
+    { id: "other", label: tr("occ_other"), Icon: Sparkles },
   ];
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <Label>Час</Label>
+          <Label>{tr("time_label")}</Label>
           <select
             value={time}
             onChange={(e) => setTime(e.target.value)}
@@ -835,10 +836,10 @@ function RestaurantExtras({
             ))}
           </select>
         </div>
-        <Counter label="Гостей" value={partySize} setValue={setPartySize} min={1} max={20} />
+        <Counter label={tr("guests_label")} decreaseAria={tc("decrease_aria", { label: tr("guests_label") })} increaseAria={tc("increase_aria", { label: tr("guests_label") })} value={partySize} setValue={setPartySize} min={1} max={20} />
       </div>
       <div>
-        <Label>Привід</Label>
+        <Label>{tr("occasion_label")}</Label>
         <div className="grid grid-cols-5 gap-1.5 mt-2">
           {occ.map((o) => {
             const active = occasion === o.id;
@@ -864,13 +865,13 @@ function RestaurantExtras({
         </div>
       </div>
       <div>
-        <Label>Дієтичні побажання</Label>
+        <Label>{tr("dietary_label")}</Label>
         <textarea
           value={dietary}
           onChange={(e) => setDietary(e.target.value)}
           rows={2}
           className={`${inputCls()} mt-2 resize-y`}
-          placeholder="Вегетаріанське, без глютену…"
+          placeholder={tr("dietary_placeholder")}
         />
       </div>
     </div>
@@ -885,24 +886,31 @@ function SaunaExtras({
   programme,
   setProgramme,
 }: {
-  slot: string;
-  setSlot: (v: string) => void;
+  slot: SaunaSlotId;
+  setSlot: (v: SaunaSlotId) => void;
   groupSize: number;
   setGroupSize: (n: number) => void;
   programme: "classic" | "herbal" | "family";
   setProgramme: (v: "classic" | "herbal" | "family") => void;
 }) {
+  const ts = useTranslations("ui.booking_dialog_sauna");
+  const tc = useTranslations("ui.booking_dialog_counter");
   const progs: { id: "classic" | "herbal" | "family"; label: string }[] = [
-    { id: "classic", label: "Класична" },
-    { id: "herbal", label: "Фіто" },
-    { id: "family", label: "Сімейна" },
+    { id: "classic", label: ts("prog_classic") },
+    { id: "herbal", label: ts("prog_herbal") },
+    { id: "family", label: ts("prog_family") },
+  ];
+  const slots: { id: SaunaSlotId; label: string; time: string }[] = [
+    { id: "morning", label: ts("slot_morning_label"), time: ts("slot_morning_time") },
+    { id: "afternoon", label: ts("slot_afternoon_label"), time: ts("slot_afternoon_time") },
+    { id: "evening", label: ts("slot_evening_label"), time: ts("slot_evening_time") },
   ];
   return (
     <div className="space-y-5">
       <div>
-        <Label>Часовий слот</Label>
+        <Label>{ts("slot_label")}</Label>
         <div className="grid grid-cols-1 gap-2 mt-2">
-          {SAUNA_SLOTS.map((s) => {
+          {slots.map((s) => {
             const active = slot === s.id;
             return (
               <button
@@ -924,9 +932,9 @@ function SaunaExtras({
           })}
         </div>
       </div>
-      <Counter label="Кількість гостей" value={groupSize} setValue={setGroupSize} min={2} max={12} />
+      <Counter label={ts("group_size_label")} decreaseAria={tc("decrease_aria", { label: ts("group_size_label") })} increaseAria={tc("increase_aria", { label: ts("group_size_label") })} value={groupSize} setValue={setGroupSize} min={2} max={12} />
       <div>
-        <Label>Програма</Label>
+        <Label>{ts("programme_label")}</Label>
         <div className="grid grid-cols-3 gap-2 mt-2">
           {progs.map((p) => {
             const active = programme === p.id;
@@ -953,12 +961,16 @@ function SaunaExtras({
 
 function Counter({
   label,
+  decreaseAria,
+  increaseAria,
   value,
   setValue,
   min,
   max,
 }: {
   label: string;
+  decreaseAria: string;
+  increaseAria: string;
   value: number;
   setValue: (n: number) => void;
   min: number;
@@ -972,7 +984,7 @@ function Counter({
           type="button"
           onClick={() => setValue(Math.max(min, value - 1))}
           className="h-11 w-11 text-[#1a3d2e] hover:bg-[#f4ecd8] transition text-lg"
-          aria-label={`${label} менше`}
+          aria-label={decreaseAria}
         >
           −
         </button>
@@ -983,7 +995,7 @@ function Counter({
           type="button"
           onClick={() => setValue(Math.min(max, value + 1))}
           className="h-11 w-11 text-[#1a3d2e] hover:bg-[#f4ecd8] transition text-lg"
-          aria-label={`${label} більше`}
+          aria-label={increaseAria}
         >
           +
         </button>
@@ -1007,29 +1019,25 @@ function SuccessScreen({
   onClose: () => void;
   bookingId: string | null;
 }) {
+  const t = useTranslations("ui.booking_dialog_success");
   const phone = CONTACT_INFO.phone?.[0] ?? "";
   return (
     <div className="px-6 pt-16 pb-12 sm:px-10 text-center">
       <h2 className="font-display text-5xl sm:text-6xl text-[#0b1410]">
-        Дякуємо!
+        {t("title")}
       </h2>
       <p className="mt-4 font-display italic text-xl text-[#1a3d2e]">
-        Ваша заявка отримана
+        {t("subtitle")}
       </p>
       {bookingId && (
         <p className="mt-6 text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70">
-          Номер заявки · #{bookingId.slice(0, 8)}
+          {t("booking_ref", { id: bookingId.slice(0, 8) })}
         </p>
       )}
       <p className="mt-3 text-sm text-[#0b1410]/80">
-        Ми зв&apos;яжемося з вами найближчим часом
-        {phone && (
-          <>
-            {" "}за номером{" "}
-            <span className="text-[#1a3d2e]">{phone}</span>
-          </>
-        )}
-        .
+        {phone
+          ? t("follow_up_phone", { phone })
+          : t("follow_up")}
       </p>
       <div className="mt-10 flex justify-center">
         <button
@@ -1037,7 +1045,7 @@ function SuccessScreen({
           onClick={onClose}
           className="inline-flex items-center justify-center bg-[#1a3d2e] text-[#f4ecd8] px-10 py-4 text-[11px] uppercase tracking-[0.22em] hover:bg-[#0f1f18] transition"
         >
-          Закрити
+          {t("close_label")}
         </button>
       </div>
     </div>
