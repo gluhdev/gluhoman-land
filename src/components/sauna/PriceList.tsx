@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 /* ══════════════════════════════════════════════════════════════════
-   Data — дослівно спарсено з прайс-карток /images/sauna/doc/9–13.jpg
+   Types
    ══════════════════════════════════════════════════════════════════ */
 
 interface PriceItem {
@@ -21,112 +22,6 @@ interface PriceGroup {
   items: PriceItem[];
 }
 
-const GROUPS: PriceGroup[] = [
-  {
-    id: 'rent',
-    roman: 'I',
-    title: 'Оренда лазні',
-    subtitle: 'Мінімальне замовлення — 2 години, до 7-ми осіб',
-    items: [
-      { label: 'Оренда лазні', note: 'до 7-ми осіб, мін. 2 год', price: '1000 грн/год', accent: true },
-      { label: 'З 8-ої людини', note: 'за кожну додаткову', price: '200 грн/год' },
-      { label: 'Бронювання альтанки', note: 'літній період', price: '700 грн/год' },
-    ],
-  },
-  {
-    id: 'chans',
-    roman: 'II',
-    title: 'Карпатські чани',
-    subtitle: 'Мінімальне замовлення — 2 години',
-    items: [
-      { label: 'Карпатський чан', note: 'при замовленні лазні', price: '700 грн/год' },
-      { label: 'Хвойно-цитрусовий чан', note: 'при замовленні лазні', price: '1100 грн/год' },
-      { label: 'Карпатський чан', note: 'без замовлення лазні', price: '1200 грн/год' },
-      { label: 'Хвойно-цитрусовий чан', note: 'без замовлення лазні', price: '1500 грн/год' },
-    ],
-  },
-  {
-    id: 'massage',
-    roman: 'III',
-    title: 'Масажі',
-    subtitle: 'Послуги сертифікованого майстра — за попереднім записом',
-    items: [
-      { label: 'Стоун масаж', note: '50 / 80 хв', price: '900 / 1200 грн', accent: true },
-      { label: 'Тайський + «Пахоп»', note: '45 хв', price: '700 грн' },
-      { label: 'Традиційний тайський', note: '40 хв', price: '550 грн' },
-      { label: 'Тайський релакс арома-ойл', note: '40 хв', price: '550 грн' },
-      { label: 'Тайський фут-масаж (стоп)', note: '35 хв', price: '450 грн' },
-      { label: 'Класичний масаж', note: '20 / 30 / 50 хв', price: '350 / 450 / 550 грн' },
-      { label: 'Масаж «Глухомань»', price: '400 грн' },
-      { label: 'Масаж «Сибір»', price: '400 грн' },
-      { label: 'Масаж «Медовий»', price: '400 грн' },
-      { label: 'Масаж бамбуковими віниками', note: '20 хв', price: '400 грн' },
-      { label: 'Кріомасаж з віниками', price: '400 грн' },
-      { label: 'Прогрів ніг віниками', note: 'до поперекового відділу', price: '200 грн' },
-      { label: 'Масаж віниками', price: '400 грн' },
-      { label: 'Гарячий мильно-березовий обмив', price: '250 грн' },
-      { label: 'Релакс-процедура «Банні втіхи»', price: '300 грн' },
-      { label: 'Прогрівання льняним простирадлом', price: '170 грн' },
-    ],
-  },
-  {
-    id: 'scrubs',
-    roman: 'IV',
-    title: 'Скраби',
-    items: [
-      { label: 'Сіль-глина', price: '300 грн' },
-      { label: 'Сода-лимон', price: '300 грн' },
-      { label: 'Сіль-арома', price: '300 грн' },
-      { label: '«Кавово-медовий»', price: '400 грн' },
-      { label: '«Кавово-сольовий»', price: '400 грн' },
-      { label: '«Шоколад»', price: '400 грн' },
-      { label: '«Сіль, гірчиця, мед, пиво»', price: '400 грн' },
-      { label: 'Фруктова аплікація', note: 'яблуко, апельсин, банан, морква', price: '400 грн' },
-    ],
-  },
-  {
-    id: 'wellness',
-    roman: 'V',
-    title: 'Оздоровчі процедури',
-    items: [
-      { label: 'Аромотерапія', note: "м'ята, липа, карамель", price: '150 грн' },
-      { label: '«Хвойний» віксовий напар', price: '130 грн' },
-      { label: 'Сольове обгортання', price: '130 грн' },
-      { label: 'Холодні мінеральні обливання', price: '170 грн' },
-      { label: 'Снігові обгортання', price: '300 грн' },
-      { label: 'Натирання березовим крошином', note: 'на льняному полотні', price: '250 грн' },
-    ],
-  },
-  {
-    id: 'baths',
-    roman: 'VI',
-    title: 'Сольові ванночки',
-    items: [
-      { label: 'Хвойна', price: '75 грн' },
-      { label: "Трав'яний збір", price: '75 грн' },
-      { label: 'Рапова', price: '75 грн' },
-      { label: '«Морський бриз»', price: '75 грн' },
-      { label: '«Мінеральна»', price: '150 грн' },
-      { label: "Кропив'яна", price: '75 грн' },
-      { label: 'Тонізуюча', price: '75 грн' },
-      { label: '«Джентельмен»', price: '75 грн' },
-    ],
-  },
-  {
-    id: 'extras',
-    roman: 'VII',
-    title: 'Банне приладдя',
-    items: [
-      { label: 'Віник дубовий / березовий', price: '200 грн' },
-      { label: 'Віник при замовленні процедур', price: '170 грн' },
-      { label: 'Простирадло', price: '45 грн' },
-      { label: 'Рушник', price: '45 грн' },
-      { label: 'Банні напої', note: "трав'яний збір, бублики, мед", price: '350 грн' },
-      { label: 'Капці одноразові', price: '40 грн' },
-    ],
-  },
-];
-
 interface ComplexProgram {
   id: string;
   title: string;
@@ -135,43 +30,6 @@ interface ComplexProgram {
   includes: string[];
   procedures: string[];
 }
-
-const PROGRAMS: ComplexProgram[] = [
-  {
-    id: 'health',
-    title: "Здоров'я",
-    duration: '3 години без вартості часу',
-    price: '2400 грн / особа',
-    includes: ['Простирадла та рушники', 'Одноразові капці', 'Віники (дуб, береза)', "Трав'яний чай"],
-    procedures: [
-      'Аромотерапія',
-      'Прогрів ніг віником',
-      'Сольові ванночки',
-      'Сольовий скраб',
-      'Масаж віниками',
-      'Медовий масаж',
-      'Мильно-березовий масаж',
-    ],
-  },
-  {
-    id: 'slavic',
-    title: "Слов'янський еліксир",
-    duration: '3 години без вартості часу',
-    price: '2800 грн / особа',
-    includes: ['Простирадла та рушники', 'Одноразові капці', 'Віники (дуб/береза)', "Трав'яний чай"],
-    procedures: [
-      'Аромотерапія',
-      'Сольове обгортання',
-      'Прогрів ніг віником',
-      'Сольові ванночки',
-      'Масаж віниками з душем Шарко',
-      'Кріомасаж з віниками',
-      'Релакс-процедура «Банні втіхи»',
-      'Гарячий мильно-березовий обмив',
-      'Соляний скраб',
-    ],
-  },
-];
 
 /* ══════════════════════════════════════════════════════════════════
    Atoms
@@ -237,7 +95,14 @@ function SectionCard({ group }: { group: PriceGroup }) {
   );
 }
 
-function ProgramCard({ p, featured }: { p: ComplexProgram; featured?: boolean }) {
+function ProgramCard({ p, featured, badgeLabel, typeLabel, includesLabel, proceduresLabel }: {
+  p: ComplexProgram;
+  featured?: boolean;
+  badgeLabel: string;
+  typeLabel: string;
+  includesLabel: string;
+  proceduresLabel: string;
+}) {
   return (
     <div
       className={`relative rounded-sm px-6 py-7 ring-1 transition-shadow duration-300 hover:shadow-[0_25px_50px_-20px_rgba(26,61,46,0.4)] ${
@@ -248,7 +113,7 @@ function ProgramCard({ p, featured }: { p: ComplexProgram; featured?: boolean })
     >
       {featured && (
         <span className="absolute -top-2.5 left-6 text-[9px] uppercase tracking-[0.28em] bg-[#e6d9b8] text-[#0f1f18] px-2.5 py-1 rounded-sm">
-          Найпопулярніше
+          {badgeLabel}
         </span>
       )}
       <p
@@ -256,7 +121,7 @@ function ProgramCard({ p, featured }: { p: ComplexProgram; featured?: boolean })
           featured ? 'text-[#e6d9b8]/70' : 'text-[#1a3d2e]/55'
         }`}
       >
-        Комплексна програма
+        {typeLabel}
       </p>
       <h3
         className={`font-display italic text-2xl md:text-[28px] leading-tight mb-1.5 ${
@@ -288,7 +153,7 @@ function ProgramCard({ p, featured }: { p: ComplexProgram; featured?: boolean })
           featured ? 'text-[#e6d9b8]/70' : 'text-[#1a3d2e]/60'
         }`}
       >
-        Входить до програми
+        {includesLabel}
       </p>
       <ul className={`mb-5 text-[13px] space-y-1 ${featured ? 'text-[#f4ecd8]/90' : 'text-[#0f1f18]/85'}`}>
         {p.includes.map((x) => (
@@ -304,7 +169,7 @@ function ProgramCard({ p, featured }: { p: ComplexProgram; featured?: boolean })
           featured ? 'text-[#e6d9b8]/70' : 'text-[#1a3d2e]/60'
         }`}
       >
-        Оздоровчі процедури
+        {proceduresLabel}
       </p>
       <ul className={`text-[13px] space-y-1 ${featured ? 'text-[#f4ecd8]/90' : 'text-[#0f1f18]/85'}`}>
         {p.procedures.map((x) => (
@@ -322,18 +187,8 @@ function ProgramCard({ p, featured }: { p: ComplexProgram; featured?: boolean })
    Main component
    ══════════════════════════════════════════════════════════════════ */
 
-const TABS: { id: string; label: string }[] = [
-  { id: 'rent', label: 'Оренда' },
-  { id: 'chans', label: 'Чани' },
-  { id: 'massage', label: 'Масажі' },
-  { id: 'scrubs', label: 'Скраби' },
-  { id: 'wellness', label: 'Оздоровчі' },
-  { id: 'baths', label: 'Ванночки' },
-  { id: 'extras', label: 'Приладдя' },
-  { id: 'programs', label: 'Програми' },
-];
-
 export function PriceList() {
+  const t = useTranslations('sauna.price_list');
   const [activeTab, setActiveTab] = useState<string>('rent');
 
   const scrollToSection = (id: string) => {
@@ -345,23 +200,187 @@ export function PriceList() {
     }
   };
 
+  const TABS: { id: string; label: string }[] = [
+    { id: 'rent', label: t('tabs.rent') },
+    { id: 'chans', label: t('tabs.chans') },
+    { id: 'massage', label: t('tabs.massage') },
+    { id: 'scrubs', label: t('tabs.scrubs') },
+    { id: 'wellness', label: t('tabs.wellness') },
+    { id: 'baths', label: t('tabs.baths') },
+    { id: 'extras', label: t('tabs.extras') },
+    { id: 'programs', label: t('tabs.programs') },
+  ];
+
+  const GROUPS: PriceGroup[] = [
+    {
+      id: 'rent',
+      roman: 'I',
+      title: t('groups.rent.title'),
+      subtitle: t('groups.rent.subtitle'),
+      items: [
+        { label: t('groups.rent.item_1_label'), note: t('groups.rent.item_1_note'), price: t('groups.rent.item_1_price'), accent: true },
+        { label: t('groups.rent.item_2_label'), note: t('groups.rent.item_2_note'), price: t('groups.rent.item_2_price') },
+        { label: t('groups.rent.item_3_label'), note: t('groups.rent.item_3_note'), price: t('groups.rent.item_3_price') },
+      ],
+    },
+    {
+      id: 'chans',
+      roman: 'II',
+      title: t('groups.chans.title'),
+      subtitle: t('groups.chans.subtitle'),
+      items: [
+        { label: t('groups.chans.item_1_label'), note: t('groups.chans.item_1_note'), price: t('groups.chans.item_1_price') },
+        { label: t('groups.chans.item_2_label'), note: t('groups.chans.item_2_note'), price: t('groups.chans.item_2_price') },
+        { label: t('groups.chans.item_3_label'), note: t('groups.chans.item_3_note'), price: t('groups.chans.item_3_price') },
+        { label: t('groups.chans.item_4_label'), note: t('groups.chans.item_4_note'), price: t('groups.chans.item_4_price') },
+      ],
+    },
+    {
+      id: 'massage',
+      roman: 'III',
+      title: t('groups.massage.title'),
+      subtitle: t('groups.massage.subtitle'),
+      items: [
+        { label: t('groups.massage.item_1_label'), note: t('groups.massage.item_1_note'), price: t('groups.massage.item_1_price'), accent: true },
+        { label: t('groups.massage.item_2_label'), note: t('groups.massage.item_2_note'), price: t('groups.massage.item_2_price') },
+        { label: t('groups.massage.item_3_label'), note: t('groups.massage.item_3_note'), price: t('groups.massage.item_3_price') },
+        { label: t('groups.massage.item_4_label'), note: t('groups.massage.item_4_note'), price: t('groups.massage.item_4_price') },
+        { label: t('groups.massage.item_5_label'), note: t('groups.massage.item_5_note'), price: t('groups.massage.item_5_price') },
+        { label: t('groups.massage.item_6_label'), note: t('groups.massage.item_6_note'), price: t('groups.massage.item_6_price') },
+        { label: t('groups.massage.item_7_label'), price: t('groups.massage.item_7_price') },
+        { label: t('groups.massage.item_8_label'), price: t('groups.massage.item_8_price') },
+        { label: t('groups.massage.item_9_label'), price: t('groups.massage.item_9_price') },
+        { label: t('groups.massage.item_10_label'), note: t('groups.massage.item_10_note'), price: t('groups.massage.item_10_price') },
+        { label: t('groups.massage.item_11_label'), price: t('groups.massage.item_11_price') },
+        { label: t('groups.massage.item_12_label'), note: t('groups.massage.item_12_note'), price: t('groups.massage.item_12_price') },
+        { label: t('groups.massage.item_13_label'), price: t('groups.massage.item_13_price') },
+        { label: t('groups.massage.item_14_label'), price: t('groups.massage.item_14_price') },
+        { label: t('groups.massage.item_15_label'), price: t('groups.massage.item_15_price') },
+        { label: t('groups.massage.item_16_label'), price: t('groups.massage.item_16_price') },
+      ],
+    },
+    {
+      id: 'scrubs',
+      roman: 'IV',
+      title: t('groups.scrubs.title'),
+      items: [
+        { label: t('groups.scrubs.item_1_label'), price: t('groups.scrubs.item_1_price') },
+        { label: t('groups.scrubs.item_2_label'), price: t('groups.scrubs.item_2_price') },
+        { label: t('groups.scrubs.item_3_label'), price: t('groups.scrubs.item_3_price') },
+        { label: t('groups.scrubs.item_4_label'), price: t('groups.scrubs.item_4_price') },
+        { label: t('groups.scrubs.item_5_label'), price: t('groups.scrubs.item_5_price') },
+        { label: t('groups.scrubs.item_6_label'), price: t('groups.scrubs.item_6_price') },
+        { label: t('groups.scrubs.item_7_label'), price: t('groups.scrubs.item_7_price') },
+        { label: t('groups.scrubs.item_8_label'), note: t('groups.scrubs.item_8_note'), price: t('groups.scrubs.item_8_price') },
+      ],
+    },
+    {
+      id: 'wellness',
+      roman: 'V',
+      title: t('groups.wellness.title'),
+      items: [
+        { label: t('groups.wellness.item_1_label'), note: t('groups.wellness.item_1_note'), price: t('groups.wellness.item_1_price') },
+        { label: t('groups.wellness.item_2_label'), price: t('groups.wellness.item_2_price') },
+        { label: t('groups.wellness.item_3_label'), price: t('groups.wellness.item_3_price') },
+        { label: t('groups.wellness.item_4_label'), price: t('groups.wellness.item_4_price') },
+        { label: t('groups.wellness.item_5_label'), price: t('groups.wellness.item_5_price') },
+        { label: t('groups.wellness.item_6_label'), note: t('groups.wellness.item_6_note'), price: t('groups.wellness.item_6_price') },
+      ],
+    },
+    {
+      id: 'baths',
+      roman: 'VI',
+      title: t('groups.baths.title'),
+      items: [
+        { label: t('groups.baths.item_1_label'), price: t('groups.baths.item_1_price') },
+        { label: t('groups.baths.item_2_label'), price: t('groups.baths.item_2_price') },
+        { label: t('groups.baths.item_3_label'), price: t('groups.baths.item_3_price') },
+        { label: t('groups.baths.item_4_label'), price: t('groups.baths.item_4_price') },
+        { label: t('groups.baths.item_5_label'), price: t('groups.baths.item_5_price') },
+        { label: t('groups.baths.item_6_label'), price: t('groups.baths.item_6_price') },
+        { label: t('groups.baths.item_7_label'), price: t('groups.baths.item_7_price') },
+        { label: t('groups.baths.item_8_label'), price: t('groups.baths.item_8_price') },
+      ],
+    },
+    {
+      id: 'extras',
+      roman: 'VII',
+      title: t('groups.extras.title'),
+      items: [
+        { label: t('groups.extras.item_1_label'), price: t('groups.extras.item_1_price') },
+        { label: t('groups.extras.item_2_label'), price: t('groups.extras.item_2_price') },
+        { label: t('groups.extras.item_3_label'), price: t('groups.extras.item_3_price') },
+        { label: t('groups.extras.item_4_label'), price: t('groups.extras.item_4_price') },
+        { label: t('groups.extras.item_5_label'), note: t('groups.extras.item_5_note'), price: t('groups.extras.item_5_price') },
+        { label: t('groups.extras.item_6_label'), price: t('groups.extras.item_6_price') },
+      ],
+    },
+  ];
+
+  const PROGRAMS: ComplexProgram[] = [
+    {
+      id: 'health',
+      title: t('programs.health.title'),
+      duration: t('programs.health.duration'),
+      price: t('programs.health.price'),
+      includes: [
+        t('programs.health.include_1'),
+        t('programs.health.include_2'),
+        t('programs.health.include_3'),
+        t('programs.health.include_4'),
+      ],
+      procedures: [
+        t('programs.health.proc_1'),
+        t('programs.health.proc_2'),
+        t('programs.health.proc_3'),
+        t('programs.health.proc_4'),
+        t('programs.health.proc_5'),
+        t('programs.health.proc_6'),
+        t('programs.health.proc_7'),
+      ],
+    },
+    {
+      id: 'slavic',
+      title: t('programs.slavic.title'),
+      duration: t('programs.slavic.duration'),
+      price: t('programs.slavic.price'),
+      includes: [
+        t('programs.slavic.include_1'),
+        t('programs.slavic.include_2'),
+        t('programs.slavic.include_3'),
+        t('programs.slavic.include_4'),
+      ],
+      procedures: [
+        t('programs.slavic.proc_1'),
+        t('programs.slavic.proc_2'),
+        t('programs.slavic.proc_3'),
+        t('programs.slavic.proc_4'),
+        t('programs.slavic.proc_5'),
+        t('programs.slavic.proc_6'),
+        t('programs.slavic.proc_7'),
+        t('programs.slavic.proc_8'),
+        t('programs.slavic.proc_9'),
+      ],
+    },
+  ];
+
   return (
     <>
       {/* Sticky quick-nav */}
       <div className="sticky top-16 z-20 -mx-6 sm:mx-0 mb-8 overflow-x-auto bg-[#faf6ec]/95 backdrop-blur-sm border-y border-[#1a3d2e]/10 py-3">
         <div className="flex items-center gap-1.5 sm:gap-2 px-6 sm:px-0 sm:justify-center whitespace-nowrap">
-          {TABS.map((t) => (
+          {TABS.map((tab) => (
             <button
-              key={t.id}
+              key={tab.id}
               type="button"
-              onClick={() => scrollToSection(t.id)}
+              onClick={() => scrollToSection(tab.id)}
               className={`text-[11px] sm:text-[12px] uppercase tracking-[0.18em] px-3 sm:px-4 py-2 rounded-sm transition-all ${
-                activeTab === t.id
+                activeTab === tab.id
                   ? 'bg-[#1a3d2e] text-[#f4ecd8]'
                   : 'text-[#0f1f18]/70 hover:bg-[#1a3d2e]/8 hover:text-[#0f1f18]'
               }`}
             >
-              {t.label}
+              {tab.label}
             </button>
           ))}
         </div>
@@ -377,18 +396,31 @@ export function PriceList() {
         <div id="price-programs" className="pt-6 scroll-mt-24">
           <div className="text-center mb-8">
             <p className="text-[11px] uppercase tracking-[0.28em] text-[#1a3d2e]/55 mb-3">
-              VIII · Комплексні оздоровчі програми
+              {t('programs.section_roman')}
             </p>
             <h3 className="font-display italic text-3xl md:text-4xl text-[#0f1f18] leading-tight">
-              Авторські програми
+              {t('programs.section_title')}
               <span className="block text-[#1a3d2e]/65 text-2xl md:text-3xl mt-1.5">
-                на 3 години.
+                {t('programs.section_title_italic')}
               </span>
             </h3>
           </div>
           <div className="grid md:grid-cols-2 gap-5 md:gap-6 max-w-4xl mx-auto">
-            <ProgramCard p={PROGRAMS[0]} />
-            <ProgramCard p={PROGRAMS[1]} featured />
+            <ProgramCard
+              p={PROGRAMS[0]}
+              badgeLabel={t('programs.badge_popular')}
+              typeLabel={t('programs.type_label')}
+              includesLabel={t('programs.includes_label')}
+              proceduresLabel={t('programs.procedures_label')}
+            />
+            <ProgramCard
+              p={PROGRAMS[1]}
+              featured
+              badgeLabel={t('programs.badge_popular')}
+              typeLabel={t('programs.type_label')}
+              includesLabel={t('programs.includes_label')}
+              proceduresLabel={t('programs.procedures_label')}
+            />
           </div>
         </div>
       </div>

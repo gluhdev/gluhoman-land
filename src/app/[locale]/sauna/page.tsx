@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Script from "next/script";
 import { Phone, Flame } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { BookingButton } from "@/components/ui/BookingButton";
 import { HallSlider, type HallSlide } from "@/components/restaurant/HallSlider";
 import { Reveal } from "@/components/restaurant/Reveal";
@@ -10,26 +11,32 @@ import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { FloatingNav } from "@/components/restaurant/FloatingNav";
 import { PriceList } from "@/components/sauna/PriceList";
 
-export const metadata: Metadata = {
-  title: "Лазня на дровах Глухомань — Чани, віники та масажі під Полтавою",
-  description:
-    "Дві лазні на дровах з карпатськими чанами під відкритим небом. Масажі дубовими, бамбуковими віниками, стоун-масаж, тайський масаж, скраби. Крафтове пиво, трав'яний чай та мед з пасіки «Глухомані».",
-  openGraph: {
-    title: "Лазня на дровах Глухомань — Тіло та дух",
-    description:
-      "Чани на дровах, віники, масажі, скраби та крафтове пиво у комплексі «Глухомань».",
-    type: "website",
-    locale: "uk_UA",
-    images: [
-      {
-        url: "/og-sauna.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Лазня на дровах Глухомань",
-      },
-    ],
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "sauna" });
+  return {
+    title: t("meta.title"),
+    description: t("meta.description"),
+    openGraph: {
+      title: t("meta.og_title"),
+      description: t("meta.og_description"),
+      type: "website",
+      locale: locale === "uk" ? "uk_UA" : "en_US",
+      images: [
+        {
+          url: "/og-sauna.jpg",
+          width: 1200,
+          height: 630,
+          alt: t("meta.og_image_alt"),
+        },
+      ],
+    },
+  };
+}
 
 const PHONE_COMPLEX = "0532-648-548";
 const PHONE_RESTAURANT = "050 850 3 555";
@@ -60,23 +67,6 @@ const saunaJsonLd = {
     addressLocality: "с. Нижні Млини",
   },
 };
-
-const navEntries = [
-  { id: "intro", roman: "0", label: "Про лазню" },
-  { id: "mala", roman: "I", label: "Мала лазня" },
-  { id: "velyka", roman: "II", label: "Велика лазня" },
-  { id: "prices", roman: "§", label: "Оренда та ціни" },
-  { id: "oak", roman: "III", label: "Дубові віники" },
-  { id: "carpathian", roman: "IV", label: "Карпатський чан" },
-  { id: "citrus", roman: "V", label: "Цитрусовий чан" },
-  { id: "tea", roman: "VI", label: "Чай та мед" },
-  { id: "beer", roman: "VII", label: "Крафтове пиво" },
-  { id: "stone", roman: "VIII", label: "Стоун масаж" },
-  { id: "classic", roman: "IX", label: "Класичний" },
-  { id: "thai", roman: "X", label: "Тайський" },
-  { id: "bamboo", roman: "XI", label: "Бамбук" },
-  { id: "scrub", roman: "XII", label: "Скрабування" },
-];
 
 /* ══════════════════════════════════════════════════════════════════
    Atoms
@@ -139,12 +129,12 @@ function Paragraph({
 }
 
 function BookingCTA({
-  label = "Забронювати лазню",
-  prefix = "або за тел:",
+  label,
+  prefix,
   light = false,
 }: {
-  label?: string;
-  prefix?: string;
+  label: string;
+  prefix: string;
   light?: boolean;
 }) {
   const mutedText = light ? "text-[#f4ecd8]/60" : "text-[#0f1f18]/55";
@@ -213,10 +203,6 @@ function PriceRow({
   );
 }
 
-/* ══════════════════════════════════════════════════════════════════
-   Reusable section
-   ══════════════════════════════════════════════════════════════════ */
-
 function SaunaSection({
   id,
   roman,
@@ -230,7 +216,8 @@ function SaunaSection({
   light = false,
   reverse = false,
   ghost,
-  ctaLabel = "Забронювати лазню",
+  ctaLabel,
+  ctaPrefix,
   noCta = false,
 }: {
   id: string;
@@ -245,7 +232,8 @@ function SaunaSection({
   light?: boolean;
   reverse?: boolean;
   ghost?: string;
-  ctaLabel?: string;
+  ctaLabel: string;
+  ctaPrefix: string;
   noCta?: boolean;
 }) {
   const bg = light ? "bg-[#0f1f18] text-[#f4ecd8]" : "bg-[#faf6ec]";
@@ -311,7 +299,7 @@ function SaunaSection({
             </SectionTitle>
             <Paragraph light={light}>{body}</Paragraph>
             {extra && <div className="mt-6">{extra}</div>}
-            {!noCta && <BookingCTA light={light} label={ctaLabel} />}
+            {!noCta && <BookingCTA light={light} label={ctaLabel} prefix={ctaPrefix} />}
           </Reveal>
 
           <Reveal className="md:col-span-7" delay={0.15}>
@@ -332,7 +320,29 @@ function SaunaSection({
    Page
    ══════════════════════════════════════════════════════════════════ */
 
-export default function SaunaPage() {
+export default async function SaunaPage() {
+  const t = await getTranslations("sauna");
+
+  const navEntries = [
+    { id: "intro", roman: "0", label: t("nav.intro") },
+    { id: "mala", roman: "I", label: t("nav.mala") },
+    { id: "velyka", roman: "II", label: t("nav.velyka") },
+    { id: "prices", roman: "§", label: t("nav.prices") },
+    { id: "oak", roman: "III", label: t("nav.oak") },
+    { id: "carpathian", roman: "IV", label: t("nav.carpathian") },
+    { id: "citrus", roman: "V", label: t("nav.citrus") },
+    { id: "tea", roman: "VI", label: t("nav.tea") },
+    { id: "beer", roman: "VII", label: t("nav.beer") },
+    { id: "stone", roman: "VIII", label: t("nav.stone") },
+    { id: "classic", roman: "IX", label: t("nav.classic") },
+    { id: "thai", roman: "X", label: t("nav.thai") },
+    { id: "bamboo", roman: "XI", label: t("nav.bamboo") },
+    { id: "scrub", roman: "XII", label: t("nav.scrub") },
+  ];
+
+  const ctaLabel = t("booking_cta.label");
+  const ctaPrefix = t("booking_cta.prefix");
+
   return (
     <div className="bg-[#faf6ec]">
       <Script
@@ -352,7 +362,7 @@ export default function SaunaPage() {
         <HeroParallax>
           <Image
             src={S(1)}
-            alt="Лазня на дровах Глухомань — зовнішній вигляд"
+            alt={t("hero.img_alt")}
             fill
             priority
             quality={85}
@@ -364,16 +374,16 @@ export default function SaunaPage() {
 
         <Reveal className="relative z-10 max-w-5xl px-6 text-center">
           <p className="text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8] mb-6">
-            Лазня
+            {t("hero.eyebrow")}
           </p>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.9] mb-6 font-light">
-            Лазня + Чан
+            {t("hero.title")}
           </h1>
           <p className="font-display text-3xl md:text-5xl text-[#f4ecd8] max-w-3xl mx-auto leading-[1.05] mb-2">
-            Джерело здоров&apos;я серед лісу.
+            {t("hero.subtitle")}
           </p>
           <p className="font-display italic text-2xl md:text-4xl text-[#e6d9b8]/90 max-w-3xl mx-auto leading-snug mb-10">
-            Дві лазні на дровах. Карпатські чани під відкритим небом.
+            {t("hero.subtitle2")}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
@@ -382,14 +392,14 @@ export default function SaunaPage() {
               className="inline-flex items-center justify-center gap-2 bg-[#e6d9b8] text-[#0f1f18] px-8 sm:px-10 py-4 text-sm font-medium tracking-wide hover:bg-[#f4ecd8] transition-colors min-h-[44px] w-full sm:w-auto"
             >
               <Phone className="w-4 h-4" strokeWidth={2} />
-              Забронювати лазню
+              {t("hero.cta_book")}
             </BookingButton>
             <a
               href="#prices"
               className="inline-flex items-center justify-center gap-2 border border-[#e6d9b8]/70 text-[#f4ecd8] px-8 sm:px-10 py-4 text-sm font-medium tracking-wide hover:bg-[#e6d9b8]/10 transition-colors min-h-[44px] w-full sm:w-auto"
             >
               <Flame className="w-4 h-4" strokeWidth={2} />
-              Переглянути ціни
+              {t("hero.cta_prices")}
             </a>
           </div>
         </Reveal>
@@ -416,25 +426,18 @@ export default function SaunaPage() {
                 <span className="font-display italic text-4xl md:text-5xl leading-none text-[#1a3d2e]/35">
                   0
                 </span>
-                <SectionEyebrow>Про лазню</SectionEyebrow>
+                <SectionEyebrow>{t("intro.eyebrow")}</SectionEyebrow>
               </div>
               <SectionTitle>
-                Джерело здоров&apos;я
+                {t("intro.title")}
                 <span className="block font-display italic text-[#1a3d2e]/65 mt-2">
-                  та відпочинку на свій смак.
+                  {t("intro.title_italic")}
                 </span>
               </SectionTitle>
               <Paragraph>
-                Лазня - це унікальне місце, де кожен зможе знайти джерело
-                здоров&apos;я та відпочинку на свій смак. На території
-                ресторанно - готельного комплексу «Глухомань» біля лісу
-                знаходяться дві лазні на дровах з карпатськими чанами під
-                відкритим небом: Мала лазня та Велика лазня, де Ви маєте змогу
-                насолодитися всіма перевагами та традиціями оздоровчих процедур:
-                різноманітні масажі, скраби, обгортання, закарпатський та
-                цитрусовий чан.
+                {t("intro.body")}
               </Paragraph>
-              <BookingCTA />
+              <BookingCTA label={ctaLabel} prefix={ctaPrefix} />
             </Reveal>
 
             <Reveal className="md:col-span-7" delay={0.15}>
@@ -442,9 +445,9 @@ export default function SaunaPage() {
                 aspect="aspect-[4/3]"
                 base="/images/sauna/doc/"
                 photos={[
-                  { n: 1, alt: "Мала лазня — зовнішній вигляд серед лісу" },
-                  { n: 7, alt: "Басейн Великої лазні у приміщенні" },
-                  { n: 5, alt: "Карпатські чани під відкритим небом" },
+                  { n: 1, alt: t("intro.slider_1_alt") },
+                  { n: 7, alt: t("intro.slider_2_alt") },
+                  { n: 5, alt: t("intro.slider_3_alt") },
                 ]}
               />
             </Reveal>
@@ -461,16 +464,18 @@ export default function SaunaPage() {
         id="mala"
         roman="I"
         ghost="I"
-        eyebrow="Мала лазня"
-        titleBold="Мала лазня"
-        titleItalic="з басейном просто неба."
-        body="Басейн в Малій лазні знаходиться на вулиці."
+        eyebrow={t("mala.eyebrow")}
+        titleBold={t("mala.title")}
+        titleItalic={t("mala.title_italic")}
+        body={t("mala.body")}
         aspect="aspect-[4/3]"
+        ctaLabel={ctaLabel}
+        ctaPrefix={ctaPrefix}
         photos={[
-          { n: 1, alt: "Мала лазня — дерев'яний зруб, червоний дах" },
-          { n: 2, alt: "Басейн на вулиці та купіль у Малій лазні" },
-          { n: 3, alt: "Кімната відпочинку Малої лазні з самоваром" },
-          { n: 4, alt: "Кам'яний майданчик перед чаном серед дерев" },
+          { n: 1, alt: t("mala.photo_1_alt") },
+          { n: 2, alt: t("mala.photo_2_alt") },
+          { n: 3, alt: t("mala.photo_3_alt") },
+          { n: 4, alt: t("mala.photo_4_alt") },
         ]}
       />
 
@@ -483,18 +488,20 @@ export default function SaunaPage() {
         id="velyka"
         roman="II"
         ghost="II"
-        eyebrow="Велика лазня"
-        titleBold="Велика лазня"
-        titleItalic="з басейном у приміщенні."
-        body="У Великій лазні басейн знаходиться в приміщенні."
+        eyebrow={t("velyka.eyebrow")}
+        titleBold={t("velyka.title")}
+        titleItalic={t("velyka.title_italic")}
+        body={t("velyka.body")}
         light
         reverse
         aspect="aspect-[4/3]"
+        ctaLabel={ctaLabel}
+        ctaPrefix={ctaPrefix}
         photos={[
-          { n: 5, alt: "Карпатський чан на вулиці Великої лазні" },
-          { n: 6, alt: "Кімната відпочинку з листям, шкіряний диван" },
-          { n: 7, alt: "Басейн Великої лазні в приміщенні" },
-          { n: 8, alt: "Кімната відпочинку з самоваром у Великій лазні" },
+          { n: 5, alt: t("velyka.photo_1_alt") },
+          { n: 6, alt: t("velyka.photo_2_alt") },
+          { n: 7, alt: t("velyka.photo_3_alt") },
+          { n: 8, alt: t("velyka.photo_4_alt") },
         ]}
       />
 
@@ -520,30 +527,26 @@ export default function SaunaPage() {
               <span className="font-display italic text-4xl md:text-5xl leading-none text-[#1a3d2e]/35">
                 §
               </span>
-              <SectionEyebrow>Оренда та ціни</SectionEyebrow>
+              <SectionEyebrow>{t("prices.eyebrow")}</SectionEyebrow>
             </div>
             <SectionTitle>
-              Оренда лазні — 1000 грн/год
+              {t("prices.title")}
               <span className="block font-display italic text-[#1a3d2e]/65 mt-2">
-                мінімальне замовлення 2 години, до 7-ми осіб.
+                {t("prices.title_italic")}
               </span>
             </SectionTitle>
             <Paragraph className="max-w-2xl mx-auto">
-              Як влаштована лазня на дровах? По-перше, справжні лазні повністю
-              дерев&apos;яні, за винятком печі-кам&apos;янки. Лазня в
-              «Глухомані» облицьована липою і обладнана декількома полками
-              виготовленими з липи. Температура повітря в парній досягає 90
-              - 100 °С.
+              {t("prices.body")}
             </Paragraph>
             <div className="flex justify-center">
-              <BookingCTA label="Забронювати лазню" />
+              <BookingCTA label={t("prices.book_label")} prefix={ctaPrefix} />
             </div>
           </Reveal>
 
           <Reveal delay={0.15}>
             <div className="max-w-5xl mx-auto">
               <p className="text-center text-[10px] uppercase tracking-[0.32em] text-[#1a3d2e]/50 mb-6">
-                Прайс-лист 2025–2026
+                {t("prices.pricelist_label")}
               </p>
               <PriceList />
             </div>
@@ -551,11 +554,7 @@ export default function SaunaPage() {
 
           <Reveal delay={0.25}>
             <p className="max-w-3xl mx-auto text-center text-[16px] leading-[1.7] text-[#0f1f18]/75 mt-12">
-              Наші адміністратори завжди до ваших послуг, щоб допомогти та
-              організувати відпочинок на найвищому рівні. Послуги банщика і
-              сертифікованого масажиста доступні за попереднім записом — вони
-              допоможуть максимально розслабитися і отримати насолоду від
-              процедур.
+              {t("prices.staff_note")}
             </p>
           </Reveal>
         </div>
@@ -570,41 +569,34 @@ export default function SaunaPage() {
         id="oak"
         roman="III"
         ghost="III"
-        eyebrow="Масаж дубовими віниками"
-        titleBold="Віники в парній"
-        titleItalic="— серце лазні."
+        eyebrow={t("oak.eyebrow")}
+        titleBold={t("oak.title")}
+        titleItalic={t("oak.title_italic")}
         body={
           <>
-            Пропарка віниками покращує кровообіг, очищає шкіру та виводить
-            токсини, а також розслабляє м&apos;язи та зміцнює імунітет. Під час
-            процедури розпарений віник виділяє ефірні олії та фітонциди, які
-            живлять шкіру та мають антибактеріальну дію.
+            {t("oak.body_p1")}
             <span className="block mt-4">
-              Через високий вміст пари в повітрі прогрів організму набагато
-              сильніший, ніж в сауні: піт не випаровується, і за рахунок
-              посиленої циркуляції крові починають прогріватися внутрішні
-              тканини. Звісно після зігріву, організм вимагає охолодження в
-              басейні з холодною водою, поки знову не захочеться зігрітися. І
-              так - кілька разів з тепла в холод і назад. Чудове загартовування
-              організму і тренування судин!
+              {t("oak.body_p2")}
             </span>
           </>
         }
         extra={
           <div className="rounded-sm bg-[#0f1f18]/50 ring-1 ring-[#e6d9b8]/20 px-5 py-4">
             <p className="text-[10px] uppercase tracking-[0.28em] text-[#e6d9b8]/70 mb-2">
-              Додатково — аромотерапія
+              {t("oak.aroma_label")}
             </p>
             <p className="font-display italic text-[#f4ecd8]/90 text-lg">
-              м&apos;ята · евкаліпт · прополіс
+              {t("oak.aroma_items")}
             </p>
           </div>
         }
         light
+        ctaLabel={ctaLabel}
+        ctaPrefix={ctaPrefix}
         photos={[
-          { n: 14, alt: "Масаж дубовими віниками в парній", objectPosition: "center 30%" },
-          { n: 15, alt: "Дубовий віник розкриває ефірні олії" },
-          { n: 16, alt: "Охолодження в басейні після парної" },
+          { n: 14, alt: t("oak.photo_1_alt"), objectPosition: "center 30%" },
+          { n: 15, alt: t("oak.photo_2_alt") },
+          { n: 16, alt: t("oak.photo_3_alt") },
         ]}
       />
 
@@ -617,52 +609,41 @@ export default function SaunaPage() {
         id="carpathian"
         roman="IV"
         ghost="IV"
-        eyebrow="Карпатський чан"
-        titleBold="Карпатський чан"
-        titleItalic="на лікарських травах."
-        body={
-          <>
-            Доповнення до лазні «Карпатський чан» - це унікальна спа -
-            процедура. Завдяки якій можна забути про стреси і стимулювати
-            роботу серцево - судинної системи і нирок. Процедури можуть зняти
-            болі при ревматизмі, нормалізувати обмін речовин, знизити ризик
-            простудних захворювань. Цілюще тепло гарячої води проникає в кожну
-            клітинку організму, максимально розслаблює м&apos;язи, дає їм
-            справжній відпочинок, приносячи ні з чим незрівнянну користь.
-            Температура води в чані від 38 – 40 С. Настоюється на лікарських
-            травах (ромашка, полинь, звіробій та ін.)
-          </>
-        }
+        eyebrow={t("carpathian.eyebrow")}
+        titleBold={t("carpathian.title")}
+        titleItalic={t("carpathian.title_italic")}
+        body={t("carpathian.body")}
         extra={
           <div className="grid sm:grid-cols-2 gap-3">
             <div className="rounded-sm bg-white/60 ring-1 ring-[#1a3d2e]/10 px-4 py-3">
               <p className="text-[10px] uppercase tracking-[0.22em] text-[#1a3d2e]/55 mb-1">
-                із замовленням лазні
+                {t("carpathian.with_sauna_label")}
               </p>
-              <p className="font-display text-2xl text-[#1a3d2e]">700 грн/год</p>
+              <p className="font-display text-2xl text-[#1a3d2e]">{t("carpathian.with_sauna_price")}</p>
               <p className="text-[11px] text-[#0f1f18]/55 mt-0.5 italic">
-                мін. замовлення 2 год
+                {t("carpathian.min_order")}
               </p>
             </div>
             <div className="rounded-sm bg-white/60 ring-1 ring-[#1a3d2e]/10 px-4 py-3">
               <p className="text-[10px] uppercase tracking-[0.22em] text-[#1a3d2e]/55 mb-1">
-                без замовлення лазні
+                {t("carpathian.without_sauna_label")}
               </p>
-              <p className="font-display text-2xl text-[#1a3d2e]">1200 грн/год</p>
+              <p className="font-display text-2xl text-[#1a3d2e]">{t("carpathian.without_sauna_price")}</p>
               <p className="text-[11px] text-[#0f1f18]/55 mt-0.5 italic">
-                мін. замовлення 2 год
+                {t("carpathian.min_order")}
               </p>
             </div>
             <p className="sm:col-span-2 text-[12px] text-[#0f1f18]/55 italic leading-relaxed">
-              Щоб Ваш відпочинок був максимально приємним після кожних гостей
-              ми повністю міняємо воду в чані та проводимо дезінфекцію.
+              {t("carpathian.hygiene_note")}
             </p>
           </div>
         }
         aspect="aspect-[4/3]"
+        ctaLabel={ctaLabel}
+        ctaPrefix={ctaPrefix}
         photos={[
-          { n: 17, alt: "Карпатський чан з лікарськими травами — зимовий вечір" },
-          { n: 18, alt: "Карпатський чан біля дерев'яної лазні" },
+          { n: 17, alt: t("carpathian.photo_1_alt") },
+          { n: 18, alt: t("carpathian.photo_2_alt") },
         ]}
       />
 
@@ -675,43 +656,43 @@ export default function SaunaPage() {
         id="citrus"
         roman="V"
         ghost="V"
-        eyebrow="Хвойно-цитрусовий чан"
-        titleBold="Хвойно-цитрусовий чан"
-        titleItalic="тонус і свіжість."
-        body="«Хвойно – цитрусовий карпатський чан»: аромати хвої, апельсина, лимона та грейпфрута дають тонізуючий ефект Вашому організму та дарують незрівнянний прилив енергії та гарного настрою."
+        eyebrow={t("citrus.eyebrow")}
+        titleBold={t("citrus.title")}
+        titleItalic={t("citrus.title_italic")}
+        body={t("citrus.body")}
         extra={
           <div className="grid sm:grid-cols-2 gap-3">
             <div className="rounded-sm bg-[#0f1f18]/50 ring-1 ring-[#e6d9b8]/20 px-4 py-3">
               <p className="text-[10px] uppercase tracking-[0.22em] text-[#e6d9b8]/65 mb-1">
-                із замовленням лазні
+                {t("citrus.with_sauna_label")}
               </p>
-              <p className="font-display text-2xl text-[#e6d9b8]">1100 грн/год</p>
+              <p className="font-display text-2xl text-[#e6d9b8]">{t("citrus.with_sauna_price")}</p>
               <p className="text-[11px] text-[#f4ecd8]/55 mt-0.5 italic">
-                мін. замовлення 2 год
+                {t("citrus.min_order")}
               </p>
             </div>
             <div className="rounded-sm bg-[#0f1f18]/50 ring-1 ring-[#e6d9b8]/20 px-4 py-3">
               <p className="text-[10px] uppercase tracking-[0.22em] text-[#e6d9b8]/65 mb-1">
-                без замовлення лазні
+                {t("citrus.without_sauna_label")}
               </p>
-              <p className="font-display text-2xl text-[#e6d9b8]">1500 грн/год</p>
+              <p className="font-display text-2xl text-[#e6d9b8]">{t("citrus.without_sauna_price")}</p>
               <p className="text-[11px] text-[#f4ecd8]/55 mt-0.5 italic">
-                мін. замовлення 2 год
+                {t("citrus.min_order")}
               </p>
             </div>
             <p className="sm:col-span-2 text-[12px] text-[#f4ecd8]/55 italic leading-relaxed">
-              Після кожних гостей вода та цитрусові повністю оновлюються. А
-              сам чан – дезінфікується. Тому Ви заходите завжди в чистоту та
-              свіжість.
+              {t("citrus.hygiene_note")}
             </p>
           </div>
         }
         light
         reverse
         aspect="aspect-[4/3]"
+        ctaLabel={ctaLabel}
+        ctaPrefix={ctaPrefix}
         photos={[
-          { n: 19, alt: "Пара в чані з цитрусовими і хвоєю" },
-          { n: 20, alt: "Цитрусовий чан — вид згори" },
+          { n: 19, alt: t("citrus.photo_1_alt") },
+          { n: 20, alt: t("citrus.photo_2_alt") },
         ]}
       />
 
@@ -724,43 +705,44 @@ export default function SaunaPage() {
         id="tea"
         roman="VI"
         ghost="VI"
-        eyebrow="Чай, мед та квас"
-        titleBold="Водний баланс"
-        titleItalic="по-нашому."
-        body="Під час відвідування лазні тіло та організм втрачає велику кількість води тому щоб відновити водний баланс Ви можете замовити трав'яний чай з баранками та медом або крафтовий квас власного виробництва."
+        eyebrow={t("tea.eyebrow")}
+        titleBold={t("tea.title")}
+        titleItalic={t("tea.title_italic")}
+        body={t("tea.body")}
         extra={
           <div>
             <p className="text-[14px] text-[#0f1f18]/80 mb-3">
-              Мед має багато корисних властивостей і він цінується не лище за
-              смак, а й за вплив на організм. Головні переваги:
+              {t("tea.honey_intro")}
             </p>
             <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2 text-[15px] text-[#0f1f18]/85">
               <li className="flex gap-2">
                 <span className="text-[#1a3d2e] font-display italic">·</span>
-                підтримка імунітету
+                {t("tea.honey_1")}
               </li>
               <li className="flex gap-2">
                 <span className="text-[#1a3d2e] font-display italic">·</span>
-                природний антиоксидант
+                {t("tea.honey_2")}
               </li>
               <li className="flex gap-2">
                 <span className="text-[#1a3d2e] font-display italic">·</span>
-                легке джерело енергії
+                {t("tea.honey_3")}
               </li>
               <li className="flex gap-2">
                 <span className="text-[#1a3d2e] font-display italic">·</span>
-                покращує сон
+                {t("tea.honey_4")}
               </li>
             </ul>
           </div>
         }
         noCta
         aspect="aspect-[4/3]"
+        ctaLabel={ctaLabel}
+        ctaPrefix={ctaPrefix}
         photos={[
-          { n: 21, alt: "Крафтовий квас «Глухомань»" },
-          { n: 22, alt: "Самовар і кошик з баранками" },
-          { n: 23, alt: "Квітковий мед з пасіки «Глухомані»" },
-          { n: 24, alt: "Мед у глиняному горщику з баранками" },
+          { n: 21, alt: t("tea.photo_1_alt") },
+          { n: 22, alt: t("tea.photo_2_alt") },
+          { n: 23, alt: t("tea.photo_3_alt") },
+          { n: 24, alt: t("tea.photo_4_alt") },
         ]}
       />
 
@@ -796,25 +778,21 @@ export default function SaunaPage() {
                 <span className="font-display italic text-4xl md:text-5xl leading-none text-[#e6d9b8]/60">
                   VII
                 </span>
-                <SectionEyebrow light>Крафтове пиво</SectionEyebrow>
+                <SectionEyebrow light>{t("beer.eyebrow")}</SectionEyebrow>
               </div>
               <SectionTitle light>
-                Банний відпочинок
+                {t("beer.title")}
                 <span className="block font-display italic text-[#e6d9b8]/80 mt-2">
-                  зі смачною вечерею.
+                  {t("beer.title_italic")}
                 </span>
               </SectionTitle>
               <Paragraph light>
-                А для тих, хто любить комбінувати банний відпочинок зі смачною
-                вечерею, є можливість замовити їжу, коктейлі та крафтове пиво
-                власного виробництва з нашого ресторану. Лазня «Глухомань» —
-                ідеальне місце для тих, хто шукає якісний та незабутній
-                відпочинок.
+                {t("beer.body")}
               </Paragraph>
 
               <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-[15px]">
                 <span className="text-[#f4ecd8]/60 tracking-wide">
-                  Замовлення їжі з ресторану:
+                  {t("beer.order_label")}
                 </span>
                 <a
                   href={`tel:${PHONE_RESTAURANT_TEL}`}
@@ -824,7 +802,7 @@ export default function SaunaPage() {
                 </a>
               </div>
 
-              <BookingCTA light />
+              <BookingCTA light label={ctaLabel} prefix={ctaPrefix} />
             </Reveal>
 
             <Reveal className="md:col-span-7" delay={0.15}>
@@ -833,9 +811,9 @@ export default function SaunaPage() {
                 aspect="aspect-[4/3]"
                 base="/images/sauna/doc/"
                 photos={[
-                  { n: 25, alt: "Крафтове пиво та копчене м'ясо в лазні" },
-                  { n: 26, alt: "Гості у лазні за пивом" },
-                  { n: 27, alt: "Дегустація пива «Глухомані»" },
+                  { n: 25, alt: t("beer.photo_1_alt") },
+                  { n: 26, alt: t("beer.photo_2_alt") },
+                  { n: 27, alt: t("beer.photo_3_alt") },
                 ]}
               />
             </Reveal>
@@ -852,23 +830,29 @@ export default function SaunaPage() {
         id="stone"
         roman="VIII"
         ghost="VIII"
-        eyebrow="Стоун масаж"
-        titleBold="Стоун масаж."
-        titleItalic="Гармонія та сила."
-        body="Стоун масаж надає користь завдяки глибокому розслабленню м'язів, покращенню кровообігу, зменшенню стресу та полегшенню болю. А також гармонізувати нервову систему. Дарує відчуття легкості, гармонії та припливу сил."
+        eyebrow={t("stone.eyebrow")}
+        titleBold={t("stone.title")}
+        titleItalic={t("stone.title_italic")}
+        body={t("stone.body")}
         extra={
           <div className="space-y-2">
-            <PriceRow label="Стоун масаж" italic="50 / 80 хв" value="900 / 1200 грн" />
+            <PriceRow
+              label={t("stone.price_label")}
+              italic={t("stone.price_duration")}
+              value={t("stone.price_value")}
+            />
             <p className="text-[11px] text-[#0f1f18]/55 mt-3 italic">
-              Послуги сертифікованого масажиста доступні за попереднім записом.
+              {t("stone.certified_note")}
             </p>
           </div>
         }
         aspect="aspect-[4/3]"
+        ctaLabel={ctaLabel}
+        ctaPrefix={ctaPrefix}
         photos={[
-          { n: 28, alt: "Гаряче каміння на спині при свічках" },
-          { n: 29, alt: "Сертифікати SPA Professional майстрів лазні" },
-          { n: 30, alt: "Стоун масаж у лазні «Глухомань»" },
+          { n: 28, alt: t("stone.photo_1_alt") },
+          { n: 29, alt: t("stone.photo_2_alt") },
+          { n: 30, alt: t("stone.photo_3_alt") },
         ]}
       />
 
@@ -881,25 +865,27 @@ export default function SaunaPage() {
         id="classic"
         roman="IX"
         ghost="IX"
-        eyebrow="Класичний масаж тіла"
-        titleBold="Класичний масаж тіла."
-        body="Класичний масаж корисний для розслаблення м'язів, зняття болю та стресу, поліпшення кровообігу та лімфотоку, а також загального покращення самопочуття. Він сприяє підвищенню еластичності шкіри, покращенню якості сну, зміцненню імунної системи та відновленню працездатності після фізичних навантажень або травм."
+        eyebrow={t("classic.eyebrow")}
+        titleBold={t("classic.title")}
+        body={t("classic.body")}
         extra={
           <div className="space-y-2">
-            <PriceRow light label="Масаж «Класичний»" italic="20 хв" value="350 грн" />
-            <PriceRow light label="Масаж «Класичний»" italic="30 хв" value="450 грн" />
-            <PriceRow light label="Масаж «Класичний»" italic="50 хв" value="550 грн" />
+            <PriceRow light label={t("classic.price_label")} italic={t("classic.price_20_duration")} value={t("classic.price_20_value")} />
+            <PriceRow light label={t("classic.price_label")} italic={t("classic.price_30_duration")} value={t("classic.price_30_value")} />
+            <PriceRow light label={t("classic.price_label")} italic={t("classic.price_50_duration")} value={t("classic.price_50_value")} />
             <p className="text-[11px] text-[#f4ecd8]/60 mt-3 italic">
-              Послуги сертифікованого масажиста доступні за попереднім записом.
+              {t("classic.certified_note")}
             </p>
           </div>
         }
         light
         reverse
         aspect="aspect-[4/3]"
+        ctaLabel={ctaLabel}
+        ctaPrefix={ctaPrefix}
         photos={[
-          { n: 31, alt: "Класичний масаж — близький кадр" },
-          { n: 32, alt: "Класичний масаж тіла — майстер лазні" },
+          { n: 31, alt: t("classic.photo_1_alt") },
+          { n: 32, alt: t("classic.photo_2_alt") },
         ]}
       />
 
@@ -912,43 +898,34 @@ export default function SaunaPage() {
         id="thai"
         roman="X"
         ghost="X"
-        eyebrow="Тайський масаж"
-        titleBold="Тайський масаж"
-        titleItalic="та «Пахоп»."
+        eyebrow={t("thai.eyebrow")}
+        titleBold={t("thai.title")}
+        titleItalic={t("thai.title_italic")}
         body={
           <>
-            Тайський масаж — це стародавній вид лікувального масажу, який
-            поєднує в собі елементи розтягування, натискання та йоги, а також
-            впливає на енергетичні канали тіла. Він сприяє глибокому
-            розслабленню, покращує гнучкість, кровообіг і загальне самопочуття,
-            а також допомагає зняти м&apos;язову напругу. Процедура зазвичай
-            проводиться на килимку на підлозі, а клієнт залишається в
-            комфортному одязі.
+            {t("thai.body_p1")}
             <span className="block mt-4">
-              «Пахоп» (або «пахоб») — це вид тайського масажу, який виконується
-              теплими трав&apos;яними мішечками. Ця процедура поєднує тепловий
-              вплив, ароматерапію та масажні прийоми для розслаблення
-              м&apos;язів, зняття болю та покращення кровообігу. Трав&apos;яні
-              мішечки, що використовуються під час масажу, містять суміш
-              лікувальних трав, які підігріваються перед процедурою.
+              {t("thai.body_p2")}
             </span>
           </>
         }
         extra={
           <div className="space-y-2">
-            <PriceRow label="Традиційний тайський + «Пахоп»" italic="45 хв" value="700 грн" />
-            <PriceRow label="Традиційний тайський" italic="40 хв" value="550 грн" />
-            <PriceRow label="Тайський релакс арома-ойл" italic="40 хв" value="550 грн" />
-            <PriceRow label="Тайський фут-масаж (стоп)" italic="35 хв" value="450 грн" />
+            <PriceRow label={t("thai.price_1_label")} italic={t("thai.price_1_duration")} value={t("thai.price_1_value")} />
+            <PriceRow label={t("thai.price_2_label")} italic={t("thai.price_2_duration")} value={t("thai.price_2_value")} />
+            <PriceRow label={t("thai.price_3_label")} italic={t("thai.price_3_duration")} value={t("thai.price_3_value")} />
+            <PriceRow label={t("thai.price_4_label")} italic={t("thai.price_4_duration")} value={t("thai.price_4_value")} />
             <p className="text-[11px] text-[#0f1f18]/55 mt-3 italic">
-              Послуги сертифікованого масажиста доступні за попереднім записом.
+              {t("thai.certified_note")}
             </p>
           </div>
         }
         aspect="aspect-[4/3]"
+        ctaLabel={ctaLabel}
+        ctaPrefix={ctaPrefix}
         photos={[
-          { n: 33, alt: "Тайський масаж — розтягнення в лазні" },
-          { n: 34, alt: "Тайський масаж — робота з суглобами" },
+          { n: 33, alt: t("thai.photo_1_alt") },
+          { n: 34, alt: t("thai.photo_2_alt") },
         ]}
       />
 
@@ -961,25 +938,27 @@ export default function SaunaPage() {
         id="bamboo"
         roman="XI"
         ghost="XI"
-        eyebrow="Бамбуковий масаж"
-        titleBold="Масаж"
-        titleItalic="бамбуковими віниками."
-        body="Масаж бамбуковими віниками має давнє східне коріння і походить переважно з Китаю та Японії. Бамбук здавна вважають символом сили, гнучкості та оздоровлення, а його властивості використовують в традиційних практиках для відновлення тіла. Масаж бамбуковими віниками приносить користь, яка включає глибоке розслаблення м'язів, зняття напруги та стресу, покращення кровообігу і лімфотоку, а також боротьбу з целюлітом. Додатково, він може поліпшити рухливість суглобів, зміцнити шкіру і сприяти загальному покращенню самопочуття та емоційного стану."
+        eyebrow={t("bamboo.eyebrow")}
+        titleBold={t("bamboo.title")}
+        titleItalic={t("bamboo.title_italic")}
+        body={t("bamboo.body")}
         extra={
           <div className="space-y-2">
-            <PriceRow light label="Масаж бамбуковими віниками" italic="20 хв" value="400 грн" />
+            <PriceRow light label={t("bamboo.price_label")} italic={t("bamboo.price_duration")} value={t("bamboo.price_value")} />
             <p className="text-[11px] text-[#f4ecd8]/60 mt-3 italic">
-              Послуги сертифікованого масажиста доступні за попереднім записом.
+              {t("bamboo.certified_note")}
             </p>
           </div>
         }
         light
         reverse
         aspect="aspect-[4/3]"
+        ctaLabel={ctaLabel}
+        ctaPrefix={ctaPrefix}
         photos={[
-          { n: 35, alt: "Бамбукові палички підготовлені до процедури" },
-          { n: 36, alt: "Бамбуковий масаж у лазні" },
-          { n: 37, alt: "Бамбукові віники — майстер за роботою" },
+          { n: 35, alt: t("bamboo.photo_1_alt") },
+          { n: 36, alt: t("bamboo.photo_2_alt") },
+          { n: 37, alt: t("bamboo.photo_3_alt") },
         ]}
       />
 
@@ -992,33 +971,35 @@ export default function SaunaPage() {
         id="scrub"
         roman="XII"
         ghost="XII"
-        eyebrow="Скрабування"
-        titleBold="Скраби в лазні"
-        titleItalic="— оновлення шкіри."
-        body="Скраб у лазні приносить користь завдяки поєднанню ефектів від гарячого пару та механічного очищення. Він глибоко очищає шкіру, стимулює кровообіг, виводить токсини. В результаті шкіра стає гладенькою, м'якою, зволоженою та оновленою."
+        eyebrow={t("scrub.eyebrow")}
+        titleBold={t("scrub.title")}
+        titleItalic={t("scrub.title_italic")}
+        body={t("scrub.body")}
         extra={
           <div className="space-y-1.5">
-            <PriceRow label="Сіль-глина" value="300 грн" />
-            <PriceRow label="Сода-лимон" value="300 грн" />
-            <PriceRow label="Сіль-арома" value="300 грн" />
-            <PriceRow label="«Кавово-медовий»" value="400 грн" />
-            <PriceRow label="«Кавово-сольовий»" value="400 грн" />
-            <PriceRow label="«Шоколад»" value="400 грн" />
-            <PriceRow label="«Сіль, гірчиця, мед, пиво»" value="—" />
+            <PriceRow label={t("scrub.price_1_label")} value={t("scrub.price_1_value")} />
+            <PriceRow label={t("scrub.price_2_label")} value={t("scrub.price_2_value")} />
+            <PriceRow label={t("scrub.price_3_label")} value={t("scrub.price_3_value")} />
+            <PriceRow label={t("scrub.price_4_label")} value={t("scrub.price_4_value")} />
+            <PriceRow label={t("scrub.price_5_label")} value={t("scrub.price_5_value")} />
+            <PriceRow label={t("scrub.price_6_label")} value={t("scrub.price_6_value")} />
+            <PriceRow label={t("scrub.price_7_label")} value={t("scrub.price_7_value")} />
             <PriceRow
-              label="Фруктова аплікація"
-              italic="яблуко, апельсин, банан, морква"
-              value="400 грн"
+              label={t("scrub.price_8_label")}
+              italic={t("scrub.price_8_note")}
+              value={t("scrub.price_8_value")}
             />
             <p className="text-[11px] text-[#0f1f18]/55 mt-3 italic">
-              Послуги сертифікованого масажиста доступні за попереднім записом.
+              {t("scrub.certified_note")}
             </p>
           </div>
         }
         aspect="aspect-[4/3]"
+        ctaLabel={ctaLabel}
+        ctaPrefix={ctaPrefix}
         photos={[
-          { n: 38, alt: "Скрабування у лазні" },
-          { n: 39, alt: "Кавовий скраб — процедура для ніг" },
+          { n: 38, alt: t("scrub.photo_1_alt") },
+          { n: 39, alt: t("scrub.photo_2_alt") },
         ]}
       />
 
