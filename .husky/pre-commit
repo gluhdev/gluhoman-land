@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+UK_CHANGED=$(git diff --cached --name-only | grep -c '^messages/uk\.json$' || true)
+EN_CHANGED=$(git diff --cached --name-only | grep -c '^messages/en\.json$' || true)
+
+if [ "$UK_CHANGED" -gt 0 ] && [ "$EN_CHANGED" -eq 0 ]; then
+  echo "✗ messages/uk.json changed but messages/en.json was not."
+  echo "  Run \`npm run i18n:sync\` and stage the result before committing."
+  exit 1
+fi
+
+npm run --silent i18n:check

@@ -15,7 +15,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "i18n:sync": "tsx --env-file=.env.local scripts/i18n/sync.ts",
-    "i18n:check": "tsx scripts/i18n/check.ts"
+    "i18n:check": "tsx scripts/i18n/check.ts",
+    "prepare": "husky"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -63,6 +64,7 @@
     "dotenv": "^17.4.1",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
+    "husky": "^9.1.7",
     "playwright": "^1.55.0",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
