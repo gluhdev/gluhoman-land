@@ -155,6 +155,7 @@ export default function FontSwitcher() {
                             : "border-neutral-200 bg-white hover:border-neutral-400"
                         }`}
                       >
+                        {/* eslint-disable local/no-cyrillic-jsx -- font preview: brand name/tagline shown in UA script to demo the typeface pair */}
                         <div
                           className="text-2xl leading-tight text-neutral-900"
                           style={{ fontFamily: `"${p.heading}", serif` }}
@@ -167,6 +168,7 @@ export default function FontSwitcher() {
                         >
                           Відпочинок у серці природи
                         </div>
+                        {/* eslint-enable local/no-cyrillic-jsx */}
                         <div className="mt-2 text-xs font-medium text-neutral-800">{p.label}</div>
                         <div className="text-[11px] text-neutral-500">{p.mood}</div>
                       </button>

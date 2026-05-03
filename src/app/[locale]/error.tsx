@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { SurfaceCard } from "@/components/ui/SurfaceCard";
+import { useTranslations } from "next-intl";
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -11,6 +12,7 @@ interface ErrorProps {
 }
 
 export default function Error({ error, reset }: ErrorProps) {
+  const t = useTranslations("error");
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -31,15 +33,14 @@ export default function Error({ error, reset }: ErrorProps) {
           </div>
         </div>
         <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
-          Щось пішло не так
+          {t("heading")}
         </h1>
         <p className="text-base md:text-lg text-neutral-600 mb-6">
-          Технічна помилка. Спробуйте оновити сторінку або повернутися на
-          головну.
+          {t("body")}
         </p>
         {error.digest && (
           <p className="text-xs text-neutral-400 mb-6 font-mono">
-            Код помилки: {error.digest}
+            {t("error_code", { digest: error.digest })}
           </p>
         )}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -49,13 +50,13 @@ export default function Error({ error, reset }: ErrorProps) {
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-700 px-6 py-3 text-white font-medium shadow-md hover:bg-emerald-800 transition-colors"
           >
             <RefreshCw className="h-4 w-4" aria-hidden="true" />
-            Спробувати ще раз
+            {t("retry")}
           </button>
           <Link
             href="/"
             className="inline-flex items-center justify-center rounded-xl border border-emerald-700 px-6 py-3 text-emerald-700 font-medium hover:bg-emerald-50 transition-colors"
           >
-            На головну
+            {t("back_home")}
           </Link>
         </div>
       </SurfaceCard>

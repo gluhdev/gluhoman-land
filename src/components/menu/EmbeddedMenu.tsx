@@ -17,6 +17,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import menuData from '@/data/menu.json';
 
 interface MenuItem {
@@ -40,6 +41,7 @@ interface Menu {
 const menu = menuData as unknown as Menu;
 
 export function EmbeddedMenu() {
+  const t = useTranslations('embedded_menu');
   const scrollerRef = useRef<HTMLDivElement>(null);
   const navScrollerRef = useRef<HTMLDivElement>(null);
   const [activeId, setActiveId] = useState(menu.categories[0]?.id ?? '');
@@ -107,21 +109,21 @@ export function EmbeddedMenu() {
       <div className="px-6 lg:px-8 py-5 border-b border-[#e6d9b8] bg-gradient-to-b from-[#fdfaf0] to-[#f4ecd8]/40 flex items-center justify-between flex-wrap gap-3">
         <div>
           <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55">
-            Меню ресторану
+            {t('header_eyebrow')}
           </p>
-          <h3 className="font-display text-2xl text-[#0f1f18] mt-0.5">«Глухомань»</h3>
+          <h3 className="font-display text-2xl text-[#0f1f18] mt-0.5">{t('header_name')}</h3>
         </div>
         <div className="flex items-center gap-4">
           <div className="text-right">
             <p className="text-[10px] uppercase tracking-wider text-[#1a3d2e]/55">
-              {totals.cats} категорій · {totals.dishes} страв
+              {t('stats', { cats: totals.cats, dishes: totals.dishes })}
             </p>
           </div>
           <Link
             href="/menu"
             className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1a3d2e] hover:text-[#0f1f18] underline underline-offset-4"
           >
-            Повна сторінка
+            {t('full_page')}
             <ArrowUpRight className="w-3 h-3" />
           </Link>
         </div>
@@ -179,7 +181,7 @@ export function EmbeddedMenu() {
         data-lenis-prevent-touch
         tabIndex={0}
         role="region"
-        aria-label="Меню страв"
+        aria-label={t('dishes_aria')}
         className="overflow-y-auto bg-[#f4ecd8]/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1a3d2e]/40"
         style={{ maxHeight: '70vh', minHeight: '480px', overscrollBehavior: 'auto' }}
       >
@@ -274,7 +276,7 @@ export function EmbeddedMenu() {
           href="/menu"
           className="inline-flex items-center gap-2 text-sm font-semibold text-[#0f1f18] hover:text-[#1a3d2e] transition-colors"
         >
-          Відкрити повне меню в окремій вкладці
+          {t('open_full')}
           <ArrowUpRight className="w-4 h-4" />
         </Link>
       </div>

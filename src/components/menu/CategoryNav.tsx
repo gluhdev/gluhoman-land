@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef, useCallback, CSSProperties } from 'react';
+import { useTranslations } from 'next-intl';
 import { MenuCategory } from '@/types/menu';
 
 interface CategoryNavProps {
@@ -26,6 +27,7 @@ export function CategoryNav({
   desktopTopOffset = 112,
   mobileTopOffset = 96,
 }: CategoryNavProps) {
+  const t = useTranslations('category_nav');
   const [activeId, setActiveId] = useState(categories[0]?.id ?? '');
   const [mobilePinned, setMobilePinned] = useState(false);
   const [panelStyle, setPanelStyle] = useState<CSSProperties>({
@@ -237,14 +239,14 @@ export function CategoryNav({
           <div className="px-5 pt-5 pb-4 border-b border-[#1a3d2e]/10">
             <div className="flex items-baseline justify-between gap-3 mb-1">
               <p className="font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55">
-                Меню
+                {t('menu_label')}
               </p>
               <span className="font-display text-xs text-[#1a3d2e]/40 tabular-nums">
                 {categories.length} / {categories.reduce((s, c) => s + c.items.length, 0)}
               </span>
             </div>
             <h2 className="font-display text-2xl font-semibold text-[#1a3d2e] leading-tight">
-              Категорії
+              {t('categories_label')}
             </h2>
             <div className="mt-3 h-px w-10 bg-[#1a3d2e]/40" />
           </div>
@@ -295,7 +297,7 @@ export function CategoryNav({
           {/* Footer accent */}
           <div className="px-5 py-3 border-t border-[#1a3d2e]/10 bg-[#f4ecd8]/30">
             <p className="text-[10px] uppercase tracking-[0.18em] text-[#1a3d2e]/50 text-center">
-              Глухомань · Кухня
+              {t('brand_label')}
             </p>
           </div>
         </div>
