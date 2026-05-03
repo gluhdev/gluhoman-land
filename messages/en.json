@@ -1532,5 +1532,254 @@
       "openFullMenu": "Open the full menu in a separate tab"
     },
     "backToTop": "Scroll to the top"
+  },
+  "gallery": {
+    "meta": {
+      "title": "Gallery - Glukhoman",
+      "description": "Photo gallery of the Glukhoman complex: restaurant, bathhouse, water park, events and nature of Nyzhni Mlyni in Poltava region.",
+      "og_title": "Gallery - Glukhoman",
+      "og_description": "Photo gallery of the Glukhoman complex: restaurant, bathhouse, water park, events and nature of Nyzhni Mlyni in Poltava region.",
+      "og_image_alt": "Gallery - Glukhoman",
+      "twitter_title": "Gallery - Glukhoman",
+      "twitter_description": "Photo gallery of the Glukhoman complex: restaurant, bathhouse, water park, events and nature of Nyzhni Mlyni in Poltava region."
+    },
+    "hero": {
+      "eyebrow": "Gallery - Glukhoman",
+      "title_p1": "See what it looks like",
+      "title_italic": "our Glukhoman",
+      "description": "The restaurant, bathhouse, water park and quiet landscapes of Nyzhni Mlynky are all on one page so you can experience the place beforehand.",
+      "img_alt": "Summer terrace of Hlukhomany by the water"
+    },
+    "nav": {
+      "aria_label": "Gallery categories",
+      "restoran": "Restaurant",
+      "laznya": "Bathhouse",
+      "akvapark": "Water park",
+      "podii": "Events",
+      "pryroda": "Nature"
+    },
+    "seasons": {
+      "eyebrow": "Seasons of the year",
+      "title_p1": "From the winter",
+      "title_italic": "for the winter",
+      "description": "Each season gives Hlukhoman a different character - from the first spring leaves to quiet snowy mornings.",
+      "spring": {
+        "eyebrow": "Spring",
+        "title": "The first warmth",
+        "desc": "The first leaves on the terrace, the frog chorus in the evening, the colors of the bloom - the perfect time for weddings."
+      },
+      "summer": {
+        "eyebrow": "Summer",
+        "title": "Long evenings",
+        "desc": "The water park is open, beer from the brewery, music on the terrace until midnight."
+      },
+      "autumn": {
+        "eyebrow": "Autumn",
+        "title": "Hunting mood",
+        "desc": "Hunting season, mushrooms in the forest, a warm bath after a walk."
+      },
+      "winter": {
+        "eyebrow": "Winter",
+        "title": "Samovar and silence",
+        "desc": "Snow on the roof of the bathhouse, hot tea from a samovar, silence in the rooms."
+      }
+    },
+    "stats": {
+      "eyebrow": "Gallery in numbers",
+      "photos_num": "500+",
+      "photos_label": "photos on the website",
+      "seasons_num": "5 seasons",
+      "seasons_label": "archive",
+      "photographers_num": "12",
+      "photographers_label": "photographers from our team",
+      "years_num": "10 years",
+      "years_label": "history of the complex"
+    },
+    "categories": {
+      "restoran": {
+        "label": "Restaurant",
+        "subtitle": "near the quiet water",
+        "essay": "Authentic interiors with a Ukrainian stove, a spacious summer terrace over the water, and private rooms for those who appreciate silence between conversations.",
+        "title": "Restaurant and halls"
+      },
+      "laznya": {
+        "label": "Bathhouse",
+        "subtitle": "ritual of warmth",
+        "essay": "Oak steam rooms, vats with Carpathian herbs under the starry sky, and relaxation rooms with samovars - the quiet architecture of a leisurely evening.",
+        "title": "Bathhouse"
+      },
+      "akvapark": {
+        "label": "Water park",
+        "subtitle": "family summer",
+        "essay": "A space for laughter and splashing right on the territory of the complex is a day that children will remember for a long time.",
+        "title": "Water park"
+      },
+      "podii": {
+        "label": "Events",
+        "subtitle": "important evenings",
+        "essay": "Weddings and anniversaries, corporate events, children's parties and live music - we know how to frame a moment that deserves to be remembered.",
+        "title": "Events"
+      },
+      "pryroda": {
+        "label": "Nature",
+        "subtitle": "gLOSSARY_3__",
+        "essay": "A picturesque area among willows and water - slow mornings, soft twilight, air that you want to take with you.",
+        "title": "Nature"
+      }
+    },
+    "photographers": {
+      "eyebrow": "Photos of our complex",
+      "title_p1": "Each frame is",
+      "title_italic": "by our hands",
+      "body_p1": "All the photos on this page were taken on the territory of Hlukhomania by our team and guests who generously shared their shots with us. We believe that real emotions cannot be filmed.",
+      "body_p2": "If you have also filmed Glukhoman in a way that no one has seen before, please write to us. We will be happy to add your work to the archive with attribution.",
+      "share_label": "Share a photo",
+      "telegram_label": "Telegram channel"
+    },
+    "cta": {
+      "eyebrow": "Invitation",
+      "title_p1": "Come and visit us,",
+      "title_italic": "in person",
+      "description": "Photos convey only a part of the atmosphere. Book a table, vat or room and feel Glukhoman with every breath.",
+      "book_btn": "Book"
+    }
+  },
+  "privacy": {
+    "meta": {
+      "title": "Privacy Policy | Glukhoman",
+      "description": "Privacy Policy of the recreational complex \"Glukhoman\". How we collect, use and protect your personal data.",
+      "og_title": "Privacy Policy | Glukhoman",
+      "og_description": "Privacy Policy of the recreational complex \"Glukhoman\". How we collect, use and protect your personal data.",
+      "twitter_title": "Privacy Policy | Glukhoman",
+      "twitter_description": "Privacy policy of the recreational complex \"Glukhoman\"."
+    },
+    "hero": {
+      "eyebrow": "Legal documents",
+      "title": "Privacy policy",
+      "subtitle": "How we take care of your personal data",
+      "last_updated_label": "Last updated: {date}"
+    },
+    "last_updated_date": "april 11, 2026",
+    "section_1": {
+      "heading": "General provisions",
+      "body_p1": "This Privacy Policy describes how the recreational complex \"Glukhoman\" (hereinafter referred to as the \"Complex\") collects, uses, stores and protects personal data of site visitors and guests. The policy is developed in accordance with the Law of Ukraine \"On Personal Data Protection\" and other regulations governing the processing of personal data.",
+      "body_p2": "By using our website or services, you agree to the terms of this Policy. If you do not agree with any of the terms, please refrain from using the site and submitting personal data."
+    },
+    "section_2": {
+      "heading": "What data we collect",
+      "intro": "We collect only the data that is necessary to provide our services and communicate with our guests:",
+      "contact_label": "Contact information:",
+      "contact_body": "name, phone number and e-mail address that you provide through the booking form or when contacting us.",
+      "technical_label": "Technical data:",
+      "technical_body": "cookies necessary for the correct functioning of the site and saving your settings.",
+      "analytics_label": "Analytical data:",
+      "analytics_body": "impersonal statistics of visits if web analytics services are activated on the website."
+    },
+    "section_3": {
+      "heading": "How we use the data",
+      "intro": "The received personal data is used exclusively for:",
+      "item_1": "processing requests for room and service reservations;",
+      "item_2": "communication with guests to clarify the details of their stay;",
+      "item_3": "sending booking confirmations and service messages;",
+      "item_4": "improving the quality of service and website operation."
+    },
+    "section_4": {
+      "heading": "Storage and protection",
+      "body_p1": "Your personal data is stored for the period necessary to achieve the purposes of its processing or for the period established by the current legislation of Ukraine. We use organizational and technical measures to protect personal data from unauthorized access, alteration, disclosure or destruction.",
+      "body_p2": "The complex does not transfer personal data to third parties without the consent of the data subject, except in cases expressly provided for by the current legislation of Ukraine."
+    },
+    "section_5": {
+      "heading": "User rights",
+      "intro": "In accordance with the Law of Ukraine \"On Personal Data Protection\", you have the right:",
+      "item_1": "receive information about the processing of your data;",
+      "item_2": "request access to their personal data;",
+      "item_3": "request correction of inaccurate or incomplete data;",
+      "item_4": "request the deletion of your personal data from our database;",
+      "item_5": "file a complaint with the Ukrainian Parliament Commissioner for Human Rights."
+    },
+    "section_6": {
+      "heading": "Processing of requests",
+      "subheading": "How we respond to your requests",
+      "body": "You can contact us in a convenient way regarding the processing of personal data - we strive to respond within a reasonable time and provide comprehensive information regarding your data. Contact channels are listed in the block below."
+    },
+    "section_7": {
+      "heading": "Changes to the policy",
+      "body": "The Complex reserves the right to update this Privacy Policy from time to time. The new version comes into force from the moment it is published on the website. We recommend that you periodically review this page to be aware of the current conditions."
+    },
+    "contacts": {
+      "eyebrow": "Contacts",
+      "heading": "Contact us"
+    },
+    "back_home": "Back to the main page"
+  },
+  "terms": {
+    "meta": {
+      "title": "Public offer | Glukhoman",
+      "description": "Public offer of the recreational complex \"Glukhoman\". Terms of booking, payment, stay and services.",
+      "og_title": "Public offer | Glukhoman",
+      "og_description": "Public offer of the recreational complex \"Glukhoman\". Terms of booking, payment and stay.",
+      "twitter_title": "Public offer | Glukhoman",
+      "twitter_description": "Terms of booking and provision of services of the complex \"Glukhoman\"."
+    },
+    "hero": {
+      "eyebrow": "Legal documents",
+      "title": "Public offer",
+      "subtitle": "Booking and staying conditions in the complex",
+      "last_updated_label": "Last updated: {date}"
+    },
+    "last_updated_date": "april 11, 2026",
+    "section_1": {
+      "heading": "General provisions",
+      "body_p1": "This document is an official public offer of the recreational complex \"Glukhoman\" (hereinafter referred to as the \"Complex\") addressed to any individual or legal entity (hereinafter referred to as the \"Guest\") to conclude a service agreement on the terms and conditions set forth below.",
+      "body_p2": "The fact of acceptance of this offer is the placement of a reservation through the website, telephone or other available communication channels, as well as payment for services. From the moment of acceptance, the contract is considered to be concluded on the terms of this offer."
+    },
+    "section_2": {
+      "heading": "Subject of the agreement",
+      "intro": "The complex provides the Guest with the following services in accordance with the selected booking option:",
+      "item_1": "accommodation in hotel rooms;",
+      "item_2": "meals in the restaurant of the Complex;",
+      "item_3": "visiting a water park;",
+      "item_4": "use of the sauna and bath complex;",
+      "item_5": "additional services (apitherapy, wedding events, paintball, etc.) according to the current list."
+    },
+    "section_3": {
+      "heading": "Booking and payment",
+      "subheading_1": "How to apply",
+      "body_p1": "Reservations are made through the form on the website, by calling the numbers indicated in the \"Contacts\" section, or directly at the reception of the Complex. After receiving the application, the administrator contacts the Guest to confirm the booking details.",
+      "subheading_2": "Prepayment and payments",
+      "body_p2": "For a guaranteed reservation, an advance payment may be required in the amount agreed with the Guest at the time of application. Full payment is made within the terms and in the manner agreed upon when confirming the reservation."
+    },
+    "section_4": {
+      "heading": "Cancellation and refunds",
+      "body": "In case of cancellation of the reservation, the Guest is obliged to notify the administration of the Complex as soon as possible. Refunds are made in accordance with the terms agreed by the parties directly at the time of booking, taking into account the notice period and the nature of the booked services."
+    },
+    "section_5": {
+      "heading": "Rules of stay",
+      "intro": "The following rules apply to ensure a comfortable stay for all guests of the Complex:",
+      "quiet_label": "Quiet hours:",
+      "quiet_body": "from 22:00 to 08:00, please refrain from loud conversations and music.",
+      "smoking_label": "Smoking:",
+      "smoking_body": "is allowed only in specially designated areas.",
+      "pets_label": "Accommodation with animals:",
+      "pets_body": "is possible by prior agreement with the administration.",
+      "property_body": "Guests are obliged to take care of the property of the Complex and comply with fire safety rules."
+    },
+    "section_6": {
+      "heading": "Responsibility of the parties",
+      "body": "The parties are responsible for non-fulfillment or improper fulfillment of the terms of this offer in accordance with the current legislation of Ukraine. The Complex is not responsible for damage caused by the Guest as a result of violation of the rules of stay, as well as for the safety of personal belongings left unattended."
+    },
+    "section_7": {
+      "heading": "Force majeure",
+      "body": "The parties shall be released from liability for partial or complete failure to fulfill obligations if it is the result of force majeure circumstances: natural disasters, military actions, decisions of public authorities, accidents on engineering networks and other events that the parties could not foresee or prevent."
+    },
+    "section_8": {
+      "heading": "Final provisions",
+      "body": "For all questions related to this offer, please contact the contacts listed in the block below. The Complex reserves the right to make changes to the terms and conditions of this offer; the current version is published on the website and comes into force from the moment of publication."
+    },
+    "contacts": {
+      "eyebrow": "Contacts",
+      "heading": "Contact us"
+    },
+    "back_home": "Back to the main page"
   }
 }
