@@ -1,6 +1,7 @@
 'use client';
 
 import { Plus, Minus, Check } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useCartStore } from '@/lib/cart-store';
 import { CartItem } from '@/types/cart';
 
@@ -15,6 +16,8 @@ interface Props {
  * When already in cart, shows a stepper: [-] qty [+].
  */
 export function AddToCartButton({ item, variant = 'card' }: Props) {
+  const t = useTranslations('menu');
+
   const inCart = useCartStore((s) =>
     s.items.find((i) => i.menuItemId === item.menuItemId)
   );
@@ -31,13 +34,17 @@ export function AddToCartButton({ item, variant = 'card' }: Props) {
     }
   };
 
+  const addAriaLabel = t('addToCart.addAriaLabel', { name: item.name });
+  const decrementAriaLabel = t('cart.decrementAriaLabel');
+  const incrementAriaLabel = t('cart.incrementAriaLabel');
+
   if (!inCart) {
     if (variant === 'list') {
       return (
         <button
           type="button"
           onClick={handleAdd}
-          aria-label={`Додати ${item.name} до кошика`}
+          aria-label={addAriaLabel}
           className="flex-shrink-0 ml-2 w-8 h-8 flex items-center justify-center rounded-full bg-[#1a3d2e] text-[#fdfaf0] hover:bg-[#0f2a1e] hover:scale-110 active:scale-95 transition-all duration-200 shadow-md shadow-[#1a3d2e]/20"
         >
           <Plus className="h-4 w-4" strokeWidth={2.5} />
@@ -48,7 +55,7 @@ export function AddToCartButton({ item, variant = 'card' }: Props) {
       <button
         type="button"
         onClick={handleAdd}
-        aria-label={`Додати ${item.name} до кошика`}
+        aria-label={addAriaLabel}
         className="absolute bottom-3 right-3 w-10 h-10 flex items-center justify-center rounded-full bg-[#1a3d2e] text-[#fdfaf0] hover:bg-[#0f2a1e] hover:scale-110 active:scale-95 transition-all duration-200 shadow-lg shadow-[#1a3d2e]/30 z-10"
       >
         <Plus className="h-5 w-5" strokeWidth={2.5} />
@@ -67,7 +74,7 @@ export function AddToCartButton({ item, variant = 'card' }: Props) {
       <button
         type="button"
         onClick={() => setQty(item.menuItemId, inCart.quantity - 1)}
-        aria-label="Зменшити"
+        aria-label={decrementAriaLabel}
         className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/15 transition-colors"
       >
         <Minus className="h-3.5 w-3.5" strokeWidth={2.5} />
@@ -79,7 +86,7 @@ export function AddToCartButton({ item, variant = 'card' }: Props) {
       <button
         type="button"
         onClick={() => setQty(item.menuItemId, inCart.quantity + 1)}
-        aria-label="Збільшити"
+        aria-label={incrementAriaLabel}
         className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-white/15 transition-colors"
       >
         <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />

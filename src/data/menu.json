@@ -9,21 +9,24 @@
           "id": "somha-malosolna",
           "name": "Сьомга малосольна",
           "price": 550,
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-913577.jpg?t=1744372859733"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-913577.jpg?t=1744372859733",
+          "name_en": "Salted salmon"
         },
         {
           "id": "pidcherevyna-solena-z-tsybuleiu",
           "name": "Підчеревина солена з цибулею",
           "price": 190,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075179.jpg?t=1744372926782"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075179.jpg?t=1744372926782",
+          "name_en": "Salted underbelly with onions"
         },
         {
           "id": "oseledets-marynovanyi",
           "name": "Оселедець маринований",
           "price": 195,
           "weight": "100",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075181.jpg?t=1744372650560"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075181.jpg?t=1744372650560",
+          "name_en": "Pickled herring"
         },
         {
           "id": "miasna-tarilka",
@@ -31,7 +34,9 @@
           "price": 490,
           "description": "Домашня ковбаса,балик запечений, підчеревина копчена,хрін, гірчиця",
           "weight": "250 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075195.jpg?t=1744373578020"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075195.jpg?t=1744373578020",
+          "name_en": "Meat plate",
+          "description_en": "Homemade sausage, baked balyk, smoked underbelly, horseradish, mustard"
         },
         {
           "id": "pashtet-iz-kurky-ta-pechinky",
@@ -39,7 +44,9 @@
           "price": 240,
           "description": "Паштет із курки, паштет із печінки, цибулевий конфітюр, грінки",
           "weight": "160 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075200.jpg?t=1743596066780"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075200.jpg?t=1743596066780",
+          "name_en": "Chicken and liver pate",
+          "description_en": "Chicken pate, liver pate, onion jam, croutons"
         },
         {
           "id": "ikra-shchuky-u-vershkovomu-sousi",
@@ -47,7 +54,9 @@
           "price": 480,
           "description": "Ікра щуки, вершки, цибуля, тости з пшеничного хліба",
           "weight": "80 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075204.jpg?t=1744115511805"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075204.jpg?t=1744115511805",
+          "name_en": "Pike caviar in a creamy sauce",
+          "description_en": "Pike caviar, cream, onions, wheat bread toast"
         },
         {
           "id": "asorti-syriv",
@@ -55,64 +64,75 @@
           "price": 480,
           "description": "Сир \"Дор-Блю\", сир \"Брі\", сир \"Пармезан\", сир твердий, інжир в'ялений, горіхи, малиновий джем",
           "weight": "150 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075211.jpg?t=1744108014954"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075211.jpg?t=1744108014954",
+          "name_en": "Assorted cheeses",
+          "description_en": "Dor-Blue cheese, Brie cheese, Parmesan cheese, hard cheese, dried figs, nuts, raspberry jam"
         },
         {
           "id": "ohirok-svizhyi",
           "name": "Огірок свіжий",
           "price": 90,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075214.jpg?t=1744373457827"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075214.jpg?t=1744373457827",
+          "name_en": "Fresh cucumber"
         },
         {
           "id": "pomidor-svizhyi",
           "name": "Помідор свіжий",
           "price": 90,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075216.jpg?t=1744373480871"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075216.jpg?t=1744373480871",
+          "name_en": "Fresh tomato"
         },
         {
           "id": "perets-svizhyi",
           "name": "Перець свіжий",
           "price": 90,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075217.jpg?t=1744373512609"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075217.jpg?t=1744373512609",
+          "name_en": "Fresh peppers"
         },
         {
           "id": "solinnia-z-dizhky-ohirochky",
           "name": "Соління з діжки огірочки",
           "price": 60,
-          "weight": "100 г"
+          "weight": "100 г",
+          "name_en": "Cucumbers pickled from a barrel"
         },
         {
           "id": "solinnia-z-dizhky-pomidor",
           "name": "Соління з діжки помідор",
           "price": 60,
-          "weight": "100 г"
+          "weight": "100 г",
+          "name_en": "Pickling tomatoes from the tub"
         },
         {
           "id": "solinnia-z-dizhky-perets",
           "name": "Соління з діжки перець",
           "price": 60,
-          "weight": "100 г"
+          "weight": "100 г",
+          "name_en": "Pickling peppers from the barrel"
         },
         {
           "id": "solinnia-z-dizhky-baklazhan",
           "name": "Соління з діжки баклажан",
           "price": 60,
-          "weight": "100 г"
+          "weight": "100 г",
+          "name_en": "Eggplant pickles from the tub"
         },
         {
           "id": "solinnia-kapustochka",
           "name": "Соління капусточка",
           "price": 60,
-          "weight": "100 г"
+          "weight": "100 г",
+          "name_en": "Pickled cabbage"
         },
         {
           "id": "slyvy-marynovani",
           "name": "Сливи мариновані",
           "price": 90,
-          "weight": "100 г"
+          "weight": "100 г",
+          "name_en": "Pickled plums"
         }
       ]
     },
@@ -126,70 +146,80 @@
           "name": "Крафтова настоянка \"Медовуха\"",
           "price": 160,
           "weight": "100 мл",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080614.jpg?t=1744884934246"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080614.jpg?t=1744884934246",
+          "name_en": "Craft tincture \"Medovukha\""
         },
         {
           "id": "kraftova-nastoianka-vid-hryhorovycha",
           "name": "Крафтова настоянка \"Від Григоровича\"",
           "price": 160,
           "weight": "100 мл",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080615.jpg?t=1744884980486"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080615.jpg?t=1744884980486",
+          "name_en": "Craft tincture \"From Grigorovich\""
         },
         {
           "id": "kraftova-nastoianka-khrinovukha",
           "name": "Крафтова настоянка \"Хріновуха\"",
           "price": 160,
           "weight": "100 мл",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080616.jpg?t=1744885024038"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080616.jpg?t=1744885024038",
+          "name_en": "Craft tincture \"Horseradish\""
         },
         {
           "id": "kraftova-nastoianka-kalhanivka",
           "name": "Крафтова настоянка \"Калганівка\"",
           "price": 160,
           "weight": "100 мл",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080617.jpg?t=1744872264514"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080617.jpg?t=1744872264514",
+          "name_en": "Craft tincture \"Kalganovka\""
         },
         {
           "id": "kraftova-nastoianka-zubrivka",
           "name": "Крафтова настоянка \"Зубрівка\"",
           "price": 160,
           "weight": "100 мл",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080618.jpg?t=1744885113284"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080618.jpg?t=1744885113284",
+          "name_en": "Craft tincture \"Zubrivka\""
         },
         {
           "id": "kraftova-nastoianka-slyvivka",
           "name": "Крафтова настоянка \"Сливівка\"",
           "price": 160,
           "weight": "100 мл",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080619.jpg?t=1744885177418"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080619.jpg?t=1744885177418",
+          "name_en": "Craft tincture \"Plum\""
         },
         {
           "id": "kraftova-nastoianka-abrykosivka",
           "name": "Крафтова настоянка \"АБРИКОСІВКА\"",
           "price": 160,
           "weight": "100 мл",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080620.jpg?t=1744885219355"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080620.jpg?t=1744885219355",
+          "name_en": "Craft tincture \"ABRIKOSIVKA\""
         },
         {
           "id": "kraftova-nastoianka-tropikana-hreipfrut",
           "name": "Крафтова настоянка \"Тропікана\" (грейпфрут)",
           "price": 160,
           "weight": "100 мл",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080621.jpg?t=1744885271753"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080621.jpg?t=1744885271753",
+          "name_en": "Tropicana craft tincture (grapefruit)"
         },
         {
           "id": "kraftova-nastoianka-vynohradivka",
           "name": "Крафтова настоянка \"Виноградівка\"",
           "price": 160,
           "weight": "100 мл",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080622.jpg?t=1744885359677"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080622.jpg?t=1744885359677",
+          "name_en": "Craft tincture \"Vinogradovka\""
         },
         {
           "id": "kraftova-nastoianka-chotyry-sezony-sezonni-iahody",
           "name": "Крафтова настоянка \"Чотири сезони\" (сезонні ягоди)",
           "price": 160,
           "weight": "100 мл",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080623.jpg?t=1744885400682"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080623.jpg?t=1744885400682",
+          "name_en": "Craft tincture \"Four Seasons\" (seasonal berries)"
         }
       ]
     },
@@ -202,50 +232,59 @@
           "id": "kozatska-rada-klasychna",
           "name": "Козацька Рада \"Класична\"",
           "price": 160,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Cossack Council \"Klasychna\""
         },
         {
           "id": "persha-hildiia-znatna-0-1",
           "name": "Перша гільдія Знатна 0,1",
           "price": 170,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "First Guild Noble 0.1"
         },
         {
           "id": "persha-hildiia-verkhovna-0-1",
           "name": "Перша гільдія Верховна 0,1",
           "price": 170,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "First Guild Supreme 0.1"
         },
         {
           "id": "premium-horilka-bjm",
           "name": "Premium горілка BJM",
           "price": 200,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Premium vodka BJM"
         },
         {
           "id": "finliandiia",
           "name": "Фінляндія",
           "price": 220,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Finland"
         },
         {
           "id": "finliandiia-a-asortymenti",
           "name": "Фінляндія а асортименті",
           "price": 220,
           "description": "Журавлина біла та червона, грейпфрут, лайм, \"Огірок і м'ята\", \"фінляндія лісові ягоди та троянда\"",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Finland in the assortment",
+          "description_en": "White and red cranberries, grapefruit, lime, \"Cucumber and mint\", \"Finland wild berries and rose\""
         },
         {
           "id": "horilka-hlukhoman",
           "name": "Горілка \"Глухомань\"",
           "price": 130,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Vodka \"Glukhoman\""
         },
         {
           "id": "starytskyi-levytskyi-0-5",
           "name": "Старицький Левицький 0,5",
           "price": 2000,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Starytskyi Levytskyi 0.5"
         }
       ]
     },
@@ -259,7 +298,8 @@
           "name": "Салат \"Добриня\"**",
           "price": 385,
           "weight": "250 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1074094.jpg?t=1770998437415"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1074094.jpg?t=1770998437415",
+          "name_en": "Salad \"Dobrynya \"**"
         },
         {
           "id": "salat-z-kurkoiu-i-pikantnym-sousom",
@@ -267,7 +307,9 @@
           "price": 340,
           "description": "Мікс салатів, куряче філе,бекон,помідор чері, сир \"Пармезан\", грінки, заправка",
           "weight": "250 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1074110.jpg?t=1744373957385"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1074110.jpg?t=1744373957385",
+          "name_en": "Salad with chicken and spicy sauce",
+          "description_en": "Mixed salad, chicken fillet, bacon, cherry tomato, Parmesan cheese, croutons, dressing"
         },
         {
           "id": "salat-hlukhoman",
@@ -275,7 +317,9 @@
           "price": 340,
           "description": "Мікс салатів, телячий ростбіф, сир \"Фета\", помідор чері,малинова заправка",
           "weight": "250 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075237.jpg?t=1744112789565"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075237.jpg?t=1744112789565",
+          "name_en": "Salad \"Glukhoman\"",
+          "description_en": "Mixed salad, veal roast beef, feta cheese, cherry tomato, raspberry dressing"
         },
         {
           "id": "salat-z-kuriachoi-pechinky-z-pechenym-pertsem-ta-ovochamy",
@@ -283,7 +327,9 @@
           "price": 310,
           "description": "Печінка куряча, броколі, помідор чері, перець солодкий, боби адамаме, залень, соевий соус, малиновий оцет",
           "weight": "300 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075248.jpg?t=1744114594905"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075248.jpg?t=1744114594905",
+          "name_en": "Chicken liver salad with roasted peppers and vegetables",
+          "description_en": "Chicken liver, broccoli, cherry tomato, bell pepper, adamame beans, venison, soy sauce, raspberry vinegar"
         },
         {
           "id": "salat-afina",
@@ -291,7 +337,9 @@
           "price": 285,
           "description": "Мікс салатів, помідор, перець, огірок, оливки чорні, сир \"Фета\", цибуля, заправка",
           "weight": "250 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075250.jpg?t=1744116246453"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075250.jpg?t=1744116246453",
+          "name_en": "\"Athena\" salad***",
+          "description_en": "Mixed salad, tomato, pepper, cucumber, black olives, feta cheese, onion, dressing"
         },
         {
           "id": "salat-kazochka",
@@ -299,7 +347,9 @@
           "price": 490,
           "description": "Мікс салатів, лосось малосольний, помідор чері, авокадо, крем-сир, заправка",
           "weight": "250 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075252.jpg?t=1768661015758"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075252.jpg?t=1768661015758",
+          "name_en": "Salad \"Fairy tale\"",
+          "description_en": "Mixed salad, salted salmon, cherry tomato, avocado, cream cheese, dressing"
         },
         {
           "id": "salat-iz-kapusty",
@@ -307,7 +357,9 @@
           "price": 125,
           "description": "Капуста, морква, духмяна соняшикова олія або сметана",
           "weight": "250 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075254.jpg?t=1768660933810"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075254.jpg?t=1768660933810",
+          "name_en": "Cabbage salad",
+          "description_en": "Cabbage, carrots, fragrant sunflower oil or sour cream"
         },
         {
           "id": "salat-ovochevyi",
@@ -315,14 +367,18 @@
           "price": 240,
           "description": "Помідор, огірок, перець, зелень, соняшникова олія або сметана",
           "weight": "250 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075255.jpg?t=1744113926892"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075255.jpg?t=1744113926892",
+          "name_en": "Vegetable salad",
+          "description_en": "Tomato, cucumber, pepper, herbs, sunflower oil or sour cream"
         },
         {
           "id": "salat-z-krevetkamy-tempura",
           "name": "Салат з креветками темпура",
           "price": 498,
           "description": "Мікс салатів, креветки, апельсин, помідор чері, апельсиново - кунжутна заправка",
-          "weight": "250 г"
+          "weight": "250 г",
+          "name_en": "Salad with shrimp tempura",
+          "description_en": "Mixed salad, shrimp, orange, cherry tomato, orange-sesame dressing"
         }
       ]
     },
@@ -335,44 +391,52 @@
           "id": "koskenkorva",
           "name": "Koskenkorva",
           "price": 280,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koskenkorva"
         },
         {
           "id": "koskenkorva-lemon-lime",
           "name": "Koskenkorva Lemon lime",
           "price": 280,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koskenkorva Lemon lime"
         },
         {
           "id": "koskenkorva-sauna-barrel",
           "name": "Koskenkorva Sauna Barrel",
           "price": 280,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koskenkorva Sauna Barrel"
         },
         {
           "id": "koskenkorva-espresso",
           "name": "Koskenkorva Espresso",
           "price": 280,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koskenkorva Espresso"
         },
         {
           "id": "koskenkorva-ginger",
           "name": "Koskenkorva Ginger",
           "price": 280,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koskenkorva Ginger"
         },
         {
           "id": "koskenkorva-passionfruit",
           "name": "Koskenkorva Passionfruit",
           "price": 280,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koskenkorva Passionfruit"
         },
         {
           "id": "set-koskenkorva",
           "name": "Сет Koskenkorva",
           "price": 280,
           "description": "4 види на вибір по 25мл",
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Seth Koskenkorva",
+          "description_en": "4 types to choose from, 25 ml each"
         }
       ]
     },
@@ -387,7 +451,9 @@
           "price": 240,
           "description": "Галушки, куряче філе, гриби, цибуля, вершки, сметана, часник",
           "weight": "300 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075256.jpg?t=1744112868659"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075256.jpg?t=1744112868659",
+          "name_en": "Dumplings with chicken and mushrooms in a creamy sauce",
+          "description_en": "Dumplings, chicken, mushrooms, onions, cream, sour cream, garlic"
         },
         {
           "id": "deruny-z-lisovymy-hrybochkamy-ta-smetanoiu",
@@ -395,7 +461,9 @@
           "price": 225,
           "description": "Деруни, гриби, цибуля, сметана",
           "weight": "300 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075258.jpg?t=1744112950739"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1075258.jpg?t=1744112950739",
+          "name_en": "Pancakes with wild mushrooms and sour cream",
+          "description_en": "Pancakes, mushrooms, onions, sour cream"
         },
         {
           "id": "varenyky-z-kartopleiu-ta-lisovymy-hrybamy",
@@ -403,7 +471,9 @@
           "price": 225,
           "description": "Парові вареники, смажена цибуля, зелень",
           "weight": "300 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1076648.jpg?t=1744373843928"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1076648.jpg?t=1744373843928",
+          "name_en": "Dumplings with potatoes and wild mushrooms",
+          "description_en": "Steam dumplings, fried onions, herbs"
         },
         {
           "id": "varenyky-z-miasom",
@@ -411,7 +481,9 @@
           "price": 225,
           "description": "Парові вареники, смажена цибуля, зелень",
           "weight": "300 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1076649.jpg?t=1744374807168"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1076649.jpg?t=1744374807168",
+          "name_en": "Dumplings with meat",
+          "description_en": "Steam dumplings, fried onions, herbs"
         },
         {
           "id": "karasyky-v-khrustkii-skoryntsi",
@@ -419,7 +491,9 @@
           "price": 225,
           "description": "Карасі, сметана, майонез, часник, зелень",
           "weight": "150 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077314.jpg?t=1744112979207"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077314.jpg?t=1744112979207",
+          "name_en": "Crispy crucian carp",
+          "description_en": "Carp, sour cream, mayonnaise, garlic, herbs"
         },
         {
           "id": "hamburher-z-teliachoiu-kotletoiu-kartopleiu-fri-ta-sousom",
@@ -427,14 +501,17 @@
           "price": 385,
           "description": "Булка бріош, помідор, телятина, лист салату, маринована цибуля, соус бургерний + картопля фрі, кетчуп телятина, сир,вершки, цибулевий конфетюр, лист салату, картопля фрі, кетчуп",
           "weight": "250 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077647.jpg?t=1744373898855"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077647.jpg?t=1744373898855",
+          "name_en": "Hamburger with veal cutlet, fries and sauce",
+          "description_en": "Brioche bun, tomato, veal, lettuce, pickled onions, burger sauce + fries, ketchup veal, cheese, cream, onion confetti, lettuce, fries, ketchup"
         },
         {
           "id": "nahetsy-z-kuriachoho-file-z-chasnykovym-sousom",
           "name": "Нагетси з курячого філе з часниковим соусом",
           "price": 155,
           "weight": "6 шт",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077703.jpg?t=1744113002053"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077703.jpg?t=1744113002053",
+          "name_en": "Chicken nuggets with garlic sauce"
         },
         {
           "id": "kryla-fri",
@@ -442,7 +519,9 @@
           "price": 195,
           "description": "Крила курячі, кукурудзяне борошо, спеції \"Пармезан та часик\"",
           "weight": "200 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1270465.jpg?t=1750158244263"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1270465.jpg?t=1750158244263",
+          "name_en": "French fries wings",
+          "description_en": "Chicken wings, corn flour, Parmesan and chasik spices"
         }
       ]
     },
@@ -456,21 +535,24 @@
           "name": "Чіпси з телятини",
           "price": 250,
           "weight": "40 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077727.jpg?t=1744113049960"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077727.jpg?t=1744113049960",
+          "name_en": "Veal chips"
         },
         {
           "id": "chipsy-z-lavasha-z-chasnykovym-sousom",
           "name": "Чіпси з лаваша з часниковим соусом",
           "price": 90,
           "weight": "50 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077749.jpg?t=1744113075183"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077749.jpg?t=1744113075183",
+          "name_en": "Pita chips with garlic sauce"
         },
         {
           "id": "vushka-svyniachi-vlasnoho-kopchennia",
           "name": "Вушка свинячі власного копчення",
           "price": 240,
           "weight": "150 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077793.jpg?t=1744373926190"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077793.jpg?t=1744373926190",
+          "name_en": "Own smoked pork ears"
         },
         {
           "id": "asorti-syrovialenykh-kovbas",
@@ -478,27 +560,32 @@
           "price": 290,
           "description": "Суджук,салямі \"Пармазель\", махан",
           "weight": "90 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077945.jpg?t=1744345988975"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1077945.jpg?t=1744345988975",
+          "name_en": "Assorted raw dried sausages",
+          "description_en": "Sujuk, Parmesan salami, makhan"
         },
         {
           "id": "arakhis-solonyi",
           "name": "Арахіс солоний",
           "price": 90,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078236.jpg?t=1744109429810"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078236.jpg?t=1744109429810",
+          "name_en": "Salted peanuts"
         },
         {
           "id": "fistashka",
           "name": "Фісташка",
           "price": 220,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078264.jpg?t=1744109468266"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078264.jpg?t=1744109468266",
+          "name_en": "Pistachio"
         },
         {
           "id": "kuriachi-serdechka-z-chasnykom",
           "name": "Курячі сердечка з часником",
           "price": 220,
-          "weight": "150 г"
+          "weight": "150 г",
+          "name_en": "Chicken hearts with garlic"
         }
       ]
     },
@@ -511,25 +598,29 @@
           "id": "koblevo-vs",
           "name": "Коблево  VS",
           "price": 190,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koblevo vs"
         },
         {
           "id": "koblevo-vsop",
           "name": "Коблево VSOP",
           "price": 210,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koblevo VSOP"
         },
         {
           "id": "koblevo-xo",
           "name": "Коблево XO",
           "price": 250,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koblevo XO"
         },
         {
           "id": "metaxa-5-stars",
           "name": "Metaxa 5 Stars",
           "price": 390,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Metaxa 5 Stars"
         }
       ]
     },
@@ -542,13 +633,15 @@
           "id": "kanoni-3",
           "name": "Kanoni 3*",
           "price": 210,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Kanoni 3* hotel"
         },
         {
           "id": "kanoni-5",
           "name": "Кanoni 5*",
           "price": 230,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Canoni 5* hotel"
         }
       ]
     },
@@ -563,7 +656,9 @@
           "price": 215,
           "description": "Борщ, сметана, пампушки, сало мелене з часником, зелена цибуля, зелень",
           "weight": "300 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078417.jpg?t=1743167683646"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078417.jpg?t=1743167683646",
+          "name_en": "Borscht with donuts, garlic and bacon",
+          "description_en": "Borscht, sour cream, doughnuts, ground lard with garlic, green onions, herbs"
         },
         {
           "id": "solianka-miasna",
@@ -571,7 +666,9 @@
           "price": 240,
           "description": "Солянка, сметана, лимон, маслини, зелень",
           "weight": "300 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078421.jpg?t=1744372605903"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078421.jpg?t=1744372605903",
+          "name_en": "Meat hodgepodge",
+          "description_en": "Hodgepodge, sour cream, lemon, olives, herbs"
         },
         {
           "id": "sup-z-frykadelkamy",
@@ -579,7 +676,9 @@
           "price": 165,
           "description": "Фрикадельки з телятини, цибуля, морква, картопля, зелень",
           "weight": "300 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078428.jpg?t=1743167870672"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078428.jpg?t=1743167870672",
+          "name_en": "Soup with meatballs",
+          "description_en": "Veal meatballs, onions, carrots, potatoes, herbs"
         },
         {
           "id": "iushka-z-ryby",
@@ -587,7 +686,9 @@
           "price": 225,
           "description": "Цибуля, морква, філе кликача, філе щуки або судака, масло вершкове, зелень",
           "weight": "300 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078434.jpg?t=1743167896380"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078434.jpg?t=1743167896380",
+          "name_en": "Fish soup",
+          "description_en": "Onions, carrots, fillet of bream, fillet of pike or pike perch, butter, herbs"
         },
         {
           "id": "iushka-z-baranyny-ta-ovochiv",
@@ -595,14 +696,18 @@
           "price": 260,
           "description": "Баранина, перець, помідор, гриби, баклажани, зелень, часник",
           "weight": "300 мл",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1156977.jpg?t=1744374021137"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1156977.jpg?t=1744374021137",
+          "name_en": "Lamb and vegetable stew",
+          "description_en": "Lamb, pepper, tomato, mushrooms, eggplant, herbs, garlic"
         },
         {
           "id": "okroshka-z-teliatynoiu",
           "name": "Окрошка з телятиною",
           "price": 240,
           "description": "Картопля, огірок, яйце, телятина, сметана, майонез, зелень, лимон.",
-          "weight": "300 г"
+          "weight": "300 г",
+          "name_en": "Okroshka with veal",
+          "description_en": "Potatoes, cucumber, egg, veal, sour cream, mayonnaise, herbs, lemon."
         }
       ]
     },
@@ -615,7 +720,8 @@
           "id": "obrian",
           "name": "O'BRIAN",
           "price": 300,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "O'BRIAN"
         }
       ]
     },
@@ -630,7 +736,9 @@
           "price": 850,
           "description": "Витриманий стейк рібай з карпатського бичка, кукурудза, перець солодкий, кабачок, помідор чері",
           "weight": "350 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078447.jpg?t=1744113763327"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078447.jpg?t=1744113763327",
+          "name_en": "Ribeye steak with vegetables",
+          "description_en": "Aged ribeye steak from Carpathian goby, corn, sweet pepper, zucchini, cherry tomato"
         },
         {
           "id": "steik-z-lososia-vahovyi",
@@ -638,7 +746,9 @@
           "price": 450,
           "description": "Лосось, помідор, кабачок, лимон, зелень",
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078448.jpg?t=1744113696756"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078448.jpg?t=1744113696756",
+          "name_en": "Salmon steak (by weight)",
+          "description_en": "Salmon, tomato, zucchini, lemon, herbs"
         },
         {
           "id": "kartoplia-z-teliatynoiu-ta-lisovymy-hrybamy",
@@ -646,7 +756,9 @@
           "price": 295,
           "description": "Картопля, гриби, телятина, цибуля,морква, вершки, часник, зелень",
           "weight": "300 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078462.jpg?t=1744114682219"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078462.jpg?t=1744114682219",
+          "name_en": "Potatoes with veal and wild mushrooms",
+          "description_en": "Potatoes, mushrooms, veal, onions, carrots, cream, garlic, herbs"
         },
         {
           "id": "spahetti-z-bekonom-ta-syrnym-sousom",
@@ -654,7 +766,9 @@
           "price": 295,
           "description": "Спагетті, бекон, пармезан, жовтки, вершки, суміш перців",
           "weight": "250 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078465.jpg?t=1744374073972"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078465.jpg?t=1744374073972",
+          "name_en": "Spaghetti with bacon and cheese sauce",
+          "description_en": "Spaghetti, bacon, Parmesan cheese, egg yolks, cream, pepper mixture"
         },
         {
           "id": "rebra-v-hlazuri-bbq",
@@ -662,42 +776,54 @@
           "price": 450,
           "description": "Запечені ребра зі свинини в глазурі, огірок малосольний, цибуля",
           "weight": "400 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1270474.jpg?t=1750158481685"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1270474.jpg?t=1750158481685",
+          "name_en": "Ribs in BBQ glaze*",
+          "description_en": "Baked pork ribs in glaze, pickled cucumber, onions"
         },
         {
           "id": "rebra-v-hlazuri-medovo-soievii",
           "name": "Ребра в глазурі медово-соєвій",
           "price": 450,
           "description": "Запечені ребра зі свинини в глазурі, огірок малосольний, цибуля",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1270478.jpg?t=1750158560354"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1270478.jpg?t=1750158560354",
+          "name_en": "Ribs in honey-soy glaze",
+          "description_en": "Baked pork ribs in glaze, pickled cucumber, onions"
         },
         {
           "id": "skovoridka-potribok-z-kartoplianym-piure",
           "name": "Сковорідка потрібок з картопляним пюре",
           "price": 285,
           "description": "Курячі потрібки, картопляне пюре, соєвий соус, соус деміглас, томати у власному соку",
-          "weight": "300 г"
+          "weight": "300 г",
+          "name_en": "Pan needs with mashed potatoes",
+          "description_en": "Chicken nuggets, mashed potatoes, soy sauce, demi-glace sauce, tomatoes in their own juice"
         },
         {
           "id": "kurochka-u-vershkovo-chasnykovomu-sousi",
           "name": "Курочка у вершково-часниковому соусі",
           "price": 360,
           "description": "Бедро куряче, вершки, часник, кінза, кріп",
-          "weight": "300 г"
+          "weight": "300 г",
+          "name_en": "Chicken in creamy garlic sauce",
+          "description_en": "Chicken thigh, cream, garlic, cilantro, dill"
         },
         {
           "id": "kuriachyi-steik-zapechenyi-pid-tomatnym-sousom",
           "name": "Курячий стейк запечений під томатним соусом",
           "price": 350,
           "description": "Стейк курячий запечений під томатним соусом та сиром з бебі - картоплею",
-          "weight": "350 г"
+          "weight": "350 г",
+          "name_en": "Chicken steak baked with tomato sauce",
+          "description_en": "Chicken steak baked with tomato sauce and cheese with baby potatoes"
         },
         {
           "id": "baranyna-tomlena-z-ovochamy",
           "name": "Баранина томлена з овочами",
           "price": 480,
           "description": "Баранина, цибуля, томатний соус, картопля, зелень, часник, соєвий соус",
-          "weight": "350 г"
+          "weight": "350 г",
+          "name_en": "Lamb stew with vegetables",
+          "description_en": "Lamb, onions, tomato sauce, potatoes, herbs, garlic, soy sauce"
         }
       ]
     },
@@ -710,43 +836,50 @@
           "id": "johnnie-walker-red-label",
           "name": "Johnnie Walker Red Label",
           "price": 500,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Johnnie Walker Red Label"
         },
         {
           "id": "cooper-dog",
           "name": "Cooper Dog",
           "price": 500,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Cooper Dog"
         },
         {
           "id": "bells-original",
           "name": "BELL'S original",
           "price": 270,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "BELL'S original"
         },
         {
           "id": "johnnie-walker-black-label-12-yo",
           "name": "Johnnie Walker Black Label 12 YO",
           "price": 850,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Johnnie Walker Black Label 12 YO"
         },
         {
           "id": "famous-grouse-smoky-black",
           "name": "Famous Grouse Smoky Black",
           "price": 600,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Famous Grouse Smoky Black"
         },
         {
           "id": "glenmorangie-the-original-10-yo",
           "name": "Glenmorangie The Original 10 yo",
           "price": 1080,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Glenmorangie The Original 10 yo"
         },
         {
           "id": "the-macallan-triple-cask-matured-12yo",
           "name": "The Macallan Triple Cask Matured 12YO",
           "price": 1120,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "The Macallan Triple Cask Matured 12YO"
         }
       ]
     },
@@ -761,7 +894,9 @@
           "price": 395,
           "description": "Ошийок, лаваш, маринована цибуля",
           "weight": "200 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078470.jpg?t=1743167959077"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078470.jpg?t=1743167959077",
+          "name_en": "Shish kebab with pickled onions",
+          "description_en": "Ham, pita bread, pickled onions"
         },
         {
           "id": "shashlyk-iz-kuriachoho-file",
@@ -769,7 +904,9 @@
           "price": 340,
           "description": "Куряче філе, лаваш, маринована цибуля",
           "weight": "200 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078472.jpg?t=1743167328958"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078472.jpg?t=1743167328958",
+          "name_en": "Skewers of chicken fillet",
+          "description_en": "Chicken fillet, pita bread, pickled onions"
         },
         {
           "id": "shashlyk-iz-teliatyny",
@@ -777,7 +914,9 @@
           "price": 890,
           "description": "Теляча вирізка,лаваш, маринована цибуля",
           "weight": "200 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078474.jpg?t=1744346057650"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078474.jpg?t=1744346057650",
+          "name_en": "Veal shish kebab",
+          "description_en": "Veal tenderloin, pita bread, pickled onions"
         },
         {
           "id": "kare-barashka-z-adzhykoiu-vid-mistsevoho-fermera-vahove",
@@ -785,7 +924,9 @@
           "price": 350,
           "description": "Каре барана, грузинський лаваш, маринована цибуля",
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078481.jpg?t=1744114201741"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078481.jpg?t=1744114201741",
+          "name_en": "Lamb rack with adjika (from a local farmer, by weight)",
+          "description_en": "Lamb rack, Georgian pita bread, pickled onions"
         },
         {
           "id": "kryltsia-bbq",
@@ -793,7 +934,9 @@
           "price": 235,
           "description": "Крила курячі, соус томатний,лаваш, цибуля маринована",
           "weight": "250 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078485.jpg?t=1744107632081"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078485.jpg?t=1744107632081",
+          "name_en": "BBQ wings",
+          "description_en": "Chicken wings, tomato sauce, pita bread, pickled onions"
         },
         {
           "id": "liulia-kebab-iz-svynyny-z-sousom",
@@ -801,63 +944,74 @@
           "price": 320,
           "description": "Свинина, маринована цибуля, лаваш, томатний соус",
           "weight": "200 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078486.jpg?t=1743167353201"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078486.jpg?t=1743167353201",
+          "name_en": "Lyulya Pork kebab with sauce",
+          "description_en": "Pork, pickled onions, pita bread, tomato sauce"
         },
         {
           "id": "steik-z-klykacha-vahovyi",
           "name": "Стейк з кликача (ваговий)",
           "price": 430,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078487.jpg?t=1743167387071"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078487.jpg?t=1743167387071",
+          "name_en": "Clicker steak (by weight)"
         },
         {
           "id": "hryl-kabachok",
           "name": "Гриль кабачок",
           "price": 105,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078524.jpg?t=1744372562403"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078524.jpg?t=1744372562403",
+          "name_en": "Grilled zucchini"
         },
         {
           "id": "hryl-pomidor",
           "name": "Гриль помідор*",
           "price": 105,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078594.jpg?t=1744372299829"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078594.jpg?t=1744372299829",
+          "name_en": "Grilled tomato*"
         },
         {
           "id": "hryl-pecherytsi",
           "name": "Гриль печериці",
           "price": 105,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078595.jpg?t=1744372441084"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078595.jpg?t=1744372441084",
+          "name_en": "Grilling champignons"
         },
         {
           "id": "hryl-baklazhan",
           "name": "Гриль баклажан",
           "price": 105,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078596.jpg?t=1744372338277"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078596.jpg?t=1744372338277",
+          "name_en": "Grilled eggplant"
         },
         {
           "id": "hryl-perets",
           "name": "Гриль перець",
           "price": 105,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078597.jpg?t=1744372242875"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078597.jpg?t=1744372242875",
+          "name_en": "Grilled peppers"
         },
         {
           "id": "lavash-z-syrom-suluhuni-ta-zelenniu",
           "name": "Лаваш з сиром сулугуні та зеленню",
           "price": 89,
           "weight": "120 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078598.jpg?t=1744107848382"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078598.jpg?t=1744107848382",
+          "name_en": "Pita bread with suluguni cheese and herbs"
         },
         {
           "id": "kartoplia-z-pidcherevenoiu-ta-tsybuleiu",
           "name": "Картопля з підчеревеною та цибулею",
           "price": 220,
           "description": "Картопля, підчеревина, цибуля, спеції",
-          "weight": "300 г"
+          "weight": "300 г",
+          "name_en": "Potatoes with underbelly and onions",
+          "description_en": "Potatoes, underbelly, onions, spices"
         }
       ]
     },
@@ -870,49 +1024,57 @@
           "id": "bulleit-bourbon",
           "name": "Bulleit Bourbon",
           "price": 640,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Bulleit Bourbon"
         },
         {
           "id": "jack-daniels",
           "name": "Jack Daniels",
           "price": 440,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Jack Daniels"
         },
         {
           "id": "jack-daniels-tennesee-fire",
           "name": "Jack Daniels TENNESEE FIRE",
           "price": 440,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Jack Daniels TENNESEE FIRE"
         },
         {
           "id": "jack-daniels-tennesee-honey",
           "name": "Jack Daniels  Tennesee Honey",
           "price": 440,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Jack Daniels Tennessee Honey"
         },
         {
           "id": "jack-daniels-gentelmen-jack",
           "name": "Jack Daniels GENTELMEN JACK",
           "price": 470,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Jack Daniels GENTELMEN JACK"
         },
         {
           "id": "jack-daniels-single-barrel",
           "name": "Jack Daniels SINGLE BARREL",
           "price": 610,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Jack Daniels SINGLE BARREL"
         },
         {
           "id": "woodford-reserve",
           "name": "Woodford RESERVE",
           "price": 610,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Woodford RESERVE"
         },
         {
           "id": "jack-daniels-apple",
           "name": "Jack Daniels Apple",
           "price": 440,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Jack Daniels Apple"
         }
       ]
     },
@@ -927,7 +1089,9 @@
           "price": 89,
           "description": "Картопля, часник, зелень,соєвий соус, олія",
           "weight": "150 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078605.jpg?t=1743167769473"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078605.jpg?t=1743167769473",
+          "name_en": "Baked potatoes",
+          "description_en": "Potatoes, garlic, herbs, soy sauce, oil"
         },
         {
           "id": "kartoplia-vidvarena",
@@ -935,7 +1099,9 @@
           "price": 89,
           "description": "Картопля, масло вершкове, зелень",
           "weight": "150 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078606.jpg?t=1744110537561"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078606.jpg?t=1744110537561",
+          "name_en": "Boiled potatoes",
+          "description_en": "Potatoes, butter, herbs"
         },
         {
           "id": "piure-kartopliane",
@@ -943,7 +1109,9 @@
           "price": 95,
           "description": "Картопля, масло вершкове, молоко",
           "weight": "150 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078607.jpg?t=1744114032207"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078607.jpg?t=1744114032207",
+          "name_en": "Mashed potatoes",
+          "description_en": "Potatoes, butter, milk"
         },
         {
           "id": "kartoplia-fri",
@@ -951,7 +1119,9 @@
           "price": 133,
           "description": "Картопля фрі, кетчуп",
           "weight": "150 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078608.jpg?t=1743167708812"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078608.jpg?t=1743167708812",
+          "name_en": "French fries",
+          "description_en": "French fries, ketchup"
         },
         {
           "id": "tsvitna-kapusta-ta-brokoli-obsmazheni-u-frytiuri-z-vershkovo-triufelnym-sousom",
@@ -959,7 +1129,9 @@
           "price": 205,
           "description": "Капуста броколі, капуста цвітна, масло вершкове,вершки, трюфельна паста",
           "weight": "150 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078609.jpg?t=1744115483168"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078609.jpg?t=1744115483168",
+          "name_en": "Deep-fried cauliflower and broccoli with creamy truffle sauce",
+          "description_en": "Broccoli, cauliflower, butter, cream, truffle paste"
         }
       ]
     },
@@ -974,7 +1146,9 @@
           "price": 120,
           "description": "Крем заварний шоколадний або ванільний",
           "weight": "1 шт",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078612.jpg?t=1743167542061"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078612.jpg?t=1743167542061",
+          "name_en": "Eclair",
+          "description_en": "Chocolate or vanilla custard"
         },
         {
           "id": "tarta-z-horikhamy",
@@ -982,76 +1156,89 @@
           "price": 225,
           "description": "Горіхи та сухофрукти",
           "weight": "1 шт",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078615.jpg?t=1743167565298"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078615.jpg?t=1743167565298",
+          "name_en": "Tart with nuts",
+          "description_en": "Nuts and dried fruits"
         },
         {
           "id": "tarta-z-krem-briule",
           "name": "Тарта з крем-брюле",
           "price": 225,
           "description": "Фрукти та крем-брюле",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078617.jpg?t=1743167516928"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078617.jpg?t=1743167516928",
+          "name_en": "Tart with crème brulee",
+          "description_en": "Fruit and creme brulee"
         },
         {
           "id": "napoleon",
           "name": "Наполеон",
           "price": 225,
           "weight": "150 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078618.jpg?t=1743167594400"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078618.jpg?t=1743167594400",
+          "name_en": "Napoleon"
         },
         {
           "id": "chiz-keik",
           "name": "Чіз-кейк",
           "price": 225,
           "weight": "150 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078620.jpg?t=1743167620097"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078620.jpg?t=1743167620097",
+          "name_en": "Cheesecake"
         },
         {
           "id": "shokoladnyi-fondan-z-morozyvom-ta-dzhemom",
           "name": "Шоколадний фондан з морозивом та джемом",
           "price": 250,
           "weight": "150 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078622.jpg?t=1744113561260"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078622.jpg?t=1744113561260",
+          "name_en": "Chocolate fondant with ice cream and jam"
         },
         {
           "id": "morozyvo",
           "name": "Морозиво",
           "price": 105,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078623.jpg?t=1744107300619"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078623.jpg?t=1744107300619",
+          "name_en": "Ice cream"
         },
         {
           "id": "morozyvo-polunychne",
           "name": "Морозиво полуничне",
           "price": 105,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078625.jpg?t=1744107381762"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078625.jpg?t=1744107381762",
+          "name_en": "Strawberry ice cream"
         },
         {
           "id": "syrnyky-zi-smetanoiu-ta-dzhemom",
           "name": "Сирники зі сметаною та джемом",
           "price": 225,
           "weight": "150 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078626.jpg?t=1744373815709"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078626.jpg?t=1744373815709",
+          "name_en": "Cheesecakes with sour cream and jam"
         },
         {
           "id": "varenyky-z-vyshniamy",
           "name": "Вареники з вишнями",
           "price": 225,
           "weight": "300 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078627.jpg?t=1744372174800"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078627.jpg?t=1744372174800",
+          "name_en": "Dumplings with cherries"
         },
         {
           "id": "morozyvo-shokoladne",
           "name": "Морозиво шоколадне",
           "price": 105,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1540614.jpg?t=1763809996683"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1540614.jpg?t=1763809996683",
+          "name_en": "Chocolate ice cream"
         },
         {
           "id": "desert-krem-briule",
           "name": "Десерт Крем-брюле",
           "price": 235,
-          "weight": "150 г"
+          "weight": "150 г",
+          "name_en": "Dessert Crème brulee"
         }
       ]
     },
@@ -1064,25 +1251,29 @@
           "id": "hennessy-very-special",
           "name": "HENNESSY VERY SPECIAL",
           "price": 850,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "HENNESSY VERY SPECIAL"
         },
         {
           "id": "remy-martin-vsop",
           "name": "Remy Martin VSOP",
           "price": 1250,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Remy Martin VSOP"
         },
         {
           "id": "hennessy-v-s-o-p",
           "name": "HENNESSY V.S.O.P",
           "price": 1200,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "HENNESSY V.S.O.P"
         },
         {
           "id": "hennessy-xo",
           "name": "HENNESSY XO",
           "price": 3500,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "HENNESSY XO"
         }
       ]
     },
@@ -1096,14 +1287,16 @@
           "name": "Хліб пшеничний",
           "price": 35,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078660.jpg?t=1744725149669"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078660.jpg?t=1744725149669",
+          "name_en": "Wheat bread"
         },
         {
           "id": "khlib-zhytnii",
           "name": "Хліб житній",
           "price": 35,
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078661.jpg?t=1744725173604"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078661.jpg?t=1744725173604",
+          "name_en": "Rye bread"
         },
         {
           "id": "pampushky",
@@ -1111,7 +1304,9 @@
           "price": 40,
           "description": "з часником",
           "weight": "2 шт",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078663.jpg?t=1744725198495"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078663.jpg?t=1744725198495",
+          "name_en": "Donuts",
+          "description_en": "with garlic"
         },
         {
           "id": "hrinky-na-manhali",
@@ -1119,7 +1314,9 @@
           "price": 40,
           "description": "з часником",
           "weight": "100 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078664.jpg?t=1745932221960"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078664.jpg?t=1745932221960",
+          "name_en": "Toast on the grill",
+          "description_en": "with garlic"
         }
       ]
     },
@@ -1134,7 +1331,9 @@
           "description": "Ковбаски мисливські, салямі, бекон,буженина, сир Моцарела, соус томатний, помідор, основа",
           "price": 380,
           "weight": "30см",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080555.jpg?t=1744116960231"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080555.jpg?t=1744116960231",
+          "name_en": "Pizza Glukhoman",
+          "description_en": "Hunting sausages, salami, bacon, pork, mozzarella cheese, tomato sauce, tomato, base"
         },
         {
           "id": "pizza-pitsa-chotyry-syry",
@@ -1142,7 +1341,9 @@
           "description": "Сир Дор-Блю, Пармезан, Чеддер, Моцарелла,вершки, основа, груша",
           "price": 420,
           "weight": "30см",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080556.jpg?t=1744111113931"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080556.jpg?t=1744111113931",
+          "name_en": "Pizza Four cheeses",
+          "description_en": "Dor-Blue cheese, Parmesan, Cheddar, Mozzarella, cream, base, pear"
         },
         {
           "id": "pizza-pitsa-tropikano",
@@ -1150,7 +1351,9 @@
           "description": "Копчене куряче філе, ананас консервований, кукурудзя консервована, спаржева квасоля, шпинат, вершки, сир Моцарела, часник, основа",
           "price": 380,
           "weight": "30см",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080558.jpg?t=1744373051214"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080558.jpg?t=1744373051214",
+          "name_en": "Pizza Tropicana",
+          "description_en": "Smoked chicken fillet, canned pineapple, canned corn, asparagus beans, spinach, cream, mozzarella cheese, garlic, base"
         },
         {
           "id": "pizza-pitsa-barbekiu",
@@ -1158,7 +1361,9 @@
           "description": "Салямі, бекон, ковбаски мисливські, перець болгарський, помідор чері, цибуля, соус BBQ, сир Моцарелла, основа",
           "price": 380,
           "weight": "30см",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080561.jpg?t=1744373024500"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080561.jpg?t=1744373024500",
+          "name_en": "Pizza Barbecue",
+          "description_en": "Salami, bacon, hunting sausages, bell peppers, cherry tomatoes, onions, BBQ sauce, mozzarella cheese, base"
         },
         {
           "id": "pizza-pitsa-saliami",
@@ -1166,7 +1371,9 @@
           "description": "Помідори, салямі, сир Моцарелла, соус томатний, орегано, базилік, основа",
           "price": 330,
           "weight": "30см",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080562.jpg?t=1744372956257"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080562.jpg?t=1744372956257",
+          "name_en": "Pizza Salami",
+          "description_en": "Tomatoes, salami, mozzarella cheese, tomato sauce, oregano, basil, base"
         }
       ]
     },
@@ -1179,19 +1386,22 @@
           "id": "riga-black-balsam-currant",
           "name": "Riga black balsam currant",
           "price": 250,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Riga black balsam currant"
         },
         {
           "id": "becherovka",
           "name": "Becherovka",
           "price": 250,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Becherovka"
         },
         {
           "id": "xenta-absenta",
           "name": "Xenta Absenta",
           "price": 400,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Xenta Absenta"
         }
       ]
     },
@@ -1205,56 +1415,64 @@
           "name": "Аджика",
           "price": 48,
           "weight": "50 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078667.jpg?t=1744107491818"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078667.jpg?t=1744107491818",
+          "name_en": "Ajika"
         },
         {
           "id": "tomatnyi",
           "name": "Томатний",
           "price": 48,
           "weight": "50 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078669.jpg?t=1744375510112"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078669.jpg?t=1744375510112",
+          "name_en": "Tomato"
         },
         {
           "id": "chasnykovyi",
           "name": "Часниковий",
           "price": 48,
           "weight": "50 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078671.jpg?t=1744375537088"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078671.jpg?t=1744375537088",
+          "name_en": "Garlic"
         },
         {
           "id": "smetana",
           "name": "Сметана",
           "price": 48,
           "weight": "50 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078672.jpg?t=1744375554611"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078672.jpg?t=1744375554611",
+          "name_en": "Sour cream"
         },
         {
           "id": "vershkovo-triufelnyi",
           "name": "Вершково-трюфельний",
           "price": 78,
           "weight": "50 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078673.jpg?t=1744375998930"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078673.jpg?t=1744375998930",
+          "name_en": "Creamy and truffle"
         },
         {
           "id": "khrin",
           "name": "Хрін",
           "price": 48,
           "weight": "30 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078679.jpg?t=1744376146935"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078679.jpg?t=1744376146935",
+          "name_en": "Horseradish"
         },
         {
           "id": "hirchytsia",
           "name": "Гірчиця",
           "price": 48,
           "weight": "30 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078680.jpg?t=1744107516977"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078680.jpg?t=1744107516977",
+          "name_en": "Mustard"
         },
         {
           "id": "sous-hranatovyi",
           "name": "Соус гранатовий",
           "price": 65,
           "weight": "30 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078681.jpg?t=1744107572398"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1078681.jpg?t=1744107572398",
+          "name_en": "Pomegranate sauce"
         }
       ]
     },
@@ -1267,7 +1485,8 @@
           "id": "jagermeister",
           "name": "Jagermeister",
           "price": 320,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Jagermeister"
         }
       ]
     },
@@ -1280,55 +1499,64 @@
           "id": "gordons-london-dry",
           "name": "Gordon's LONDON DRY",
           "price": 350,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Gordon's LONDON DRY"
         },
         {
           "id": "gordons-mediterranean-orang",
           "name": "Gordon's Mediterranean Orang",
           "price": 420,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Gordon's Mediterranean Orange"
         },
         {
           "id": "gordons-sicilian-lemon",
           "name": "Gordon's SICILIAN LEMON",
           "price": 420,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Gordon's SICILIAN LEMON"
         },
         {
           "id": "captain-morgan-original-spiced-gold",
           "name": "Captain Morgan Original Spiced Gold",
           "price": 330,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Captain Morgan Original Spiced Gold"
         },
         {
           "id": "captain-morgan-black-spiced",
           "name": "Captain Morgan Black Spiced",
           "price": 370,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Captain Morgan Black Spiced"
         },
         {
           "id": "jarana-blanco-100-blue-agave",
           "name": "JARANA BLANCO 100% Blue agave",
           "price": 280,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "JARANA BLANCO 100% Blue agave"
         },
         {
           "id": "jarana-reposado-100-blue-agave",
           "name": "JARANA REPOSADO 100% Blue agave",
           "price": 280,
-          "weight": "2 мл"
+          "weight": "2 мл",
+          "name_en": "JARANA REPOSADO 100% Blue agave"
         },
         {
           "id": "el-jimador-bianco-100-agave",
           "name": "El Jimador BIANCO 100%Agave",
           "price": 360,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "El Jimador BIANCO 100%Agave"
         },
         {
           "id": "el-jimador-reposado-100-agave",
           "name": "El Jimador REPOSADO 100% agave",
           "price": 360,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "El Jimador REPOSADO 100% agave"
         }
       ]
     },
@@ -1343,7 +1571,9 @@
           "price": 95,
           "description": "Манка, молоко, вафельна крихта",
           "weight": "200 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080567.jpg?t=1744113972234"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080567.jpg?t=1744113972234",
+          "name_en": "Porridge - malasha",
+          "description_en": "Semolina, milk, wafer crumbs"
         },
         {
           "id": "supchyk-z-pelmeniamy",
@@ -1351,7 +1581,9 @@
           "price": 125,
           "description": "Картопля, морква, цибуля, пельмені з телятиною, зелень",
           "weight": "300 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080568.jpg?t=1744372902702"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080568.jpg?t=1744372902702",
+          "name_en": "Soup with dumplings",
+          "description_en": "Potatoes, carrots, onions, veal dumplings, herbs"
         },
         {
           "id": "kraina-chudes",
@@ -1359,7 +1591,9 @@
           "price": 160,
           "description": "Кольорові макарони, куряче філе, вершки",
           "weight": "250 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080570.jpg?t=1744113123630"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080570.jpg?t=1744113123630",
+          "name_en": "Wonderland",
+          "description_en": "Colored pasta, chicken fillet, cream"
         },
         {
           "id": "myshka",
@@ -1367,7 +1601,9 @@
           "price": 170,
           "description": "Картопляне пюре, курячі котлетки, сир, огірок",
           "weight": "200 г",
-          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080572.jpg?t=1744113157222"
+          "image": "https://static.shaketopay.com.ua/menu-prod/dish-1080572.jpg?t=1744113157222",
+          "name_en": "Mouse",
+          "description_en": "Mashed potatoes, chicken cutlets, cheese, cucumber"
         }
       ]
     },
@@ -1380,19 +1616,22 @@
           "id": "liker-baileys-the-original",
           "name": "Лікер Baileys The Original",
           "price": 370,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Baileys The Original liqueur"
         },
         {
           "id": "sambuca-antica-classic",
           "name": "Sambuca Antica classic",
           "price": 270,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Sambuca Antica classic"
         },
         {
           "id": "kahlua",
           "name": "Kahlua",
           "price": 250,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Kahlua"
         }
       ]
     },
@@ -1405,13 +1644,15 @@
           "id": "martini-rosso",
           "name": "Martini Rosso",
           "price": 190,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Martini Rosso"
         },
         {
           "id": "martini-bianco",
           "name": "Martini Bianco",
           "price": 190,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Martini Bianco"
         }
       ]
     },
@@ -1424,13 +1665,15 @@
           "id": "veuve-clicquot-yellow-label",
           "name": "Veuve Clicquot Yellow Label",
           "price": 7150,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Veuve Clicquot Yellow Label"
         },
         {
           "id": "mo-t-chandon-imperial-brut",
           "name": "Moёt & Chandon Imperial Brut",
           "price": 6500,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Moët & Chandon Imperial Brut"
         }
       ]
     },
@@ -1444,56 +1687,72 @@
           "name": "Борщ на копчених грушах",
           "price": 195,
           "description": "Український пісний борщ на копчених грушах з в'яленою вишнею та грінками з весняною намазкою",
-          "weight": "300 г"
+          "weight": "300 г",
+          "name_en": "Borscht with smoked pears",
+          "description_en": "Ukrainian lean borscht on smoked pears with dried cherries and croutons with spring spread"
         },
         {
           "id": "zrazy-kartopliani-z-hrybamy",
           "name": "Зрази картопляні з грибами",
           "price": 225,
           "description": "Картопляне пюре, шампіньйони, цибуля, хрін, венршеи рослинні",
-          "weight": "250 г"
+          "weight": "250 г",
+          "name_en": "Potato zrazy with mushrooms",
+          "description_en": "Mashed potatoes, mushrooms, onions, horseradish, veggie venrchees"
         },
         {
           "id": "varenyky-z-kapustoiu",
           "name": "Вареники з капустою",
           "price": 195,
           "description": "Вареники з капустою смажені у фритюрі до золотої скоринки з пісним мойонезом власного виробництва",
-          "weight": "300 г"
+          "weight": "300 г",
+          "name_en": "Dumplings with cabbage",
+          "description_en": "Deep-fried dumplings with cabbage until golden brown with lean mayonnaise of our own production"
         },
         {
           "id": "vinihret",
           "name": "Вінігрет",
           "price": 175,
           "description": "Запечена картопля, морква та буряк в поєднанні з квашеною капустою, маринованою цибулею та опеньками, заправлений духмяною олією",
-          "weight": "250 г"
+          "weight": "250 г",
+          "name_en": "Vinigrette",
+          "description_en": "Baked potatoes, carrots and beets combined with sauerkraut, pickled onions and mushrooms, dressed with fragrant oil"
         },
         {
           "id": "baklazhan-zapechenyi-z-ovochevym-salatom",
           "name": "Баклажан запечений з овочевим салатом",
           "price": 470,
           "description": "Баклажан, перець солодкий, вершки рослинні, часник, помідор, цибуля, огірок, горіховий соус",
-          "weight": "350 г"
+          "weight": "350 г",
+          "name_en": "Baked eggplant with vegetable salad",
+          "description_en": "Eggplant, bell peppers, vegetable cream, garlic, tomato, onion, cucumber, walnut sauce"
         },
         {
           "id": "sudak-vahovyi",
           "name": "Судак (ваговий)",
           "price": 275,
           "description": "Соковитий судак в хрусткій скоринці з гострим кисло - солодким соусом",
-          "weight": "100 г"
+          "weight": "100 г",
+          "name_en": "Pike perch (weight)",
+          "description_en": "Juicy pike perch in a crispy crust with spicy sweet and sour sauce"
         },
         {
           "id": "kotleta-iz-shchuky",
           "name": "Котлета із щуки",
           "price": 390,
           "description": "Котлета із щуки панірована в сухарях панко, томати чері, шпинат, пісний майонез",
-          "weight": "250 г"
+          "weight": "250 г",
+          "name_en": "Pike cutlet",
+          "description_en": "Pike cutlet breaded in panko breadcrumbs, cherry tomatoes, spinach, lean mayonnaise"
         },
         {
           "id": "tart-taten",
           "name": "Тарт-Татен",
           "price": 235,
           "description": "Прісне листкове тісто. яблука, кориця, апельсиновий сироп, полуничний сорбет",
-          "weight": "300 г"
+          "weight": "300 г",
+          "name_en": "Tarte Taten",
+          "description_en": "Unleavened puff pastry. apples, cinnamon, orange syrup, strawberry sorbet"
         }
       ]
     },
@@ -1507,27 +1766,34 @@
           "name": "San Mare Lambrusco dell'Emilia Bianco  0,75",
           "price": 850,
           "description": "біле, н/сол",
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "San Mare Lambrusco dell'Emilia Bianco 0.75",
+          "description_en": "white, n/salt"
         },
         {
           "id": "san-mare-lambrusco-dellemilia-rosso-0-75",
           "name": "San Mare Lambrusco dell'Emilia Rosso 0,75",
           "price": 850,
           "description": "черв. н/сол",
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "San Mare Lambrusco dell'Emilia Rosso 0.75",
+          "description_en": "june n/salt"
         },
         {
           "id": "serena-1881-prosecco-frizzante-0-75",
           "name": "Serena 1881 Prosecco Frizzante 0,75",
           "price": 1450,
           "description": "біле. сух",
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Serena 1881 Prosecco Frizzante 0.75",
+          "description_en": "white. dry"
         },
         {
           "id": "asti-martini-bile-n-sol-0-75",
           "name": "Asti Мартіні Біле н/сол 0,75",
           "price": 1550,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Asti Martini White n/salt 0.75"
         }
       ]
     },
@@ -1540,19 +1806,22 @@
           "id": "marenho-p-sl-rozheve",
           "name": "Маренго п/сл рожеве",
           "price": 650,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Marengo p/s pink"
         },
         {
           "id": "marenho-briut",
           "name": "Маренго брют",
           "price": 650,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Marengo Brut"
         },
         {
           "id": "marenho-fraholyno",
           "name": "Маренго фраголино",
           "price": 650,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Marengo fragolino"
         }
       ]
     },
@@ -1565,13 +1834,15 @@
           "id": "grands-terroirs-bordeaux-blanc",
           "name": "Grands Terroirs Bordeaux Blanc",
           "price": 146,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Grands Terroirs Bordeaux Blanc"
         },
         {
           "id": "grands-terroirs-bordeaux-rouge",
           "name": "Grands Terroirs Bordeaux Rouge",
           "price": 146,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Grands Terroirs Bordeaux Rouge"
         }
       ]
     },
@@ -1584,13 +1855,15 @@
           "id": "banrock-station-core-shiraz",
           "name": "Banrock Station Core Shiraz",
           "price": 130,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Banrock Station Core Shiraz"
         },
         {
           "id": "banrock-station-core-chardonnay-bile-sukhe",
           "name": "Banrock Station Core Chardonnay біле сухе",
           "price": 130,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Banrock Station Core Chardonnay dry white wine"
         }
       ]
     },
@@ -1604,21 +1877,27 @@
           "name": "Senci Pinot Grigio Venero \"Collezione\"",
           "price": 180,
           "description": "Піно Гриджио біл.сух.(Боттер)",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Senci Pinot Grigio Venero \"Collezione\"",
+          "description_en": "Pinot Grigio white dry (Botter)"
         },
         {
           "id": "sensi-chianti-dalacampo",
           "name": "Sensi Chianti \"Dalacampo\"",
           "price": 180,
           "description": "Черв/сух",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Sensi Chianti \"Dalacampo\"",
+          "description_en": "Worm/dry"
         },
         {
           "id": "terra-italianika-bianco",
           "name": "Terra Italianika Bianco",
           "price": 106,
           "description": "н/сол",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Terra Italianika Bianco",
+          "description_en": "n/salt"
         }
       ]
     },
@@ -1631,25 +1910,29 @@
           "id": "don-simon-chardonnay-cherv-sukhe",
           "name": "Don Simon Chardonnay черв/сухе",
           "price": 106,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Don Simon Chardonnay red/dry"
         },
         {
           "id": "don-simon-chardonnay-bile-sukhe",
           "name": "Don Simon Chardonnay Біле Сухе",
           "price": 106,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Don Simon Chardonnay White Dry"
         },
         {
           "id": "el-coto-rioja-rosado",
           "name": "El Coto Rioja Rosado",
           "price": 106,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "El Coto Rioja Rosado"
         },
         {
           "id": "el-coto-rioja-crianza",
           "name": "El Coto Rioja Crianza",
           "price": 188,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "El Coto Rioja Crianza"
         }
       ]
     },
@@ -1663,14 +1946,18 @@
           "name": "Frontera Cabernet Sauvignon",
           "price": 130,
           "description": "чер.сух.",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Frontera Cabernet Sauvignon",
+          "description_en": "black dry."
         },
         {
           "id": "frontera-sauvignon-blanc",
           "name": "Frontera Sauvignon Blanc",
           "price": 130,
           "description": "біл/сух",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Frontera Sauvignon Blanc",
+          "description_en": "white/dry"
         }
       ]
     },
@@ -1684,28 +1971,36 @@
           "name": "Geo Kindzmarauli",
           "price": 170,
           "description": "черв. н/сол",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Geo Kindzmarauli",
+          "description_en": "june n/salt"
         },
         {
           "id": "geo-saperavi",
           "name": "Geo Saperavi",
           "price": 150,
           "description": "чер/сухе",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Geo Saperavi",
+          "description_en": "black/dry"
         },
         {
           "id": "geo-rkatsiteli",
           "name": "Geo Rkatsiteli",
           "price": 130,
           "description": "біле/сух",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Geo Rkatsiteli",
+          "description_en": "white/dry"
         },
         {
           "id": "alazany-valley-bile-n-s",
           "name": "Alazany Valley біле н/с",
           "price": 130,
           "description": "біле, н/сол",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Alazany Valley white n/s",
+          "description_en": "white, n/salt"
         }
       ]
     },
@@ -1719,28 +2014,36 @@
           "name": "Koblevo Reserve Wine \"Шардоне\"",
           "price": 72,
           "description": "біле/сухе",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koblevo Reserve Wine \"Chardonnay\"",
+          "description_en": "white/dry"
         },
         {
           "id": "koblevo-reserve-wine-kaberne",
           "name": "Koblevo Reserve Wine \"Каберне\"",
           "price": 72,
           "description": "черв/сухе",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koblevo Reserve Wine \"Cabernet\"",
+          "description_en": "worm/dry"
         },
         {
           "id": "koblevo-muskat",
           "name": "Koblevo \"Мускат\"",
           "price": 68,
           "description": "біле н/сол",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koblevo \"Muscat\"",
+          "description_en": "white n/salt"
         },
         {
           "id": "koblevo-bastardo",
           "name": "Koblevo \"Бастардо\"",
           "price": 68,
           "description": "черв., н/сол",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Koblevo \"Bastardo\"",
+          "description_en": "june, n/salt"
         }
       ]
     },
@@ -1754,61 +2057,72 @@
           "name": "Дегустаційний сет 0,6л",
           "price": 180,
           "description": "3 сорти пива на вибір",
-          "weight": "600 мл"
+          "weight": "600 мл",
+          "name_en": "Tasting set 0.6 l",
+          "description_en": "3 beers to choose from"
         },
         {
           "id": "pyvnyi-koshyk-podarunkovyi",
           "name": "Пивний кошик подарунковий",
           "price": 1500,
-          "weight": "3 л"
+          "weight": "3 л",
+          "name_en": "Gift beer basket"
         },
         {
           "id": "svitle-hlukhoman-0-33",
           "name": "Світле Глухомань 0,33",
           "price": 85,
-          "weight": "330 мл"
+          "weight": "330 мл",
+          "name_en": "Light Glukhoman 0.33"
         },
         {
           "id": "svitle-hlukhoman-0-5",
           "name": "Світле Глухомань 0,5",
           "price": 115,
-          "weight": "500 мл"
+          "weight": "500 мл",
+          "name_en": "Light Glukhoman 0.5"
         },
         {
           "id": "temne-hlukhoman-0-33",
           "name": "Темне Глухомань 0,33",
           "price": 85,
-          "weight": "330 мл"
+          "weight": "330 мл",
+          "name_en": "Dark Glukhoman 0.33"
         },
         {
           "id": "temne-hlukhoman-0-5",
           "name": "Темне Глухомань 0,5",
           "price": 115,
-          "weight": "500 мл"
+          "weight": "500 мл",
+          "name_en": "Dark Glukhoman 0.5"
         },
         {
           "id": "medove-hlukhoman-0-33",
           "name": "Медове Глухомань 0,33",
           "price": 85,
-          "weight": "330 мл"
+          "weight": "330 мл",
+          "name_en": "Honey Glukhoman 0.33"
         },
         {
           "id": "medove-hlukhoman-0-5",
           "name": "Медове Глухомань 0,5",
           "price": 115,
-          "weight": "500 мл"
+          "weight": "500 мл",
+          "name_en": "Honey Glukhoman 0.5"
         },
         {
           "id": "chervone-hlukhoman-0-33",
           "name": "Червоне Глухомань 0,33",
           "price": 85,
-          "weight": "330 мл"
+          "weight": "330 мл",
+          "name_en": "Red Glukhoman 0.33"
         },
         {
           "id": "chervone-hlukhoman-0-5",
           "name": "Червоне Глухомань 0,5",
           "price": 115,
-          "weight": "500 мл"
+          "weight": "500 мл",
+          "name_en": "Red Glukhoman 0.5"
         }
       ]
     },
@@ -1821,7 +2135,8 @@
           "id": "pyvo-b-a",
           "name": "Пиво б/а",
           "price": 140,
-          "weight": "330 мл"
+          "weight": "330 мл",
+          "name_en": "Beer second-hand"
         }
       ]
     },
@@ -1834,18 +2149,21 @@
           "id": "parlament-syharetnyi-nabir",
           "name": "Парламент сигаретний набір",
           "price": 300,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Parliament cigarette set"
         },
         {
           "id": "zhuvalna-humka-orbit",
           "name": "Жувальна гумка \"Orbit\"",
-          "price": 60
+          "price": 60,
+          "name_en": "Chewing gum \"Orbit\""
         },
         {
           "id": "zapalnychka",
           "name": "Запальничка",
           "price": 50,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Lighter"
         }
       ]
     },
@@ -1859,20 +2177,25 @@
           "name": "Імбирний чай/Ginger",
           "price": 110,
           "description": "Імбир, лимон, чай зелений, лимонний сироп",
-          "weight": "800 мл"
+          "weight": "800 мл",
+          "name_en": "Ginger tea/Ginger",
+          "description_en": "Ginger, lemon, green tea, lemon syrup"
         },
         {
           "id": "malynovyi-chai-raspberry",
           "name": "Малиновий чай/Raspberry",
           "price": 110,
           "description": "Малина, чай чорний з бергамотом, апельсин, цукровий сироп",
-          "weight": "800 мл"
+          "weight": "800 мл",
+          "name_en": "Raspberry tea/Raspberry",
+          "description_en": "Raspberry, black tea with bergamot, orange, sugar syrup"
         },
         {
           "id": "viazanyi-chai-knitter-tea",
           "name": "В'язаний чай/Knitter tea",
           "price": 140,
-          "weight": "800 мл"
+          "weight": "800 мл",
+          "name_en": "Knitted tea/Knitter tea"
         }
       ]
     },
@@ -1885,25 +2208,29 @@
           "id": "chai-zavarnyi-zelenyi-green",
           "name": "Чай заварний Зелений/Green",
           "price": 40,
-          "weight": "300 мл"
+          "weight": "300 мл",
+          "name_en": "Green tea"
         },
         {
           "id": "chai-zavarnyi-chornyi-black",
           "name": "Чай заварний чорний/Black",
           "price": 40,
-          "weight": "300 мл"
+          "weight": "300 мл",
+          "name_en": "Black brewed tea/Black"
         },
         {
           "id": "chai-zavarnyi-chornyi-z-berhamotom-black-with-bergamot",
           "name": "Чай заварний чорний з бергамотом/Black with bergamot",
           "price": 40,
-          "weight": "300 мл"
+          "weight": "300 мл",
+          "name_en": "Black brewed tea with bergamot/Black with bergamot"
         },
         {
           "id": "chai-zavarnyi-travianyi-herbal",
           "name": "Чай заварний Трав'яний/Herbal",
           "price": 40,
-          "weight": "300 мл"
+          "weight": "300 мл",
+          "name_en": "Herbal / Herbal brewed tea"
         }
       ]
     },
@@ -1916,19 +2243,22 @@
           "id": "med-honey",
           "name": "Мед/Honey",
           "price": 30,
-          "weight": "30 г"
+          "weight": "30 г",
+          "name_en": "Honey/Honey"
         },
         {
           "id": "dzhem-jam",
           "name": "Джем/Jam",
           "price": 30,
-          "weight": "30 г"
+          "weight": "30 г",
+          "name_en": "Jam/Jam"
         },
         {
           "id": "bublyky-bagels",
           "name": "Бублики/Bagels",
           "price": 25,
-          "weight": "30 г"
+          "weight": "30 г",
+          "name_en": "Bagels"
         }
       ]
     },
@@ -1941,43 +2271,50 @@
           "id": "espreso-espresso",
           "name": "Еспресо/Espresso",
           "price": 70,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Espresso/Espresso"
         },
         {
           "id": "amerikano-americano",
           "name": "Амерікано/Americano",
           "price": 70,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Americano/Americano"
         },
         {
           "id": "kapuchyno-cappuccino",
           "name": "Капучино/Cappuccino",
           "price": 85,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Cappuccino"
         },
         {
           "id": "latte-latte",
           "name": "Латте/Latte",
           "price": 85,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Latte"
         },
         {
           "id": "flet-vait-flat-write",
           "name": "Флет Вайт/Flat write",
           "price": 125,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Flat write"
         },
         {
           "id": "raf-raf",
           "name": "Раф/Raf",
           "price": 145,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Raf/Raf"
         },
         {
           "id": "kakao-cacao",
           "name": "Какао/Cacao",
           "price": 65,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Cocoa/Cacao"
         }
       ]
     },
@@ -1990,19 +2327,22 @@
           "id": "hlintvein-chervonyi-bilyi",
           "name": "Глінтвейн червоний/білий",
           "price": 143,
-          "weight": "150 мл"
+          "weight": "150 мл",
+          "name_en": "Mulled wine red/white"
         },
         {
           "id": "hroh",
           "name": "Грог",
           "price": 200,
-          "weight": "200 мл"
+          "weight": "200 мл",
+          "name_en": "Grog"
         },
         {
           "id": "kava-po-irlandsky",
           "name": "Кава по-Ірландськи",
           "price": 200,
-          "weight": "130 мл"
+          "weight": "130 мл",
+          "name_en": "Irish coffee"
         }
       ]
     },
@@ -2015,31 +2355,36 @@
           "id": "moloko-mik",
           "name": "Молоко/mik",
           "price": 20,
-          "weight": "50 мл"
+          "weight": "50 мл",
+          "name_en": "Milk/mik"
         },
         {
           "id": "roslyne-moloko-vegatable-milk",
           "name": "Рослине молоко/vegatable milk",
           "price": 50,
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Vegetable milk/veggie milk"
         },
         {
           "id": "vershky-cream",
           "name": "Вершки/cream",
           "price": 30,
-          "weight": "50 мл"
+          "weight": "50 мл",
+          "name_en": "Cream/cream"
         },
         {
           "id": "karamel-caramel",
           "name": "Карамель/caramel",
           "price": 35,
-          "weight": "25 мл"
+          "weight": "25 мл",
+          "name_en": "Caramel"
         },
         {
           "id": "marshmelou-marshmallow",
           "name": "Маршмелоу/marshmallow",
           "price": 50,
-          "weight": "50 г"
+          "weight": "50 г",
+          "name_en": "Marshmallow"
         }
       ]
     },
@@ -2052,133 +2397,155 @@
           "id": "kompot-compote",
           "name": "Компот/compote",
           "price": 32,
-          "weight": "250 мл"
+          "weight": "250 мл",
+          "name_en": "Compote"
         },
         {
           "id": "uzvar-stewed-frut",
           "name": "Узвар/stewed frut",
           "price": 32,
-          "weight": "250 мл"
+          "weight": "250 мл",
+          "name_en": "Stewed frut"
         },
         {
           "id": "lymonad-vlasnoho-pryhotuvannia-lemonade",
           "name": "Лимонад власного приготування/lemonade",
           "price": 85,
-          "weight": "300 мл"
+          "weight": "300 мл",
+          "name_en": "Homemade lemonade"
         },
         {
           "id": "enerhetyk-burn-energy-drink",
           "name": "Енергетик/ burn energy drink",
           "price": 125,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Burn energy drink"
         },
         {
           "id": "bonaqua-sklo",
           "name": "BonAqua скло",
           "price": 80,
-          "weight": "330 мл"
+          "weight": "330 мл",
+          "name_en": "BonAqua glass"
         },
         {
           "id": "sklo-kola-fanta-sprait-shveps",
           "name": "Скло (кола,фанта,спрайт,швепс)",
           "price": 90,
-          "weight": "250 мл"
+          "weight": "250 мл",
+          "name_en": "Glass (circles, fantasy, sprite, and beveled)"
         },
         {
           "id": "pepsi-koka-kola-fanta-sprait",
           "name": "Пепсі/Кока-кола, фанта, спрайт",
           "price": 75,
-          "weight": "500 мл"
+          "weight": "500 мл",
+          "name_en": "Pepsi/Coca-Cola, Fanta, Sprite"
         },
         {
           "id": "schweppes-tonik",
           "name": "Schweppes тонік",
           "price": 85,
-          "weight": "750 мл"
+          "weight": "750 мл",
+          "name_en": "Schweppes tonic"
         },
         {
           "id": "voda-mineralna-s-h",
           "name": "Вода мінеральна с/г",
           "price": 155,
-          "weight": "1 шт"
+          "weight": "1 шт",
+          "name_en": "Agricultural mineral water"
         },
         {
           "id": "bonakva-hazovana-nehazovana",
           "name": "Бонаква  газована/негазована",
           "price": 65,
-          "weight": "500 мл"
+          "weight": "500 мл",
+          "name_en": "Carbonated/non-carbonated bonanza"
         },
         {
           "id": "sik-rich-apelsyn",
           "name": "Сік \"Rich\" Апельсин",
           "price": 70,
-          "weight": "250 мл"
+          "weight": "250 мл",
+          "name_en": "Juice \"Rich\" Orange"
         },
         {
           "id": "sik-rich-tomat",
           "name": "Сік \"Rich\" Томат",
           "price": 70,
-          "weight": "250 мл"
+          "weight": "250 мл",
+          "name_en": "Juice \"Rich\" Tomato"
         },
         {
           "id": "sik-rich-ananas",
           "name": "Сік \"Rich\" Ананас",
           "price": 70,
-          "weight": "250 мл"
+          "weight": "250 мл",
+          "name_en": "Juice \"Rich\" Pineapple"
         },
         {
           "id": "sik-rich-multyfrukt",
           "name": "Сік \"Rich\" Мультифрукт",
           "price": 70,
-          "weight": "250 мл"
+          "weight": "250 мл",
+          "name_en": "Juice \"Rich\" Multifruit"
         },
         {
           "id": "sik-rich-vyshnia",
           "name": "Сік \"Rich\" Вишня",
           "price": 70,
-          "weight": "250 мл"
+          "weight": "250 мл",
+          "name_en": "Juice \"Rich\" Cherry"
         },
         {
           "id": "sik-rich-persyk",
           "name": "Сік \"Rich\" Персик",
           "price": 70,
-          "weight": "250 мл"
+          "weight": "250 мл",
+          "name_en": "Juice \"Rich\" Peach"
         },
         {
           "id": "sik-rich-iabluko",
           "name": "Сік \"Rich\" Яблуко",
           "price": 70,
-          "weight": "250 мл"
+          "weight": "250 мл",
+          "name_en": "Juice \"Rich\" Apple"
         },
         {
           "id": "fresh-apelsynovyi",
           "name": "Фреш апельсиновий",
           "price": 200,
-          "weight": "300 мл"
+          "weight": "300 мл",
+          "name_en": "Fresh orange"
         },
         {
           "id": "fresh-hreipfrutovyi",
           "name": "Фреш грейпфрутовий",
           "price": 200,
-          "weight": "300 мл"
+          "weight": "300 мл",
+          "name_en": "Fresh grapefruit"
         },
         {
           "id": "fresh-morkovno-iabluchnyi",
           "name": "Фреш морковно-яблучний",
           "price": 90,
-          "weight": "300 мл"
+          "weight": "300 мл",
+          "name_en": "Fresh carrot and apple"
         },
         {
           "id": "fresh-iabluchnyi",
           "name": "Фреш яблучний",
           "price": 90,
-          "weight": "300 мл"
+          "weight": "300 мл",
+          "name_en": "Apple fresh"
         },
         {
           "id": "molochnyi-kokteil",
           "name": "Молочний коктейль",
           "price": 100,
-          "weight": "300 мл"
+          "weight": "300 мл",
+          "name_en": "Milkshake"
         }
       ]
     },
@@ -2192,168 +2559,216 @@
           "name": "Глухомань,",
           "price": 270,
           "description": "Bell`s original, Malibu, Kahlua, сік ананас, вершки",
-          "weight": "250 мл"
+          "weight": "250 мл",
+          "name_en": "Glukhoman,",
+          "description_en": "Bell's original, Malibu, Kahlua, pineapple juice, cream"
         },
         {
           "id": "mankhetten",
           "name": "Манхеттен",
           "price": 250,
           "description": "Woodford Reserve, Martini Rosso, Angostura Bitter, апельсин",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Manhattan",
+          "description_en": "Woodford Reserve, Martini Rosso, Angostura Bitter, orange"
         },
         {
           "id": "metropoliten",
           "name": "Метрополітен",
           "price": 245,
           "description": "Finlandia Rose and Berry, Triple Sec, гранатовий сік, фреш лайма, лимонний сироп",
-          "weight": "160 мл"
+          "weight": "160 мл",
+          "name_en": "Metropolitan",
+          "description_en": "Finlandia Rose and Berry, Triple Sec, pomegranate juice, lime juice, lemon syrup"
         },
         {
           "id": "viski-sauer",
           "name": "Віскі Сауер",
           "price": 245,
           "description": "Blleit,фреш лимон, цукровий сироп, яєчний білок",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Whiskey Sour",
+          "description_en": "Blleit, fresh lemon, sugar syrup, egg white"
         },
         {
           "id": "nehroni",
           "name": "Негроні",
           "price": 245,
           "description": "Gordon`s London Dry, Martini Rosso, Campari",
-          "weight": "180 мл"
+          "weight": "180 мл",
+          "name_en": "Negroni",
+          "description_en": "Gordon's London Dry, Martini Rosso, Campari"
         },
         {
           "id": "lonh-ailend",
           "name": "Лонг Айленд",
           "price": 295,
           "description": "Козацька Рада, Gordon`s London Dry, Jarana Blanco, Captain Morgan Write, лимонний фреш, Cola",
-          "weight": "250 мл"
+          "weight": "250 мл",
+          "name_en": "Long Island",
+          "description_en": "Cossack Rada, Gordon's London Dry, Jarana Blanco, Captain Morgan Write, lemon juice, Cola"
         },
         {
           "id": "pina-kolada",
           "name": "Піна Колада",
           "price": 245,
           "description": "Captain Morgan Write, Malibu, вершки, ананасовий сік",
-          "weight": "225 мл"
+          "weight": "225 мл",
+          "name_en": "Pina Colada",
+          "description_en": "Captain Morgan Write, Malibu, cream, pineapple juice"
         },
         {
           "id": "klover-klab",
           "name": "Кловер Клаб",
           "price": 285,
           "description": "Gordon`s, Martini Dry, малиновий сироп, фреш лайма, фреш лимона",
-          "weight": "110 мл"
+          "weight": "110 мл",
+          "name_en": "Clover Club",
+          "description_en": "Gordon's, Martini Dry, raspberry syrup, fresh lime, fresh lemon"
         },
         {
           "id": "marharyta-marakuiia",
           "name": "Маргарита Маракуйя",
           "price": 285,
           "description": "El Jimador Reposado, Koskenkorva Passionfruit, фреш лимона, маракуя",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Maracuya Margarita",
+          "description_en": "El Jimador Reposado, Koskenkorva Passionfruit, lemon fresh, passion fruit"
         },
         {
           "id": "aperol-sauer",
           "name": "Апероль Сауер",
           "price": 235,
           "description": "Gordon`s London Dry, Aperol, Angostura Bitter, фреш лимона, білок",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Aperol Sour",
+          "description_en": "Gordon's London Dry, Aperol, Angostura Bitter, lemon juice, protein"
         },
         {
           "id": "mokhito-polunychnyi",
           "name": "Мохіто полуничний",
           "price": 215,
           "description": "Captain Morgan Write, полунинця, лимонний сироп, м'ята, газована вода, лайм",
-          "weight": "200 мл"
+          "weight": "200 мл",
+          "name_en": "Strawberry mojito",
+          "description_en": "Captain Morgan Write, strawberries, lemon syrup, mint, soda, lime"
         },
         {
           "id": "mokhito-klasychnyi",
           "name": "Мохіто класичний",
           "price": 215,
           "description": "Captain Morgan Write, лимонний сироп, м'ята, газована вода, лайм",
-          "weight": "200 мл"
+          "weight": "200 мл",
+          "name_en": "Classic mojito",
+          "description_en": "Captain Morgan Write, lemon syrup, mint, soda water, lime"
         },
         {
           "id": "espreso-martini",
           "name": "Еспресо Мартіні",
           "price": 215,
           "description": "Koskenkorva, Kahlua, еспресо",
-          "weight": "100 мл"
+          "weight": "100 мл",
+          "name_en": "Espresso Martini",
+          "description_en": "Koskenkorva, Kahlua, espresso"
         },
         {
           "id": "dzhanhl-dzhus",
           "name": "Джангл Джус",
           "price": 215,
           "description": "Gordon`s London Dry, Pisang, ананасовий сік",
-          "weight": "225 мл"
+          "weight": "225 мл",
+          "name_en": "Jungle Juice",
+          "description_en": "Gordon's London Dry, Pisang, pineapple juice"
         },
         {
           "id": "mokhito-bezalkoholn-i",
           "name": "Мохіто безалкогольный",
           "price": 105,
           "description": "Лимонний сироп, м'ята, газована вода, лайм",
-          "weight": "200 мл"
+          "weight": "200 мл",
+          "name_en": "Non-Alcoholic Mojito",
+          "description_en": "Lemon syrup, mint, soda water, lime"
         },
         {
           "id": "mokhito-b-a-polunychnyi",
           "name": "Мохіто б/а полуничний",
           "price": 105,
           "description": "Лимонний сироп, м'ята, газована вода, лайм",
-          "weight": "200 мл"
+          "weight": "200 мл",
+          "name_en": "Strawberry Non-Alcoholic Mojito",
+          "description_en": "Lemon syrup, mint, soda water, lime"
         },
         {
           "id": "lisovychok",
           "name": "Лісовичок",
           "price": 145,
           "description": "Pisang, Baileys The Original, Xenta Absenta",
-          "weight": "60 мл"
+          "weight": "60 мл",
+          "name_en": "The forest boy",
+          "description_en": "Pisang, Baileys The Original, Xenta Absenta"
         },
         {
           "id": "slava-ukraini",
           "name": "Слава Україні",
           "price": 135,
           "description": "Advokat, Blue Curacao, Козацька Рада",
-          "weight": "60 мл"
+          "weight": "60 мл",
+          "name_en": "Glory to Ukraine",
+          "description_en": "Advokat, Blue Curacao, Cossack Council"
         },
         {
           "id": "khmarynka",
           "name": "Хмаринка",
           "price": 145,
           "description": "Sambuka Antica Classic, Baileys The Original, El Jimador Bianco, Blue Curacao, Xenta Absenta",
-          "weight": "60 мл"
+          "weight": "60 мл",
+          "name_en": "Cloud",
+          "description_en": "Sambuka Antica Classic, Baileys The Original, El Jimador Bianco, Blue Curacao, Xenta Absenta"
         },
         {
           "id": "chervonyi-meksykanets",
           "name": "Червоний Мексиканець",
           "price": 145,
           "description": "Cherry, лимонний фреш, El Jimador Bianco",
-          "weight": "60 мл"
+          "weight": "60 мл",
+          "name_en": "Red Mexican",
+          "description_en": "Cherry, lemon juice, El Jimador Bianco"
         },
         {
           "id": "zelenyi-meksykanets",
           "name": "Зелений Мексиканець",
           "price": 175,
           "description": "Pisang, лимонний фреш, Jarana Blanco 100% Blue Agave",
-          "weight": "60 мл"
+          "weight": "60 мл",
+          "name_en": "Green Mexican",
+          "description_en": "Pisang, lemon juice, Jarana Blanco 100% Blue Agave"
         },
         {
           "id": "b-52",
           "name": "B-52",
           "price": 175,
           "description": "Kahlua, Baileys The Original, Triple Sec",
-          "weight": "60 мл"
+          "weight": "60 мл",
+          "name_en": "B-52",
+          "description_en": "Kahlua, Baileys The Original, Triple Sec"
         },
         {
           "id": "khirosima",
           "name": "Хіросіма",
           "price": 175,
           "description": "Sambuca Antica Classic, Baileys The Original, Xenta Absenta, Grenadine",
-          "weight": "60 мл"
+          "weight": "60 мл",
+          "name_en": "Hiroshima",
+          "description_en": "Sambuca Antica Classic, Baileys The Original, Xenta Absenta, Grenadine"
         },
         {
           "id": "meduza",
           "name": "Медуза",
           "price": 175,
           "description": "Blue Curacao, Triple Sec, Xenta Absenta, Baileys The Original",
-          "weight": "60 мл"
+          "weight": "60 мл",
+          "name_en": "Medusa",
+          "description_en": "Blue Curacao, Triple Sec, Xenta Absenta, Baileys The Original"
         }
       ]
     }

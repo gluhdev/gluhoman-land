@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, Info } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import {
   useCartStore,
   getSubtotal,
@@ -33,6 +34,8 @@ import {
  *  - "Оформити замовлення" CTA → /menu/checkout
  */
 export function CartDrawer() {
+  const t = useTranslations('menu.cart');
+
   const items = useCartStore((s) => s.items);
   const isOpen = useCartStore((s) => s.isDrawerOpen);
   const close = useCartStore((s) => s.closeDrawer);
@@ -70,6 +73,13 @@ export function CartDrawer() {
     (subtotal / FREE_DELIVERY_THRESHOLD) * 100
   );
 
+  const itemCountLabel =
+    itemCount === 1
+      ? t('itemCount_one', { count: itemCount })
+      : itemCount < 5
+        ? t('itemCount_few', { count: itemCount })
+        : t('itemCount_many', { count: itemCount });
+
   return (
     <>
       {/* Backdrop */}
@@ -84,7 +94,7 @@ export function CartDrawer() {
       {/* Panel */}
       <aside
         role="dialog"
-        aria-label="Кошик"
+        aria-label={t('title')}
         aria-hidden={!isOpen}
         className={`fixed top-0 right-0 bottom-0 z-[61] w-full sm:w-[440px] bg-[#fdfaf0] shadow-2xl flex flex-col transform transition-transform duration-400 ease-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
@@ -98,17 +108,17 @@ export function CartDrawer() {
             </div>
             <div>
               <p className="font-display text-lg font-semibold text-[#1a3d2e] leading-tight">
-                Ваш кошик
+                {t('title')}
               </p>
               <p className="text-[11px] text-[#1a3d2e]/60 uppercase tracking-wider">
-                {itemCount} {itemCount === 1 ? 'позиція' : itemCount < 5 ? 'позиції' : 'позицій'}
+                {itemCountLabel}
               </p>
             </div>
           </div>
           <button
             type="button"
             onClick={close}
-            aria-label="Закрити"
+            aria-label={t('closeAriaLabel')}
             className="w-9 h-9 flex items-center justify-center rounded-full text-[#1a3d2e]/60 hover:text-[#1a3d2e] hover:bg-[#1a3d2e]/8 transition-colors"
           >
             <X className="h-5 w-5" />
@@ -122,17 +132,17 @@ export function CartDrawer() {
               <ShoppingBag className="h-8 w-8 text-[#1a3d2e]/40" />
             </div>
             <p className="font-display text-xl font-semibold text-[#1a3d2e] mb-2">
-              Кошик порожній
+              {t('emptyTitle')}
             </p>
             <p className="text-sm text-[#1a3d2e]/60 mb-6">
-              Оберіть страви з меню — вони з&apos;являться тут.
+              {t('emptyDescription')}
             </p>
             <button
               type="button"
               onClick={close}
               className="text-sm font-semibold text-[#1a3d2e] hover:text-[#0f2a1e] underline underline-offset-4"
             >
-              Повернутись до меню
+              {t('emptyBackLink')}
             </button>
           </div>
         )}
@@ -174,7 +184,7 @@ export function CartDrawer() {
                           <button
                             type="button"
                             onClick={() => remove(item.menuItemId)}
-                            aria-label="Видалити"
+                            aria-label={t('deleteAriaLabel')}
                             className="text-[#1a3d2e]/40 hover:text-red-600 transition-colors flex-shrink-0"
                           >
                             <Trash2 className="h-4 w-4" />
@@ -193,7 +203,7 @@ export function CartDrawer() {
                             <button
                               type="button"
                               onClick={() => setQty(item.menuItemId, item.quantity - 1)}
-                              aria-label="Менше"
+                              aria-label={t('decrementAriaLabel')}
                               className="w-7 h-7 flex items-center justify-center text-[#1a3d2e] hover:bg-[#1a3d2e]/10 rounded-full transition-colors"
                             >
                               <Minus className="h-3.5 w-3.5" />
@@ -204,7 +214,7 @@ export function CartDrawer() {
                             <button
                               type="button"
                               onClick={() => setQty(item.menuItemId, item.quantity + 1)}
-                              aria-label="Більше"
+                              aria-label={t('incrementAriaLabel')}
                               className="w-7 h-7 flex items-center justify-center text-[#1a3d2e] hover:bg-[#1a3d2e]/10 rounded-full transition-colors"
                             >
                               <Plus className="h-3.5 w-3.5" />
@@ -228,7 +238,7 @@ export function CartDrawer() {
               {toFreeDelivery > 0 && (
                 <div className="mb-4">
                   <p className="text-[11px] text-[#1a3d2e]/70 mb-1.5 leading-tight">
-                    Додайте ще <strong className="text-[#1a3d2e]">{formatPrice(toFreeDelivery)}</strong> для безкоштовної доставки
+                    {t('freeDeliveryProgress', { amount: formatPrice(toFreeDelivery) })}
                   </p>
                   <div className="h-1.5 bg-[#1a3d2e]/10 rounded-full overflow-hidden">
                     <div
@@ -244,9 +254,7 @@ export function CartDrawer() {
                 <div className="mb-4 p-3 rounded-xl bg-amber-50 border border-amber-200/80 flex items-start gap-2">
                   <Info className="h-4 w-4 text-amber-700 flex-shrink-0 mt-0.5" />
                   <p className="text-xs text-amber-900 leading-snug">
-                    Мінімальна сума замовлення —{' '}
-                    <strong>{formatPrice(MIN_ORDER)}</strong>.
-                    {' '}Додайте ще {formatPrice(toMin)}.
+                    {t('minOrderWarning', { min: formatPrice(MIN_ORDER), remaining: formatPrice(toMin) })}
                   </p>
                 </div>
               )}
@@ -254,21 +262,21 @@ export function CartDrawer() {
               {/* Totals */}
               <div className="space-y-1.5 text-sm mb-4">
                 <div className="flex justify-between text-[#1a3d2e]/70">
-                  <span>Сума замовлення</span>
+                  <span>{t('subtotal')}</span>
                   <span className="tabular-nums">{formatPrice(subtotal)}</span>
                 </div>
                 <div className="flex justify-between text-[#1a3d2e]/70">
-                  <span>Доставка</span>
+                  <span>{t('delivery')}</span>
                   <span className="tabular-nums">
                     {deliveryFee === 0 ? (
-                      <span className="text-[#1a3d2e] font-semibold">безкоштовно</span>
+                      <span className="text-[#1a3d2e] font-semibold">{t('freeDelivery')}</span>
                     ) : (
                       formatPrice(deliveryFee)
                     )}
                   </span>
                 </div>
                 <div className="flex justify-between text-base font-bold text-[#1a3d2e] pt-2 border-t border-[#1a3d2e]/10">
-                  <span>До сплати</span>
+                  <span>{t('total')}</span>
                   <span className="tabular-nums">{formatPrice(subtotal + deliveryFee)}</span>
                 </div>
               </div>
@@ -285,7 +293,7 @@ export function CartDrawer() {
                     : 'bg-[#1a3d2e]/15 text-[#1a3d2e]/40 cursor-not-allowed pointer-events-none'
                 }`}
               >
-                Оформити замовлення
+                {t('checkout')}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>

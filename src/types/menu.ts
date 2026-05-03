@@ -1,7 +1,9 @@
 export interface MenuItem {
   id: string;
   name: string;
+  name_en?: string;
   description?: string;
+  description_en?: string;
   price: number;
   weight?: string;
   image?: string;

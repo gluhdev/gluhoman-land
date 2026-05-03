@@ -1402,5 +1402,135 @@
       "description": "Book your visit now and we'll make sure you have the best day by the water.",
       "cta_book": "Book a visit"
     }
+  },
+  "menu": {
+    "meta": {
+      "title": "Menu of the restaurant Glukhoman - Ukrainian cuisine",
+      "description": "The menu of the Glukhoman restaurant in Nyzhni Mlynky includes authentic Ukrainian cuisine, European dishes, a children's menu, and craft beer from its own brewery.",
+      "ogTitle": "Menu of the restaurant Glukhoman - Ukrainian cuisine",
+      "ogDescription": "The menu of the restaurant \"Glukhoman\" includes authentic Ukrainian cuisine, European dishes and craft beer from our own brewery.",
+      "twitterTitle": "Menu of the restaurant Glukhoman - Ukrainian cuisine",
+      "twitterDescription": "The menu of the restaurant \"Glukhoman\" includes authentic Ukrainian cuisine, European dishes and craft beer from our own brewery."
+    },
+    "jsonLd": {
+      "name": "Menu of the restaurant Glukhoman",
+      "description": "The menu of the restaurant \"Glukhoman\" includes Ukrainian and European cuisine, craft beer of its own production.",
+      "restaurantName": "Restaurant Glukhoman",
+      "cuisine1": "Ukrainian",
+      "cuisine2": "European"
+    },
+    "hero": {
+      "kicker": "Restaurant \"Glukhoman\"",
+      "headline": "Menu",
+      "subheadline": "a gastronomic journey",
+      "intro": "Ukrainian and European cuisine inspired by the seasons and local products. Craft beer from our own brewery to match every dish.",
+      "statsCategories": "categories",
+      "statsDishes": "dishes"
+    },
+    "philosophy": {
+      "kicker": "Kitchen philosophy",
+      "headline": "A taste that remembers",
+      "headlineItalic": "home and season",
+      "para1": "Our cuisine is born out of local products: farm meat, Poltava cheeses, vegetables from our own garden, fish from local reservoirs and flour from the old mill.",
+      "para2": "We combine the traditions of Ukrainian cuisine with European techniques and complement everything with craft beer from our own brewery, brewed according to the recipes of the head brewer."
+    },
+    "chefPicks": {
+      "kicker": "Menu stars",
+      "headline": "Favorite dishes",
+      "headlineItalic": "from the chef",
+      "description": "What guests order most often - and what we recommend trying on their first visit.",
+      "badge": "hit",
+      "dish1Name": "Duck with apples",
+      "dish1Desc": "A seasonal hit, the main dish is baked in the oven until golden brown.",
+      "dish2Name": "Ukrainian borscht",
+      "dish2Desc": "Classics that never leave the menu. Lard, donuts, sour cream.",
+      "dish3Name": "Forest IPA",
+      "dish3Desc": "Craft beer from the company's own brewery is a winner of a regional festival.",
+      "dish4Name": "Cheesecakes with honey",
+      "dish4Desc": "The most popular dessert is melted honey from our own apiary."
+    },
+    "oven": {
+      "kicker": "From the oven",
+      "headline": "A real oven",
+      "headlineItalic": "on wood",
+      "para1": "At the heart of our kitchen is a real Ukrainian stove, hand-built of clay and brick. We heat it only with wood - no gas, no electricity. It's a slow way to cook, but the only one that gives us the taste we remember from childhood.",
+      "para2": "Our roasted duck, homemade rye bread, buckwheat porridge in pots, and cherry pies are born in the oven. Dishes that only really sound good when they are touched by a live fire.",
+      "stat1Num": "180°C",
+      "stat1Label": "ideal temperature",
+      "stat2Num": "4 hours",
+      "stat2Label": "cooking duck",
+      "stat3Num": "100% wood",
+      "stat3Label": "no gas",
+      "imageAlt": "Ukrainian wood-fired oven in the restaurant Glukhoman"
+    },
+    "booking": {
+      "kicker": "Table for the evening",
+      "headline": "We invite you to the table",
+      "headlineItalic": "in the restaurant \"Glukhoman\"",
+      "description": "Choose the date, number of guests and hall - we will prepare a table and welcome you with a smile.",
+      "cta": "Book a table"
+    },
+    "producers": {
+      "kicker": "We support",
+      "headline": "Local",
+      "headlineItalic": "manufacturers",
+      "description": "All the products from which our menu is born come from our neighbors, the owners from Poltava region, whom we know personally.",
+      "producer1Name": "Dairy farm Belyi Sad",
+      "producer1Desc": "Cottage cheese, sour cream, yogurt",
+      "producer2Name": "Farm \"Sunflower\"",
+      "producer2Desc": "Chicken meat, eggs",
+      "producer3Name": "Garden \"Poltavsky\"",
+      "producer3Desc": "Apples, pears, greens",
+      "producer4Name": "Fisherman Petrenko",
+      "producer4Desc": "Fresh fish from the local pond",
+      "producer5Name": "Apiary Glukhoman",
+      "producer5Desc": "Honey, propolis, wax"
+    },
+    "footer": {
+      "kicker": "Booking",
+      "headline": "Ready to try it?",
+      "headlineItalic": "book a table",
+      "description": "We invite you to spend the evening in the cozy atmosphere of the Glukhoman restaurant. Cozy halls, an open terrace and a kitchen that remembers the taste of home.",
+      "phone": "050 850 3 555",
+      "aboutRestaurant": "About the restaurant"
+    },
+    "cart": {
+      "title": "Your shopping cart",
+      "openAriaLabel": "Open the cart",
+      "closeAriaLabel": "Close",
+      "deleteAriaLabel": "Delete",
+      "decrementAriaLabel": "Less",
+      "incrementAriaLabel": "More",
+      "emptyTitle": "Cart is empty",
+      "emptyDescription": "Select dishes from the menu and they will appear here.",
+      "emptyBackLink": "Back to the menu",
+      "freeDeliveryProgress": "Add another {amount} for free shipping",
+      "minOrderWarning": "The minimum order amount is {min}. Add another {remaining}.",
+      "subtotal": "Order amount",
+      "delivery": "Delivery",
+      "freeDelivery": "free of charge",
+      "total": "To be paid",
+      "checkout": "Place an order",
+      "itemCount_one": "{count} position",
+      "itemCount_few": "{count} positions",
+      "itemCount_many": "{count} positions"
+    },
+    "category": {
+      "itemCount_one": "{count} position",
+      "itemCount_few": "{count} positions",
+      "itemCount_many": "{count} positions"
+    },
+    "addToCart": {
+      "addAriaLabel": "Add {name} to your cart"
+    },
+    "nav": {
+      "ariaLabel": "Menu of dishes",
+      "fullPage": "Full page",
+      "restaurantLabel": "Restaurant menu",
+      "restaurantName": "\"Glukhoman\"",
+      "categoriesCount": "{count} categories - {dishes} dishes",
+      "openFullMenu": "Open the full menu in a separate tab"
+    },
+    "backToTop": "Scroll to the top"
   }
 }

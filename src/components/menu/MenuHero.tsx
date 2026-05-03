@@ -3,9 +3,24 @@ import Image from 'next/image';
 interface MenuHeroProps {
   totalCategories: number;
   totalItems: number;
+  kicker: string;
+  headline: string;
+  subheadline: string;
+  intro: string;
+  statsCategories: string;
+  statsDishes: string;
 }
 
-export function MenuHero({ totalCategories, totalItems }: MenuHeroProps) {
+export function MenuHero({
+  totalCategories,
+  totalItems,
+  kicker,
+  headline,
+  subheadline,
+  intro,
+  statsCategories,
+  statsDishes,
+}: MenuHeroProps) {
   return (
     <section className="relative bg-[#0b1410] text-[#faf6ec] overflow-hidden">
       {/* Backdrop image */}
@@ -26,22 +41,21 @@ export function MenuHero({ totalCategories, totalItems }: MenuHeroProps) {
           <span className="font-display italic text-[#e6d9b8] text-lg">I</span>
           <span className="h-px w-10 bg-[#e6d9b8]/50" />
           <span className="text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8]">
-            Ресторан «Глухомань»
+            {kicker}
           </span>
         </div>
 
         {/* Headline */}
         <h1 className="font-display text-[64px] md:text-[96px] lg:text-[120px] leading-[0.9] font-light tracking-tight text-[#faf6ec]">
-          Меню
+          {headline}
         </h1>
         <p className="font-display italic text-2xl md:text-3xl text-[#e6d9b8] mt-4 mb-10">
-          гастрономічної подорожі
+          {subheadline}
         </p>
 
         <div className="max-w-xl">
           <p className="text-[#faf6ec]/75 leading-relaxed text-base md:text-lg">
-            Українська та європейська кухня, натхненна сезонами й локальними
-            продуктами. Крафтове пиво власної пивоварні до кожної страви.
+            {intro}
           </p>
         </div>
 
@@ -52,7 +66,7 @@ export function MenuHero({ totalCategories, totalItems }: MenuHeroProps) {
               {totalCategories}
             </div>
             <div className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]/80 mt-1">
-              категорій
+              {statsCategories}
             </div>
           </div>
           <div className="bg-[#0f1f18] px-6 py-6">
@@ -60,7 +74,7 @@ export function MenuHero({ totalCategories, totalItems }: MenuHeroProps) {
               {totalItems}
             </div>
             <div className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]/80 mt-1">
-              страв
+              {statsDishes}
             </div>
           </div>
         </div>

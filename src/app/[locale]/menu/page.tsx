@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Script from 'next/script';
 import Image from 'next/image';
 import { Star } from 'lucide-react';
+import { getTranslations, getLocale } from 'next-intl/server';
 import menuData from '@/data/menu.json';
 import { Menu } from '@/types/menu';
 import { MenuHero } from '@/components/menu/MenuHero';
@@ -13,53 +14,55 @@ import { CartButton } from '@/components/menu/CartButton';
 import { CartDrawer } from '@/components/menu/CartDrawer';
 import { MenuBookingCTA } from './MenuBookingCTA';
 
-export const metadata: Metadata = {
-  title: 'Меню ресторану Глухомань — Українська кухня',
-  description:
-    'Меню ресторану «Глухомань» у Нижніх Млинах: автентична українська кухня, європейські страви, дитяче меню та крафтове пиво власної пивоварні.',
-  keywords:
-    'меню, ресторан, глухомань, українська кухня, європейська кухня, крафтове пиво, полтавська область',
-  openGraph: {
-    title: 'Меню ресторану Глухомань — Українська кухня',
-    description:
-      'Меню ресторану «Глухомань»: автентична українська кухня, європейські страви та крафтове пиво власної пивоварні.',
-    type: 'website',
-    locale: 'uk_UA',
-    images: [
-      {
-        url: '/og-restaurant.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Меню ресторану Глухомань',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Меню ресторану Глухомань — Українська кухня',
-    description:
-      'Меню ресторану «Глухомань»: автентична українська кухня, європейські страви та крафтове пиво власної пивоварні.',
-    images: ['/og-restaurant.jpg'],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('menu.meta');
+  return {
+    title: t('title'),
+    description: t('description'),
+    keywords:
+      'меню, ресторан, глухомань, українська кухня, європейська кухня, крафтове пиво, полтавська область',
+    openGraph: {
+      title: t('ogTitle'),
+      description: t('ogDescription'),
+      type: 'website',
+      locale: 'uk_UA',
+      images: [
+        {
+          url: '/og-restaurant.jpg',
+          width: 1200,
+          height: 630,
+          alt: t('ogTitle'),
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('twitterTitle'),
+      description: t('twitterDescription'),
+      images: ['/og-restaurant.jpg'],
+    },
+  };
+}
 
 const menu = menuData as unknown as Menu;
 
 const totalCategories = menu.categories.length;
 const totalItems = menu.categories.reduce((sum, cat) => sum + cat.items.length, 0);
 
-export default function MenuPage() {
+export default async function MenuPage() {
+  const t = await getTranslations('menu');
+  const locale = await getLocale();
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Menu',
-    name: 'Меню ресторану Глухомань',
-    inLanguage: 'uk',
-    description:
-      'Меню ресторану «Глухомань»: українська та європейська кухня, крафтове пиво власного виробництва.',
+    name: t('jsonLd.name'),
+    inLanguage: locale,
+    description: t('jsonLd.description'),
     provider: {
       '@type': 'Restaurant',
-      name: 'Ресторан Глухомань',
-      servesCuisine: ['Українська', 'Європейська'],
+      name: t('jsonLd.restaurantName'),
+      servesCuisine: [t('jsonLd.cuisine1'), t('jsonLd.cuisine2')],
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'Нижні Млини',
@@ -69,11 +72,11 @@ export default function MenuPage() {
     },
     hasMenuSection: menu.categories.map((category) => ({
       '@type': 'MenuSection',
-      name: category.name,
+      name: locale === 'en' ? category.name : category.name,
       hasMenuItem: category.items.map((item) => ({
         '@type': 'MenuItem',
-        name: item.name,
-        description: item.description ?? undefined,
+        name: locale === 'en' ? (item.name_en ?? item.name) : item.name,
+        description: (locale === 'en' ? (item.description_en ?? item.description) : item.description) ?? undefined,
         offers: {
           '@type': 'Offer',
           price: item.price,
@@ -90,7 +93,16 @@ export default function MenuPage() {
       </Script>
 
       {/* 1. HERO — deep forest */}
-      <MenuHero totalCategories={totalCategories} totalItems={totalItems} />
+      <MenuHero
+        totalCategories={totalCategories}
+        totalItems={totalItems}
+        kicker={t('hero.kicker')}
+        headline={t('hero.headline')}
+        subheadline={t('hero.subheadline')}
+        intro={t('hero.intro')}
+        statsCategories={t('hero.statsCategories')}
+        statsDishes={t('hero.statsDishes')}
+      />
 
       {/* 2. INTRO STRIP — cream editorial philosophy */}
       <section className="bg-[#faf6ec] py-28 md:py-36">
@@ -101,28 +113,20 @@ export default function MenuPage() {
                 <span className="font-display italic text-[#1a3d2e] text-lg">I</span>
                 <span className="h-px w-10 bg-[#1a3d2e]/40" />
                 <span className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]/70">
-                  Філософія кухні
+                  {t('philosophy.kicker')}
                 </span>
               </div>
             </div>
             <div className="md:col-span-8">
               <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-light leading-[0.98] text-[#0f1f18]">
-                Смак, що пам&apos;ятає
+                {t('philosophy.headline')}
                 <span className="block font-display italic text-[#1a3d2e]/80">
-                  дім і сезон
+                  {t('philosophy.headlineItalic')}
                 </span>
               </h2>
               <div className="mt-8 max-w-xl space-y-5 text-[#1a3d2e]/80 leading-relaxed">
-                <p>
-                  Наша кухня народжується з локальних продуктів: фермерське
-                  м&apos;ясо, полтавські сири, овочі з власного городу, риба з
-                  місцевих водойм і борошно старого млина.
-                </p>
-                <p>
-                  Ми з&apos;єднуємо традиції української кухні з європейськими
-                  техніками — і доповнюємо все крафтовим пивом власної пивоварні,
-                  зібраним за рецептами головного броварника.
-                </p>
+                <p>{t('philosophy.para1')}</p>
+                <p>{t('philosophy.para2')}</p>
               </div>
             </div>
           </div>
@@ -135,37 +139,24 @@ export default function MenuPage() {
           <div className="mb-16 flex flex-col gap-6 md:mb-20 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
               <span className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]">
-                Зірки меню
+                {t('chefPicks.kicker')}
               </span>
               <h2 className="font-display mt-6 text-4xl leading-[1.1] text-[#0f1f18] sm:text-5xl md:text-6xl">
-                Обрані страви
-                <span className="block italic text-[#1a3d2e]">від шефа</span>
+                {t('chefPicks.headline')}
+                <span className="block italic text-[#1a3d2e]">{t('chefPicks.headlineItalic')}</span>
               </h2>
             </div>
             <p className="max-w-md text-base leading-relaxed text-[#0f1f18]/70 md:text-right">
-              Те, що гості замовляють найчастіше — і те, що ми радимо спробувати
-              у перший візит.
+              {t('chefPicks.description')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 gap-px bg-[#1a3d2e]/20 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              {
-                name: "Качка з яблуками",
-                desc: "Сезонний хіт, головна страва — запечена у печі до золотавої скоринки.",
-              },
-              {
-                name: "Борщ український",
-                desc: "Класика, що не виходить з меню. Сало, пампушки, сметана.",
-              },
-              {
-                name: "Лісова IPA",
-                desc: "Крафтове пиво власної пивоварні — лауреат регіонального фестивалю.",
-              },
-              {
-                name: "Сирники з медом",
-                desc: "Найпопулярніший десерт — з топленим медом власної пасіки.",
-              },
+              { name: t('chefPicks.dish1Name'), desc: t('chefPicks.dish1Desc') },
+              { name: t('chefPicks.dish2Name'), desc: t('chefPicks.dish2Desc') },
+              { name: t('chefPicks.dish3Name'), desc: t('chefPicks.dish3Desc') },
+              { name: t('chefPicks.dish4Name'), desc: t('chefPicks.dish4Desc') },
             ].map((item) => (
               <article
                 key={item.name}
@@ -179,7 +170,7 @@ export default function MenuPage() {
                     />
                   </span>
                   <span className="border border-[#e6d9b8] bg-[#e6d9b8]/50 px-3 py-1 text-[10px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]">
-                    хіт
+                    {t('chefPicks.badge')}
                   </span>
                 </div>
                 <h3 className="font-display text-2xl italic leading-[1.15] text-[#0f1f18]">
@@ -205,7 +196,16 @@ export default function MenuPage() {
           <div className="lg:flex lg:items-stretch lg:gap-12 xl:gap-16">
             <main className="flex-1 min-w-0">
               {menu.categories.map((category) => (
-                <CategorySection key={category.id} category={category} />
+                <CategorySection
+                  key={category.id}
+                  category={category}
+                  locale={locale}
+                  itemCountLabels={{
+                    one: t('category.itemCount_one', { count: 1 }),
+                    few: t('category.itemCount_few', { count: 2 }),
+                    many: t('category.itemCount_many', { count: 5 }),
+                  }}
+                />
               ))}
             </main>
 
@@ -224,7 +224,7 @@ export default function MenuPage() {
               <div className="relative aspect-[4/5] overflow-hidden">
                 <Image
                   src="/images/restaurant/ukrainian_clay_oven_pich_food.jpg"
-                  alt="Українська піч на дровах у ресторані Глухомань"
+                  alt={t('oven.imageAlt')}
                   fill
                   sizes="(min-width: 768px) 40vw, 100vw"
                   className="object-cover"
@@ -233,31 +233,21 @@ export default function MenuPage() {
             </div>
             <div className="md:col-span-7">
               <span className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#e6d9b8]">
-                З печі
+                {t('oven.kicker')}
               </span>
               <h2 className="font-display mt-6 text-4xl leading-[1.05] text-[#faf6ec] sm:text-5xl md:text-6xl">
-                Справжня піч
-                <span className="block italic text-[#e6d9b8]">на дровах</span>
+                {t('oven.headline')}
+                <span className="block italic text-[#e6d9b8]">{t('oven.headlineItalic')}</span>
               </h2>
               <div className="mt-8 max-w-xl space-y-5 text-[#faf6ec]/75 leading-relaxed">
-                <p>
-                  У серці нашої кухні стоїть справжня українська піч, викладена
-                  вручну з глини та цегли. Ми топимо її тільки дровами — ніякого
-                  газу, ніякої електрики. Це повільний спосіб готувати, але
-                  єдиний, що дає той смак, який ми пам&apos;ятаємо з дитинства.
-                </p>
-                <p>
-                  У печі народжується наша запечена качка, домашній житній хліб,
-                  гречана каша у горщиках і пироги з вишнями. Страви, які
-                  по-справжньому звучать лише тоді, коли їх торкнувся живий
-                  вогонь.
-                </p>
+                <p>{t('oven.para1')}</p>
+                <p>{t('oven.para2')}</p>
               </div>
               <div className="mt-10 grid grid-cols-3 gap-px bg-[#1a3d2e]/40 border border-[#1a3d2e]/40">
                 {[
-                  { num: "180°C", label: "ідеальна температура" },
-                  { num: "4 години", label: "готування качки" },
-                  { num: "100% дров", label: "ніякого газу" },
+                  { num: t('oven.stat1Num'), label: t('oven.stat1Label') },
+                  { num: t('oven.stat2Num'), label: t('oven.stat2Label') },
+                  { num: t('oven.stat3Num'), label: t('oven.stat3Label') },
                 ].map((stat) => (
                   <div
                     key={stat.label}
@@ -283,22 +273,21 @@ export default function MenuPage() {
           <div className="inline-flex items-center gap-4 mb-8">
             <span className="h-px w-10 bg-[#e6d9b8]/50" />
             <span className="text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8]">
-              Столик на вечір
+              {t('booking.kicker')}
             </span>
             <span className="h-px w-10 bg-[#e6d9b8]/50" />
           </div>
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-light leading-[0.98] text-[#faf6ec]">
-            Запрошуємо до столу
+            {t('booking.headline')}
           </h2>
           <p className="font-display italic text-xl md:text-2xl text-[#e6d9b8] mt-3 mb-10">
-            у ресторані «Глухомань»
+            {t('booking.headlineItalic')}
           </p>
           <p className="max-w-xl mx-auto text-[#faf6ec]/75 leading-relaxed mb-12">
-            Оберіть дату, кількість гостей і зал — ми підготуємо столик і
-            зустрінемо вас із посмішкою.
+            {t('booking.description')}
           </p>
           <div className="flex justify-center">
-            <MenuBookingCTA />
+            <MenuBookingCTA label={t('booking.cta')} />
           </div>
         </div>
       </section>
@@ -309,41 +298,25 @@ export default function MenuPage() {
           <div className="mb-16 flex flex-col gap-6 md:mb-20 md:flex-row md:items-end md:justify-between">
             <div className="max-w-2xl">
               <span className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]">
-                Ми підтримуємо
+                {t('producers.kicker')}
               </span>
               <h2 className="font-display mt-6 text-4xl leading-[1.1] text-[#0f1f18] sm:text-5xl md:text-6xl">
-                Місцеві
-                <span className="block italic text-[#1a3d2e]">виробники</span>
+                {t('producers.headline')}
+                <span className="block italic text-[#1a3d2e]">{t('producers.headlineItalic')}</span>
               </h2>
             </div>
             <p className="max-w-md text-base leading-relaxed text-[#0f1f18]/70 md:text-right">
-              Усі продукти, з яких народжується наше меню, приходять від сусідів —
-              господарів з Полтавщини, яких ми знаємо особисто.
+              {t('producers.description')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 gap-px bg-[#1a3d2e]/20 border border-[#1a3d2e]/20 sm:grid-cols-2 lg:grid-cols-5">
             {[
-              {
-                name: "Молочарка Білий Сад",
-                desc: "Сир, сметана, йогурт",
-              },
-              {
-                name: "Ферма «Соняшник»",
-                desc: "Куряче м'ясо, яйця",
-              },
-              {
-                name: "Сад «Полтавський»",
-                desc: "Яблука, груші, зелень",
-              },
-              {
-                name: "Рибалка Петренко",
-                desc: "Свіжа риба з місцевого ставу",
-              },
-              {
-                name: "Пасіка Глухомань",
-                desc: "Мед, прополіс, віск",
-              },
+              { name: t('producers.producer1Name'), desc: t('producers.producer1Desc') },
+              { name: t('producers.producer2Name'), desc: t('producers.producer2Desc') },
+              { name: t('producers.producer3Name'), desc: t('producers.producer3Desc') },
+              { name: t('producers.producer4Name'), desc: t('producers.producer4Desc') },
+              { name: t('producers.producer5Name'), desc: t('producers.producer5Desc') },
             ].map((producer) => (
               <div
                 key={producer.name}
@@ -362,9 +335,16 @@ export default function MenuPage() {
       </section>
 
       {/* 5. FOOTER CTA — deep forest editorial */}
-      <MenuFooter />
+      <MenuFooter
+        kicker={t('footer.kicker')}
+        headline={t('footer.headline')}
+        headlineItalic={t('footer.headlineItalic')}
+        description={t('footer.description')}
+        phone={t('footer.phone')}
+        aboutRestaurant={t('footer.aboutRestaurant')}
+      />
 
-      <BackToTop />
+      <BackToTop ariaLabel={t('backToTop')} />
 
       {/* Cart UI — floating button + drawer (client) */}
       <CartButton />

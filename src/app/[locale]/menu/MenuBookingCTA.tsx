@@ -4,7 +4,11 @@ import { CalendarCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { openBookingDialog } from '@/components/ui/BookingDialog';
 
-export function MenuBookingCTA() {
+interface Props {
+  label: string;
+}
+
+export function MenuBookingCTA({ label }: Props) {
   return (
     <Button
       size="lg"
@@ -12,7 +16,7 @@ export function MenuBookingCTA() {
       className="gap-2"
     >
       <CalendarCheck className="h-5 w-5" />
-      Забронювати столик
+      {label}
     </Button>
   );
 }

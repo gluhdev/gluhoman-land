@@ -1,17 +1,25 @@
 import { MenuItem } from '@/types/menu';
 import { AddToCartButton } from './AddToCartButton';
 
-export function DishListItem({ item }: { item: MenuItem }) {
+interface DishListItemProps {
+  item: MenuItem;
+  locale?: string;
+}
+
+export function DishListItem({ item, locale }: DishListItemProps) {
+  const displayName = locale === 'en' ? (item.name_en ?? item.name) : item.name;
+  const displayDesc = locale === 'en' ? (item.description_en ?? item.description) : item.description;
+
   return (
     <div className="group relative flex items-start gap-6 py-6 px-2">
       {/* Name + description */}
       <div className="flex-1 min-w-0">
         <h4 className="font-display text-xl md:text-2xl font-light leading-snug text-[#0f1f18]">
-          {item.name}
+          {displayName}
         </h4>
-        {item.description && (
+        {displayDesc && (
           <p className="font-display italic text-[15px] text-[#1a3d2e]/65 mt-1.5 leading-relaxed line-clamp-2">
-            {item.description}
+            {displayDesc}
           </p>
         )}
       </div>
@@ -31,7 +39,7 @@ export function DishListItem({ item }: { item: MenuItem }) {
           variant="list"
           item={{
             menuItemId: item.id,
-            name: item.name,
+            name: displayName,
             price: item.price,
             image: item.image,
             weight: item.weight,

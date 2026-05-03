@@ -2,15 +2,36 @@ import { MenuCategory } from '@/types/menu';
 import { DishCard } from './DishCard';
 import { DishListItem } from './DishListItem';
 
+interface ItemCountLabels {
+  one: string;
+  few: string;
+  many: string;
+}
+
+interface CategorySectionProps {
+  category: MenuCategory;
+  locale?: string;
+  itemCountLabels?: ItemCountLabels;
+}
+
+function getCountLabel(count: number, labels?: ItemCountLabels): string {
+  if (!labels) {
+    return count === 1 ? 'item' : 'items';
+  }
+  // Replace {count} placeholder in whichever label we pick
+  const tpl = count === 1 ? labels.one : count < 5 ? labels.few : labels.many;
+  return tpl.replace('{count}', String(count));
+}
+
 /**
  * Editorial category block — hairline dividers and generous rhythm.
  * The page renders all sections inside a single cream container.
  */
-export function CategorySection({ category }: { category: MenuCategory }) {
+export function CategorySection({ category, locale, itemCountLabels }: CategorySectionProps) {
   const withImages = category.items.filter((i) => i.image);
   const withoutImages = category.items.filter((i) => !i.image);
   const count = category.items.length;
-  const countLabel = count === 1 ? 'позиція' : count < 5 ? 'позиції' : 'позицій';
+  const countLabel = getCountLabel(count, itemCountLabels);
 
   return (
     <section
@@ -25,7 +46,7 @@ export function CategorySection({ category }: { category: MenuCategory }) {
           )}
           <span className="h-px flex-1 max-w-[60px] bg-[#1a3d2e]/30" />
           <span className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]/60">
-            {count} {countLabel}
+            {countLabel}
           </span>
         </div>
         <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-light leading-[0.95] text-[#0f1f18]">
@@ -37,7 +58,7 @@ export function CategorySection({ category }: { category: MenuCategory }) {
       {withImages.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-px bg-[#e6d9b8]">
           {withImages.map((item) => (
-            <DishCard key={item.id} item={item} />
+            <DishCard key={item.id} item={item} locale={locale} />
           ))}
         </div>
       )}
@@ -50,7 +71,7 @@ export function CategorySection({ category }: { category: MenuCategory }) {
           }`}
         >
           {withoutImages.map((item) => (
-            <DishListItem key={item.id} item={item} />
+            <DishListItem key={item.id} item={item} locale={locale} />
           ))}
         </div>
       )}

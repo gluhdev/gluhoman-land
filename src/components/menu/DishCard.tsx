@@ -2,17 +2,25 @@ import Image from 'next/image';
 import { MenuItem } from '@/types/menu';
 import { AddToCartButton } from './AddToCartButton';
 
+interface DishCardProps {
+  item: MenuItem;
+  locale?: string;
+}
+
 /**
  * Editorial DishCard — used only for items with images.
  * Flat cream surface, hairline details, no shadows or scale hovers.
  */
-export function DishCard({ item }: { item: MenuItem }) {
+export function DishCard({ item, locale }: DishCardProps) {
+  const displayName = locale === 'en' ? (item.name_en ?? item.name) : item.name;
+  const displayDesc = locale === 'en' ? (item.description_en ?? item.description) : item.description;
+
   return (
     <article className="relative bg-[#faf6ec] flex flex-col">
       <div className="relative aspect-[4/3] overflow-hidden bg-[#f4ecd8]">
         <Image
           src={item.image!}
-          alt={item.name}
+          alt={displayName}
           fill
           sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
           unoptimized
@@ -29,7 +37,7 @@ export function DishCard({ item }: { item: MenuItem }) {
       <div className="relative p-6 flex flex-col flex-1">
         <div className="flex items-start justify-between gap-4 mb-3">
           <h3 className="font-display text-xl md:text-2xl font-light leading-snug text-[#0f1f18]">
-            {item.name}
+            {displayName}
           </h3>
           <span className="inline-flex items-baseline gap-0.5 bg-[#e6d9b8] text-[#0f1f18] font-display text-base px-3 py-1 whitespace-nowrap">
             <span>{item.price}</span>
@@ -37,9 +45,9 @@ export function DishCard({ item }: { item: MenuItem }) {
           </span>
         </div>
 
-        {item.description && (
+        {displayDesc && (
           <p className="text-sm text-[#1a3d2e]/70 leading-relaxed line-clamp-3 flex-1">
-            {item.description}
+            {displayDesc}
           </p>
         )}
 
@@ -61,7 +69,7 @@ export function DishCard({ item }: { item: MenuItem }) {
             variant="card"
             item={{
               menuItemId: item.id,
-              name: item.name,
+              name: displayName,
               price: item.price,
               image: item.image,
               weight: item.weight,

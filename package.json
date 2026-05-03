@@ -16,7 +16,8 @@
     "test:e2e:ui": "playwright test --ui",
     "i18n:sync": "tsx --env-file=.env.local scripts/i18n/sync.ts",
     "i18n:check": "tsx scripts/i18n/check.ts",
-    "prepare": "husky"
+    "prepare": "husky",
+    "i18n:sync:menu": "tsx --env-file=.env.local scripts/i18n/sync-menu.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

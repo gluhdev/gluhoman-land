@@ -1,6 +1,7 @@
 'use client';
 
 import { ShoppingBag } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useCartStore, getItemCount, getSubtotal } from '@/lib/cart-store';
 import { formatPrice } from '@/types/cart';
 
@@ -9,6 +10,8 @@ import { formatPrice } from '@/types/cart';
  * Hidden when cart is empty. Click opens the cart drawer.
  */
 export function CartButton() {
+  const t = useTranslations('menu.cart');
+
   const items = useCartStore((s) => s.items);
   const open = useCartStore((s) => s.openDrawer);
 
@@ -21,7 +24,7 @@ export function CartButton() {
     <button
       type="button"
       onClick={open}
-      aria-label={`Відкрити кошик (${count} позицій, ${formatPrice(subtotal)})`}
+      aria-label={`${t('openAriaLabel')} (${count}, ${formatPrice(subtotal)})`}
       className="fixed bottom-6 right-6 z-50 group flex items-center gap-3 pl-4 pr-5 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] shadow-2xl shadow-[#1a3d2e]/40 hover:bg-[#0f2a1e] hover:scale-105 transition-all duration-300"
     >
       <div className="relative">
