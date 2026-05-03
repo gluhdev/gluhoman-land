@@ -240,7 +240,7 @@ export default function Header() {
                                           {t(`nav.additional.${id}.title`)}
                                         </div>
                                         <div className="text-[11px] text-[#1a3d2e]/75 mt-1 line-clamp-1">
-                                          {svc.description}
+                                          {t(`nav.additional.${id}.description` as Parameters<typeof t>[0])}
                                         </div>
                                       </Link>
                                     </NavigationMenuLink>

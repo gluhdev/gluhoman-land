@@ -139,7 +139,7 @@ export default function HomeStory() {
                 className="float-left mr-3 mt-2 font-display text-6xl font-light leading-[0.75] text-[#1a3d2e] md:text-[96px]"
                 aria-hidden
               >
-                Н
+                {t('prose_initial')}
               </span>
               {t('prose')}
             </p>

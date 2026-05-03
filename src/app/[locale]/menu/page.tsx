@@ -19,8 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: t('title'),
     description: t('description'),
-    keywords:
-      'меню, ресторан, глухомань, українська кухня, європейська кухня, крафтове пиво, полтавська область',
+    keywords: t('keywords'),
     openGraph: {
       title: t('ogTitle'),
       description: t('ogDescription'),

@@ -31,6 +31,7 @@ import {
   Bed,
   CheckCircle2,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { formatPrice } from '@/types/cart';
 import { ROOM_TYPE_LABEL } from '@/types/booking';
 
@@ -67,6 +68,8 @@ const toISODate = (d: Date): string => {
 };
 
 export function BookingFlow() {
+  const tc = useTranslations('flow.common');
+  const th = useTranslations('flow.hotel');
   const router = useRouter();
   const [step, setStep] = useState<Step>('search');
   const [search, setSearch] = useState<SearchState>({
@@ -122,11 +125,11 @@ export function BookingFlow() {
     e.preventDefault();
     setError(null);
     if (!range?.from || !range?.to) {
-      setError('Оберіть дати заїзду та виїзду');
+      setError(th('error_dates'));
       return;
     }
     if (range.to.getTime() <= range.from.getTime()) {
-      setError('Дата виїзду має бути після дати заїзду');
+      setError(th('error_checkout'));
       return;
     }
     setLoading(true);
@@ -137,13 +140,13 @@ export function BookingFlow() {
         guests: search.guests.toString(),
       });
       const res = await fetch(`/api/hotel/availability?${params}`);
-      if (!res.ok) throw new Error('Помилка пошуку');
+      if (!res.ok) throw new Error(th('error_search'));
       const data = (await res.json()) as { rooms: AvailableRoom[]; nights: number };
       setRooms(data.rooms);
       setNights(data.nights);
       setStep('rooms');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Помилка');
+      setError(err instanceof Error ? err.message : tc('error_generic'));
     } finally {
       setLoading(false);
     }
@@ -154,11 +157,11 @@ export function BookingFlow() {
     setError(null);
     if (!selectedRoom) return;
     if (customer.name.trim().length < 2) {
-      setError("Введіть ім'я");
+      setError(tc('error_name'));
       return;
     }
     if (!/^\+?[\d\s()-]{10,}$/.test(customer.phone.trim())) {
-      setError('Введіть коректний телефон');
+      setError(tc('error_phone'));
       return;
     }
 
@@ -181,7 +184,7 @@ export function BookingFlow() {
       });
       if (!createRes.ok) {
         const data = await createRes.json().catch(() => ({}));
-        throw new Error(data.error ?? 'Не вдалось створити бронювання');
+        throw new Error(data.error ?? th('error_booking_create'));
       }
       const booking = (await createRes.json()) as { id: string; number: number };
 
@@ -193,7 +196,7 @@ export function BookingFlow() {
       });
       if (!payRes.ok) {
         const data = await payRes.json().catch(() => ({}));
-        throw new Error(data.error ?? 'Не вдалось ініціювати оплату');
+        throw new Error(data.error ?? th('error_payment_init'));
       }
       const pay = (await payRes.json()) as
         | { mode: 'liqpay'; data: string; signature: string; endpoint: string }
@@ -224,7 +227,7 @@ export function BookingFlow() {
       document.body.appendChild(formEl);
       formEl.submit();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Помилка');
+      setError(err instanceof Error ? err.message : tc('error_generic'));
       setLoading(false);
     }
   };
@@ -234,13 +237,13 @@ export function BookingFlow() {
   if (step === 'search') {
     return (
       <Section>
-        <StepBadge step={1} />
+        <StepBadge step={1} label={tc('step_of', { step: 1, total: 3 })} />
         <h2 className="font-display text-2xl font-semibold text-[#1a3d2e] mb-6">
-          Оберіть дати та кількість гостей
+          {th('step1_heading')}
         </h2>
 
         <form onSubmit={handleSearch} className="space-y-4">
-          <Field label="Дати заїзду та виїзду" icon={<Calendar className="h-3.5 w-3.5" />}>
+          <Field label={th('field_dates')} icon={<Calendar className="h-3.5 w-3.5" />}>
             <div className="rdp-wrapper rounded-2xl border border-[#1a3d2e]/15 bg-white p-2 sm:p-3 overflow-x-auto">
               <DayPicker
                 mode="range"
@@ -268,7 +271,7 @@ export function BookingFlow() {
             )}
           </Field>
 
-          <Field label="Кількість гостей" icon={<Users className="h-3.5 w-3.5" />}>
+          <Field label={th('field_guests')} icon={<Users className="h-3.5 w-3.5" />}>
             <select
               value={search.guests}
               onChange={(e) => setSearch((s) => ({ ...s, guests: parseInt(e.target.value, 10) }))}
@@ -276,7 +279,7 @@ export function BookingFlow() {
             >
               {[1, 2, 3, 4, 5, 6].map((n) => (
                 <option key={n} value={n}>
-                  {n} {n === 1 ? 'гість' : n < 5 ? 'гості' : 'гостей'}
+                  {n} {n === 1 ? th('guest_one') : n < 5 ? th('guest_few') : th('guest_many')}
                 </option>
               ))}
             </select>
@@ -290,7 +293,7 @@ export function BookingFlow() {
             className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm shadow-lg shadow-[#1a3d2e]/30 hover:bg-[#0f2a1e] hover:scale-[1.01] transition-all disabled:opacity-50"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
-            {loading ? 'Шукаємо…' : 'Знайти вільні номери'}
+            {loading ? th('searching') : th('search_btn')}
           </button>
         </form>
       </Section>
@@ -300,25 +303,25 @@ export function BookingFlow() {
   if (step === 'rooms') {
     return (
       <Section>
-        <BackButton onClick={() => setStep('search')} />
-        <StepBadge step={2} />
+        <BackButton onClick={() => setStep('search')} label={tc('back')} />
+        <StepBadge step={2} label={tc('step_of', { step: 2, total: 3 })} />
         <h2 className="font-display text-2xl font-semibold text-[#1a3d2e] mb-2">
-          {rooms.length === 0 ? 'Немає вільних номерів' : `Знайдено ${rooms.length}`}
+          {rooms.length === 0 ? th('step2_heading_none') : th('step2_heading_found', { count: rooms.length })}
         </h2>
         <p className="text-sm text-[#1a3d2e]/60 mb-6">
           {new Date(search.checkIn).toLocaleDateString('uk-UA', { dateStyle: 'long' })} —{' '}
           {new Date(search.checkOut).toLocaleDateString('uk-UA', { dateStyle: 'long' })}
           {' · '}
-          {nights} {nights === 1 ? 'ніч' : nights < 5 ? 'ночі' : 'ночей'}
+          {nights} {nights === 1 ? th('night_one') : nights < 5 ? th('night_few') : th('night_many')}
           {' · '}
-          {search.guests} {search.guests === 1 ? 'гість' : search.guests < 5 ? 'гості' : 'гостей'}
+          {search.guests} {search.guests === 1 ? th('guest_one') : search.guests < 5 ? th('guest_few') : th('guest_many')}
         </p>
 
         {rooms.length === 0 ? (
           <div className="bg-[#f4ecd8]/40 border border-[#1a3d2e]/12 rounded-2xl p-8 text-center">
             <Bed className="h-10 w-10 text-[#1a3d2e]/30 mx-auto mb-3" />
             <p className="text-sm text-[#1a3d2e]/70">
-              На обрані дати немає вільних номерів. Спробуйте інші дати.
+              {th('no_rooms')}
             </p>
           </div>
         ) : (
@@ -330,7 +333,7 @@ export function BookingFlow() {
               >
                 {room.images?.[0] && (
                   <div className="relative md:w-64 h-48 md:h-auto flex-shrink-0">
-                    <Image src={room.images[0]} alt={`Номер ${room.number}`} fill className="object-cover" />
+                    <Image src={room.images[0]} alt={th('img_alt_room', { number: room.number })} fill className="object-cover" />
                   </div>
                 )}
                 <div className="p-5 flex-1 flex flex-col">
@@ -340,11 +343,11 @@ export function BookingFlow() {
                         {ROOM_TYPE_LABEL[room.type] ?? room.type}
                       </p>
                       <h3 className="font-display text-xl font-semibold text-[#1a3d2e]">
-                        Номер {room.number}
+                        {th('room_label', { number: room.number })}
                       </h3>
                     </div>
                     <span className="text-xs font-semibold text-[#1a3d2e]/60 bg-[#1a3d2e]/8 px-2 py-1 rounded-full whitespace-nowrap">
-                      до {room.capacity} осіб
+                      {th('room_capacity', { n: room.capacity })}
                     </span>
                   </div>
                   {room.description && (
@@ -355,7 +358,7 @@ export function BookingFlow() {
                   <div className="mt-auto flex items-end justify-between gap-3">
                     <div>
                       <p className="text-[10px] uppercase tracking-wider text-[#1a3d2e]/55 font-semibold">
-                        {nights} {nights === 1 ? 'ніч' : nights < 5 ? 'ночі' : 'ночей'} × {room.pricePerNight} ₴
+                        {th('room_price_line', { nights, nights_label: nights === 1 ? th('night_one') : nights < 5 ? th('night_few') : th('night_many'), price: room.pricePerNight })}
                       </p>
                       <p className="font-display text-2xl font-semibold text-[#1a3d2e] tabular-nums">
                         {formatPrice(room.total)}
@@ -369,7 +372,7 @@ export function BookingFlow() {
                       }}
                       className="px-5 py-2.5 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors"
                     >
-                      Обрати →
+                      {th('room_select')}
                     </button>
                   </div>
                 </div>
@@ -389,25 +392,25 @@ export function BookingFlow() {
 
   return (
     <Section>
-      <BackButton onClick={() => setStep('rooms')} />
-      <StepBadge step={3} />
+      <BackButton onClick={() => setStep('rooms')} label={tc('back')} />
+      <StepBadge step={3} label={tc('step_of', { step: 3, total: 3 })} />
       <h2 className="font-display text-2xl font-semibold text-[#1a3d2e] mb-6">
-        Підтвердження бронювання
+        {th('step3_heading')}
       </h2>
 
       <form onSubmit={handleConfirm} className="grid lg:grid-cols-[1fr_320px] gap-6">
         <div className="space-y-4">
-          <Field label="Ім'я" required icon={<User className="h-3.5 w-3.5" />}>
+          <Field label={tc('field_name')} required icon={<User className="h-3.5 w-3.5" />}>
             <input
               type="text"
               required
               value={customer.name}
               onChange={(e) => setCustomer((c) => ({ ...c, name: e.target.value }))}
-              placeholder="Іван Петренко"
+              placeholder={tc('placeholder_name')}
               className={inputClass}
             />
           </Field>
-          <Field label="Телефон" required icon={<Phone className="h-3.5 w-3.5" />}>
+          <Field label={tc('field_phone')} required icon={<Phone className="h-3.5 w-3.5" />}>
             <input
               type="tel"
               required
@@ -426,13 +429,13 @@ export function BookingFlow() {
               className={inputClass}
             />
           </Field>
-          <Field label="Коментар" icon={<MessageSquare className="h-3.5 w-3.5" />}>
+          <Field label={tc('field_comment')} icon={<MessageSquare className="h-3.5 w-3.5" />}>
             <textarea
               value={customer.comment}
               onChange={(e) => setCustomer((c) => ({ ...c, comment: e.target.value }))}
               rows={3}
               maxLength={500}
-              placeholder="Особливі побажання…"
+              placeholder={th('field_placeholder_comment')}
               className={`${inputClass} resize-none`}
             />
           </Field>
@@ -442,21 +445,21 @@ export function BookingFlow() {
           <div className="bg-[#fdfaf0] border border-[#1a3d2e]/12 rounded-3xl shadow-[0_2px_24px_-12px_rgba(26,61,46,0.18)] overflow-hidden">
             <div className="px-5 py-4 border-b border-[#1a3d2e]/10 bg-gradient-to-b from-[#fdfaf0] to-[#f4ecd8]/30">
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55">
-                Ваше бронювання
+                {tc('your_booking')}
               </p>
               <h3 className="font-display text-lg font-semibold text-[#1a3d2e] mt-1">
-                Номер {selectedRoom.number}
+                {th('room_label', { number: selectedRoom.number })}
               </h3>
               <p className="text-xs text-[#1a3d2e]/60">{ROOM_TYPE_LABEL[selectedRoom.type] ?? selectedRoom.type}</p>
             </div>
             <div className="p-5 space-y-2 text-sm">
-              <Row label="Заїзд" value={new Date(search.checkIn).toLocaleDateString('uk-UA', { dateStyle: 'medium' })} />
-              <Row label="Виїзд" value={new Date(search.checkOut).toLocaleDateString('uk-UA', { dateStyle: 'medium' })} />
-              <Row label="Гостей" value={search.guests.toString()} />
-              <Row label="Ночей" value={nights.toString()} />
-              <Row label="Ціна за ніч" value={`${selectedRoom.pricePerNight} ₴`} />
+              <Row label={th('row_checkin')} value={new Date(search.checkIn).toLocaleDateString('uk-UA', { dateStyle: 'medium' })} />
+              <Row label={th('row_checkout')} value={new Date(search.checkOut).toLocaleDateString('uk-UA', { dateStyle: 'medium' })} />
+              <Row label={th('row_guests')} value={search.guests.toString()} />
+              <Row label={th('row_nights')} value={nights.toString()} />
+              <Row label={th('row_price_per_night')} value={`${selectedRoom.pricePerNight} ₴`} />
               <div className="border-t border-[#1a3d2e]/10 pt-3 mt-3 flex justify-between text-base font-bold text-[#1a3d2e]">
-                <span>До сплати</span>
+                <span>{tc('amount_due')}</span>
                 <span className="tabular-nums">{formatPrice(selectedRoom.total)}</span>
               </div>
             </div>
@@ -470,11 +473,11 @@ export function BookingFlow() {
             className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm shadow-lg shadow-[#1a3d2e]/30 hover:bg-[#0f2a1e] hover:scale-[1.01] transition-all disabled:opacity-50"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
-            {loading ? 'Створюємо бронювання…' : `Сплатити ${formatPrice(selectedRoom.total)}`}
+            {loading ? th('creating') : tc('pay_label', { price: formatPrice(selectedRoom.total) })}
           </button>
 
           <p className="text-[10px] text-center text-[#1a3d2e]/50 leading-relaxed">
-            Оплата через захищений шлюз LiqPay. Підтвердження надійде на ваш телефон.
+            {th('liqpay_note')}
           </p>
         </div>
       </form>
@@ -495,11 +498,11 @@ function Section({ children }: { children: React.ReactNode }) {
   );
 }
 
-function StepBadge({ step }: { step: number }) {
+function StepBadge({ step, label }: { step: number; label: string }) {
   return (
     <div className="inline-flex items-center gap-2 mb-4">
       <span className="font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55">
-        Крок {step} з 3
+        {label}
       </span>
       <div className="flex gap-1">
         {[1, 2, 3].map((s) => (
@@ -515,7 +518,7 @@ function StepBadge({ step }: { step: number }) {
   );
 }
 
-function BackButton({ onClick }: { onClick: () => void }) {
+function BackButton({ onClick, label }: { onClick: () => void; label: string }) {
   return (
     <button
       type="button"
@@ -523,7 +526,7 @@ function BackButton({ onClick }: { onClick: () => void }) {
       className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1a3d2e]/60 hover:text-[#1a3d2e] mb-4 -mt-2"
     >
       <ArrowLeft className="h-3 w-3" />
-      Назад
+      {label}
     </button>
   );
 }

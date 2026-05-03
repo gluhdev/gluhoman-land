@@ -23,6 +23,7 @@ import {
   Minus,
   Ticket,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { formatPrice } from '@/types/cart';
 import { AquaparkTariff } from '@/types/aquapark';
 
@@ -35,6 +36,8 @@ const todayISO = (offset = 0) => {
 };
 
 export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
+  const tc = useTranslations('flow.common');
+  const ta = useTranslations('flow.aquapark');
   const router = useRouter();
   const [step, setStep] = useState<Step>('date');
   const [date, setDate] = useState(todayISO(0));
@@ -66,7 +69,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
     e.preventDefault();
     setError(null);
     if (new Date(date) < new Date(todayISO())) {
-      setError('Дата має бути сьогодні або в майбутньому');
+      setError(ta('error_date_future'));
       return;
     }
     setStep('tariffs');
@@ -76,7 +79,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
     e.preventDefault();
     setError(null);
     if (totalCount === 0) {
-      setError('Оберіть хоча б один квиток');
+      setError(ta('error_no_tickets'));
       return;
     }
     setStep('confirm');
@@ -86,11 +89,11 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
     e.preventDefault();
     setError(null);
     if (customer.name.trim().length < 2) {
-      setError("Введіть ім'я");
+      setError(tc('error_name'));
       return;
     }
     if (!/^\+?[\d\s()-]{10,}$/.test(customer.phone.trim())) {
-      setError('Введіть коректний телефон');
+      setError(tc('error_phone'));
       return;
     }
 
@@ -113,7 +116,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
       });
       if (!createRes.ok) {
         const data = await createRes.json().catch(() => ({}));
-        throw new Error(data.error ?? 'Не вдалось створити квиток');
+        throw new Error(data.error ?? ta('error_ticket_create'));
       }
       const ticket = (await createRes.json()) as { id: string };
 
@@ -124,7 +127,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
       });
       if (!payRes.ok) {
         const data = await payRes.json().catch(() => ({}));
-        throw new Error(data.error ?? 'Не вдалось ініціювати оплату');
+        throw new Error(data.error ?? ta('error_payment_init'));
       }
       const pay = (await payRes.json()) as
         | { mode: 'liqpay'; data: string; signature: string; endpoint: string }
@@ -154,7 +157,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
       document.body.appendChild(formEl);
       formEl.submit();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Помилка');
+      setError(err instanceof Error ? err.message : tc('error_generic'));
       setLoading(false);
     }
   };
@@ -164,12 +167,12 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
   if (step === 'date') {
     return (
       <Section>
-        <StepBadge step={1} />
+        <StepBadge step={1} label={tc('step_of', { step: 1, total: 3 })} />
         <h2 className="font-display text-2xl font-semibold text-[#1a3d2e] mb-6">
-          Оберіть дату візиту
+          {ta('step1_heading')}
         </h2>
         <form onSubmit={handleDate} className="space-y-4 max-w-md">
-          <Field label="Дата" icon={<Calendar className="h-3.5 w-3.5" />} required>
+          <Field label={tc('field_date')} icon={<Calendar className="h-3.5 w-3.5" />} required>
             <input
               type="date"
               required
@@ -184,7 +187,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
             type="submit"
             className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm shadow-lg shadow-[#1a3d2e]/30 hover:bg-[#0f2a1e] hover:scale-[1.01] transition-all"
           >
-            Далі — обрати квитки →
+            {ta('step1_next')}
           </button>
         </form>
       </Section>
@@ -194,13 +197,13 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
   if (step === 'tariffs') {
     return (
       <Section>
-        <BackButton onClick={() => setStep('date')} />
-        <StepBadge step={2} />
+        <BackButton onClick={() => setStep('date')} label={tc('back')} />
+        <StepBadge step={2} label={tc('step_of', { step: 2, total: 3 })} />
         <h2 className="font-display text-2xl font-semibold text-[#1a3d2e] mb-2">
-          Оберіть квитки
+          {ta('step2_heading')}
         </h2>
         <p className="text-sm text-[#1a3d2e]/60 mb-6">
-          Дата візиту: {new Date(date).toLocaleDateString('uk-UA', { dateStyle: 'long' })}
+          {ta('step2_date', { date: new Date(date).toLocaleDateString('uk-UA', { dateStyle: 'long' }) })}
         </p>
 
         <form onSubmit={handleTariffs} className="space-y-3">
@@ -231,7 +234,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
                   <button
                     type="button"
                     onClick={() => setQty(tariff.id, -1)}
-                    aria-label="Менше"
+                    aria-label={ta('aria_less')}
                     disabled={qty === 0}
                     className="w-9 h-9 flex items-center justify-center text-[#1a3d2e] hover:bg-[#1a3d2e]/10 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                   >
@@ -243,7 +246,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
                   <button
                     type="button"
                     onClick={() => setQty(tariff.id, 1)}
-                    aria-label="Більше"
+                    aria-label={ta('aria_more')}
                     className="w-9 h-9 flex items-center justify-center text-[#1a3d2e] hover:bg-[#1a3d2e]/10 rounded-full transition-colors"
                   >
                     <Plus className="h-4 w-4" />
@@ -256,10 +259,10 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
           <div className="bg-[#f4ecd8]/40 border border-[#1a3d2e]/12 rounded-2xl p-4 flex items-center justify-between mt-6">
             <div>
               <p className="text-[10px] uppercase tracking-wider text-[#1a3d2e]/60 font-semibold">
-                Підсумок
+                {ta('summary_heading')}
               </p>
               <p className="text-sm text-[#1a3d2e]/70">
-                {totalCount} {totalCount === 1 ? 'квиток' : totalCount < 5 ? 'квитки' : 'квитків'}
+                {totalCount} {totalCount === 1 ? ta('ticket_one') : totalCount < 5 ? ta('ticket_few') : ta('ticket_many')}
               </p>
             </div>
             <p className="font-display text-2xl font-bold text-[#1a3d2e] tabular-nums">
@@ -274,7 +277,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
             disabled={totalCount === 0}
             className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm shadow-lg shadow-[#1a3d2e]/30 hover:bg-[#0f2a1e] hover:scale-[1.01] transition-all disabled:bg-[#1a3d2e]/15 disabled:text-[#1a3d2e]/40 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:scale-100"
           >
-            Далі — оформити →
+            {ta('step2_next')}
           </button>
         </form>
       </Section>
@@ -284,25 +287,25 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
   // step === 'confirm'
   return (
     <Section>
-      <BackButton onClick={() => setStep('tariffs')} />
-      <StepBadge step={3} />
+      <BackButton onClick={() => setStep('tariffs')} label={tc('back')} />
+      <StepBadge step={3} label={tc('step_of', { step: 3, total: 3 })} />
       <h2 className="font-display text-2xl font-semibold text-[#1a3d2e] mb-6">
-        Оформлення замовлення
+        {ta('step3_heading')}
       </h2>
 
       <form onSubmit={handleConfirm} className="grid lg:grid-cols-[1fr_320px] gap-6">
         <div className="space-y-4">
-          <Field label="Ім'я" icon={<User className="h-3.5 w-3.5" />} required>
+          <Field label={tc('field_name')} icon={<User className="h-3.5 w-3.5" />} required>
             <input
               type="text"
               required
               value={customer.name}
               onChange={(e) => setCustomer((c) => ({ ...c, name: e.target.value }))}
-              placeholder="Іван Петренко"
+              placeholder={tc('placeholder_name')}
               className={inputClass}
             />
           </Field>
-          <Field label="Телефон" icon={<Phone className="h-3.5 w-3.5" />} required>
+          <Field label={tc('field_phone')} icon={<Phone className="h-3.5 w-3.5" />} required>
             <input
               type="tel"
               required
@@ -317,7 +320,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
               type="email"
               value={customer.email}
               onChange={(e) => setCustomer((c) => ({ ...c, email: e.target.value }))}
-              placeholder="example@gmail.com (для отримання QR)"
+              placeholder={ta('placeholder_email')}
               className={inputClass}
             />
           </Field>
@@ -327,7 +330,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
           <div className="bg-[#fdfaf0] border border-[#1a3d2e]/12 rounded-3xl shadow-[0_2px_24px_-12px_rgba(26,61,46,0.18)] overflow-hidden">
             <div className="px-5 py-4 border-b border-[#1a3d2e]/10 bg-gradient-to-b from-[#fdfaf0] to-[#f4ecd8]/30">
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55">
-                Ваше замовлення
+                {ta('your_order')}
               </p>
               <p className="text-xs text-[#1a3d2e]/70 mt-1">
                 {new Date(date).toLocaleDateString('uk-UA', { dateStyle: 'long' })}
@@ -348,7 +351,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
                 ))}
             </ul>
             <div className="px-5 py-4 border-t border-[#1a3d2e]/10 bg-[#f4ecd8]/30 flex justify-between text-base font-bold text-[#1a3d2e]">
-              <span>До сплати</span>
+              <span>{tc('amount_due')}</span>
               <span className="tabular-nums">{formatPrice(subtotal)}</span>
             </div>
           </div>
@@ -361,11 +364,11 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
             className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm shadow-lg shadow-[#1a3d2e]/30 hover:bg-[#0f2a1e] hover:scale-[1.01] transition-all disabled:opacity-50"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
-            {loading ? 'Створюємо квиток…' : `Сплатити ${formatPrice(subtotal)}`}
+            {loading ? ta('creating') : tc('pay_label', { price: formatPrice(subtotal) })}
           </button>
 
           <p className="text-[10px] text-center text-[#1a3d2e]/50 leading-relaxed">
-            Після оплати QR-код з&apos;явиться на наступному екрані. Покажете його на вході в аквапарк.
+            {ta('qr_note')}
           </p>
         </div>
       </form>
@@ -386,11 +389,11 @@ function Section({ children }: { children: React.ReactNode }) {
   );
 }
 
-function StepBadge({ step }: { step: number }) {
+function StepBadge({ step, label }: { step: number; label: string }) {
   return (
     <div className="inline-flex items-center gap-2 mb-4">
       <span className="font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55">
-        Крок {step} з 3
+        {label}
       </span>
       <div className="flex gap-1">
         {[1, 2, 3].map((s) => (
@@ -401,7 +404,7 @@ function StepBadge({ step }: { step: number }) {
   );
 }
 
-function BackButton({ onClick }: { onClick: () => void }) {
+function BackButton({ onClick, label }: { onClick: () => void; label: string }) {
   return (
     <button
       type="button"
@@ -409,7 +412,7 @@ function BackButton({ onClick }: { onClick: () => void }) {
       className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1a3d2e]/60 hover:text-[#1a3d2e] mb-4 -mt-2"
     >
       <ArrowLeft className="h-3 w-3" />
-      Назад
+      {label}
     </button>
   );
 }

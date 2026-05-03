@@ -7,7 +7,7 @@ import { BLUR_DATA_URL } from "@/lib/blur-placeholder";
 import { GalleryGrid } from "@/components/ui/GalleryGrid";
 import { BookingButton } from "@/components/ui/BookingButton";
 import { CONTACT_INFO } from "@/constants";
-import { GALLERY_CATEGORIES } from "./gallery-data";
+import { getGalleryCategories } from "./gallery-data";
 
 export async function generateMetadata({
   params,
@@ -62,6 +62,8 @@ const NAV_IDS: CategoryId[] = ["restoran", "laznya", "akvapark", "podii", "pryro
 
 export default async function GalleryPage() {
   const t = await getTranslations("gallery");
+  const tp = await getTranslations("gallery_data.photos");
+  const GALLERY_CATEGORIES = getGalleryCategories((key) => tp(key as Parameters<typeof tp>[0]));
   const primaryPhone = CONTACT_INFO.phone[0];
   const telHref = `tel:${primaryPhone.replace(/[^+\d]/g, "")}`;
 

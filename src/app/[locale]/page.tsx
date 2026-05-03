@@ -1,4 +1,5 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import { getTranslations } from 'next-intl/server';
 import HeroSlider from "@/components/sections/HeroSlider";
 import HomeStory from "@/components/sections/HomeStory";
 import HomeServices from "@/components/sections/HomeServices";
@@ -8,13 +9,19 @@ import HomeLocation from "@/components/sections/HomeLocation";
 import HomeReviews from "@/components/sections/HomeReviews";
 import HomeBookingCta from "@/components/sections/HomeBookingCta";
 
-export const metadata: Metadata = {
-  title: "Глухомань — Рекреаційний комплекс на Полтавщині",
-  description:
-    "Готель, аквапарк, ресторан та лазня на дровах у селі Нижні Млини. Тихий відпочинок серед природи для всієї родини.",
-  keywords:
-    "глухомань, відпочинок, аквапарк, ресторан, готель, лазня, полтавщина, нижні млини",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'layout' });
+  return {
+    title: t('home_meta_title'),
+    description: t('home_meta_description'),
+    keywords: t('home_meta_keywords'),
+  };
+}
 
 export default function Home() {
   return (

@@ -45,6 +45,7 @@ export async function generateMetadata({
 
 export default async function BreweryTourPage() {
   const t = await getTranslations("other_services.brewery_tour");
+  const tconst = await getTranslations("constants");
   const primaryPhone = CONTACT_INFO.phone[0];
   const telHref = `tel:${primaryPhone.replace(/[^+\d]/g, "")}`;
 
@@ -488,7 +489,7 @@ export default async function BreweryTourPage() {
                   {t("cta_hours_label")}
                 </p>
                 <p className="mt-4 font-display text-xl italic text-[#faf6ec]/90">
-                  {CONTACT_INFO.workingHours}
+                  {tconst('working_hours')}
                 </p>
               </div>
               <div>
@@ -496,7 +497,7 @@ export default async function BreweryTourPage() {
                   {t("cta_address_label")}
                 </p>
                 <p className="mt-4 text-base text-[#faf6ec]/85">
-                  {CONTACT_INFO.address}
+                  {tconst('address')}
                 </p>
               </div>
               <div className="pt-4">

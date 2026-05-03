@@ -22,6 +22,7 @@ import {
   Flame,
   Clock,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { formatPrice } from '@/types/cart';
 import { SAUNA_TYPE_LABEL, SaunaType, VirtualSlot } from '@/types/sauna';
 
@@ -41,6 +42,8 @@ interface SelectedSlot {
 }
 
 export function SaunaBookingFlow() {
+  const tc = useTranslations('flow.common');
+  const ts = useTranslations('flow.sauna');
   const router = useRouter();
   const [step, setStep] = useState<Step>('date');
   const [date, setDate] = useState(todayISO(0));
@@ -56,11 +59,11 @@ export function SaunaBookingFlow() {
     setError(null);
     try {
       const res = await fetch(`/api/sauna/availability?date=${date}`);
-      if (!res.ok) throw new Error('Помилка завантаження');
+      if (!res.ok) throw new Error(tc('error_load'));
       const data = (await res.json()) as { slots: VirtualSlot[] };
       setSlots(data.slots);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Помилка');
+      setError(err instanceof Error ? err.message : tc('error_generic'));
     } finally {
       setLoadingSlots(false);
     }
@@ -76,7 +79,7 @@ export function SaunaBookingFlow() {
     e.preventDefault();
     setError(null);
     if (new Date(date) < new Date(todayISO())) {
-      setError('Дата має бути сьогодні або в майбутньому');
+      setError(tc('error_date_future'));
       return;
     }
     setStep('slot');
@@ -93,11 +96,11 @@ export function SaunaBookingFlow() {
     setError(null);
     if (!selectedSlot) return;
     if (customer.name.trim().length < 2) {
-      setError("Введіть ім'я");
+      setError(tc('error_name'));
       return;
     }
     if (!/^\+?[\d\s()-]{10,}$/.test(customer.phone.trim())) {
-      setError('Введіть коректний телефон');
+      setError(tc('error_phone'));
       return;
     }
 
@@ -119,7 +122,7 @@ export function SaunaBookingFlow() {
       });
       if (!createRes.ok) {
         const data = await createRes.json().catch(() => ({}));
-        throw new Error(data.error ?? 'Не вдалось створити бронювання');
+        throw new Error(data.error ?? tc('error_booking_create'));
       }
       const booking = (await createRes.json()) as { id: string };
 
@@ -130,7 +133,7 @@ export function SaunaBookingFlow() {
       });
       if (!payRes.ok) {
         const data = await payRes.json().catch(() => ({}));
-        throw new Error(data.error ?? 'Не вдалось ініціювати оплату');
+        throw new Error(data.error ?? tc('error_payment_init'));
       }
       const pay = (await payRes.json()) as
         | { mode: 'liqpay'; data: string; signature: string; endpoint: string }
@@ -157,7 +160,7 @@ export function SaunaBookingFlow() {
       document.body.appendChild(formEl);
       formEl.submit();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Помилка');
+      setError(err instanceof Error ? err.message : tc('error_generic'));
       setSubmitting(false);
     }
   };
@@ -167,12 +170,12 @@ export function SaunaBookingFlow() {
   if (step === 'date') {
     return (
       <Section>
-        <StepBadge step={1} />
+        <StepBadge step={1} label={tc('step_of', { step: 1, total: 3 })} />
         <h2 className="font-display text-2xl font-semibold text-[#1a3d2e] mb-6">
-          Оберіть дату
+          {ts('step1_heading')}
         </h2>
         <form onSubmit={handleDate} className="space-y-4 max-w-md">
-          <Field label="Дата" icon={<Calendar className="h-3.5 w-3.5" />} required>
+          <Field label={tc('field_date')} icon={<Calendar className="h-3.5 w-3.5" />} required>
             <input
               type="date"
               required
@@ -187,7 +190,7 @@ export function SaunaBookingFlow() {
             type="submit"
             className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm shadow-lg shadow-[#1a3d2e]/30 hover:bg-[#0f2a1e] hover:scale-[1.01] transition-all"
           >
-            Далі — обрати слот →
+            {ts('step1_next')}
           </button>
         </form>
       </Section>
@@ -197,13 +200,13 @@ export function SaunaBookingFlow() {
   if (step === 'slot') {
     return (
       <Section>
-        <BackButton onClick={() => setStep('date')} />
-        <StepBadge step={2} />
+        <BackButton onClick={() => setStep('date')} label={tc('back')} />
+        <StepBadge step={2} label={tc('step_of', { step: 2, total: 3 })} />
         <h2 className="font-display text-2xl font-semibold text-[#1a3d2e] mb-1">
-          Оберіть лазню та час
+          {ts('step2_heading')}
         </h2>
         <p className="text-sm text-[#1a3d2e]/60 mb-6">
-          {new Date(date).toLocaleDateString('uk-UA', { dateStyle: 'long' })} · слот 2 години
+          {ts('step2_date_slot', { date: new Date(date).toLocaleDateString('uk-UA', { dateStyle: 'long' }) })}
         </p>
 
         {loadingSlots ? (
@@ -225,7 +228,7 @@ export function SaunaBookingFlow() {
                         {SAUNA_TYPE_LABEL[type]}
                       </h3>
                       <p className="text-[10px] text-[#1a3d2e]/60 uppercase tracking-wider">
-                        {typeSlots[0]?.price ?? 0} ₴ за 2 години
+                        {ts('price_per_2h', { price: typeSlots[0]?.price ?? 0 })}
                       </p>
                     </div>
                   </div>
@@ -276,7 +279,7 @@ export function SaunaBookingFlow() {
           <div className="mt-6 flex items-center justify-between gap-4 bg-[#f4ecd8]/40 border border-[#1a3d2e]/12 rounded-2xl p-4">
             <div>
               <p className="text-[10px] uppercase tracking-wider text-[#1a3d2e]/60 font-semibold">
-                Обрано
+                {ts('slot_selected')}
               </p>
               <p className="text-sm font-semibold text-[#1a3d2e]">
                 {SAUNA_TYPE_LABEL[selectedSlot.saunaType]} · {selectedSlot.startTime}–{selectedSlot.endTime}
@@ -287,7 +290,7 @@ export function SaunaBookingFlow() {
               onClick={() => setStep('confirm')}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors"
             >
-              Далі →
+              {ts('step2_next')}
             </button>
           </div>
         )}
@@ -303,25 +306,25 @@ export function SaunaBookingFlow() {
 
   return (
     <Section>
-      <BackButton onClick={() => setStep('slot')} />
-      <StepBadge step={3} />
+      <BackButton onClick={() => setStep('slot')} label={tc('back')} />
+      <StepBadge step={3} label={tc('step_of', { step: 3, total: 3 })} />
       <h2 className="font-display text-2xl font-semibold text-[#1a3d2e] mb-6">
-        Підтвердження бронювання
+        {ts('step3_heading')}
       </h2>
 
       <form onSubmit={handleConfirm} className="grid lg:grid-cols-[1fr_320px] gap-6">
         <div className="space-y-4">
-          <Field label="Ім'я" icon={<User className="h-3.5 w-3.5" />} required>
+          <Field label={tc('field_name')} icon={<User className="h-3.5 w-3.5" />} required>
             <input
               type="text"
               required
               value={customer.name}
               onChange={(e) => setCustomer((c) => ({ ...c, name: e.target.value }))}
-              placeholder="Іван Петренко"
+              placeholder={tc('placeholder_name')}
               className={inputClass}
             />
           </Field>
-          <Field label="Телефон" icon={<Phone className="h-3.5 w-3.5" />} required>
+          <Field label={tc('field_phone')} icon={<Phone className="h-3.5 w-3.5" />} required>
             <input
               type="tel"
               required
@@ -340,13 +343,13 @@ export function SaunaBookingFlow() {
               className={inputClass}
             />
           </Field>
-          <Field label="Коментар" icon={<MessageSquare className="h-3.5 w-3.5" />}>
+          <Field label={tc('field_comment')} icon={<MessageSquare className="h-3.5 w-3.5" />}>
             <textarea
               value={customer.comment}
               onChange={(e) => setCustomer((c) => ({ ...c, comment: e.target.value }))}
               rows={3}
               maxLength={500}
-              placeholder="Особливі побажання, додаткові послуги…"
+              placeholder={tc('placeholder_comment')}
               className={`${inputClass} resize-none`}
             />
           </Field>
@@ -356,7 +359,7 @@ export function SaunaBookingFlow() {
           <div className="bg-[#fdfaf0] border border-[#1a3d2e]/12 rounded-3xl shadow-[0_2px_24px_-12px_rgba(26,61,46,0.18)] overflow-hidden">
             <div className="px-5 py-4 border-b border-[#1a3d2e]/10 bg-gradient-to-b from-[#fdfaf0] to-[#f4ecd8]/30">
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55">
-                Ваше бронювання
+                {tc('your_booking')}
               </p>
               <h3 className="font-display text-lg font-semibold text-[#1a3d2e] mt-1">
                 {SAUNA_TYPE_LABEL[selectedSlot.saunaType]}
@@ -364,13 +367,13 @@ export function SaunaBookingFlow() {
             </div>
             <div className="p-5 space-y-2 text-sm">
               <Row
-                label="Дата"
+                label={ts('row_date')}
                 value={new Date(date).toLocaleDateString('uk-UA', { dateStyle: 'medium' })}
               />
-              <Row label="Час" value={`${selectedSlot.startTime} — ${selectedSlot.endTime}`} />
-              <Row label="Тривалість" value="2 години" />
+              <Row label={ts('row_time')} value={`${selectedSlot.startTime} — ${selectedSlot.endTime}`} />
+              <Row label={ts('row_duration')} value={ts('duration_value')} />
               <div className="border-t border-[#1a3d2e]/10 pt-3 mt-3 flex justify-between text-base font-bold text-[#1a3d2e]">
-                <span>До сплати</span>
+                <span>{tc('amount_due')}</span>
                 <span className="tabular-nums">{formatPrice(selectedSlot.price)}</span>
               </div>
             </div>
@@ -384,7 +387,7 @@ export function SaunaBookingFlow() {
             className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm shadow-lg shadow-[#1a3d2e]/30 hover:bg-[#0f2a1e] hover:scale-[1.01] transition-all disabled:opacity-50"
           >
             {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
-            {submitting ? 'Створюємо…' : `Сплатити ${formatPrice(selectedSlot.price)}`}
+            {submitting ? ts('creating') : tc('pay_label', { price: formatPrice(selectedSlot.price) })}
           </button>
         </div>
       </form>
@@ -405,11 +408,11 @@ function Section({ children }: { children: React.ReactNode }) {
   );
 }
 
-function StepBadge({ step }: { step: number }) {
+function StepBadge({ step, label }: { step: number; label: string }) {
   return (
     <div className="inline-flex items-center gap-2 mb-4">
       <span className="font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55">
-        Крок {step} з 3
+        {label}
       </span>
       <div className="flex gap-1">
         {[1, 2, 3].map((s) => (
@@ -420,7 +423,7 @@ function StepBadge({ step }: { step: number }) {
   );
 }
 
-function BackButton({ onClick }: { onClick: () => void }) {
+function BackButton({ onClick, label }: { onClick: () => void; label: string }) {
   return (
     <button
       type="button"
@@ -428,7 +431,7 @@ function BackButton({ onClick }: { onClick: () => void }) {
       className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1a3d2e]/60 hover:text-[#1a3d2e] mb-4 -mt-2"
     >
       <ArrowLeft className="h-3 w-3" />
-      Назад
+      {label}
     </button>
   );
 }

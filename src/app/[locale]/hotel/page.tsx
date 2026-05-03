@@ -67,6 +67,7 @@ const ROTS = ['-2deg', '1.5deg', '-1deg'];
 
 export default async function HotelPage() {
   const t = await getTranslations('hotel');
+  const tconst = await getTranslations('constants');
   const heroImage = await getImage('hotel.hero.image', '/images/9.jpg');
   const heroSubtitle = await getText(
     'hotel.hero.subtitle',
@@ -692,10 +693,10 @@ export default async function HotelPage() {
                 <MapPin className="h-5 w-5 mt-1" strokeWidth={1.5} />
                 <div>
                   <p className="font-display text-2xl leading-tight">
-                    {CONTACT_INFO.address}
+                    {tconst('address')}
                   </p>
                   <p className="text-[13px] text-[#0f1f18]/60 mt-1">
-                    {CONTACT_INFO.workingHours}
+                    {tconst('working_hours')}
                   </p>
                 </div>
               </div>

@@ -23,6 +23,7 @@ import {
   isAboveMinimum,
   amountToMinimum,
 } from '@/lib/cart-store';
+import { useTranslations } from 'next-intl';
 import { formatPrice, MIN_ORDER, DeliveryType } from '@/types/cart';
 
 interface FormState {
@@ -46,6 +47,7 @@ const INITIAL: FormState = {
 };
 
 export function CheckoutForm() {
+  const tco = useTranslations('flow.checkout');
   const router = useRouter();
   const items = useCartStore((s) => s.items);
   const clearCart = useCartStore((s) => s.clear);
@@ -71,17 +73,17 @@ export function CheckoutForm() {
           <ShoppingBag className="h-7 w-7 text-[#1a3d2e]/40" />
         </div>
         <h2 className="font-display text-2xl font-semibold text-[#1a3d2e] mb-2">
-          Кошик порожній
+          {tco('cart_empty_heading')}
         </h2>
         <p className="text-sm text-[#1a3d2e]/60 mb-6">
-          Спочатку оберіть страви з меню.
+          {tco('cart_empty_body')}
         </p>
         <Link
           href="/menu"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
-          Повернутись до меню
+          {tco('cart_back_to_menu')}
         </Link>
       </div>
     );
@@ -91,18 +93,18 @@ export function CheckoutForm() {
     setForm((s) => ({ ...s, [key]: value }));
 
   const validate = (): string | null => {
-    if (form.customerName.trim().length < 2) return 'Введіть ім\'я';
+    if (form.customerName.trim().length < 2) return tco('error_name');
     if (!/^\+?[\d\s()-]{10,}$/.test(form.customerPhone.trim())) {
-      return 'Введіть коректний телефон';
+      return tco('error_phone');
     }
     if (form.deliveryType === 'delivery' && form.address.trim().length < 5) {
-      return 'Введіть адресу доставки';
+      return tco('error_address');
     }
     if (form.scheduledMode === 'scheduled' && !form.scheduledAt) {
-      return 'Оберіть час доставки';
+      return tco('error_time');
     }
     if (!aboveMin) {
-      return `Мінімальна сума замовлення — ${MIN_ORDER} грн`;
+      return tco('error_min_order', { min: MIN_ORDER });
     }
     return null;
   };
@@ -144,7 +146,7 @@ export function CheckoutForm() {
 
       if (!orderRes.ok) {
         const data = await orderRes.json().catch(() => ({}));
-        throw new Error(data.error ?? 'Не вдалось створити замовлення');
+        throw new Error(data.error ?? tco('error_order_create'));
       }
       const order = (await orderRes.json()) as { id: string; number: number };
 
@@ -156,7 +158,7 @@ export function CheckoutForm() {
       });
       if (!payRes.ok) {
         const data = await payRes.json().catch(() => ({}));
-        throw new Error(data.error ?? 'Не вдалось ініціювати оплату');
+        throw new Error(data.error ?? tco('error_payment_init'));
       }
       const pay = (await payRes.json()) as
         | { mode: 'liqpay'; data: string; signature: string; endpoint: string; orderId: string }
@@ -193,7 +195,7 @@ export function CheckoutForm() {
       document.body.appendChild(formEl);
       formEl.submit();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Помилка');
+      setError(err instanceof Error ? err.message : tco('error_name'));
       setSubmitting(false);
     }
   };
@@ -203,19 +205,19 @@ export function CheckoutForm() {
       {/* LEFT: form */}
       <div className="space-y-5">
         {/* Contact card */}
-        <Section title="Контактні дані" icon={<User className="h-4 w-4" />}>
-          <Field label="Ім'я" required>
+        <Section title={tco('section_contacts')} icon={<User className="h-4 w-4" />}>
+          <Field label={tco('field_name')} required>
             <input
               type="text"
               value={form.customerName}
               onChange={(e) => update('customerName', e.target.value)}
               required
               autoComplete="name"
-              placeholder="Іван Петренко"
+              placeholder={tco('placeholder_name')}
               className={inputClass}
             />
           </Field>
-          <Field label="Телефон" required icon={<Phone className="h-3.5 w-3.5" />}>
+          <Field label={tco('field_phone')} required icon={<Phone className="h-3.5 w-3.5" />}>
             <input
               type="tel"
               value={form.customerPhone}
@@ -229,33 +231,33 @@ export function CheckoutForm() {
         </Section>
 
         {/* Delivery type */}
-        <Section title="Спосіб отримання" icon={<Truck className="h-4 w-4" />}>
+        <Section title={tco('section_delivery')} icon={<Truck className="h-4 w-4" />}>
           <div className="grid grid-cols-2 gap-3">
             <RadioCard
               checked={form.deliveryType === 'delivery'}
               onClick={() => update('deliveryType', 'delivery')}
               icon={<Truck className="h-5 w-5" />}
-              title="Доставка"
-              hint="100 грн (від 2000 грн — безкоштовно)"
+              title={tco('delivery_title')}
+              hint={tco('delivery_hint')}
             />
             <RadioCard
               checked={form.deliveryType === 'pickup'}
               onClick={() => update('deliveryType', 'pickup')}
               icon={<Store className="h-5 w-5" />}
-              title="Самовивіз"
-              hint="З ресторану, безкоштовно"
+              title={tco('pickup_title')}
+              hint={tco('pickup_hint')}
             />
           </div>
 
           {form.deliveryType === 'delivery' && (
-            <Field label="Адреса" required icon={<MapPin className="h-3.5 w-3.5" />}>
+            <Field label={tco('field_address')} required icon={<MapPin className="h-3.5 w-3.5" />}>
               <input
                 type="text"
                 value={form.address}
                 onChange={(e) => update('address', e.target.value)}
                 required
                 autoComplete="street-address"
-                placeholder="вул. Шевченка 1, Полтава"
+                placeholder={tco('placeholder_address')}
                 className={inputClass}
               />
             </Field>
@@ -263,24 +265,24 @@ export function CheckoutForm() {
         </Section>
 
         {/* Time */}
-        <Section title="Час" icon={<Clock className="h-4 w-4" />}>
+        <Section title={tco('section_time')} icon={<Clock className="h-4 w-4" />}>
           <div className="grid grid-cols-2 gap-3">
             <RadioCard
               checked={form.scheduledMode === 'asap'}
               onClick={() => update('scheduledMode', 'asap')}
-              title="Якнайшвидше"
-              hint="Готуємо одразу"
+              title={tco('asap_title')}
+              hint={tco('asap_hint')}
             />
             <RadioCard
               checked={form.scheduledMode === 'scheduled'}
               onClick={() => update('scheduledMode', 'scheduled')}
-              title="На час"
-              hint="Оберіть час нижче"
+              title={tco('scheduled_title')}
+              hint={tco('scheduled_hint')}
             />
           </div>
 
           {form.scheduledMode === 'scheduled' && (
-            <Field label="Коли подати" required>
+            <Field label={tco('field_when')} required>
               <input
                 type="datetime-local"
                 value={form.scheduledAt}
@@ -294,11 +296,11 @@ export function CheckoutForm() {
         </Section>
 
         {/* Comment */}
-        <Section title="Коментар" icon={<MessageSquare className="h-4 w-4" />}>
+        <Section title={tco('section_comment')} icon={<MessageSquare className="h-4 w-4" />}>
           <textarea
             value={form.comment}
             onChange={(e) => update('comment', e.target.value)}
-            placeholder="Побажання, особливості, додаткові інструкції…"
+            placeholder={tco('placeholder_comment')}
             rows={3}
             maxLength={500}
             className={`${inputClass} resize-none`}
@@ -311,10 +313,10 @@ export function CheckoutForm() {
         <div className="bg-[#fdfaf0] border border-[#1a3d2e]/12 rounded-3xl shadow-[0_2px_24px_-12px_rgba(26,61,46,0.18)] overflow-hidden">
           <div className="px-5 py-4 border-b border-[#1a3d2e]/10 bg-gradient-to-b from-[#fdfaf0] to-[#f4ecd8]/30">
             <p className="font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55">
-              Ваше замовлення
+              {tco('your_order')}
             </p>
             <h2 className="font-display text-xl font-semibold text-[#1a3d2e] mt-1">
-              {items.length} {items.length === 1 ? 'позиція' : items.length < 5 ? 'позиції' : 'позицій'}
+              {items.length} {items.length === 1 ? tco('item_one') : items.length < 5 ? tco('item_few') : tco('item_many')}
             </h2>
           </div>
 
@@ -336,21 +338,21 @@ export function CheckoutForm() {
 
           <div className="px-5 py-4 border-t border-[#1a3d2e]/10 space-y-1.5 text-sm bg-[#f4ecd8]/30">
             <div className="flex justify-between text-[#1a3d2e]/70">
-              <span>Сума</span>
+              <span>{tco('subtotal_label')}</span>
               <span className="tabular-nums">{formatPrice(subtotal)}</span>
             </div>
             <div className="flex justify-between text-[#1a3d2e]/70">
-              <span>Доставка</span>
+              <span>{tco('delivery_label')}</span>
               <span className="tabular-nums">
                 {deliveryFee === 0 ? (
-                  <span className="text-[#1a3d2e] font-semibold">безкоштовно</span>
+                  <span className="text-[#1a3d2e] font-semibold">{tco('delivery_free')}</span>
                 ) : (
                   formatPrice(deliveryFee)
                 )}
               </span>
             </div>
             <div className="flex justify-between pt-2 border-t border-[#1a3d2e]/10 text-base font-bold text-[#1a3d2e]">
-              <span>До сплати</span>
+              <span>{tco('amount_due')}</span>
               <span className="tabular-nums">{formatPrice(total)}</span>
             </div>
           </div>
@@ -361,7 +363,7 @@ export function CheckoutForm() {
           <div className="p-3 rounded-xl bg-amber-50 border border-amber-200/80 flex items-start gap-2">
             <AlertCircle className="h-4 w-4 text-amber-700 flex-shrink-0 mt-0.5" />
             <p className="text-xs text-amber-900 leading-snug">
-              Мінімум <strong>{MIN_ORDER} грн</strong>. Додайте ще {formatPrice(toMin)}.
+              {tco('min_order_note', { min: MIN_ORDER, remaining: formatPrice(toMin) })}
             </p>
           </div>
         )}
@@ -381,18 +383,18 @@ export function CheckoutForm() {
           className="w-full inline-flex items-center justify-center gap-2 py-4 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm shadow-lg shadow-[#1a3d2e]/30 hover:bg-[#0f2a1e] hover:scale-[1.01] transition-all duration-300 disabled:bg-[#1a3d2e]/15 disabled:text-[#1a3d2e]/40 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:scale-100"
         >
           <Lock className="h-4 w-4" />
-          {submitting ? 'Створюємо замовлення…' : `Сплатити ${formatPrice(total)}`}
+          {submitting ? tco('creating') : tco('pay_label', { price: formatPrice(total) })}
         </button>
 
         <p className="text-[10px] text-center text-[#1a3d2e]/50 leading-relaxed">
-          Натискаючи кнопку, ви погоджуєтесь з умовами обслуговування. Оплата через захищений шлюз LiqPay.
+          {tco('terms_note')}
         </p>
 
         <Link
           href="/menu"
           className="block text-center text-xs font-semibold text-[#1a3d2e]/70 hover:text-[#1a3d2e] underline underline-offset-4"
         >
-          ← Повернутись до меню
+          {tco('back_to_menu')}
         </Link>
       </div>
     </form>

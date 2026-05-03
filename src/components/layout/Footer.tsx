@@ -36,6 +36,8 @@ const SOCIAL_LINKS = [
 
 export default function Footer() {
   const t = useTranslations('footer');
+  const tn = useTranslations('nav');
+  const tc = useTranslations('constants');
   const year = new Date().getFullYear();
 
   return (
@@ -80,7 +82,7 @@ export default function Footer() {
             <nav className="mt-6 space-y-3">
               {MAIN_SERVICES.map((service) => (
                 <Link key={service.id} href={service.href} className={`block ${LINK}`}>
-                  {service.title}
+                  {tn(`main.${service.id}` as Parameters<typeof tn>[0])}
                 </Link>
               ))}
             </nav>
@@ -93,7 +95,7 @@ export default function Footer() {
                   href={service.href}
                   className={`block ${LINK}`}
                 >
-                  {service.title}
+                  {tn(`additional.${service.id}.title` as Parameters<typeof tn>[0])}
                 </Link>
               ))}
             </nav>
@@ -126,12 +128,12 @@ export default function Footer() {
 
               <div className="flex items-start gap-3 pt-2 text-sm text-white/70">
                 <MapPin className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-white/40" strokeWidth={1.5} />
-                <span className="leading-relaxed">{CONTACT_INFO.address}</span>
+                <span className="leading-relaxed">{tc('address')}</span>
               </div>
 
               <div className="flex items-start gap-3 text-sm text-white/70">
                 <Clock className="mt-0.5 h-3.5 w-3.5 flex-shrink-0 text-white/40" strokeWidth={1.5} />
-                <span className="leading-relaxed">{CONTACT_INFO.workingHours}</span>
+                <span className="leading-relaxed">{tc('working_hours')}</span>
               </div>
             </div>
           </div>

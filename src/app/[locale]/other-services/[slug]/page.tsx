@@ -21,9 +21,10 @@ import {
   ArrowRight,
   type LucideIcon,
 } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
 import { ADDITIONAL_SERVICES, CONTACT_INFO } from '@/constants';
 
-type Params = { slug: string };
+type Params = { slug: string; locale: string };
 
 type ServiceContent = {
   longDescription: string;
@@ -33,51 +34,7 @@ type ServiceContent = {
   groupSize?: string;
 };
 
-const SERVICE_CONTENT: Record<string, ServiceContent> = {
-  paintball: {
-    longDescription:
-      'Адреналін, тактика і командна гра у власному пейнтбольному клубі «Глухомань». Майданчик розташований у сосновому лісі — натуральні укриття, штучні барикади і безпечне обладнання забезпечують яскравий досвід для команд будь-якого розміру.\n\nМи проводимо корпоративні турніри, дитячі та підліткові ігри (від 12 років), а також святкові формати — день народження у форматі бойової місії, парубоцькі вечірки, тимбілдинги. Інструктор проводить інструктаж і супроводжує гру.',
-    highlights: [
-      { title: 'Лісовий полігон', description: 'Природні укриття серед сосен' },
-      { title: 'Професійне обладнання', description: 'Маркери, маски, захисний одяг' },
-      { title: 'Інструктор', description: 'Безпека і інструктаж перед грою' },
-      { title: 'Декілька сценаріїв', description: 'Захоплення прапора, штурм, командний бій' },
-    ],
-    pricing: 'Базовий пакет — від 200 куль на гравця. Додаткові кулі за запитом.',
-    groupSize: 'Від 6 до 20 осіб',
-    preparation: [
-      'Зручний одяг (можна забруднити)',
-      'Закрите взуття',
-      'Бажаність прибуття за 15 хвилин до брифінгу',
-    ],
-  },
-  'brewery-tour': {
-    longDescription:
-      'Власна пивоварня «Глухомань» — гордість комплексу. Ми варимо крафтове пиво за традиційними чеськими і німецькими рецептами на місцевій воді з артезіанської свердловини. Тур включає екскурсію по виробництву, дегустацію 4 сортів пива і легкий пивний снек.\n\nГід-пивовар розповість про процес від солоду до бочки, покаже сучасне обладнання і традиційні мідні чани. Підходить для дорослих компаній (від 18 років), цінителів крафту і просто допитливих гостей.',
-    highlights: [
-      { title: 'Власне виробництво', description: 'Артезіанська вода і відбірний солод' },
-      { title: '4 сорти на дегустацію', description: 'Лагер, IPA, портер, сезонний' },
-      { title: 'Пивний снек', description: 'Сало, сир, пшеничні палички' },
-      { title: 'Гід-пивовар', description: 'Розкаже усе про процес' },
-    ],
-    pricing: 'Стандартний тур ~90 хвилин, з дегустацією. Деталі за запитом.',
-    groupSize: 'Від 4 до 16 осіб',
-    preparation: ['Лише для дорослих 18+', 'За попереднім записом'],
-  },
-  'kids-parties': {
-    longDescription:
-      'Незабутні дитячі свята у Глухомані — на природі, з аніматорами, конкурсами, тортом і смачною їжею. Ми організовуємо дні народження для дітей від 3 до 14 років у різних форматах: лісові квести, спортивні естафети, контактний зоопарк, акваквест в аквапарку.\n\nКоманда заздалегідь обговорює сценарій з батьками, готує святковий стіл, прикрашає зону і забезпечує програму від 2 до 4 годин. Усі дитячі активності супроводжує досвідчений аніматор-педагог.',
-    highlights: [
-      { title: 'Аніматори', description: 'Костюмовані персонажі, ведучий, ігри' },
-      { title: 'Святковий стіл', description: 'Дитяче меню і торт за смаком' },
-      { title: 'Програма 2–4 години', description: 'Конкурси, подарунки, фотозона' },
-      { title: 'Лісова локація', description: 'Безпечно, на свіжому повітрі' },
-    ],
-    pricing: 'Пакети залежать від кількості гостей і програми. За запитом.',
-    groupSize: 'Від 6 до 30 дітей',
-    preparation: ['Бронювання за 2 тижні', 'Узгодження сценарію та меню заздалегідь'],
-  },
-};
+// SERVICE_CONTENT is now built from translations at render time (see buildContent below)
 
 function iconForService(id: string): LucideIcon {
   const map: Record<string, LucideIcon> = {
@@ -99,7 +56,7 @@ function telHref(phone: string) {
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI'];
 
-export function generateStaticParams(): Params[] {
+export function generateStaticParams(): { slug: string }[] {
   return ADDITIONAL_SERVICES.map((service) => ({ slug: service.id }));
 }
 
@@ -108,22 +65,30 @@ export async function generateMetadata({
 }: {
   params: Promise<Params>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug, locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'constants.services.additional' });
+  const tp = await getTranslations({ locale, namespace: 'slug_page' });
+  const tl = await getTranslations({ locale, namespace: 'layout' });
   const service = ADDITIONAL_SERVICES.find((s) => s.id === slug);
 
   if (!service) {
-    return { title: 'Послуга не знайдена — Глухомань' };
+    return { title: tp('not_found_meta') };
   }
 
+  // Use id as key for both main and additional services
+  const slugKey = service.id as Parameters<typeof t>[0];
+  const title = t(`${slugKey}.title` as Parameters<typeof t>[0]);
+  const description = t(`${slugKey}.description` as Parameters<typeof t>[0]);
+
   return {
-    title: `${service.title} — Рекреаційний комплекс Глухомань`,
-    description: service.description,
+    title: `${title} — ${tl('site_name_full')}`,
+    description,
     openGraph: {
-      title: `${service.title} — Глухомань`,
-      description: service.description,
+      title: `${title} — ${tl('site_name')}`,
+      description,
       type: 'website',
-      locale: 'uk_UA',
-      siteName: 'Глухомань',
+      locale: locale === 'uk' ? 'uk_UA' : 'en_US',
+      siteName: tl('site_name'),
     },
   };
 }
@@ -133,24 +98,64 @@ export default async function OtherServicePage({
 }: {
   params: Promise<Params>;
 }) {
-  const { slug } = await params;
+  const { slug, locale } = await params;
   const service = ADDITIONAL_SERVICES.find((s) => s.id === slug);
 
   if (!service) {
     notFound();
   }
 
+  const t = await getTranslations({ locale, namespace: 'slug_page' });
+  const tc = await getTranslations({ locale, namespace: 'constants.services.additional' });
+  const tconst = await getTranslations({ locale, namespace: 'constants' });
+  const serviceId = service.id as string;
+  const serviceTitle = tc(`${serviceId}.title` as Parameters<typeof tc>[0]);
+  const serviceDesc = tc(`${serviceId}.description` as Parameters<typeof tc>[0]);
+
+  // Build SERVICE_CONTENT from translations for the 3 services that have extra detail
+  type ServiceContent = {
+    longDescription: string;
+    highlights: { title: string; description: string }[];
+    pricing: string;
+    preparation?: string[];
+    groupSize?: string;
+  };
+  const SUPPORTED_SLUGS = ['paintball', 'brewery-tour', 'kids-parties'] as const;
+  type SupportedSlug = typeof SUPPORTED_SLUGS[number];
+
+  function buildContent(id: string): ServiceContent | undefined {
+    if (!SUPPORTED_SLUGS.includes(id as SupportedSlug)) return undefined;
+    const sk = id as SupportedSlug;
+    const tp = (key: string) => t(`${sk}.${key}` as Parameters<typeof t>[0]);
+    return {
+      longDescription: tp('long_desc'),
+      highlights: [
+        { title: tp('h1_title'), description: tp('h1_desc') },
+        { title: tp('h2_title'), description: tp('h2_desc') },
+        { title: tp('h3_title'), description: tp('h3_desc') },
+        { title: tp('h4_title'), description: tp('h4_desc') },
+      ],
+      pricing: tp('pricing'),
+      groupSize: tp('group_size'),
+      preparation: ['prep_1', 'prep_2', 'prep_3']
+        .map((k) => {
+          try { return tp(k); } catch { return null; }
+        })
+        .filter((v): v is string => v !== null && v !== '' && !v.startsWith('slug_page.')),
+    };
+  }
+
   const Icon = iconForService(service.id);
-  const content = SERVICE_CONTENT[service.id];
+  const content = buildContent(service.id);
   const otherServices = ADDITIONAL_SERVICES.filter((s) => s.id !== service.id).slice(0, 4);
   const primaryPhone = CONTACT_INFO.phone[0];
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: service.title,
-    description: service.description,
-    serviceType: service.title,
+    name: serviceTitle,
+    description: serviceDesc,
+    serviceType: serviceTitle,
     areaServed: 'Полтавська область, Україна',
     provider: {
       '@type': 'LocalBusiness',
@@ -196,32 +201,32 @@ export default async function OtherServicePage({
         />
         <div className="relative z-10 max-w-5xl px-6 text-center text-[#f4ecd8]">
           <p className="text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8] mb-6">
-            Додаткова послуга • Глухомань
+            {t('additional_service_eyebrow')}
           </p>
           <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-[#e6d9b8]/10 border border-[#e6d9b8]/30 mb-8">
             <Icon className="w-11 h-11 text-[#e6d9b8]" strokeWidth={1.25} />
           </div>
           <h1 className="font-display text-4xl sm:text-5xl md:text-7xl leading-[0.95] mb-6">
-            {service.title}
+            {serviceTitle}
             <span className="block italic text-[#e6d9b8]/80 text-3xl md:text-4xl mt-4">
-              у лісовому серці Полтавщини
+              {t('hero_subtitle')}
             </span>
           </h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto text-[#f4ecd8]/80 mb-10 font-light leading-relaxed">
-            {service.description}
+            {serviceDesc}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href={telHref(primaryPhone)}
               className="inline-flex items-center justify-center gap-3 bg-[#e6d9b8] text-[#0f1f18] px-10 py-4 font-medium tracking-wide hover:bg-[#f4ecd8] transition"
             >
-              <Phone className="w-4 h-4" /> Зателефонувати
+              <Phone className="w-4 h-4" /> {t('cta_call')}
             </a>
             <a
               href="#contacts"
               className="inline-flex items-center justify-center gap-3 border border-[#e6d9b8]/40 text-[#f4ecd8] px-10 py-4 font-medium tracking-wide hover:border-[#e6d9b8] transition"
             >
-              Дізнатись більше
+              {t('cta_learn_more')}
             </a>
           </div>
         </div>
@@ -233,11 +238,11 @@ export default async function OtherServicePage({
           <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-12 md:gap-16">
             <div className="md:col-span-4">
               <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e] mb-4">
-                Що це
+                {t('about_eyebrow')}
               </p>
               <h2 className="font-display text-4xl md:text-5xl text-[#1a3d2e] leading-tight">
-                Про послугу
-                <span className="block italic text-[#1a3d2e]/70">докладно</span>
+                {t('about_heading')}
+                <span className="block italic text-[#1a3d2e]/70">{t('about_heading_em')}</span>
               </h2>
             </div>
             <div className="md:col-span-8 space-y-6">
@@ -260,11 +265,11 @@ export default async function OtherServicePage({
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
               <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8] mb-4">
-                Особливості
+                {t('features_eyebrow')}
               </p>
               <h2 className="font-display text-4xl md:text-5xl">
-                Що робить цю послугу
-                <span className="block italic text-[#e6d9b8]/80">особливою</span>
+                {t('features_heading')}
+                <span className="block italic text-[#e6d9b8]/80">{t('features_heading_em')}</span>
               </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#e6d9b8]/20">
@@ -290,10 +295,10 @@ export default async function OtherServicePage({
           <div className="max-w-6xl mx-auto px-6">
             <div className="text-center mb-16">
               <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e] mb-4">
-                Деталі
+                {t('facts_eyebrow')}
               </p>
               <h2 className="font-display text-4xl md:text-5xl text-[#1a3d2e]">
-                Коротко про головне
+                {t('facts_heading')}
               </h2>
             </div>
             <div className="grid md:grid-cols-3 gap-px bg-[#e6d9b8]">
@@ -302,10 +307,10 @@ export default async function OtherServicePage({
                   <Users className="w-5 h-5 text-[#1a3d2e]" strokeWidth={1.5} />
                 </div>
                 <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e] mb-3">
-                  Розмір групи
+                  {t('group_size_label')}
                 </p>
                 <p className="font-display text-2xl text-[#1a3d2e]">
-                  {content.groupSize ?? 'За запитом'}
+                  {content.groupSize ?? t('group_size_on_request')}
                 </p>
               </div>
               <div className="bg-[#faf6ec] p-10 md:p-12 text-center">
@@ -313,7 +318,7 @@ export default async function OtherServicePage({
                   <Tag className="w-5 h-5 text-[#1a3d2e]" strokeWidth={1.5} />
                 </div>
                 <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e] mb-3">
-                  Вартість
+                  {t('pricing_label')}
                 </p>
                 <p className="font-display text-xl text-[#1a3d2e] leading-snug">
                   {content.pricing}
@@ -324,12 +329,12 @@ export default async function OtherServicePage({
                   <CheckCircle className="w-5 h-5 text-[#1a3d2e]" strokeWidth={1.5} />
                 </div>
                 <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e] mb-3">
-                  Підготовка
+                  {t('preparation_label')}
                 </p>
                 <p className="font-display text-2xl text-[#1a3d2e]">
                   {content.preparation && content.preparation.length > 0
-                    ? `${content.preparation.length} простих кроків`
-                    : 'Мінімальна'}
+                    ? t('preparation_steps', { n: content.preparation.length })
+                    : t('preparation_minimal')}
                 </p>
               </div>
             </div>
@@ -343,11 +348,11 @@ export default async function OtherServicePage({
           <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-12 md:gap-16">
             <div className="md:col-span-4">
               <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e] mb-4">
-                Перед візитом
+                {t('prep_eyebrow')}
               </p>
               <h2 className="font-display text-4xl md:text-5xl text-[#1a3d2e] leading-tight">
-                Як підготуватися
-                <span className="block italic text-[#1a3d2e]/70">заздалегідь</span>
+                {t('prep_heading')}
+                <span className="block italic text-[#1a3d2e]/70">{t('prep_heading_em')}</span>
               </h2>
             </div>
             <ol className="md:col-span-8 space-y-px bg-[#e6d9b8]">
@@ -374,23 +379,22 @@ export default async function OtherServicePage({
         <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-12 gap-12 md:gap-16">
           <div className="md:col-span-5">
             <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8] mb-4">
-              Зв&apos;язок
+              {t('contacts_eyebrow')}
             </p>
             <h2 className="font-display text-4xl md:text-6xl leading-[0.95] mb-6">
-              Готові
-              <span className="block italic text-[#e6d9b8]/80">забронювати?</span>
+              {t('contacts_heading')}
+              <span className="block italic text-[#e6d9b8]/80">{t('contacts_heading_em')}</span>
             </h2>
             <p className="text-[#f4ecd8]/70 font-light leading-relaxed mb-8">
-              Зателефонуйте нам, і менеджер узгодить дату, деталі програми та
-              відповість на всі запитання.
+              {t('contacts_body')}
             </p>
             <div className="flex items-center gap-3 text-sm text-[#f4ecd8]/70 mb-3">
               <Clock className="w-4 h-4 text-[#e6d9b8]" />
-              <span>{CONTACT_INFO.workingHours}</span>
+              <span>{tconst('working_hours')}</span>
             </div>
             <div className="flex items-center gap-3 text-sm text-[#f4ecd8]/70">
               <MapPin className="w-4 h-4 text-[#e6d9b8]" />
-              <span>{CONTACT_INFO.address}</span>
+              <span>{tconst('address')}</span>
             </div>
           </div>
           <div className="md:col-span-7">
@@ -422,18 +426,18 @@ export default async function OtherServicePage({
           <div className="flex items-end justify-between mb-16 gap-6 flex-wrap">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e] mb-4">
-                Ще цікаве
+                {t('related_eyebrow')}
               </p>
               <h2 className="font-display text-4xl md:text-5xl text-[#1a3d2e] leading-tight">
-                Інші додаткові
-                <span className="block italic text-[#1a3d2e]/70">послуги</span>
+                {t('related_heading')}
+                <span className="block italic text-[#1a3d2e]/70">{t('related_heading_em')}</span>
               </h2>
             </div>
             <Link
               href="/"
               className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e] hover:text-[#0f1f18]"
             >
-              Всі послуги
+              {t('related_all')}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -458,13 +462,13 @@ export default async function OtherServicePage({
                     />
                   </div>
                   <h3 className="font-display text-2xl text-[#1a3d2e] mb-3 leading-tight">
-                    {other.title}
+                    {tc(`${other.id}.title` as Parameters<typeof tc>[0])}
                   </h3>
                   <p className="text-sm text-[#0f1f18]/70 font-light leading-relaxed line-clamp-2 mb-6">
-                    {other.description}
+                    {tc(`${other.id}.description` as Parameters<typeof tc>[0])}
                   </p>
                   <span className="mt-auto inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]">
-                    Детальніше
+                    {t('related_detail')}
                     <span className="relative inline-block w-8 h-px bg-[#1a3d2e] transition-all duration-300 group-hover:w-12" />
                     <ArrowRight className="w-3 h-3" />
                   </span>
@@ -479,17 +483,16 @@ export default async function OtherServicePage({
       <section className="py-28 md:py-36 bg-[#0f1f18] text-[#f4ecd8]">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8] mb-6">
-            Наступний крок
+            {t('final_eyebrow')}
           </p>
           <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mb-6">
-            Обрали послугу?
+            {t('final_heading')}
             <span className="block italic text-[#e6d9b8]/80 text-3xl md:text-4xl mt-4">
-              звʼяжіться з нами просто зараз
+              {t('final_heading_em')}
             </span>
           </h2>
           <p className="text-[#f4ecd8]/70 font-light text-lg mb-10 max-w-xl mx-auto">
-            Один дзвінок — і ми підготуємо все необхідне для вашого візиту до
-            Глухомані.
+            {t('final_body')}
           </p>
           <a
             href={telHref(primaryPhone)}

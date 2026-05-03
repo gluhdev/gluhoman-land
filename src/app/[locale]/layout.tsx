@@ -10,7 +10,7 @@ import { LocalBusinessJsonLd } from "@/components/seo/StructuredData";
 import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 import { BuildMarker } from "@/components/dev/BuildMarker";
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, setRequestLocale } from 'next-intl/server';
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing, type Locale } from '@/i18n/routing';
 
@@ -35,25 +35,33 @@ export const viewport: Viewport = {
   themeColor: "#1a3d2e",
 };
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://gluhoman.com.ua"),
-  icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.png", sizes: "32x32", type: "image/png" },
-    ],
-    apple: "/apple-touch-icon.png",
-  },
-  title: "Глухомань - Ресторанно-готельний комплекс",
-  description: "Відпочинок для всієї родини: аквапарк, ресторан, готель та багато інших послуг в серці природи",
-  keywords: "глухомань, відпочинок, аквапарк, ресторан, готель, україна",
-  openGraph: {
-    title: "Глухомань - Ресторанно-готельний комплекс",
-    description: "Відпочинок для всієї родини: аквапарк, ресторан, готель та багато інших послуг в серці природи",
-    type: "website",
-    locale: "uk_UA",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'layout' });
+  return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://gluhoman.com.ua"),
+    icons: {
+      icon: [
+        { url: "/favicon.svg", type: "image/svg+xml" },
+        { url: "/favicon.png", sizes: "32x32", type: "image/png" },
+      ],
+      apple: "/apple-touch-icon.png",
+    },
+    title: t('meta_title'),
+    description: t('meta_description'),
+    keywords: t('meta_keywords'),
+    openGraph: {
+      title: t('meta_title'),
+      description: t('meta_description'),
+      type: "website",
+      locale: locale === 'uk' ? 'uk_UA' : 'en_US',
+    },
+  };
+}
 
 export default async function LocaleLayout({
   children,
@@ -68,6 +76,7 @@ export default async function LocaleLayout({
   }
   setRequestLocale(locale);
   const messages = await getMessages();
+  const t = await getTranslations({ locale, namespace: 'layout' });
 
   return (
     <html lang={locale} className={`${manrope.variable} ${cormorant.variable}`}>
@@ -84,7 +93,7 @@ export default async function LocaleLayout({
             href="#main"
             className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-primary focus:shadow-lg"
           >
-            Перейти до контенту
+            {t('skip_to_content')}
           </a>
           <SmoothScrollProvider>
             <div className="min-h-[100svh] flex flex-col prevent-horizontal-scroll">

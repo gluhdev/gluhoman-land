@@ -16,29 +16,43 @@
     },
     "additional": {
       "apitherapy": {
-        "title": "Apitherapy"
+        "title": "Apitherapy",
+        "description": "Wellness treatments with bee products"
       },
       "wedding": {
-        "title": "Offsite wedding ceremonies"
+        "title": "Offsite wedding ceremonies",
+        "description": "Unforgettable outdoor wedding ceremonies"
       },
       "paintball": {
-        "title": "Paintball"
+        "title": "Paintball",
+        "description": "Active recreation for teams and friends"
       },
       "horses": {
-        "title": "Horseback riding"
+        "title": "Horseback riding",
+        "description": "Romantic horseback riding"
       },
       "kids-parties": {
-        "title": "Children's parties"
+        "title": "Children's parties",
+        "description": "Organization and holding of children's birthday parties"
       },
       "bbq-zone": {
-        "title": "Barbecue area"
+        "title": "Barbecue area",
+        "description": "Rent an equipped barbecue area"
       },
       "brewery-tour": {
-        "title": "Tour of the brewery"
+        "title": "Tour of the brewery",
+        "description": "Visit our own brewery where we make our best craft beer"
       },
       "petting-zoo": {
-        "title": "Contact zoo"
+        "title": "Contact zoo",
+        "description": "Communication with friendly animals for children and adults"
       }
+    },
+    "main": {
+      "aquapark": "Water park",
+      "restaurant": "Restaurant",
+      "hotel": "Hotel",
+      "sauna": "Wood-fired sauna"
     }
   },
   "header": {
@@ -139,7 +153,8 @@
       "stat3_label": "Wood-fired baths",
       "stat3_sub": "with vats",
       "stat4_label": "Directions",
-      "stat4_sub": "rest"
+      "stat4_sub": "rest",
+      "prose_initial": "Н"
     },
     "features": {
       "section_kicker": "Features of the complex",
@@ -1410,7 +1425,8 @@
       "ogTitle": "Menu of the restaurant Glukhoman - Ukrainian cuisine",
       "ogDescription": "The menu of the restaurant \"Glukhoman\" includes authentic Ukrainian cuisine, European dishes and craft beer from our own brewery.",
       "twitterTitle": "Menu of the restaurant Glukhoman - Ukrainian cuisine",
-      "twitterDescription": "The menu of the restaurant \"Glukhoman\" includes authentic Ukrainian cuisine, European dishes and craft beer from our own brewery."
+      "twitterDescription": "The menu of the restaurant \"Glukhoman\" includes authentic Ukrainian cuisine, European dishes and craft beer from our own brewery.",
+      "keywords": "menu, restaurant, wilderness, Ukrainian cuisine, European cuisine, craft beer, poltava region"
     },
     "jsonLd": {
       "name": "Menu of the restaurant Glukhoman",
@@ -2704,6 +2720,387 @@
     },
     "gallery_grid": {
       "open_image_aria": "Open image: {alt}"
+    }
+  },
+  "layout": {
+    "skip_to_content": "Skip to content",
+    "meta_title": "Glukhoman - Restaurant and hotel complex",
+    "meta_description": "Recreation for the whole family: water park, restaurant, hotel and many other services in the heart of nature",
+    "meta_keywords": "wilderness, vacation, water park, restaurant, hotel, ukraine",
+    "site_name": "Glukhoman",
+    "site_name_full": "Recreational complex Glukhoman",
+    "home_meta_title": "Glukhoman - Recreational complex in Poltava region",
+    "home_meta_description": "Hotel, water park, restaurant and wood-fired sauna in the village of Nyzhni Mlyny. A quiet vacation in the middle of nature for the whole family.",
+    "home_meta_keywords": "wilderness, recreation, water park, restaurant, hotel, bathhouse, poltava region, lower mills"
+  },
+  "loading": {
+    "message": "Loading.."
+  },
+  "error": {
+    "heading": "Something went wrong",
+    "body": "Technical error. Please try refreshing the page or returning to the main page.",
+    "error_code": "Error code: {digest}",
+    "retry": "Try again",
+    "back_home": "To the main page"
+  },
+  "not_found": {
+    "heading": "Page not found",
+    "body": "You may have gotten lost in our wilderness. Return to the main page or give us a call.",
+    "back_home": "To the main page"
+  },
+  "constants": {
+    "address": "Ukraine, Poltava region, p. Nyzhni Mlyny",
+    "working_hours": "Every day from 9:00 to 22:00",
+    "services": {
+      "main": {
+        "aquapark": {
+          "title": "Water park",
+          "description": "Modern water park with slides and pools for the whole family"
+        },
+        "restaurant": {
+          "title": "Restaurant",
+          "description": "Cozy restaurant with traditional Ukrainian cuisine"
+        },
+        "hotel": {
+          "title": "Hotel",
+          "description": "Comfortable accommodation in the heart of nature"
+        },
+        "sauna": {
+          "title": "Wood-fired sauna",
+          "description": "Traditional Ukrainian bath for complete relaxation"
+        }
+      },
+      "additional": {
+        "apitherapy": {
+          "title": "Apitherapy",
+          "description": "Wellness treatments with bee products"
+        },
+        "wedding": {
+          "title": "Offsite wedding ceremonies",
+          "description": "Unforgettable outdoor wedding ceremonies"
+        },
+        "paintball": {
+          "title": "Paintball",
+          "description": "Active recreation for teams and friends"
+        },
+        "horses": {
+          "title": "Horseback riding",
+          "description": "Romantic horseback riding"
+        },
+        "kids-parties": {
+          "title": "Children's parties",
+          "description": "Organization and holding of children's birthday parties"
+        },
+        "bbq-zone": {
+          "title": "Barbecue area",
+          "description": "Rent an equipped barbecue area"
+        },
+        "brewery-tour": {
+          "title": "Tour of the brewery",
+          "description": "Visit our own brewery where we make our best craft beer"
+        },
+        "petting-zoo": {
+          "title": "Contact zoo",
+          "description": "Communication with friendly animals for children and adults"
+        }
+      }
+    }
+  },
+  "slug_page": {
+    "additional_service_eyebrow": "Additional service - Glukhoman",
+    "hero_subtitle": "in the forest heart of Poltava region",
+    "cta_call": "Call",
+    "cta_learn_more": "Learn more",
+    "about_eyebrow": "What it is",
+    "about_heading": "About the service",
+    "about_heading_em": "in detail",
+    "features_eyebrow": "Features",
+    "features_heading": "What makes this service work",
+    "features_heading_em": "special",
+    "facts_eyebrow": "Details",
+    "facts_heading": "Briefly about the main thing",
+    "group_size_label": "Group size",
+    "group_size_on_request": "On request",
+    "pricing_label": "Cost",
+    "preparation_label": "Preparation",
+    "preparation_steps": "{n} simple steps",
+    "preparation_minimal": "Minimal",
+    "prep_eyebrow": "Before the visit",
+    "prep_heading": "How to prepare",
+    "prep_heading_em": "in advance",
+    "contacts_eyebrow": "Communication",
+    "contacts_heading": "Ready",
+    "contacts_heading_em": "to book?",
+    "contacts_body": "Call us and our manager will agree on the date, program details, and answer all your questions.",
+    "related_eyebrow": "More interesting things",
+    "related_heading": "Other additional",
+    "related_heading_em": "services",
+    "related_all": "All services",
+    "related_detail": "Read more",
+    "final_eyebrow": "The next step",
+    "final_heading": "Have you chosen a service?",
+    "final_heading_em": "contact us right now",
+    "final_body": "Just one call and we will prepare everything you need for your visit to Hlukhomania.",
+    "not_found_meta": "Service not found - Glukhoman",
+    "paintball": {
+      "long_desc": "Adrenaline, tactics and team play in our own paintball club \"Glukhoman\". The site is located in a pine forest - natural shelters, artificial barricades and safe equipment provide a vivid experience for teams of all sizes.\n\nWe organize corporate tournaments, children's and teenage games (from 12 years old), as well as festive formats - birthday parties in the format of a combat mission, stag parties, team building. The instructor provides instruction and accompanies the game.",
+      "h1_title": "Forest landfill",
+      "h1_desc": "Natural shelters among the pines",
+      "h2_title": "Professional equipment",
+      "h2_desc": "Markers, masks, protective clothing",
+      "h3_title": "Instructor",
+      "h3_desc": "Safety and briefing before the game",
+      "h4_title": "Several scenarios",
+      "h4_desc": "Capturing the flag, assault, team battle",
+      "pricing": "The basic package starts from 200 balls per player. Additional balls on request.",
+      "group_size": "From 6 to 20 people",
+      "prep_1": "Comfortable clothes (can get dirty)",
+      "prep_2": "Closed shoes",
+      "prep_3": "It is advisable to arrive 15 minutes before the briefing"
+    },
+    "brewery-tour": {
+      "long_desc": "Our own brewery \"Glukhoman\" is the pride of the complex. We brew craft beer according to traditional Czech and German recipes using local water from an artesian well. The tour includes a tour of the production, tasting of 4 beers and a light beer snack.\n\nA brewer guide will tell you about the process from malt to barrel, show you modern equipment and traditional copper vats. Suitable for adult companies (18 years and older), craft connoisseurs and just curious guests.",
+      "h1_title": "Own production",
+      "h1_desc": "Artesian water and selected malt",
+      "h2_title": "4 varieties for tasting",
+      "h2_desc": "Lager, IPA, porter, seasonal",
+      "h3_title": "Beer snack",
+      "h3_desc": "Lard, cheese, wheat sticks",
+      "h4_title": "Brewer's guide",
+      "h4_desc": "Will tell you everything about the process",
+      "pricing": "Standard tour ~90 minutes, with tasting. Details on request.",
+      "group_size": "From 4 to 16 people",
+      "prep_1": "For adults 18+ only",
+      "prep_2": "By appointment",
+      "prep_3": ""
+    },
+    "kids-parties": {
+      "long_desc": "Unforgettable children's parties in Hlukhoman are held outdoors, with animators, contests, cake and delicious food. We organize birthdays for children aged 3 to 14 in various formats: forest quests, sports relay races, a petting zoo, and an aqua quest in a water park.\n\nThe team discusses the scenario with parents in advance, prepares a festive table, decorates the area, and provides a program for 2 to 4 hours. All children's activities are accompanied by an experienced animator and teacher.",
+      "h1_title": "Animators",
+      "h1_desc": "Costumed characters, host, games",
+      "h2_title": "Festive table",
+      "h2_desc": "Children's menu and cake to taste",
+      "h3_title": "Program 2-4 hours",
+      "h3_desc": "Contests, gifts, photo zone",
+      "h4_title": "Forest location",
+      "h4_desc": "Safe, outdoors",
+      "pricing": "Packages depend on the number of guests and the program. On request.",
+      "group_size": "From 6 to 30 children",
+      "prep_1": "Booking in 2 weeks",
+      "prep_2": "Coordinate the script and menu in advance",
+      "prep_3": ""
+    }
+  },
+  "flow": {
+    "common": {
+      "step_of": "Step {step} from {total}",
+      "back": "Back",
+      "error_generic": "Error",
+      "error_date_future": "The date must be today or in the future",
+      "error_name": "Enter a name",
+      "error_phone": "Enter the correct phone number",
+      "error_load": "Loading error",
+      "error_booking_create": "Could not create a reservation",
+      "error_payment_init": "Failed to initiate payment",
+      "field_name": "Name",
+      "field_phone": "Phone",
+      "field_email": "Email",
+      "field_comment": "Commentary",
+      "field_date": "Date",
+      "placeholder_name": "Ivan Petrenko",
+      "placeholder_comment": "Special requests, additional services..",
+      "amount_due": "To be paid",
+      "your_booking": "Your reservation",
+      "creating": "We create..",
+      "pay_label": "Pay {price}"
+    },
+    "sauna": {
+      "step1_heading": "Choose a date",
+      "step1_next": "Next, select a slot →",
+      "step2_heading": "Choose a bathhouse and time",
+      "step2_date_slot": "{date} - slot 2 hours",
+      "price_per_2h": "{price} ₴ for 2 hours",
+      "slot_selected": "Selected",
+      "step2_next": "Next →",
+      "step3_heading": "Booking confirmation",
+      "row_date": "Date",
+      "row_time": "Time",
+      "row_duration": "Duration",
+      "duration_value": "2 hours",
+      "creating": "We create.."
+    },
+    "hotel": {
+      "step1_heading": "Select dates and number of guests",
+      "field_dates": "Check-in and check-out dates",
+      "field_guests": "Number of guests",
+      "guest_one": "guest",
+      "guest_few": "guests",
+      "guest_many": "guests",
+      "night_one": "night",
+      "night_few": "nights",
+      "night_many": "nights",
+      "searching": "We are looking for..",
+      "search_btn": "Find free rooms",
+      "step2_heading_none": "No rooms available",
+      "step2_heading_found": "Found {count}",
+      "no_rooms": "There are no rooms available on the selected dates. Please try other dates.",
+      "room_label": "Number {number}",
+      "room_capacity": "up to {n} people",
+      "room_price_line": "{nights} {nights_label} × {price} ₴",
+      "room_select": "Select →",
+      "step3_heading": "Booking confirmation",
+      "field_placeholder_comment": "Special wishes..",
+      "row_checkin": "Check in",
+      "row_checkout": "Departure",
+      "row_guests": "Guests",
+      "row_nights": "Nights",
+      "row_price_per_night": "Price per night",
+      "creating": "Create a reservation..",
+      "liqpay_note": "Payment through the secure LiqPay gateway. Confirmation will be sent to your phone.",
+      "error_dates": "Select arrival and departure dates",
+      "error_checkout": "The check-out date must be after the check-in date",
+      "error_search": "Search error",
+      "error_booking_create": "Could not create a reservation",
+      "error_payment_init": "Failed to initiate payment",
+      "img_alt_room": "Number {number}"
+    },
+    "aquapark": {
+      "error_date_future": "The date must be today or in the future",
+      "error_no_tickets": "Choose at least one ticket",
+      "step1_heading": "Select the date of your visit",
+      "step1_next": "Next - choose tickets →",
+      "step2_heading": "Choose your tickets",
+      "step2_date": "Date of visit: {date}",
+      "aria_less": "Less",
+      "aria_more": "More",
+      "summary_heading": "Bottom line",
+      "ticket_one": "ticket",
+      "ticket_few": "tickets",
+      "ticket_many": "tickets",
+      "step2_next": "Next, check out →",
+      "step3_heading": "Checkout",
+      "placeholder_email": "example@gmail.com (for QR code)",
+      "your_order": "Your order",
+      "creating": "Create a ticket..",
+      "qr_note": "After payment, the QR code will appear on the next screen. Show it at the entrance to the water park.",
+      "error_ticket_create": "Failed to create a ticket",
+      "error_payment_init": "Failed to initiate payment"
+    },
+    "checkout": {
+      "cart_empty_heading": "Cart is empty",
+      "cart_empty_body": "First, select dishes from the menu.",
+      "cart_back_to_menu": "Back to the menu",
+      "error_name": "Enter a name",
+      "error_phone": "Enter the correct phone number",
+      "error_address": "Enter the delivery address",
+      "error_time": "Choose a delivery time",
+      "error_min_order": "The minimum order amount is {min} UAH",
+      "error_order_create": "Could not create an order",
+      "error_payment_init": "Failed to initiate payment",
+      "section_contacts": "Contact details",
+      "field_name": "Name",
+      "field_phone": "Phone",
+      "section_delivery": "Method of production",
+      "delivery_title": "Delivery",
+      "delivery_hint": "100 UAH (from 2000 UAH - free of charge)",
+      "pickup_title": "Pickup",
+      "pickup_hint": "From the restaurant, free of charge",
+      "field_address": "Address",
+      "placeholder_address": "1 Shevchenko St., Poltava",
+      "section_time": "Time",
+      "asap_title": "As soon as possible",
+      "asap_hint": "Cooking right away",
+      "scheduled_title": "For the time being",
+      "scheduled_hint": "Choose a time below",
+      "field_when": "When to submit",
+      "section_comment": "Commentary",
+      "placeholder_comment": "Wishes, features, additional instructions..",
+      "your_order": "Your order",
+      "item_one": "position",
+      "item_few": "positions",
+      "item_many": "positions",
+      "subtotal_label": "Amount",
+      "delivery_label": "Delivery",
+      "delivery_free": "free of charge",
+      "amount_due": "To be paid",
+      "min_order_note": "Minimum {min} UAH. Add more {remaining}.",
+      "creating": "Create an order..",
+      "pay_label": "Pay {price}",
+      "terms_note": "By clicking the button, you agree to the terms of service. Payment through the secure gateway LiqPay.",
+      "back_to_menu": "← Back to the menu",
+      "placeholder_name": "Ivan Petrenko"
+    }
+  },
+  "embedded_menu": {
+    "header_eyebrow": "Restaurant menu",
+    "header_name": "\"Glukhoman\"",
+    "stats": "{cats} categories - {dishes} dishes",
+    "full_page": "Full page",
+    "dishes_aria": "Menu of dishes",
+    "open_full": "Open the full menu in a separate tab"
+  },
+  "category_nav": {
+    "menu_label": "Menu",
+    "categories_label": "Categories",
+    "brand_label": "gLOSSARY_0__ - Kitchen"
+  },
+  "hall_slider": {
+    "prev_aria": "Previous photo",
+    "next_aria": "Next photo",
+    "photo_aria": "Photo {n}"
+  },
+  "gallery_data": {
+    "restaurant_title": "Restaurant and halls",
+    "restaurant_desc": "Authentic interiors, a spacious terrace by the water and cozy private rooms for any event.",
+    "sauna_title": "Bathhouse",
+    "sauna_desc": "A large bathhouse with a swimming pool, outdoor vats, and cozy relaxation rooms with a samovar.",
+    "aquapark_title": "Water park",
+    "aquapark_desc": "Family fun on the water right on the territory of the complex.",
+    "events_title": "Events",
+    "events_desc": "Weddings, birthdays, corporate events, children's parties and live music.",
+    "nature_title": "Nature",
+    "nature_desc": "The picturesque territory of the complex is surrounded by greenery and water.",
+    "photos": {
+      "hall_floor1_rustic_wide": "Ground floor of the restaurant in rustic style",
+      "hall_floor1_round_tables": "Round tables on the first floor of the hall",
+      "hall_floor2_balcony_door": "Second floor with access to the balcony",
+      "hall_fireplace_balcony": "Hall with fireplace and balcony",
+      "hall_oven": "Ukrainian oven in the restaurant hall",
+      "hall_terrace": "Summer terrace of the restaurant",
+      "hall_banquet": "Banquet hall with service",
+      "hall_private": "Private room for small companies",
+      "bar_rustic_tree_trunk": "Rustic bar made of a tree trunk",
+      "balcony_floor2_wooden_furniture": "Second floor balcony with wooden furniture",
+      "exterior_summer_terrace_water": "Summer terrace by the water",
+      "decor_photozone_green_hedge": "Photo zone with a green hedge",
+      "pool_big_sauna_indoor_full": "Indoor pool of a large bath",
+      "pool_big_sauna_indoor_diving": "Pool of a large bath with a platform",
+      "chan_carpathian_herbs_steam": "Vat with Carpathian herbs",
+      "chan_citrus_couple_night": "Steam in a citrus vat at night",
+      "chan_exterior_stone_steps": "Vat on the street with stone steps",
+      "relaxation_room_big_sauna_leather_sofa": "Large bathhouse relaxation room with leather sofa",
+      "relaxation_room_samovar_interior": "The interior of a relaxation room with a samovar",
+      "couple_drinking_beer_sauna_hats": "A couple relaxes in a bathhouse with a beer",
+      "craft_kvas_in_sauna": "Craft kvass in the bathhouse",
+      "honey_jar_gluhoman": "Jar of honey Glukhoman",
+      "exterior_small_sauna_building": "Exterior of a small bath",
+      "akvapark_main": "Water park Glukhoman",
+      "aquapark_entrance_family": "Family at the entrance to the water park",
+      "akvapark_9": "Water park attractions",
+      "event_01": "A festive event in Hlukhomania",
+      "event_02": "Decorating the hall for the event",
+      "event_03": "Guests at a festive event",
+      "event_04_music": "Live music at the event",
+      "event_birthday_balloon_decor": "Birthday decor with balloons",
+      "event_fruit_table_terrace": "Fruit table on the terrace",
+      "animation_clown_with_child": "Clown animator with a child",
+      "animation_kids_pirate_night": "Children's pirate party",
+      "animation_lasertag_kids_outdoor": "Laser tag for children on the street",
+      "event_happy_birthday_number1_red": "Birthday decoration",
+      "chan_exterior_stone_steps_nature": "Vat in the midst of nature",
+      "exterior_small_sauna_chan_platform": "Small bath with a vat platform",
+      "chan_citrus_couple_night_nature": "Vat under the night sky",
+      "nature_33": "Nature around Hlukhomany"
     }
   }
 }

@@ -130,6 +130,17 @@ async function main() {
 
     try {
       console.log(`→ ${key}`);
+      if (ukValue === '') {
+        setNested(en, key, '');
+        newHashes[key] = hash;
+        translated++;
+        sinceLastSave++;
+        if (sinceLastSave >= SAVE_EVERY) {
+          saveProgress(en, newHashes);
+          sinceLastSave = 0;
+        }
+        continue;
+      }
       const enValue = await translateWithRetry(ukValue);
       setNested(en, key, enValue);
       newHashes[key] = hash;
