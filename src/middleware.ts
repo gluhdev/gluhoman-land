@@ -31,6 +31,7 @@ export const config = {
   // Static files, _next internals, api routes, and dotfile paths are excluded.
   matcher: [
     '/admin/:path*',
-    '/((?!api|admin|_next|_vercel|.*\\..*)(.*))' ,
+    '/((?!api|admin|_next|_vercel|.*\\..*).+)',
+    '/',
   ],
 };
