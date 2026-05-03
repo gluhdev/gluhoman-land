@@ -57,6 +57,7 @@
     "@types/node": "^20.19.39",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "deepl-node": "^1.27.0",
     "dotenv": "^17.4.1",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
