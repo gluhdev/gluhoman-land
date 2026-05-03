@@ -1,29 +1,33 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/routing";
 import { CONTACT_INFO } from "@/constants";
 
-export const metadata: Metadata = {
-  title: "Політика конфіденційності | Глухомань",
-  description:
-    "Політика конфіденційності рекреаційного комплексу «Глухомань». Як ми збираємо, використовуємо та захищаємо ваші персональні дані.",
-  openGraph: {
-    title: "Політика конфіденційності | Глухомань",
-    description:
-      "Політика конфіденційності рекреаційного комплексу «Глухомань». Як ми збираємо, використовуємо та захищаємо ваші персональні дані.",
-    type: "article",
-    locale: "uk_UA",
-  },
-  twitter: {
-    card: "summary",
-    title: "Політика конфіденційності | Глухомань",
-    description:
-      "Політика конфіденційності рекреаційного комплексу «Глухомань».",
-  },
-  robots: { index: true, follow: true },
-};
-
-const LAST_UPDATED = "11 квітня 2026";
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "privacy" });
+  return {
+    title: t("meta.title"),
+    description: t("meta.description"),
+    openGraph: {
+      title: t("meta.og_title"),
+      description: t("meta.og_description"),
+      type: "article",
+      locale: locale === "uk" ? "uk_UA" : "en_US",
+    },
+    twitter: {
+      card: "summary",
+      title: t("meta.twitter_title"),
+      description: t("meta.twitter_description"),
+    },
+    robots: { index: true, follow: true },
+  };
+}
 
 const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 
@@ -46,23 +50,25 @@ function SectionHeading({
   );
 }
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const t = await getTranslations("privacy");
+
   return (
     <main className="min-h-[100svh] bg-[#faf6ec]">
       {/* Editorial hero */}
       <section className="py-24 bg-[#faf6ec]">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <div className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e] mb-6">
-            Юридичні документи
+            {t("hero.eyebrow")}
           </div>
           <h1 className="font-display text-5xl md:text-6xl text-[#1a3d2e] leading-[1.05] mb-5">
-            Політика конфіденційності
+            {t("hero.title")}
           </h1>
           <p className="font-display italic text-xl md:text-2xl text-[#1a3d2e]/70 mb-8">
-            Як ми дбаємо про ваші персональні дані
+            {t("hero.subtitle")}
           </p>
           <p className="text-xs uppercase tracking-[0.18em] text-[#1a3d2e]/40">
-            Останнє оновлення: {LAST_UPDATED}
+            {t("hero.last_updated_label", { date: t("last_updated_date") })}
           </p>
         </div>
       </section>
@@ -71,162 +77,106 @@ export default function PrivacyPage() {
       <section className="py-20 md:py-28 bg-[#faf6ec]">
         <article className="max-w-3xl mx-auto px-6 text-[#0f1f18]/80 leading-relaxed">
           <section>
-            <SectionHeading numeral={ROMAN[0]} title="Загальні положення" />
-            <p>
-              Ця Політика конфіденційності описує, яким чином рекреаційний
-              комплекс «Глухомань» (далі — «Комплекс») збирає, використовує,
-              зберігає та захищає персональні дані відвідувачів сайту та
-              гостей. Політика розроблена відповідно до Закону України «Про
-              захист персональних даних» та інших нормативно-правових актів,
-              що регулюють обробку персональних даних.
-            </p>
-            <p className="mt-4">
-              Використовуючи наш сайт або послуги, ви погоджуєтеся з умовами
-              цієї Політики. Якщо ви не згодні з будь-якою з умов — будь
-              ласка, утримайтеся від використання сайту та надсилання
-              персональних даних.
-            </p>
+            <SectionHeading numeral={ROMAN[0]} title={t("section_1.heading")} />
+            <p>{t("section_1.body_p1")}</p>
+            <p className="mt-4">{t("section_1.body_p2")}</p>
           </section>
 
           <section className="border-t border-[#e6d9b8]/60 pt-12 mt-12">
-            <SectionHeading numeral={ROMAN[1]} title="Які дані ми збираємо" />
-            <p>
-              Ми збираємо лише ті дані, які є необхідними для надання наших
-              послуг та якісної комунікації з гостями:
-            </p>
+            <SectionHeading numeral={ROMAN[1]} title={t("section_2.heading")} />
+            <p>{t("section_2.intro")}</p>
             <ul className="mt-5 space-y-3 list-none">
               <li className="flex gap-3">
                 <span className="mt-2 h-1 w-3 flex-none bg-[#e6d9b8]" />
                 <span>
-                  <strong className="text-[#1a3d2e]">Контактні дані:</strong>{" "}
-                  ім&apos;я, номер телефону та електронна пошта, які ви надаєте
-                  через форму бронювання або при зверненні до нас.
+                  <strong className="text-[#1a3d2e]">{t("section_2.contact_label")}</strong>{" "}
+                  {t("section_2.contact_body")}
                 </span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-2 h-1 w-3 flex-none bg-[#e6d9b8]" />
                 <span>
-                  <strong className="text-[#1a3d2e]">Технічні дані:</strong>{" "}
-                  cookies, необхідні для коректної роботи сайту та збереження
-                  ваших налаштувань.
+                  <strong className="text-[#1a3d2e]">{t("section_2.technical_label")}</strong>{" "}
+                  {t("section_2.technical_body")}
                 </span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-2 h-1 w-3 flex-none bg-[#e6d9b8]" />
                 <span>
-                  <strong className="text-[#1a3d2e]">Аналітичні дані:</strong>{" "}
-                  знеособлена статистика відвідувань, якщо на сайті активовані
-                  сервіси веб-аналітики.
+                  <strong className="text-[#1a3d2e]">{t("section_2.analytics_label")}</strong>{" "}
+                  {t("section_2.analytics_body")}
                 </span>
               </li>
             </ul>
           </section>
 
           <section className="border-t border-[#e6d9b8]/60 pt-12 mt-12">
-            <SectionHeading
-              numeral={ROMAN[2]}
-              title="Як ми використовуємо дані"
-            />
-            <p>Отримані персональні дані використовуються виключно для:</p>
+            <SectionHeading numeral={ROMAN[2]} title={t("section_3.heading")} />
+            <p>{t("section_3.intro")}</p>
             <ul className="mt-5 space-y-3 list-none">
               <li className="flex gap-3">
                 <span className="mt-2 h-1 w-3 flex-none bg-[#e6d9b8]" />
-                <span>обробки запитів на бронювання номерів та послуг;</span>
+                <span>{t("section_3.item_1")}</span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-2 h-1 w-3 flex-none bg-[#e6d9b8]" />
-                <span>
-                  зв&apos;язку з гостями для уточнення деталей їхнього
-                  перебування;
-                </span>
+                <span>{t("section_3.item_2")}</span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-2 h-1 w-3 flex-none bg-[#e6d9b8]" />
-                <span>
-                  надсилання підтверджень бронювання та службових повідомлень;
-                </span>
+                <span>{t("section_3.item_3")}</span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-2 h-1 w-3 flex-none bg-[#e6d9b8]" />
-                <span>покращення якості обслуговування та роботи сайту.</span>
+                <span>{t("section_3.item_4")}</span>
               </li>
             </ul>
           </section>
 
           <section className="border-t border-[#e6d9b8]/60 pt-12 mt-12">
-            <SectionHeading numeral={ROMAN[3]} title="Зберігання та захист" />
-            <p>
-              Ваші персональні дані зберігаються протягом строку, необхідного
-              для досягнення цілей їхньої обробки, або протягом строку,
-              встановленого чинним законодавством України. Ми застосовуємо
-              організаційні та технічні заходи для захисту персональних
-              даних від несанкціонованого доступу, зміни, розкриття чи
-              знищення.
-            </p>
-            <p className="mt-4">
-              Комплекс не передає персональні дані третім особам без згоди
-              суб&apos;єкта даних, за винятком випадків, прямо передбачених
-              чинним законодавством України.
-            </p>
+            <SectionHeading numeral={ROMAN[3]} title={t("section_4.heading")} />
+            <p>{t("section_4.body_p1")}</p>
+            <p className="mt-4">{t("section_4.body_p2")}</p>
           </section>
 
           <section className="border-t border-[#e6d9b8]/60 pt-12 mt-12">
-            <SectionHeading numeral={ROMAN[4]} title="Права користувача" />
-            <p>
-              Відповідно до Закону України «Про захист персональних даних»
-              ви маєте право:
-            </p>
+            <SectionHeading numeral={ROMAN[4]} title={t("section_5.heading")} />
+            <p>{t("section_5.intro")}</p>
             <ul className="mt-5 space-y-3 list-none">
               <li className="flex gap-3">
                 <span className="mt-2 h-1 w-3 flex-none bg-[#e6d9b8]" />
-                <span>отримувати інформацію про обробку ваших даних;</span>
+                <span>{t("section_5.item_1")}</span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-2 h-1 w-3 flex-none bg-[#e6d9b8]" />
-                <span>вимагати доступу до своїх персональних даних;</span>
+                <span>{t("section_5.item_2")}</span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-2 h-1 w-3 flex-none bg-[#e6d9b8]" />
-                <span>вимагати виправлення неточних або неповних даних;</span>
+                <span>{t("section_5.item_3")}</span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-2 h-1 w-3 flex-none bg-[#e6d9b8]" />
-                <span>
-                  вимагати видалення ваших персональних даних із нашої бази;
-                </span>
+                <span>{t("section_5.item_4")}</span>
               </li>
               <li className="flex gap-3">
                 <span className="mt-2 h-1 w-3 flex-none bg-[#e6d9b8]" />
-                <span>
-                  звертатися зі скаргою до Уповноваженого Верховної Ради
-                  України з прав людини.
-                </span>
+                <span>{t("section_5.item_5")}</span>
               </li>
             </ul>
           </section>
 
           <section className="border-t border-[#e6d9b8]/60 pt-12 mt-12">
-            <SectionHeading numeral={ROMAN[5]} title="Обробка звернень" />
+            <SectionHeading numeral={ROMAN[5]} title={t("section_6.heading")} />
             <h3 className="font-display text-xl text-[#1a3d2e]/80 mt-4 mb-3">
-              Як ми відповідаємо на ваші запити
+              {t("section_6.subheading")}
             </h3>
-            <p>
-              З питань обробки персональних даних ви можете звернутися до нас
-              зручним способом — ми прагнемо відповідати у розумні строки та
-              надавати вичерпну інформацію щодо ваших даних. Контактні канали
-              наведені у блоці нижче.
-            </p>
+            <p>{t("section_6.body")}</p>
           </section>
 
           <section className="border-t border-[#e6d9b8]/60 pt-12 mt-12">
-            <SectionHeading numeral={ROMAN[6]} title="Зміни до політики" />
-            <p>
-              Комплекс залишає за собою право періодично оновлювати цю
-              Політику конфіденційності. Нова редакція набуває чинності з
-              моменту її публікації на сайті. Рекомендуємо періодично
-              переглядати цю сторінку, щоб бути обізнаними з актуальними
-              умовами.
-            </p>
+            <SectionHeading numeral={ROMAN[6]} title={t("section_7.heading")} />
+            <p>{t("section_7.body")}</p>
           </section>
         </article>
       </section>
@@ -235,10 +185,10 @@ export default function PrivacyPage() {
       <section className="py-16 bg-[#0f1f18] text-[#f4ecd8]">
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#f4ecd8]/60 mb-4">
-            Контакти
+            {t("contacts.eyebrow")}
           </div>
           <h2 className="font-display text-4xl md:text-5xl text-[#f4ecd8] mb-10">
-            Зв&apos;язок з нами
+            {t("contacts.heading")}
           </h2>
 
           <ul className="space-y-4">
@@ -288,7 +238,7 @@ export default function PrivacyPage() {
             href="/"
             className="inline-block text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e] border-b border-[#1a3d2e]/30 hover:border-[#1a3d2e] pb-1 transition-colors"
           >
-            Повернутись на головну
+            {t("back_home")}
           </Link>
         </div>
       </section>
