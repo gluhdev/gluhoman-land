@@ -42,8 +42,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'layout' });
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gluhoman.com.ua";
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://gluhoman.com.ua"),
+    metadataBase: new URL(base),
+    alternates: {
+      canonical: locale === 'uk' ? '/' : '/en',
+      languages: {
+        uk: '/',
+        en: '/en',
+        'x-default': '/',
+      },
+    },
     icons: {
       icon: [
         { url: "/favicon.svg", type: "image/svg+xml" },
