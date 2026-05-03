@@ -26,114 +26,36 @@ import {
   Compass,
 } from 'lucide-react';
 import { CONTACT_INFO } from '@/constants';
+import { getTranslations } from 'next-intl/server';
 
-export const metadata: Metadata = {
-  title: 'Готель «Глухомань» — Проживання серед соснового лісу Полтавщини',
-  description:
-    'Готель «Глухомань» у с. Нижні Млини — затишні номери серед соснового лісу, авторська кухня, SPA та тиша природи. Ідеальне місце для відпочинку на Полтавщині.',
-  keywords:
-    'готель глухомань, проживання полтава, готель нижні млини, відпочинок полтавська область, номери, бронювання готелю',
-  openGraph: {
-    title: 'Готель «Глухомань» — Проживання серед соснового лісу Полтавщини',
-    description:
-      'Затишні номери серед соснового лісу, авторська кухня та тиша природи — ваш ідеальний відпочинок у Глухомані.',
-    type: 'website',
-    locale: 'uk_UA',
-    images: [
-      {
-        url: '/og-hotel.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Готель Глухомань',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Готель «Глухомань» — Проживання серед природи',
-    description:
-      'Затишні номери, авторська кухня та тиша природи у с. Нижні Млини.',
-    images: ['/og-hotel.jpg'],
-  },
-};
-
-const hotelJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Hotel',
-  name: 'Готель Глухомань',
-  description:
-    'Готель у рекреаційному комплексі «Глухомань» — комфортні номери серед природи Полтавщини, з авторською кухнею, SPA та аквапарком.',
-  image: [
-    'https://gluhoman.com.ua/images/9.jpg',
-    'https://gluhoman.com.ua/images/restaurant/hall_floor1_rustic_wide.jpg',
-    'https://gluhoman.com.ua/images/restaurant/balcony_floor2_wooden_furniture.jpg',
-  ],
-  address: {
-    '@type': 'PostalAddress',
-    addressCountry: 'UA',
-    addressRegion: 'Полтавська область',
-    addressLocality: 'с. Нижні Млини',
-    streetAddress: 'с. Нижні Млини',
-  },
-  telephone: CONTACT_INFO.phone[0],
-  priceRange: '$$',
-  starRating: { '@type': 'Rating', ratingValue: '4' },
-  checkinTime: '14:00',
-  checkoutTime: '12:00',
-  amenityFeature: [
-    { '@type': 'LocationFeatureSpecification', name: 'Безкоштовний Wi-Fi', value: true },
-    { '@type': 'LocationFeatureSpecification', name: 'Безкоштовна парковка', value: true },
-    { '@type': 'LocationFeatureSpecification', name: 'Сніданок', value: true },
-    { '@type': 'LocationFeatureSpecification', name: 'Трансфер', value: true },
-    { '@type': 'LocationFeatureSpecification', name: 'Дитяча кімната', value: true },
-    { '@type': 'LocationFeatureSpecification', name: 'Ресторан', value: true },
-    { '@type': 'LocationFeatureSpecification', name: 'SPA', value: true },
-  ],
-  makesOffer: [
-    {
-      '@type': 'Offer',
-      name: 'Номер «Стандарт»',
-      description: 'Затишний номер для двох з краєвидом на ліс. 22 м², двоспальне ліжко.',
-      priceCurrency: 'UAH',
-      availability: 'https://schema.org/InStock',
-      priceSpecification: { '@type': 'PriceSpecification', priceCurrency: 'UAH', description: 'За запитом' },
-      itemOffered: {
-        '@type': 'HotelRoom',
-        name: 'Стандарт',
-        occupancy: { '@type': 'QuantitativeValue', maxValue: 2 },
-        bed: { '@type': 'BedDetails', typeOfBed: 'Двоспальне', numberOfBeds: 1 },
-      },
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('hotel.meta');
+  return {
+    title: t('title'),
+    description: t('description'),
+    keywords: t('keywords'),
+    openGraph: {
+      title: t('og_title'),
+      description: t('og_description'),
+      type: 'website',
+      locale: 'uk_UA',
+      images: [
+        {
+          url: '/og-hotel.jpg',
+          width: 1200,
+          height: 630,
+          alt: t('og_image_alt'),
+        },
+      ],
     },
-    {
-      '@type': 'Offer',
-      name: 'Номер «Сімейний»',
-      description: 'Простора кімната для всієї родини. 36 м², двоспальне + диван.',
-      priceCurrency: 'UAH',
-      availability: 'https://schema.org/InStock',
-      priceSpecification: { '@type': 'PriceSpecification', priceCurrency: 'UAH', description: 'За запитом' },
-      itemOffered: {
-        '@type': 'HotelRoom',
-        name: 'Сімейний',
-        occupancy: { '@type': 'QuantitativeValue', maxValue: 4 },
-        bed: { '@type': 'BedDetails', typeOfBed: 'Двоспальне + диван', numberOfBeds: 2 },
-      },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('twitter_title'),
+      description: t('twitter_description'),
+      images: ['/og-hotel.jpg'],
     },
-    {
-      '@type': 'Offer',
-      name: 'Номер «Люкс»',
-      description: 'Преміум-номер з окремою вітальнею і балконом. 55 м², king-size.',
-      priceCurrency: 'UAH',
-      availability: 'https://schema.org/InStock',
-      priceSpecification: { '@type': 'PriceSpecification', priceCurrency: 'UAH', description: 'За запитом' },
-      itemOffered: {
-        '@type': 'HotelRoom',
-        name: 'Люкс',
-        occupancy: { '@type': 'QuantitativeValue', maxValue: 2 },
-        bed: { '@type': 'BedDetails', typeOfBed: 'King-size', numberOfBeds: 1 },
-      },
-    },
-  ],
-};
+  };
+}
 
 const SHAPES = [
   '58% 42% 63% 37% / 45% 55% 45% 55%',
@@ -143,104 +65,180 @@ const SHAPES = [
 
 const ROTS = ['-2deg', '1.5deg', '-1deg'];
 
-const features = [
-  {
-    icon: Leaf,
-    title: 'Природа',
-    italic: 'серед сосен',
-    text: 'Сосновий ліс, чисте повітря й тиша за вікном номера.',
-  },
-  {
-    icon: Bed,
-    title: 'Комфорт',
-    italic: 'до дрібниць',
-    text: 'Ортопедичні матраци, лляна постіль і все необхідне для сну.',
-  },
-  {
-    icon: UtensilsCrossed,
-    title: 'Кухня',
-    italic: 'авторська',
-    text: 'Ресторан комплексу — українські страви з локальних продуктів.',
-  },
-  {
-    icon: NavIcon,
-    title: 'Розташування',
-    italic: '10 км від Полтави',
-    text: 'Зручний під’їзд, безкоштовна парковка та трансфер на замовлення.',
-  },
-];
-
-const rooms = [
-  {
-    type: 'Стандарт',
-    italicSub: 'для двох',
-    image: '/images/9.jpg',
-    guests: 'до 2 осіб',
-    size: '22 м²',
-    description:
-      'Затишний номер для двох з краєвидом на сосновий ліс. Усе необхідне для тихого відпочинку вдвох.',
-    features: [
-      'Двоспальне ліжко',
-      'Краєвид на сосновий ліс',
-      'Wi-Fi, ТВ, фен',
-      'Ванна кімната з душем',
-    ],
-  },
-  {
-    type: 'Сімейний',
-    italicSub: 'для родини',
-    image: '/images/restaurant/hall_floor1_rustic_wide.jpg',
-    guests: 'до 4 осіб',
-    size: '36 м²',
-    description:
-      'Простора кімната для всієї родини з окремим спальним місцем для дітей та дитячим ліжечком за запитом.',
-    features: [
-      'Двоспальне ліжко + диван',
-      'До 4 осіб',
-      'Дитяче ліжечко за запитом',
-      'Мінібар, ванна, ТВ',
-    ],
-  },
-  {
-    type: 'Люкс',
-    italicSub: 'преміум',
-    image: '/images/restaurant/balcony_floor2_wooden_furniture.jpg',
-    guests: 'до 2 осіб',
-    size: '55 м²',
-    description:
-      'Преміум-номер з окремою вітальнею, балконом та гідромасажною ванною — вищий рівень усамітнення.',
-    features: [
-      'King-size ліжко',
-      'Гідромасажна ванна',
-      'Балкон із краєвидом',
-      'Кавомашина та сніданок у номер',
-    ],
-  },
-];
-
-const atmospherePhotos = [
-  { src: '/images/9.jpg', alt: 'Готель Глухомань — фасад' },
-  { src: '/images/33.jpg', alt: "Інтер'єр номера" },
-  { src: '/images/restaurant/hall_fireplace_balcony.jpg', alt: 'Камін та балкон' },
-  { src: '/images/restaurant/balcony_floor2_wooden_furniture.jpg', alt: "Балкон з дерев'яними меблями" },
-  { src: '/images/restaurant/exterior_summer_terrace_water.jpg', alt: 'Тераса біля води' },
-  { src: '/images/restaurant/decor_photozone_green_hedge.jpg', alt: 'Зелена альтанка' },
-];
-
-const amenities = [
-  { icon: Wifi, label: 'Wi-Fi', hint: 'На всій території' },
-  { icon: Car, label: 'Парковка', hint: 'Безкоштовна, під охороною' },
-  { icon: Coffee, label: 'Сніданок', hint: 'Щоранку у ресторані' },
-  { icon: NavIcon, label: 'Трансфер', hint: 'З Полтави, за запитом' },
-  { icon: Baby, label: 'Дитяча кімната', hint: 'Ігрова зона для малечі' },
-];
-
 export default async function HotelPage() {
+  const t = await getTranslations('hotel');
   const heroImage = await getImage('hotel.hero.image', '/images/9.jpg');
   const heroSubtitle = await getText(
     'hotel.hero.subtitle',
-    'Затишні номери серед соснового лісу Полтавщини, авторська кухня й тиша природи — місце, де час нарешті уповільнюється.'
+    t('hero.subtitle')
   );
+
+  const hotelJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Hotel',
+    name: t('jsonld.hotel_name'),
+    description: t('jsonld.hotel_description'),
+    image: [
+      'https://gluhoman.com.ua/images/9.jpg',
+      'https://gluhoman.com.ua/images/restaurant/hall_floor1_rustic_wide.jpg',
+      'https://gluhoman.com.ua/images/restaurant/balcony_floor2_wooden_furniture.jpg',
+    ],
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'UA',
+      addressRegion: t('jsonld.address_region'),
+      addressLocality: t('jsonld.address_locality'),
+      streetAddress: t('jsonld.street_address'),
+    },
+    telephone: CONTACT_INFO.phone[0],
+    priceRange: '$$',
+    starRating: { '@type': 'Rating', ratingValue: '4' },
+    checkinTime: '14:00',
+    checkoutTime: '12:00',
+    amenityFeature: [
+      { '@type': 'LocationFeatureSpecification', name: t('jsonld.amenity_wifi'), value: true },
+      { '@type': 'LocationFeatureSpecification', name: t('jsonld.amenity_parking'), value: true },
+      { '@type': 'LocationFeatureSpecification', name: t('jsonld.amenity_breakfast'), value: true },
+      { '@type': 'LocationFeatureSpecification', name: t('jsonld.amenity_transfer'), value: true },
+      { '@type': 'LocationFeatureSpecification', name: t('jsonld.amenity_kids'), value: true },
+      { '@type': 'LocationFeatureSpecification', name: t('jsonld.amenity_restaurant'), value: true },
+      { '@type': 'LocationFeatureSpecification', name: t('jsonld.amenity_spa'), value: true },
+    ],
+    makesOffer: [
+      {
+        '@type': 'Offer',
+        name: t('jsonld.room_standard_offer_name'),
+        description: t('jsonld.room_standard_offer_description'),
+        priceCurrency: 'UAH',
+        availability: 'https://schema.org/InStock',
+        priceSpecification: { '@type': 'PriceSpecification', priceCurrency: 'UAH', description: t('jsonld.price_on_request') },
+        itemOffered: {
+          '@type': 'HotelRoom',
+          name: t('jsonld.room_standard_name'),
+          occupancy: { '@type': 'QuantitativeValue', maxValue: 2 },
+          bed: { '@type': 'BedDetails', typeOfBed: t('jsonld.room_standard_bed'), numberOfBeds: 1 },
+        },
+      },
+      {
+        '@type': 'Offer',
+        name: t('jsonld.room_family_offer_name'),
+        description: t('jsonld.room_family_offer_description'),
+        priceCurrency: 'UAH',
+        availability: 'https://schema.org/InStock',
+        priceSpecification: { '@type': 'PriceSpecification', priceCurrency: 'UAH', description: t('jsonld.price_on_request') },
+        itemOffered: {
+          '@type': 'HotelRoom',
+          name: t('jsonld.room_family_name'),
+          occupancy: { '@type': 'QuantitativeValue', maxValue: 4 },
+          bed: { '@type': 'BedDetails', typeOfBed: t('jsonld.room_family_bed'), numberOfBeds: 2 },
+        },
+      },
+      {
+        '@type': 'Offer',
+        name: t('jsonld.room_lux_offer_name'),
+        description: t('jsonld.room_lux_offer_description'),
+        priceCurrency: 'UAH',
+        availability: 'https://schema.org/InStock',
+        priceSpecification: { '@type': 'PriceSpecification', priceCurrency: 'UAH', description: t('jsonld.price_on_request') },
+        itemOffered: {
+          '@type': 'HotelRoom',
+          name: t('jsonld.room_lux_name'),
+          occupancy: { '@type': 'QuantitativeValue', maxValue: 2 },
+          bed: { '@type': 'BedDetails', typeOfBed: t('jsonld.room_lux_bed'), numberOfBeds: 1 },
+        },
+      },
+    ],
+  };
+
+  const features = [
+    {
+      icon: Leaf,
+      title: t('features.nature_title'),
+      italic: t('features.nature_italic'),
+      text: t('features.nature_text'),
+    },
+    {
+      icon: Bed,
+      title: t('features.comfort_title'),
+      italic: t('features.comfort_italic'),
+      text: t('features.comfort_text'),
+    },
+    {
+      icon: UtensilsCrossed,
+      title: t('features.cuisine_title'),
+      italic: t('features.cuisine_italic'),
+      text: t('features.cuisine_text'),
+    },
+    {
+      icon: NavIcon,
+      title: t('features.location_title'),
+      italic: t('features.location_italic'),
+      text: t('features.location_text'),
+    },
+  ];
+
+  const rooms = [
+    {
+      type: t('rooms.standard_type'),
+      italicSub: t('rooms.standard_italic'),
+      image: '/images/9.jpg',
+      guests: t('rooms.standard_guests'),
+      size: t('rooms.standard_size'),
+      description: t('rooms.standard_description'),
+      features: [
+        t('rooms.standard_feat_1'),
+        t('rooms.standard_feat_2'),
+        t('rooms.standard_feat_3'),
+        t('rooms.standard_feat_4'),
+      ],
+    },
+    {
+      type: t('rooms.family_type'),
+      italicSub: t('rooms.family_italic'),
+      image: '/images/restaurant/hall_floor1_rustic_wide.jpg',
+      guests: t('rooms.family_guests'),
+      size: t('rooms.family_size'),
+      description: t('rooms.family_description'),
+      features: [
+        t('rooms.family_feat_1'),
+        t('rooms.family_feat_2'),
+        t('rooms.family_feat_3'),
+        t('rooms.family_feat_4'),
+      ],
+    },
+    {
+      type: t('rooms.lux_type'),
+      italicSub: t('rooms.lux_italic'),
+      image: '/images/restaurant/balcony_floor2_wooden_furniture.jpg',
+      guests: t('rooms.lux_guests'),
+      size: t('rooms.lux_size'),
+      description: t('rooms.lux_description'),
+      features: [
+        t('rooms.lux_feat_1'),
+        t('rooms.lux_feat_2'),
+        t('rooms.lux_feat_3'),
+        t('rooms.lux_feat_4'),
+      ],
+    },
+  ];
+
+  const atmospherePhotos = [
+    { src: '/images/9.jpg', alt: t('gallery.photo_1_alt') },
+    { src: '/images/33.jpg', alt: t('gallery.photo_2_alt') },
+    { src: '/images/restaurant/hall_fireplace_balcony.jpg', alt: t('gallery.photo_3_alt') },
+    { src: '/images/restaurant/balcony_floor2_wooden_furniture.jpg', alt: t('gallery.photo_4_alt') },
+    { src: '/images/restaurant/exterior_summer_terrace_water.jpg', alt: t('gallery.photo_5_alt') },
+    { src: '/images/restaurant/decor_photozone_green_hedge.jpg', alt: t('gallery.photo_6_alt') },
+  ];
+
+  const amenities = [
+    { icon: Wifi, label: t('amenities.wifi_label'), hint: t('amenities.wifi_hint') },
+    { icon: Car, label: t('amenities.parking_label'), hint: t('amenities.parking_hint') },
+    { icon: Coffee, label: t('amenities.breakfast_label'), hint: t('amenities.breakfast_hint') },
+    { icon: NavIcon, label: t('amenities.transfer_label'), hint: t('amenities.transfer_hint') },
+    { icon: Baby, label: t('amenities.kids_label'), hint: t('amenities.kids_hint') },
+  ];
+
   return (
     <div className="bg-[#faf6ec]">
       <Script id="hotel-jsonld" type="application/ld+json" strategy="afterInteractive">
@@ -251,7 +249,7 @@ export default async function HotelPage() {
       <section id="hero-section" className="hero-section relative min-h-[90svh] flex items-center justify-center overflow-clip bg-[#0b1410]">
         <Image
           src={heroImage}
-          alt="Готель Глухомань серед соснового лісу"
+          alt={t('hero.image_alt')}
           fill
           priority
           quality={85}
@@ -265,11 +263,11 @@ export default async function HotelPage() {
 
         <div className="relative z-10 max-w-5xl px-6 text-center text-[#f4ecd8]">
           <p className="text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8] mb-6">
-            <EditableText k="hotel.hero.eyebrow" fallback="Проживання · I" as="span" />
+            <EditableText k="hotel.hero.eyebrow" fallback={t('hero.eyebrow')} as="span" />
           </p>
           <h1 className="font-display text-5xl md:text-8xl leading-[0.9] mb-8">
-            <EditableText k="hotel.hero.title" fallback="Готель" as="span" />
-            <span className="block italic text-[#e6d9b8] mt-2">«Глухомань»</span>
+            <EditableText k="hotel.hero.title" fallback={t('hero.title')} as="span" />
+            <span className="block italic text-[#e6d9b8] mt-2">{t('hero.brand')}</span>
           </h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto text-[#f4ecd8]/80 mb-10 font-light leading-relaxed">
             {heroSubtitle}
@@ -278,7 +276,7 @@ export default async function HotelPage() {
             service="hotel"
             className="inline-flex items-center justify-center gap-3 bg-[#e6d9b8] text-[#0f1f18] px-8 sm:px-10 py-4 font-medium tracking-wide hover:bg-[#f4ecd8] transition-colors min-h-[44px]"
           >
-            Забронювати номер <ArrowUpRight className="w-4 h-4" />
+            {t('hero.cta')} <ArrowUpRight className="w-4 h-4" />
           </BookingButton>
         </div>
       </section>
@@ -289,23 +287,19 @@ export default async function HotelPage() {
           <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70 font-medium mb-6">
-                II · Про готель
+                {t('story.eyebrow')}
               </p>
               <h2 className="font-display text-5xl md:text-6xl leading-[0.95] text-[#1a3d2e] mb-4">
-                Тиша, що лікує.
+                {t('story.title')}
               </h2>
               <p className="font-display italic text-3xl md:text-4xl text-[#1a3d2e]/70 mb-8">
-                І стеля з дерева над головою.
+                {t('story.title_italic')}
               </p>
               <p className="text-[#0f1f18]/75 leading-relaxed mb-4">
-                Ми збудували цей готель як притулок для тих, хто втомився від міста.
-                Номери ховаються серед сосен, вікна відчиняються у ліс, а зранку вас
-                будить не будильник, а світло крізь шторки й щебет птахів.
+                {t('story.body_1')}
               </p>
               <p className="text-[#0f1f18]/75 leading-relaxed">
-                Усі матеріали — натуральні. Усі дрібниці — продумані. А все, що вам
-                знадобиться, — уже чекає в межах кількох хвилин пішки: ресторан,
-                аквапарк, сауни й озеро.
+                {t('story.body_2')}
               </p>
             </div>
 
@@ -342,22 +336,19 @@ export default async function HotelPage() {
           <div className="grid md:grid-cols-2 gap-14 md:gap-20">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8] font-medium mb-6">
-                Спадщина · Глухомань
+                {t('heritage.eyebrow')}
               </p>
               <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mb-3">
-                Місце з історією
+                {t('heritage.title')}
               </h2>
               <p className="font-display italic text-3xl md:text-4xl text-[#e6d9b8] mb-8">
-                на Полтавщині.
+                {t('heritage.title_italic')}
               </p>
               <p className="text-[#f4ecd8]/75 leading-relaxed mb-4">
-                Усе починалося зі старого фермерського будинку серед соснового лісу.
-                Крок за кроком, рік за роком, «Глухомань» перетворювалася з тихого
-                сімейного проєкту на повноцінний рекреаційний комплекс.
+                {t('heritage.body_1')}
               </p>
               <p className="text-[#f4ecd8]/75 leading-relaxed">
-                Ми зберегли головне — відчуття домашньої тиші, запах смоли й те
-                особливе світло, що буває лише у сосновому лісі під вечір.
+                {t('heritage.body_2')}
               </p>
             </div>
 
@@ -365,23 +356,23 @@ export default async function HotelPage() {
               {[
                 {
                   year: '2012',
-                  title: 'Початок',
-                  text: 'Заснування комплексу на місці старого фермерського будинку. Перший ресторан відкриває двері.',
+                  title: t('heritage.year_2012_title'),
+                  text: t('heritage.year_2012_text'),
                 },
                 {
                   year: '2016',
-                  title: 'Готель і конюшні',
-                  text: 'Побудовано готель на 20 номерів. Разом з ним — конюшні і прогулянковий маршрут навколо ставка.',
+                  title: t('heritage.year_2016_title'),
+                  text: t('heritage.year_2016_text'),
                 },
                 {
                   year: '2019',
-                  title: 'Аквапарк',
-                  text: 'Відкриття аквапарку. Комплекс стає повноцінним рекреаційним місцем для сімейного відпочинку.',
+                  title: t('heritage.year_2019_title'),
+                  text: t('heritage.year_2019_text'),
                 },
                 {
                   year: '2023',
-                  title: 'Лазня і пивоварня',
-                  text: '«Глухомань» стає одним з найкращих відпочинкових місць Полтавщини — з власною лазнею на дровах і пивоварнею.',
+                  title: t('heritage.year_2023_title'),
+                  text: t('heritage.year_2023_text'),
                 },
               ].map((item, i, arr) => (
                 <li
@@ -413,13 +404,13 @@ export default async function HotelPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-20">
             <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8] font-medium mb-5">
-              III · Номери
+              {t('rooms.eyebrow')}
             </p>
             <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mb-3">
-              Три настрої.
+              {t('rooms.title')}
             </h2>
             <p className="font-display italic text-3xl md:text-4xl text-[#e6d9b8]">
-              Одна тиша для всіх.
+              {t('rooms.title_italic')}
             </p>
           </div>
 
@@ -435,7 +426,7 @@ export default async function HotelPage() {
                 >
                   <Image
                     src={room.image}
-                    alt={`Номер ${room.type}`}
+                    alt={t('rooms.img_alt', { type: room.type })}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     placeholder="blur"
@@ -445,7 +436,7 @@ export default async function HotelPage() {
                 </div>
 
                 <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]/70 mb-2">
-                  Номер · {['I', 'II', 'III'][i]}
+                  {t('rooms.room_label', { numeral: ['I', 'II', 'III'][i] })}
                 </p>
                 <h3 className="font-display text-4xl text-[#f4ecd8] leading-none mb-1">
                   {room.type}
@@ -483,7 +474,7 @@ export default async function HotelPage() {
                   service="hotel"
                   className="mt-auto inline-flex items-center gap-2 self-start border-b border-[#e6d9b8]/50 pb-1 text-[12px] uppercase tracking-[0.22em] text-[#e6d9b8] hover:border-[#e6d9b8] transition-colors"
                 >
-                  Забронювати <ArrowUpRight className="w-3.5 h-3.5" />
+                  {t('rooms.cta')} <ArrowUpRight className="w-3.5 h-3.5" />
                 </BookingButton>
               </article>
             ))}
@@ -496,13 +487,13 @@ export default async function HotelPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-16">
             <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70 font-medium mb-5">
-              IV · Зручності
+              {t('amenities.eyebrow')}
             </p>
             <h2 className="font-display text-5xl md:text-6xl leading-[0.95] text-[#1a3d2e] mb-3">
-              Усе поруч.
+              {t('amenities.title')}
             </h2>
             <p className="font-display italic text-3xl md:text-4xl text-[#1a3d2e]/70">
-              Нічого зайвого.
+              {t('amenities.title_italic')}
             </p>
           </div>
 
@@ -535,13 +526,13 @@ export default async function HotelPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-14">
             <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70 font-medium mb-5">
-              Заселення
+              {t('checkin.eyebrow')}
             </p>
             <h2 className="font-display text-5xl md:text-6xl leading-[0.95] text-[#1a3d2e] mb-3">
-              Чекінг з душею.
+              {t('checkin.title')}
             </h2>
             <p className="font-display italic text-3xl md:text-4xl text-[#1a3d2e]/70">
-              Перші хвилини на місці.
+              {t('checkin.title_italic')}
             </p>
           </div>
 
@@ -549,27 +540,27 @@ export default async function HotelPage() {
             {[
               {
                 icon: Coffee,
-                title: 'Привітальний напій',
-                italic: 'на терасі',
-                text: 'Чашка трав’яного чаю або домашній узвар — з дороги, на терасі біля ставка.',
+                title: t('checkin.welcome_title'),
+                italic: t('checkin.welcome_italic'),
+                text: t('checkin.welcome_text'),
               },
               {
                 icon: Compass,
-                title: 'Екскурсія',
-                italic: 'територією',
-                text: 'Після заселення проведемо коротку прогулянку й покажемо ключові місця комплексу.',
+                title: t('checkin.tour_title'),
+                italic: t('checkin.tour_italic'),
+                text: t('checkin.tour_text'),
               },
               {
                 icon: MapPin,
-                title: 'Карта',
-                italic: 'і поради',
-                text: 'Карта території, маршрути для прогулянок і рекомендації від команди готелю.',
+                title: t('checkin.map_title'),
+                italic: t('checkin.map_italic'),
+                text: t('checkin.map_text'),
               },
               {
                 icon: Car,
-                title: 'Трансфер',
-                italic: 'від парковки',
-                text: 'Допоможемо з багажем від парковки до номера — за першим запитом.',
+                title: t('checkin.transfer_title'),
+                italic: t('checkin.transfer_italic'),
+                text: t('checkin.transfer_text'),
               },
             ].map((item) => {
               const Icon = item.icon;
@@ -600,13 +591,13 @@ export default async function HotelPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8] font-medium mb-5">
-              V · Атмосфера
+              {t('gallery.eyebrow')}
             </p>
             <h2 className="font-display text-5xl md:text-6xl leading-[0.95] text-[#f4ecd8] mb-3">
-              Як виглядає готель.
+              {t('gallery.title')}
             </h2>
             <p className="font-display italic text-3xl md:text-4xl text-[#e6d9b8]">
-              Кімнати, балкони, ліс.
+              {t('gallery.title_italic')}
             </p>
           </div>
 
@@ -624,39 +615,36 @@ export default async function HotelPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8] font-medium mb-5">
-              Відгуки
+              {t('testimonials.eyebrow')}
             </p>
             <h2 className="font-display text-5xl md:text-6xl leading-[0.95] mb-3">
-              Голоси наших гостей.
+              {t('testimonials.title')}
             </h2>
             <p className="font-display italic text-3xl md:text-4xl text-[#e6d9b8]">
-              Коротко й щиро.
+              {t('testimonials.title_italic')}
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 md:gap-10">
             {[
               {
-                quote:
-                  'Повернулися додому і досі сняться звуки води і шум сосен. Номер «Люкс» з балконом — це місце, куди хочеться повертатися.',
-                name: 'Ірина',
-                city: 'Київ',
+                quote: t('testimonials.review_1_quote'),
+                name: t('testimonials.review_1_name'),
+                city: t('testimonials.review_1_city'),
               },
               {
-                quote:
-                  'Дітям сподобався аквапарк, нам — лазня і тиша ввечері на терасі біля ставка. Сімейний номер просторий, з усім необхідним.',
-                name: 'Олексій і Марія',
-                city: 'Харків',
+                quote: t('testimonials.review_2_quote'),
+                name: t('testimonials.review_2_name'),
+                city: t('testimonials.review_2_city'),
               },
               {
-                quote:
-                  'Приїхали на одну ніч — залишилися на три. Ресторан з українською піччю — окрема історія. Повернемося обов’язково.',
-                name: 'Наталія',
-                city: 'Дніпро',
+                quote: t('testimonials.review_3_quote'),
+                name: t('testimonials.review_3_name'),
+                city: t('testimonials.review_3_city'),
               },
-            ].map((t) => (
+            ].map((review) => (
               <figure
-                key={t.name}
+                key={review.name}
                 className="bg-[#faf6ec] text-[#0f1f18] p-6 sm:p-10 md:p-12 flex flex-col"
               >
                 <div className="flex items-center gap-1 mb-6">
@@ -669,11 +657,11 @@ export default async function HotelPage() {
                   ))}
                 </div>
                 <blockquote className="font-display italic text-2xl md:text-[26px] leading-snug text-[#1a3d2e] mb-8">
-                  «{t.quote}»
+                  «{review.quote}»
                 </blockquote>
                 <figcaption className="mt-auto">
                   <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70">
-                    {t.name} · {t.city}
+                    {review.name} · {review.city}
                   </p>
                 </figcaption>
               </figure>
@@ -688,18 +676,16 @@ export default async function HotelPage() {
           <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70 font-medium mb-5">
-                VI · Як дістатися
+                {t('location.eyebrow')}
               </p>
               <h2 className="font-display text-5xl md:text-6xl leading-[0.95] text-[#1a3d2e] mb-3">
-                10 хвилин
+                {t('location.title')}
               </h2>
               <p className="font-display italic text-3xl md:text-4xl text-[#1a3d2e]/70 mb-8">
-                від центру Полтави.
+                {t('location.title_italic')}
               </p>
               <p className="text-[#0f1f18]/75 leading-relaxed mb-8">
-                Ми ховаємось у селі Нижні Млини, лише за 10 км від Полтави.
-                Дорога зручна у будь-яку пору року, на території — безкоштовна
-                парковка, а за потреби організуємо трансфер.
+                {t('location.body')}
               </p>
 
               <div className="flex items-start gap-3 text-[#1a3d2e] mb-2">
@@ -724,7 +710,7 @@ export default async function HotelPage() {
             >
               <Image
                 src="/images/restaurant/exterior_summer_terrace_water.jpg"
-                alt="Розташування Глухомань"
+                alt={t('location.map_img_alt')}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 placeholder="blur"
@@ -734,9 +720,9 @@ export default async function HotelPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#0b1410]/70 via-transparent to-transparent" />
               <div className="absolute bottom-8 left-8 right-8 text-[#f4ecd8]">
                 <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8] mb-1">
-                  Полтавщина
+                  {t('location.region_label')}
                 </p>
-                <p className="font-display italic text-3xl">с. Нижні Млини</p>
+                <p className="font-display italic text-3xl">{t('location.village_label')}</p>
               </div>
             </div>
           </div>
@@ -748,13 +734,13 @@ export default async function HotelPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-16">
             <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70 font-medium mb-5">
-              Навколо
+              {t('nearby.eyebrow')}
             </p>
             <h2 className="font-display text-5xl md:text-6xl leading-[0.95] text-[#1a3d2e] mb-3">
-              Що поруч.
+              {t('nearby.title')}
             </h2>
             <p className="font-display italic text-3xl md:text-4xl text-[#1a3d2e]/70">
-              На день, на пів дня, на прогулянку.
+              {t('nearby.title_italic')}
             </p>
           </div>
 
@@ -762,31 +748,31 @@ export default async function HotelPage() {
             {[
               {
                 icon: MapPin,
-                distance: '10 км',
-                time: '15 хв',
-                name: 'Полтава',
-                text: 'Обласний центр з музеями, Круглою площею, галереями й затишними кав’ярнями старого міста.',
+                distance: t('nearby.poltava_distance'),
+                time: t('nearby.poltava_time'),
+                name: t('nearby.poltava_name'),
+                text: t('nearby.poltava_text'),
               },
               {
                 icon: Camera,
-                distance: '18 км',
-                time: '25 хв',
-                name: 'Диканька',
-                text: 'Історичне село — Тріумфальна арка, гоголівські місця й тихі алеї старого парку.',
+                distance: t('nearby.dykanka_distance'),
+                time: t('nearby.dykanka_time'),
+                name: t('nearby.dykanka_name'),
+                text: t('nearby.dykanka_text'),
               },
               {
                 icon: History,
-                distance: '15 км',
-                time: '20 хв',
-                name: 'Полтавська битва',
-                text: 'Музей-заповідник поля Полтавської битви 1709 року — просторе місце для прогулянки і роздумів.',
+                distance: t('nearby.battle_distance'),
+                time: t('nearby.battle_time'),
+                name: t('nearby.battle_name'),
+                text: t('nearby.battle_text'),
               },
               {
                 icon: Compass,
-                distance: '30 км',
-                time: '35 хв',
-                name: 'Опішне',
-                text: 'Центр народної кераміки: музей українського гончарства, живі майстерні й приватні гончарні.',
+                distance: t('nearby.opishne_distance'),
+                time: t('nearby.opishne_time'),
+                name: t('nearby.opishne_name'),
+                text: t('nearby.opishne_text'),
               },
             ].map((item) => {
               const Icon = item.icon;
@@ -800,7 +786,7 @@ export default async function HotelPage() {
                     {item.distance}
                   </p>
                   <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 mt-2 mb-5">
-                    {item.time} їзди
+                    {item.time} {t('nearby.drive_suffix')}
                   </p>
                   <p className="font-display italic text-2xl text-[#1a3d2e] mb-3">
                     {item.name}
@@ -819,23 +805,22 @@ export default async function HotelPage() {
       <section className="py-28 md:py-36 bg-[#0f1f18] text-[#f4ecd8] relative overflow-hidden">
         <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
           <p className="text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8] mb-6">
-            VII · Запрошуємо
+            {t('cta.eyebrow')}
           </p>
           <h2 className="font-display text-5xl md:text-8xl leading-[0.9] mb-6">
-            Готові відпочити?
+            {t('cta.title')}
           </h2>
           <p className="font-display italic text-3xl md:text-5xl text-[#e6d9b8] mb-10">
-            Ми вже чекаємо.
+            {t('cta.title_italic')}
           </p>
           <p className="max-w-xl mx-auto text-[#f4ecd8]/75 leading-relaxed mb-12">
-            Напишіть нам — і ми підберемо ідеальний номер, підтвердимо бронювання
-            та розкажемо, як краще дістатися. Усе інше вже готове.
+            {t('cta.body')}
           </p>
           <BookingButton
             service="hotel"
             className="inline-flex items-center gap-3 bg-[#e6d9b8] text-[#0f1f18] px-12 py-5 font-medium tracking-wide hover:bg-[#f4ecd8] transition-colors"
           >
-            Забронювати номер <ArrowUpRight className="w-4 h-4" />
+            {t('cta.button')} <ArrowUpRight className="w-4 h-4" />
           </BookingButton>
         </div>
       </section>
