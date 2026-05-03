@@ -1,10 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import { Check, ArrowRight, Home, Phone } from "lucide-react";
+import { useTranslations } from 'next-intl';
+import { Link } from "@/i18n/routing";
+import { Check, ArrowRight, Phone } from "lucide-react";
 import { CONTACT_INFO } from "@/constants";
 
 export function SaunaSuccessClient({ slotId }: { slotId: string }) {
+  const t = useTranslations('booking.sauna');
+  const tc = useTranslations('booking.common');
+
   return (
     <div className="text-center">
       <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#e6d9b8] mb-8">
@@ -12,23 +16,22 @@ export function SaunaSuccessClient({ slotId }: { slotId: string }) {
       </div>
 
       <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e] mb-3">
-        Бронювання прийнято
+        {t('success_eyebrow')}
       </p>
       <h1 className="font-display text-5xl md:text-6xl text-[#1a3d2e] leading-[0.9] mb-6">
-        Дякуємо!
+        {t('success_heading')}
         <span className="block italic text-[#1a3d2e]/70 text-4xl md:text-5xl mt-2">
-          чекаємо на вас
+          {t('success_subheading')}
         </span>
       </h1>
 
       <p className="text-lg text-[#0f1f18]/75 leading-relaxed mb-8 max-w-lg mx-auto">
-        Ваш час заброньовано. Ми підготуємо лазню заздалегідь — натопимо чан,
-        заваримо трав&apos;яні збори і чекатимемо на вас.
+        {t('success_body')}
       </p>
 
       {slotId ? (
         <p className="font-mono text-sm text-[#1a3d2e] bg-[#f4ecd8] border border-[#e6d9b8] px-4 py-3 inline-block mb-10">
-          № бронювання: <span className="font-semibold">{slotId}</span>
+          {t('booking_ref_label')} <span className="font-semibold">{slotId}</span>
         </p>
       ) : null}
 
@@ -45,7 +48,7 @@ export function SaunaSuccessClient({ slotId }: { slotId: string }) {
           className="inline-flex items-center justify-center gap-3 border border-[#1a3d2e] text-[#1a3d2e] px-8 py-4 font-medium tracking-wide hover:bg-[#1a3d2e] hover:text-[#f4ecd8] transition"
         >
           <ArrowRight className="w-4 h-4" />
-          До лазні
+          {t('back_to_sauna')}
         </Link>
       </div>
     </div>

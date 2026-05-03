@@ -1,13 +1,19 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/routing';
 import { XCircle, ArrowRight } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: 'Помилка оплати — Глухомань',
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('booking.sauna');
+  return {
+    title: t('meta_fail_title'),
+    robots: { index: false, follow: false },
+  };
+}
 
-export default function SaunaBookingFailPage() {
+export default async function SaunaBookingFailPage() {
+  const t = await getTranslations('booking.sauna');
+  const tc = await getTranslations('booking.common');
   return (
     <main className="bg-[#faf6ec] min-h-[calc(100vh-6rem)] py-16">
       <div className="container max-w-2xl mx-auto px-6">
@@ -16,16 +22,16 @@ export default function SaunaBookingFailPage() {
             <XCircle className="h-8 w-8 text-red-600" />
           </div>
           <h1 className="font-display text-3xl font-semibold text-[#1a3d2e] mb-3">
-            Оплата не пройшла
+            {tc('payment_failed_heading')}
           </h1>
           <p className="text-sm text-[#1a3d2e]/70 mb-8">
-            Спробуйте ще раз або зв&apos;яжіться з нами.
+            {t('fail_body')}
           </p>
           <Link
             href="/sauna/booking"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e]"
           >
-            Спробувати знову
+            {tc('try_again')}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

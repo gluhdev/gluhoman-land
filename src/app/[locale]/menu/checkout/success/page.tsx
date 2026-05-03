@@ -1,10 +1,14 @@
 import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 import { SuccessClient } from './SuccessClient';
 
-export const metadata: Metadata = {
-  title: 'Замовлення прийнято — Глухомань',
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('booking.menu');
+  return {
+    title: t('meta_success_title'),
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function SuccessPage({
   searchParams,

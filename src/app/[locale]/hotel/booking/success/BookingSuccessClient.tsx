@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { Check, Clock, Phone, Calendar, Bed, Loader2, ArrowRight, Users } from 'lucide-react';
 import { formatPrice } from '@/types/cart';
 import { HotelBooking, ROOM_TYPE_LABEL, getNights } from '@/types/booking';
@@ -10,13 +11,15 @@ const POLL_INTERVAL_MS = 2000;
 const MAX_POLL_MS = 60_000;
 
 export function BookingSuccessClient({ bookingId }: { bookingId: string }) {
+  const t = useTranslations('booking.hotel');
+  const tc = useTranslations('booking.common');
   const [booking, setBooking] = useState<HotelBooking | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pollingTimedOut, setPollingTimedOut] = useState(false);
 
   useEffect(() => {
     if (!bookingId) {
-      setError('Не вказано номер бронювання');
+      setError(t('error_no_id'));
       return;
     }
     let cancelled = false;
@@ -36,14 +39,14 @@ export function BookingSuccessClient({ bookingId }: { bookingId: string }) {
         }
         setTimeout(tick, POLL_INTERVAL_MS);
       } catch {
-        if (!cancelled) setError('Не вдалось завантажити бронювання');
+        if (!cancelled) setError(t('error_load'));
       }
     };
     tick();
     return () => {
       cancelled = true;
     };
-  }, [bookingId]);
+  }, [bookingId, t]);
 
   if (error) {
     return <Card><h1 className="font-display text-2xl font-semibold text-[#1a3d2e]">{error}</h1></Card>;
@@ -52,7 +55,7 @@ export function BookingSuccessClient({ bookingId }: { bookingId: string }) {
     return (
       <Card>
         <Loader2 className="h-10 w-10 text-[#1a3d2e] animate-spin mx-auto mb-4" />
-        <p className="text-[#1a3d2e]/70">Завантажуємо…</p>
+        <p className="text-[#1a3d2e]/70">{tc('loading')}</p>
       </Card>
     );
   }
@@ -64,15 +67,13 @@ export function BookingSuccessClient({ bookingId }: { bookingId: string }) {
           <Clock className="h-8 w-8 text-amber-700" />
         </div>
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55 mb-2">
-          Бронювання №{booking.number}
+          {t('pending_ref', { number: booking.number })}
         </p>
         <h1 className="font-display text-3xl font-semibold text-[#1a3d2e] mb-3">
-          Очікуємо оплату…
+          {tc('payment_pending_heading')}
         </h1>
         <p className="text-sm text-[#1a3d2e]/70 mb-6 max-w-md mx-auto">
-          {pollingTimedOut
-            ? 'Підтвердження ще не надійшло. Якщо ви оплатили — зв\'яжіться з нами.'
-            : 'Перевіряємо статус оплати.'}
+          {pollingTimedOut ? t('pending_timeout') : t('pending_checking')}
         </p>
         {!pollingTimedOut && <Loader2 className="h-6 w-6 text-[#1a3d2e]/40 animate-spin mx-auto" />}
       </Card>
@@ -83,13 +84,13 @@ export function BookingSuccessClient({ bookingId }: { bookingId: string }) {
     return (
       <Card>
         <h1 className="font-display text-3xl font-semibold text-[#1a3d2e] mb-3">
-          Оплата не пройшла
+          {tc('payment_failed_heading')}
         </h1>
         <Link
           href="/hotel/booking"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors"
         >
-          Спробувати знову
+          {tc('try_again')}
         </Link>
       </Card>
     );
@@ -97,19 +98,20 @@ export function BookingSuccessClient({ bookingId }: { bookingId: string }) {
 
   // PAID
   const nights = getNights(booking.checkIn, booking.checkOut);
+  const nightsLabel = nights === 1 ? t('nights_one') : nights < 5 ? t('nights_few') : t('nights_many');
   return (
     <Card>
       <div className="w-16 h-16 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-5">
         <Check className="h-8 w-8 text-emerald-700" strokeWidth={3} />
       </div>
       <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55 mb-2">
-        Бронювання прийнято
+        {tc('booking_accepted_label')}
       </p>
       <h1 className="font-display text-4xl font-semibold text-[#1a3d2e] mb-2">
         №{booking.number}
       </h1>
       <p className="text-sm text-[#1a3d2e]/70 mb-8 max-w-md mx-auto">
-        Дякуємо! Чекаємо на вас{' '}
+        {t('paid_body')}{' '}
         {new Date(booking.checkIn).toLocaleDateString('uk-UA', { dateStyle: 'long' })}.
       </p>
 
@@ -117,21 +119,21 @@ export function BookingSuccessClient({ bookingId }: { bookingId: string }) {
         {booking.room && (
           <SummaryRow
             icon={<Bed className="h-4 w-4" />}
-            label="Номер"
+            label={t('room_label')}
             value={`${booking.room.number} (${ROOM_TYPE_LABEL[booking.room.type] ?? booking.room.type})`}
           />
         )}
         <SummaryRow
           icon={<Calendar className="h-4 w-4" />}
-          label="Заїзд → Виїзд"
-          value={`${new Date(booking.checkIn).toLocaleDateString('uk-UA', { dateStyle: 'medium' })} → ${new Date(booking.checkOut).toLocaleDateString('uk-UA', { dateStyle: 'medium' })} (${nights} ${nights === 1 ? 'ніч' : nights < 5 ? 'ночі' : 'ночей'})`}
+          label={t('checkin_checkout_label')}
+          value={`${new Date(booking.checkIn).toLocaleDateString('uk-UA', { dateStyle: 'medium' })} → ${new Date(booking.checkOut).toLocaleDateString('uk-UA', { dateStyle: 'medium' })} (${nights} ${nightsLabel})`}
         />
-        <SummaryRow icon={<Users className="h-4 w-4" />} label="Гостей" value={booking.guests.toString()} />
-        <SummaryRow icon={<Phone className="h-4 w-4" />} label="Телефон" value={booking.customerPhone} />
+        <SummaryRow icon={<Users className="h-4 w-4" />} label={t('guests_label')} value={booking.guests.toString()} />
+        <SummaryRow icon={<Phone className="h-4 w-4" />} label={tc('phone_label')} value={booking.customerPhone} />
       </div>
 
       <div className="flex items-baseline justify-between border-t border-[#1a3d2e]/10 pt-4 mb-8">
-        <span className="font-display text-base font-semibold text-[#1a3d2e]">До сплати</span>
+        <span className="font-display text-base font-semibold text-[#1a3d2e]">{tc('amount_due_label')}</span>
         <span className="font-display text-2xl font-bold text-[#1a3d2e] tabular-nums">
           {formatPrice(booking.total)}
         </span>
@@ -141,7 +143,7 @@ export function BookingSuccessClient({ bookingId }: { bookingId: string }) {
         href="/"
         className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors"
       >
-        На головну
+        {tc('back_home')}
         <ArrowRight className="h-4 w-4" />
       </Link>
     </Card>

@@ -1,13 +1,19 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/routing';
 import { XCircle, ArrowRight } from 'lucide-react';
 
-export const metadata: Metadata = {
-  title: 'Помилка оплати — Глухомань',
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('booking.aquapark');
+  return {
+    title: t('meta_fail_title'),
+    robots: { index: false, follow: false },
+  };
+}
 
-export default function AquaparkBuyFailPage() {
+export default async function AquaparkBuyFailPage() {
+  const t = await getTranslations('booking.aquapark');
+  const tc = await getTranslations('booking.common');
   return (
     <main className="bg-[#faf6ec] min-h-[calc(100vh-6rem)] py-16">
       <div className="container max-w-2xl mx-auto px-6">
@@ -16,24 +22,24 @@ export default function AquaparkBuyFailPage() {
             <XCircle className="h-8 w-8 text-red-600" />
           </div>
           <h1 className="font-display text-3xl font-semibold text-[#1a3d2e] mb-3">
-            Оплата не пройшла
+            {tc('payment_failed_heading')}
           </h1>
           <p className="text-sm text-[#1a3d2e]/70 mb-8 max-w-md mx-auto">
-            Спробуйте ще раз або зв&apos;яжіться з нами по телефону.
+            {t('fail_body')}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link
               href="/aquapark/buy"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors"
             >
-              Спробувати знову
+              {tc('try_again')}
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="/"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-[#1a3d2e]/20 text-[#1a3d2e] font-semibold text-sm hover:bg-[#1a3d2e]/5 transition-colors"
             >
-              На головну
+              {tc('back_home')}
             </Link>
           </div>
         </div>

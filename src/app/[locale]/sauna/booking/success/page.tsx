@@ -1,10 +1,14 @@
 import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 import { SaunaSuccessClient } from './SaunaSuccessClient';
 
-export const metadata: Metadata = {
-  title: 'Бронювання прийнято — Глухомань',
-  robots: { index: false, follow: false },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('booking.sauna');
+  return {
+    title: t('meta_success_title'),
+    robots: { index: false, follow: false },
+  };
+}
 
 export default async function SaunaBookingSuccessPage({
   searchParams,

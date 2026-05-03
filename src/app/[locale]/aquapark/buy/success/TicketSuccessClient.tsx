@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import {
   Check,
   Clock,
@@ -20,6 +21,8 @@ const POLL_INTERVAL_MS = 2000;
 const MAX_POLL_MS = 60_000;
 
 export function TicketSuccessClient({ ticketId }: { ticketId: string }) {
+  const t = useTranslations('booking.aquapark');
+  const tc = useTranslations('booking.common');
   const [ticket, setTicket] = useState<AquaparkTicket | null>(null);
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +30,7 @@ export function TicketSuccessClient({ ticketId }: { ticketId: string }) {
 
   useEffect(() => {
     if (!ticketId) {
-      setError('Не вказано номер квитка');
+      setError(t('error_no_id'));
       return;
     }
     let cancelled = false;
@@ -47,14 +50,14 @@ export function TicketSuccessClient({ ticketId }: { ticketId: string }) {
         }
         setTimeout(tick, POLL_INTERVAL_MS);
       } catch {
-        if (!cancelled) setError('Не вдалось завантажити квиток');
+        if (!cancelled) setError(t('error_load'));
       }
     };
     tick();
     return () => {
       cancelled = true;
     };
-  }, [ticketId]);
+  }, [ticketId, t]);
 
   // Generate QR data URL when ticket is paid
   useEffect(() => {
@@ -75,7 +78,7 @@ export function TicketSuccessClient({ ticketId }: { ticketId: string }) {
     return (
       <Card>
         <Loader2 className="h-10 w-10 text-[#1a3d2e] animate-spin mx-auto mb-4" />
-        <p className="text-[#1a3d2e]/70">Завантажуємо…</p>
+        <p className="text-[#1a3d2e]/70">{tc('loading')}</p>
       </Card>
     );
   }
@@ -87,15 +90,13 @@ export function TicketSuccessClient({ ticketId }: { ticketId: string }) {
           <Clock className="h-8 w-8 text-amber-700" />
         </div>
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55 mb-2">
-          Квиток №{ticket.number}
+          {t('pending_ref', { number: ticket.number })}
         </p>
         <h1 className="font-display text-3xl font-semibold text-[#1a3d2e] mb-3">
-          Очікуємо оплату…
+          {tc('payment_pending_heading')}
         </h1>
         <p className="text-sm text-[#1a3d2e]/70 mb-6 max-w-md mx-auto">
-          {pollingTimedOut
-            ? 'Підтвердження ще не надійшло. Зв\'яжіться з нами якщо оплатили.'
-            : 'Перевіряємо статус оплати.'}
+          {pollingTimedOut ? t('pending_timeout') : t('pending_checking')}
         </p>
         {!pollingTimedOut && <Loader2 className="h-6 w-6 text-[#1a3d2e]/40 animate-spin mx-auto" />}
       </Card>
@@ -106,13 +107,13 @@ export function TicketSuccessClient({ ticketId }: { ticketId: string }) {
     return (
       <Card>
         <h1 className="font-display text-3xl font-semibold text-[#1a3d2e] mb-3">
-          Оплата не пройшла
+          {tc('payment_failed_heading')}
         </h1>
         <Link
           href="/aquapark/buy"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors"
         >
-          Спробувати знову
+          {tc('try_again')}
         </Link>
       </Card>
     );
@@ -125,13 +126,13 @@ export function TicketSuccessClient({ ticketId }: { ticketId: string }) {
         <Check className="h-8 w-8 text-emerald-700" strokeWidth={3} />
       </div>
       <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55 mb-2">
-        Квиток оплачено
+        {t('paid_eyebrow')}
       </p>
       <h1 className="font-display text-4xl font-semibold text-[#1a3d2e] mb-2">
         №{ticket.number}
       </h1>
       <p className="text-sm text-[#1a3d2e]/70 mb-6 max-w-md mx-auto">
-        Покажіть QR-код на вході в аквапарк{' '}
+        {t('paid_body')}{' '}
         {new Date(ticket.date).toLocaleDateString('uk-UA', { dateStyle: 'long' })}.
       </p>
 
@@ -139,7 +140,7 @@ export function TicketSuccessClient({ ticketId }: { ticketId: string }) {
       {qrDataUrl && (
         <div className="inline-block bg-white p-5 rounded-2xl border-2 border-[#1a3d2e]/15 shadow-lg mb-6">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={qrDataUrl} alt="QR-код квитка" width={280} height={280} />
+          <img src={qrDataUrl} alt={t('qr_alt')} width={280} height={280} />
           <p className="text-[10px] text-[#1a3d2e]/50 font-mono mt-2 break-all">
             {ticket.qrCode}
           </p>
@@ -155,7 +156,7 @@ export function TicketSuccessClient({ ticketId }: { ticketId: string }) {
             className="inline-flex items-center gap-2 text-xs font-semibold text-[#1a3d2e] hover:text-[#0f2a1e] underline underline-offset-4"
           >
             <Download className="h-3 w-3" />
-            Завантажити QR
+            {t('download_qr')}
           </a>
         </div>
       )}
@@ -163,10 +164,10 @@ export function TicketSuccessClient({ ticketId }: { ticketId: string }) {
       <div className="border-t border-[#1a3d2e]/10 pt-6 text-left space-y-3 mb-6">
         <SummaryRow
           icon={<Calendar className="h-4 w-4" />}
-          label="Дата візиту"
+          label={t('visit_date_label')}
           value={new Date(ticket.date).toLocaleDateString('uk-UA', { dateStyle: 'long' })}
         />
-        <SummaryRow icon={<Phone className="h-4 w-4" />} label="Телефон" value={ticket.customerPhone} />
+        <SummaryRow icon={<Phone className="h-4 w-4" />} label={tc('phone_label')} value={ticket.customerPhone} />
       </div>
 
       <ul className="divide-y divide-[#1a3d2e]/10 my-6 text-left">
@@ -184,7 +185,7 @@ export function TicketSuccessClient({ ticketId }: { ticketId: string }) {
       </ul>
 
       <div className="flex items-baseline justify-between border-t border-[#1a3d2e]/10 pt-4 mb-8">
-        <span className="font-display text-base font-semibold text-[#1a3d2e]">Сплачено</span>
+        <span className="font-display text-base font-semibold text-[#1a3d2e]">{tc('paid_label')}</span>
         <span className="font-display text-2xl font-bold text-[#1a3d2e] tabular-nums">
           {formatPrice(ticket.total)}
         </span>
@@ -194,7 +195,7 @@ export function TicketSuccessClient({ ticketId }: { ticketId: string }) {
         href="/"
         className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors"
       >
-        На головну
+        {tc('back_home')}
         <ArrowRight className="h-4 w-4" />
       </Link>
     </Card>

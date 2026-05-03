@@ -5,11 +5,12 @@
  *
  * Why polling: LiqPay sends the callback server-to-server (S2S). It usually arrives
  * within a few seconds, but there's no client signal. Polling is the simplest way
- * to bridge that gap. Stops after 60 seconds with a "перевірте пошту" fallback.
+ * to bridge that gap. Stops after 60 seconds with a "check your email" fallback.
  */
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 import { Check, Clock, Phone, Truck, Store, Loader2, ArrowRight } from 'lucide-react';
 import { formatPrice } from '@/types/cart';
 
@@ -31,13 +32,15 @@ const POLL_INTERVAL_MS = 2000;
 const MAX_POLL_MS = 60_000;
 
 export function SuccessClient({ orderId }: { orderId: string }) {
+  const t = useTranslations('booking.menu');
+  const tc = useTranslations('booking.common');
   const [order, setOrder] = useState<OrderSnapshot | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pollingTimedOut, setPollingTimedOut] = useState(false);
 
   useEffect(() => {
     if (!orderId) {
-      setError('Не вказано номер замовлення');
+      setError(t('error_no_id'));
       return;
     }
     let cancelled = false;
@@ -60,7 +63,7 @@ export function SuccessClient({ orderId }: { orderId: string }) {
         setTimeout(tick, POLL_INTERVAL_MS);
       } catch {
         if (!cancelled) {
-          setError('Не вдалось завантажити замовлення');
+          setError(t('error_load'));
         }
       }
     };
@@ -69,7 +72,7 @@ export function SuccessClient({ orderId }: { orderId: string }) {
     return () => {
       cancelled = true;
     };
-  }, [orderId]);
+  }, [orderId, t]);
 
   if (error) {
     return (
@@ -79,7 +82,7 @@ export function SuccessClient({ orderId }: { orderId: string }) {
           href="/menu"
           className="inline-flex mt-6 items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors"
         >
-          Повернутись до меню
+          {t('back_to_menu_link')}
           <ArrowRight className="h-4 w-4" />
         </Link>
       </Card>
@@ -90,7 +93,7 @@ export function SuccessClient({ orderId }: { orderId: string }) {
     return (
       <Card>
         <Loader2 className="h-10 w-10 text-[#1a3d2e] animate-spin mx-auto mb-4" />
-        <p className="text-[#1a3d2e]/70">Завантажуємо замовлення…</p>
+        <p className="text-[#1a3d2e]/70">{t('loading_order')}</p>
       </Card>
     );
   }
@@ -103,15 +106,13 @@ export function SuccessClient({ orderId }: { orderId: string }) {
           <Clock className="h-8 w-8 text-amber-700" />
         </div>
         <p className="font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55 mb-2">
-          Замовлення №{order.number}
+          {t('pending_ref', { number: order.number })}
         </p>
         <h1 className="font-display text-3xl font-semibold text-[#1a3d2e] mb-3">
-          Очікуємо оплату…
+          {tc('payment_pending_heading')}
         </h1>
         <p className="text-sm text-[#1a3d2e]/70 mb-6 max-w-md mx-auto">
-          {pollingTimedOut
-            ? 'Підтвердження ще не надійшло. Якщо ви оплатили — перевірте пошту або зв\'яжіться з нами.'
-            : 'Перевіряємо статус оплати. Це може зайняти кілька секунд.'}
+          {pollingTimedOut ? t('pending_timeout') : t('pending_checking')}
         </p>
         {!pollingTimedOut && (
           <Loader2 className="h-6 w-6 text-[#1a3d2e]/40 animate-spin mx-auto" />
@@ -124,16 +125,16 @@ export function SuccessClient({ orderId }: { orderId: string }) {
     return (
       <Card>
         <h1 className="font-display text-3xl font-semibold text-[#1a3d2e] mb-3">
-          Оплата не пройшла
+          {tc('payment_failed_heading')}
         </h1>
         <p className="text-sm text-[#1a3d2e]/70 mb-6">
-          Спробуйте ще раз або зв&apos;яжіться з нами по телефону.
+          {t('payment_failed_body_menu')}
         </p>
         <Link
           href="/menu/checkout"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors"
         >
-          Спробувати знову
+          {tc('try_again')}
         </Link>
       </Card>
     );
@@ -146,30 +147,30 @@ export function SuccessClient({ orderId }: { orderId: string }) {
         <Check className="h-8 w-8 text-emerald-700" strokeWidth={3} />
       </div>
       <p className="font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55 mb-2">
-        Замовлення прийнято
+        {t('paid_eyebrow')}
       </p>
       <h1 className="font-display text-4xl font-semibold text-[#1a3d2e] mb-2">
         №{order.number}
       </h1>
       <p className="text-sm text-[#1a3d2e]/70 mb-8 max-w-md mx-auto">
-        Дякуємо! Ми вже отримали ваше замовлення і скоро з вами зв&apos;яжемось.
+        {t('paid_body')}
       </p>
 
       <div className="border-t border-[#1a3d2e]/10 pt-6 text-left space-y-3">
         <SummaryRow
           icon={order.deliveryType === 'delivery' ? <Truck className="h-4 w-4" /> : <Store className="h-4 w-4" />}
-          label={order.deliveryType === 'delivery' ? 'Доставка' : 'Самовивіз'}
-          value={order.deliveryType === 'delivery' ? order.address ?? '—' : 'З ресторану'}
+          label={order.deliveryType === 'delivery' ? t('delivery_label') : t('pickup_label')}
+          value={order.deliveryType === 'delivery' ? order.address ?? '—' : t('pickup_from')}
         />
         <SummaryRow
           icon={<Phone className="h-4 w-4" />}
-          label="Телефон"
+          label={tc('phone_label')}
           value={order.customerPhone}
         />
         {order.scheduledAt && (
           <SummaryRow
             icon={<Clock className="h-4 w-4" />}
-            label="Час"
+            label={t('time_label')}
             value={new Date(order.scheduledAt).toLocaleString('uk-UA', {
               dateStyle: 'short',
               timeStyle: 'short',
@@ -192,7 +193,7 @@ export function SuccessClient({ orderId }: { orderId: string }) {
       </ul>
 
       <div className="flex items-baseline justify-between border-t border-[#1a3d2e]/10 pt-4 mb-8">
-        <span className="font-display text-base font-semibold text-[#1a3d2e]">До сплати</span>
+        <span className="font-display text-base font-semibold text-[#1a3d2e]">{tc('amount_due_label')}</span>
         <span className="font-display text-2xl font-bold text-[#1a3d2e] tabular-nums">
           {formatPrice(order.total)}
         </span>
@@ -202,7 +203,7 @@ export function SuccessClient({ orderId }: { orderId: string }) {
         href="/menu"
         className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors"
       >
-        Повернутись до меню
+        {t('back_to_menu_link')}
         <ArrowRight className="h-4 w-4" />
       </Link>
     </Card>
