@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import Script from "next/script";
 import {
   Leaf,
@@ -12,75 +11,83 @@ import {
   ArrowUpRight,
   AlertCircle,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/routing";
 import { CONTACT_INFO } from "@/constants";
 import { BookingButton } from "@/components/ui/BookingButton";
 
-export const metadata: Metadata = {
-  title: "Апітерапія — Оздоровлення у Глухомані",
-  description:
-    "Оздоровчі програми з продуктами бджільництва у рекреаційному комплексі «Глухомань». Мед, прополіс, воскові аплікації в спокійній атмосфері природи Полтавщини.",
-  openGraph: {
-    title: "Апітерапія у Глухомані",
-    description: "Оздоровчі процедури з бджолиними продуктами.",
-    type: "website",
-    locale: "uk_UA",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "other_services.apitherapy" });
+  return {
+    title: t("meta_title"),
+    description: t("meta_description"),
+    openGraph: {
+      title: t("meta_og_title"),
+      description: t("meta_og_description"),
+      type: "website",
+      locale: locale === "uk" ? "uk_UA" : "en_US",
+    },
+  };
+}
 
-const BENEFITS = [
-  {
-    numeral: "I",
-    icon: Sparkles,
-    title: "Зміцнення імунітету",
-    description:
-      "Натуральні вітаміни і антиоксиданти з бджолиних продуктів",
-  },
-  {
-    numeral: "II",
-    icon: Leaf,
-    title: "Зняття стресу",
-    description: "Релакс у спокійному середовищі серед природи",
-  },
-  {
-    numeral: "III",
-    icon: Flower2,
-    title: "Покращення сну",
-    description: "Заспокійливі властивості меду та прополісу",
-  },
-  {
-    numeral: "IV",
-    icon: Heart,
-    title: "Підтримка серцево-судинної системи",
-    description: "Тривала користь для здоров'я",
-  },
-];
-
-const INCLUDED = [
-  "Консультація з фахівцем перед процедурами",
-  "Дегустація різних сортів меду (гречаний, липовий, травний)",
-  "Воскові аплікації на тіло",
-  "Інгаляції із прополісом",
-  "Чайна церемонія з медом та фітозборами",
-];
-
-const CONTRAINDICATIONS = [
-  "Алергія на бджолині продукти",
-  "Загострення хронічних захворювань",
-  "Діабет (потрібна консультація лікаря)",
-  "Вагітність (потрібна консультація)",
-];
-
-export default function ApitherapyPage() {
+export default async function ApitherapyPage() {
+  const t = await getTranslations("other_services.apitherapy");
   const primaryPhone = CONTACT_INFO.phone[0];
   const telHref = `tel:${primaryPhone.replace(/[^+\d]/g, "")}`;
+
+  const BENEFITS = [
+    {
+      numeral: "I",
+      icon: Sparkles,
+      title: t("benefit_1_title"),
+      description: t("benefit_1_desc"),
+    },
+    {
+      numeral: "II",
+      icon: Leaf,
+      title: t("benefit_2_title"),
+      description: t("benefit_2_desc"),
+    },
+    {
+      numeral: "III",
+      icon: Flower2,
+      title: t("benefit_3_title"),
+      description: t("benefit_3_desc"),
+    },
+    {
+      numeral: "IV",
+      icon: Heart,
+      title: t("benefit_4_title"),
+      description: t("benefit_4_desc"),
+    },
+  ];
+
+  const INCLUDED = [
+    t("included_1"),
+    t("included_2"),
+    t("included_3"),
+    t("included_4"),
+    t("included_5"),
+  ];
+
+  const CONTRAINDICATIONS = [
+    t("contra_1"),
+    t("contra_2"),
+    t("contra_3"),
+    t("contra_4"),
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "Апітерапія",
+    name: t("jsonld_name"),
     serviceType: "Apitherapy",
-    description:
-      "Оздоровчі програми з продуктами бджільництва у рекреаційному комплексі «Глухомань».",
+    description: t("jsonld_description"),
     areaServed: "UA",
     provider: {
       "@type": "LodgingBusiness",
@@ -121,17 +128,16 @@ export default function ApitherapyPage() {
               <Leaf className="h-10 w-10 text-[#e6d9b8]" strokeWidth={1.25} />
             </div>
             <p className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#e6d9b8]">
-              Оздоровлення • Глухомань
+              {t("hero_eyebrow")}
             </p>
             <h1 className="font-display mt-6 text-5xl md:text-7xl text-[#faf6ec]">
-              Апітерапія
+              {t("hero_title")}
             </h1>
             <p className="font-display mt-3 text-2xl md:text-3xl italic text-[#e6d9b8]">
-              лікування медом
+              {t("hero_subtitle")}
             </p>
             <p className="mt-8 max-w-2xl text-base md:text-lg leading-relaxed text-[#faf6ec]/80">
-              Древня традиція оздоровлення продуктами бджільництва — мед,
-              прополіс, воскові аплікації. Тиша, запах трав і турбота природи.
+              {t("hero_body")}
             </p>
             <div className="mt-12 flex flex-col sm:flex-row items-center gap-5">
               <a
@@ -145,7 +151,7 @@ export default function ApitherapyPage() {
                 href="#about"
                 className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.18em] text-[#e6d9b8] transition-colors hover:text-[#faf6ec]"
               >
-                Дізнатись більше
+                {t("hero_learn_more")}
                 <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
               </Link>
             </div>
@@ -159,23 +165,18 @@ export default function ApitherapyPage() {
           <div className="grid gap-16 md:grid-cols-2 md:gap-20">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]">
-                Про апітерапію
+                {t("about_eyebrow")}
               </p>
               <h2 className="font-display mt-5 text-4xl md:text-5xl text-[#0f1f18]">
-                Сила
-                <span className="italic"> бджолиних </span>
-                продуктів
+                {t("about_heading_pt1")}
+                <span className="italic"> {t("about_heading_em")} </span>
+                {t("about_heading_pt2")}
               </h2>
               <div className="mt-8 h-px w-16 bg-[#e6d9b8]" />
             </div>
             <div>
               <p className="text-base md:text-lg leading-relaxed text-[#0b1410]/80">
-                Апітерапія — це цілюща сила бджолиних продуктів, що
-                використовується в оздоровчих цілях уже тисячі років. У
-                «Глухомані» ми пропонуємо програми із застосуванням меду,
-                прополісу, маточного молочка та бджолиного пилку. Усі процедури
-                проходять у спокійній атмосфері серед природи Полтавщини —
-                далеко від міста та шуму.
+                {t("about_body")}
               </p>
             </div>
           </div>
@@ -187,23 +188,18 @@ export default function ApitherapyPage() {
         <div className="max-w-6xl mx-auto px-6 py-28 md:py-36">
           <div className="max-w-2xl">
             <p className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#e6d9b8]">
-              Переваги
+              {t("benefits_eyebrow")}
             </p>
             <h2 className="font-display mt-5 text-4xl md:text-5xl">
-              Що ви <span className="italic">отримаєте</span>
+              {t("benefits_heading_pt1")}{" "}
+              <span className="italic">{t("benefits_heading_em")}</span>
             </h2>
           </div>
           <div className="mt-16 grid gap-px bg-[#e6d9b8]/20 md:grid-cols-2">
             {BENEFITS.map(({ numeral, icon: Icon, title, description }) => (
-              <div
-                key={title}
-                className="bg-[#0f1f18] p-10 md:p-12"
-              >
+              <div key={title} className="bg-[#0f1f18] p-10 md:p-12">
                 <div className="flex items-start justify-between">
-                  <Icon
-                    className="h-7 w-7 text-[#e6d9b8]"
-                    strokeWidth={1.25}
-                  />
+                  <Icon className="h-7 w-7 text-[#e6d9b8]" strokeWidth={1.25} />
                   <span className="font-display text-2xl italic text-[#e6d9b8]/60">
                     {numeral}
                   </span>
@@ -226,15 +222,15 @@ export default function ApitherapyPage() {
           <div className="grid gap-16 md:grid-cols-2 md:gap-20">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]">
-                V • Що включено
+                {t("included_eyebrow")}
               </p>
               <h2 className="font-display mt-5 text-4xl md:text-5xl text-[#0f1f18]">
-                Програма <span className="italic">оздоровлення</span>
+                {t("included_heading_pt1")}{" "}
+                <span className="italic">{t("included_heading_em")}</span>
               </h2>
               <div className="mt-8 h-px w-16 bg-[#e6d9b8]" />
               <p className="mt-8 text-base leading-relaxed text-[#0b1410]/70">
-                Кожна процедура підібрана з турботою про ваше самопочуття та
-                гармонію з природою.
+                {t("included_body")}
               </p>
             </div>
             <ul className="space-y-6">
@@ -244,10 +240,7 @@ export default function ApitherapyPage() {
                   className="flex items-start gap-5 border-b border-[#e6d9b8] pb-6"
                 >
                   <span className="mt-1 flex h-6 w-6 flex-none items-center justify-center border border-[#1a3d2e]/30 bg-[#f4ecd8]">
-                    <Check
-                      className="h-3.5 w-3.5 text-[#1a3d2e]"
-                      strokeWidth={2}
-                    />
+                    <Check className="h-3.5 w-3.5 text-[#1a3d2e]" strokeWidth={2} />
                   </span>
                   <span className="text-base md:text-lg leading-relaxed text-[#0b1410]/85">
                     {item}
@@ -270,15 +263,14 @@ export default function ApitherapyPage() {
               />
               <div>
                 <p className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]">
-                  VI • Протипоказання
+                  {t("contra_eyebrow")}
                 </p>
                 <h2 className="font-display mt-4 text-3xl md:text-4xl text-[#0f1f18]">
-                  Зверніть <span className="italic">увагу</span>
+                  {t("contra_heading_pt1")}{" "}
+                  <span className="italic">{t("contra_heading_em")}</span>
                 </h2>
                 <p className="mt-5 max-w-xl text-sm md:text-base leading-relaxed text-[#0b1410]/70">
-                  Перед відвідуванням рекомендуємо ознайомитись із
-                  протипоказаннями. У разі сумнівів — проконсультуйтесь із
-                  лікарем.
+                  {t("contra_intro")}
                 </p>
                 <ul className="mt-8 space-y-3">
                   {CONTRAINDICATIONS.map((item) => (
@@ -304,13 +296,11 @@ export default function ApitherapyPage() {
             <div className="relative order-2 md:order-1">
               <div
                 className="relative aspect-[4/5] overflow-hidden bg-[#1a3d2e]"
-                style={{
-                  borderRadius: "62% 38% 54% 46% / 48% 55% 45% 52%",
-                }}
+                style={{ borderRadius: "62% 38% 54% 46% / 48% 55% 45% 52%" }}
               >
                 <Image
                   src="/images/sauna/honey_jar_gluhoman.jpg"
-                  alt="Мед у банці — Глухомань"
+                  alt={t("how_img_alt")}
                   fill
                   sizes="(min-width: 768px) 50vw, 100vw"
                   className="object-cover"
@@ -319,18 +309,16 @@ export default function ApitherapyPage() {
             </div>
             <div className="order-1 md:order-2">
               <p className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#e6d9b8]">
-                VII • Як це проходить
+                {t("how_eyebrow")}
               </p>
               <h2 className="font-display mt-5 text-4xl md:text-5xl">
-                Година <span className="italic">тиші</span> та меду
+                {t("how_heading_pt1")}{" "}
+                <span className="italic">{t("how_heading_em")}</span>{" "}
+                {t("how_heading_pt2")}
               </h2>
               <div className="mt-8 h-px w-16 bg-[#e6d9b8]/50" />
               <p className="mt-8 text-base md:text-lg leading-relaxed text-[#faf6ec]/80">
-                Програма триває 1,5–2 години. Починаємо з короткої
-                консультації — розповідаємо про властивості продуктів та
-                перевіряємо відсутність алергії. Далі — процедури в спокійному
-                просторі з природним освітленням. Завершуємо чайною церемонією
-                з медом з наших власних пасік.
+                {t("how_body")}
               </p>
             </div>
           </div>
@@ -342,15 +330,15 @@ export default function ApitherapyPage() {
         <div className="max-w-6xl mx-auto px-6 py-28 md:py-36">
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]">
-              VIII • Ціни
+              {t("pricing_eyebrow")}
             </p>
             <h2 className="font-display mt-5 text-5xl md:text-6xl text-[#0f1f18]">
-              За <span className="italic">запитом</span>
+              {t("pricing_heading_pt1")}{" "}
+              <span className="italic">{t("pricing_heading_em")}</span>
             </h2>
             <div className="mx-auto mt-8 h-px w-16 bg-[#e6d9b8]" />
             <p className="mt-8 text-base md:text-lg leading-relaxed text-[#0b1410]/75">
-              Індивідуальні програми залежно від потреб. Зв&apos;яжіться з
-              нами, щоб обрати ідеальну тривалість та набір процедур.
+              {t("pricing_body")}
             </p>
             <a
               href={telHref}
@@ -369,21 +357,21 @@ export default function ApitherapyPage() {
           <div className="grid gap-16 md:grid-cols-2 md:gap-20">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#e6d9b8]">
-                IX • Контакти та бронювання
+                {t("contact_eyebrow")}
               </p>
               <h2 className="font-display mt-5 text-4xl md:text-5xl">
-                Завітайте до <span className="italic">Глухомані</span>
+                {t("contact_heading_pt1")}{" "}
+                <span className="italic">{t("contact_heading_em")}</span>
               </h2>
               <div className="mt-8 h-px w-16 bg-[#e6d9b8]/50" />
               <p className="mt-8 text-base leading-relaxed text-[#faf6ec]/75">
-                Залиште заявку — ми зв&apos;яжемось, щоб обговорити деталі
-                програми та підібрати зручний час.
+                {t("contact_body")}
               </p>
             </div>
             <div className="space-y-10">
               <div>
                 <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]/70">
-                  Телефон
+                  {t("cta_phone_label")}
                 </p>
                 <div className="mt-4 space-y-2">
                   {CONTACT_INFO.phone.map((p) => (
@@ -399,7 +387,7 @@ export default function ApitherapyPage() {
               </div>
               <div>
                 <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]/70">
-                  Години роботи
+                  {t("cta_hours_label")}
                 </p>
                 <p className="mt-4 font-display text-xl italic text-[#faf6ec]/90">
                   {CONTACT_INFO.workingHours}
@@ -407,7 +395,7 @@ export default function ApitherapyPage() {
               </div>
               <div>
                 <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]/70">
-                  Адреса
+                  {t("cta_address_label")}
                 </p>
                 <p className="mt-4 text-base text-[#faf6ec]/85">
                   {CONTACT_INFO.address}
@@ -418,7 +406,7 @@ export default function ApitherapyPage() {
                   service="hotel"
                   className="inline-flex items-center gap-3 border border-[#e6d9b8] bg-[#e6d9b8] px-8 py-4 text-sm uppercase tracking-[0.18em] text-[#0f1f18] transition-colors hover:bg-transparent hover:text-[#faf6ec]"
                 >
-                  Забронювати візит
+                  {t("book_visit")}
                   <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
                 </BookingButton>
               </div>

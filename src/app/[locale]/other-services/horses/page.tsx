@@ -11,19 +11,27 @@ import {
   Phone,
   ArrowUpRight,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { BookingButton } from "@/components/ui/BookingButton";
 
-export const metadata: Metadata = {
-  title: "Прогулянки на конях — Глухомань",
-  description:
-    "Верхові прогулянки лісовими стежками у заповіднику навколо рекреаційного комплексу «Глухомань». Для досвідчених і новачків. Полтавщина.",
-  openGraph: {
-    title: "Прогулянки на конях у Глухомані",
-    description: "Верхові прогулянки заповідними стежками",
-    type: "website",
-    locale: "uk_UA",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "other_services.horses" });
+  return {
+    title: t("meta_title"),
+    description: t("meta_description"),
+    openGraph: {
+      title: t("meta_og_title"),
+      description: t("meta_og_description"),
+      type: "website",
+      locale: locale === "uk" ? "uk_UA" : "en_US",
+    },
+  };
+}
 
 const CREAM = "#faf6ec";
 const SURFACE = "#f4ecd8";
@@ -32,95 +40,80 @@ const DEEP = "#0f1f18";
 const FOREST = "#1a3d2e";
 const NEAR_BLACK = "#0b1410";
 
-const formats = [
-  {
-    numeral: "I",
-    icon: Clock,
-    title: "Для початківців",
-    duration: "30 хвилин",
-    body: "Інструктор поруч, коло біля стайні. Ідеально для першого досвіду і дітей від 8 років.",
-  },
-  {
-    numeral: "II",
-    icon: Mountain,
-    title: "Лісова прогулянка",
-    duration: "1 година",
-    body: "Супровід інструктора, маршрут стежками заповідника. Для гостей з мінімальним досвідом.",
-  },
-  {
-    numeral: "III",
-    icon: Heart,
-    title: "Романтична прогулянка",
-    duration: "1,5 години",
-    body: "Удвох на двох конях, тиха стежка до ставка і назад. З кави-брейком.",
-  },
-];
+export default async function HorsesPage() {
+  const t = await getTranslations("other_services.horses");
 
-const included = [
-  "Інструктаж від досвідченого вершника перед виїздом",
-  "Каска і захисне спорядження",
-  "Супровід інструктора протягом усієї прогулянки",
-  "Час на фото з кіньми у стайні",
-];
-
-const horses = [
-  {
-    name: "Зоря",
-    meta: "гнідий мерин · 10 років",
-    body: "Спокійна і терпляча. Ідеально для дітей.",
-  },
-  {
-    name: "Вітер",
-    meta: "сірий жеребчик · 8 років",
-    body: "Енергійний. Підходить досвідченим вершникам.",
-  },
-  {
-    name: "Маруся",
-    meta: "рудо-біла кобила · 12 років",
-    body: "Найспокійніша у табунці. Для перших спроб.",
-  },
-  {
-    name: "Буян",
-    meta: "чорний жеребець · 7 років",
-    body: "Сильний і гарний. Для романтичних фото.",
-  },
-];
-
-const rules = [
-  "Прогулянки з 8 років (до 12 — у супроводі дорослого поруч)",
-  "Максимальна вага вершника — 100 кг",
-  "Зручний одяг: довгі штани, закрите взуття",
-  "Алкоголь заборонений",
-  "У разі дощу або грози прогулянки скасовуються",
-];
-
-const prepare = [
-  "Одягніть довгі штани і закрите взуття (кеди, черевики)",
-  "Не їжте важкої їжі за 1 годину до прогулянки",
-  "Прибувайте за 15 хвилин до часу — для інструктажу і знайомства з конем",
-];
-
-const jsonLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Service",
-  serviceType: "Horse riding",
-  name: "Прогулянки на конях — Глухомань",
-  description:
-    "Верхові прогулянки лісовими стежками у заповіднику навколо рекреаційного комплексу «Глухомань».",
-  provider: {
-    "@type": "LodgingBusiness",
-    name: "Глухомань",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Нижні Млини",
-      addressRegion: "Полтавська область",
-      addressCountry: "UA",
+  const formats = [
+    {
+      numeral: "I",
+      icon: Clock,
+      title: t("fmt_1_title"),
+      duration: t("fmt_1_duration"),
+      body: t("fmt_1_body"),
     },
-  },
-  areaServed: "Полтавщина",
-});
+    {
+      numeral: "II",
+      icon: Mountain,
+      title: t("fmt_2_title"),
+      duration: t("fmt_2_duration"),
+      body: t("fmt_2_body"),
+    },
+    {
+      numeral: "III",
+      icon: Heart,
+      title: t("fmt_3_title"),
+      duration: t("fmt_3_duration"),
+      body: t("fmt_3_body"),
+    },
+  ];
 
-export default function HorsesPage() {
+  const included = [
+    t("incl_1"),
+    t("incl_2"),
+    t("incl_3"),
+    t("incl_4"),
+  ];
+
+  const horses = [
+    { name: t("horse_1_name"), meta: t("horse_1_meta"), body: t("horse_1_body") },
+    { name: t("horse_2_name"), meta: t("horse_2_meta"), body: t("horse_2_body") },
+    { name: t("horse_3_name"), meta: t("horse_3_meta"), body: t("horse_3_body") },
+    { name: t("horse_4_name"), meta: t("horse_4_meta"), body: t("horse_4_body") },
+  ];
+
+  const rules = [
+    t("rule_1"),
+    t("rule_2"),
+    t("rule_3"),
+    t("rule_4"),
+    t("rule_5"),
+  ];
+
+  const prepare = [
+    t("prep_1"),
+    t("prep_2"),
+    t("prep_3"),
+  ];
+
+  const jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Horse riding",
+    name: t("jsonld_name"),
+    description: t("jsonld_description"),
+    provider: {
+      "@type": "LodgingBusiness",
+      name: "Глухомань",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Нижні Млини",
+        addressRegion: "Полтавська область",
+        addressCountry: "UA",
+      },
+    },
+    areaServed: "Полтавщина",
+  });
+
   return (
     <main className="font-display" style={{ backgroundColor: CREAM, color: NEAR_BLACK }}>
       <Script id="horses-jsonld" type="application/ld+json">
@@ -144,28 +137,26 @@ export default function HorsesPage() {
               className="text-[11px] uppercase tracking-[0.22em]"
               style={{ color: TAN }}
             >
-              Прогулянки • Глухомань
+              {t("hero_eyebrow")}
             </p>
             <h1 className="text-5xl md:text-7xl lg:text-8xl leading-[0.95] max-w-4xl">
-              На конях{" "}
+              {t("hero_title_pt1")}{" "}
               <em className="italic font-light" style={{ color: TAN }}>
-                лісовими стежками
+                {t("hero_title_em")}
               </em>
             </h1>
             <p
               className="text-lg md:text-xl max-w-2xl leading-relaxed font-light"
               style={{ color: SURFACE }}
             >
-              Верхові прогулянки заповідними стежками навколо комплексу. Для
-              досвідчених вершників і перших спроб — спокійні коні, уважні
-              інструктори, безпечне обладнання.
+              {t("hero_body")}
             </p>
             <div className="flex flex-wrap items-center gap-6 pt-4">
               <BookingButton
                 className="inline-flex items-center gap-3 px-8 py-4 text-base uppercase tracking-[0.18em]"
                 style={{ backgroundColor: TAN, color: DEEP }}
               >
-                Забронювати прогулянку
+                {t("book_ride")}
                 <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
               </BookingButton>
               <a
@@ -174,7 +165,7 @@ export default function HorsesPage() {
                 style={{ color: CREAM, borderColor: TAN }}
               >
                 <Phone className="h-4 w-4" strokeWidth={1.5} />
-                Зв’язатися
+                {t("contact_link")}
               </a>
             </div>
           </div>
@@ -190,22 +181,18 @@ export default function HorsesPage() {
                 className="text-[11px] uppercase tracking-[0.22em] mb-6"
                 style={{ color: FOREST }}
               >
-                Про прогулянки
+                {t("intro_eyebrow")}
               </p>
               <h2 className="text-4xl md:text-5xl leading-[1.05]">
-                Спокійні коні,{" "}
+                {t("intro_heading_pt1")}{" "}
                 <em className="italic font-light" style={{ color: FOREST }}>
-                  лісові стежки
+                  {t("intro_heading_em")}
                 </em>
               </h2>
             </div>
             <div className="md:col-span-7">
               <p className="text-lg md:text-xl leading-relaxed font-light">
-                Прогулянки на конях — один із найромантичніших способів
-                провести час на природі. Ми маємо невеликий табунок спокійних,
-                добре видресируваних коней, які підходять як для досвідчених
-                вершників, так і для новачків. Маршрути пролягають лісовими
-                стежками, повз ставок, у заповідник.
+                {t("intro_body")}
               </p>
             </div>
           </div>
@@ -220,12 +207,12 @@ export default function HorsesPage() {
               className="text-[11px] uppercase tracking-[0.22em] mb-6"
               style={{ color: TAN }}
             >
-              Формати
+              {t("formats_eyebrow")}
             </p>
             <h2 className="text-4xl md:text-5xl leading-[1.05]">
-              Три способи{" "}
+              {t("formats_heading_pt1")}{" "}
               <em className="italic font-light" style={{ color: TAN }}>
-                сісти в сідло
+                {t("formats_heading_em")}
               </em>
             </h2>
           </div>
@@ -246,10 +233,7 @@ export default function HorsesPage() {
                   <Icon className="h-6 w-6" strokeWidth={1.25} style={{ color: TAN }} />
                 </div>
                 <h3 className="text-3xl leading-tight">{title}</h3>
-                <p
-                  className="italic font-light text-lg"
-                  style={{ color: TAN }}
-                >
+                <p className="italic font-light text-lg" style={{ color: TAN }}>
                   {duration}
                 </p>
                 <p
@@ -273,12 +257,12 @@ export default function HorsesPage() {
                 className="text-[11px] uppercase tracking-[0.22em] mb-6"
                 style={{ color: FOREST }}
               >
-                Що включено
+                {t("included_eyebrow")}
               </p>
               <h2 className="text-4xl md:text-5xl leading-[1.05]">
-                У вартість{" "}
+                {t("included_heading_pt1")}{" "}
                 <em className="italic font-light" style={{ color: FOREST }}>
-                  кожної прогулянки
+                  {t("included_heading_em")}
                 </em>
               </h2>
             </div>
@@ -317,12 +301,12 @@ export default function HorsesPage() {
               className="text-[11px] uppercase tracking-[0.22em] mb-6"
               style={{ color: FOREST }}
             >
-              Наші коні
+              {t("horses_eyebrow")}
             </p>
             <h2 className="text-4xl md:text-5xl leading-[1.05]">
-              Знайомтеся —{" "}
+              {t("horses_heading_pt1")}{" "}
               <em className="italic font-light" style={{ color: FOREST }}>
-                табунець
+                {t("horses_heading_em")}
               </em>
             </h2>
           </div>
@@ -374,12 +358,12 @@ export default function HorsesPage() {
                 className="text-[11px] uppercase tracking-[0.22em] mb-6"
                 style={{ color: TAN }}
               >
-                Правила безпеки
+                {t("safety_eyebrow")}
               </p>
               <h2 className="text-4xl md:text-5xl leading-[1.05]">
-                Безпека{" "}
+                {t("safety_heading_pt1")}{" "}
                 <em className="italic font-light" style={{ color: TAN }}>
-                  передусім
+                  {t("safety_heading_em")}
                 </em>
               </h2>
             </div>
@@ -422,19 +406,18 @@ export default function HorsesPage() {
                 className="text-[11px] uppercase tracking-[0.22em] mb-6"
                 style={{ color: FOREST }}
               >
-                Ціни
+                {t("prices_eyebrow")}
               </p>
               <h2 className="text-4xl md:text-5xl leading-[1.05]">
-                За{" "}
+                {t("prices_heading_pt1")}{" "}
                 <em className="italic font-light" style={{ color: FOREST }}>
-                  запитом
+                  {t("prices_heading_em")}
                 </em>
               </h2>
             </div>
             <div className="md:col-span-6">
               <p className="text-lg md:text-xl leading-relaxed font-light">
-                Залежить від формату і тривалості. Групові знижки при
-                замовленні на 4+ осіб.
+                {t("prices_body")}
               </p>
               <div
                 className="mt-8 pt-6 flex items-center gap-3 border-t"
@@ -442,7 +425,7 @@ export default function HorsesPage() {
               >
                 <Users className="h-5 w-5" strokeWidth={1.25} />
                 <span className="text-[11px] uppercase tracking-[0.22em]">
-                  Для груп 4+ — знижки
+                  {t("prices_group_label")}
                 </span>
               </div>
             </div>
@@ -458,12 +441,12 @@ export default function HorsesPage() {
               className="text-[11px] uppercase tracking-[0.22em] mb-6"
               style={{ color: FOREST }}
             >
-              Як підготуватися
+              {t("prepare_eyebrow")}
             </p>
             <h2 className="text-4xl md:text-5xl leading-[1.05]">
-              Три кроки{" "}
+              {t("prepare_heading_pt1")}{" "}
               <em className="italic font-light" style={{ color: FOREST }}>
-                перед виїздом
+                {t("prepare_heading_em")}
               </em>
             </h2>
           </div>
@@ -497,37 +480,28 @@ export default function HorsesPage() {
               className="text-[11px] uppercase tracking-[0.22em]"
               style={{ color: TAN }}
             >
-              Забронювати
+              {t("cta_eyebrow")}
             </p>
             <h2 className="text-5xl md:text-6xl lg:text-7xl leading-[0.95] max-w-4xl">
-              У сідло —{" "}
+              {t("cta_heading_pt1")}{" "}
               <em className="italic font-light" style={{ color: TAN }}>
-                і в ліс
+                {t("cta_heading_em")}
               </em>
             </h2>
             <p
               className="text-lg md:text-xl max-w-2xl leading-relaxed font-light"
               style={{ color: SURFACE }}
             >
-              Зателефонуйте або залиште заявку — ми підберемо коня, маршрут і
-              час під ваш досвід.
+              {t("cta_body")}
             </p>
             <div className="flex flex-wrap items-center gap-6 pt-4">
               <BookingButton
                 className="inline-flex items-center gap-3 px-8 py-4 text-base uppercase tracking-[0.18em]"
                 style={{ backgroundColor: TAN, color: DEEP }}
               >
-                Забронювати прогулянку
+                {t("book_ride")}
                 <ArrowUpRight className="h-4 w-4" strokeWidth={1.5} />
               </BookingButton>
-              <a
-                href="tel:+380500000000"
-                className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.18em] border-b pb-1"
-                style={{ color: CREAM, borderColor: TAN }}
-              >
-                <Phone className="h-4 w-4" strokeWidth={1.5} />
-                +38 050 000 00 00
-              </a>
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import Script from "next/script";
 import {
   PartyPopper,
   Gift,
@@ -12,28 +12,37 @@ import {
   Phone,
   ArrowUpRight,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/routing";
 import { BookingButton } from "@/components/ui/BookingButton";
 import { GalleryGrid } from "@/components/ui/GalleryGrid";
 
-export const metadata: Metadata = {
-  title: "Дитячі свята у Глухомані — Дні народження на природі",
-  description:
-    "Організація дитячих свят, днів народження і тематичних вечірок у рекреаційному комплексі «Глухомань». Аніматори, солодкий стіл, лісові квести. Полтавщина.",
-  openGraph: {
-    title: "Дитячі свята у Глухомані",
-    description: "Незабутні дні народження з аніматорами",
-    type: "website",
-    locale: "uk_UA",
-    images: [
-      {
-        url: "/images/restaurant/event_birthday_balloon_decor.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Дитяче свято у Глухомані",
-      },
-    ],
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "other_services.kids_parties" });
+  return {
+    title: t("meta_title"),
+    description: t("meta_description"),
+    openGraph: {
+      title: t("meta_og_title"),
+      description: t("meta_og_description"),
+      type: "website",
+      locale: locale === "uk" ? "uk_UA" : "en_US",
+      images: [
+        {
+          url: "/images/restaurant/event_birthday_balloon_decor.jpg",
+          width: 1200,
+          height: 630,
+          alt: t("meta_og_image_alt"),
+        },
+      ],
+    },
+  };
+}
 
 const CREAM = "#faf6ec";
 const SURFACE = "#f4ecd8";
@@ -42,148 +51,74 @@ const DEEP = "#0f1f18";
 const FOREST = "#1a3d2e";
 const NEAR_BLACK = "#0b1410";
 
-const formats = [
-  {
-    roman: "I",
-    title: "Лісовий квест",
-    description:
-      "Пригода в сосновому гаю з мапою скарбів, загадками і перемогою у фіналі. Для 6+ років.",
-    image: "/images/restaurant/animation_lasertag_kids_outdoor.jpg",
-    icon: PartyPopper,
-  },
-  {
-    roman: "II",
-    title: "Піратська ніч",
-    description:
-      "Сценарій з капітаном, скринею скарбів і нічним вогнищем. Для 8+ років.",
-    image: "/images/restaurant/animation_kids_pirate_night.jpg",
-    icon: Gift,
-  },
-  {
-    roman: "III",
-    title: "Класичне свято з аніматором",
-    description:
-      "Ведучий у костюмі, конкурси, малювання на обличчі, мильні бульбашки. Для 3–8 років.",
-    image: "/images/restaurant/animation_clown_with_child.jpg",
-    icon: Cake,
-  },
-  {
-    roman: "IV",
-    title: "Спортивні естафети",
-    description:
-      "Командні ігри, смужка перешкод, нагороди. Для 7–14 років. Територія аквапарку або лісу.",
-    image: "/images/restaurant/event_happy_birthday_number2_pink.jpg",
-    icon: Users,
-  },
-];
+export default async function KidsPartiesPage() {
+  const t = await getTranslations("other_services.kids_parties");
 
-const included = [
-  { icon: Users, title: "Аніматор-педагог", text: "Супровід на всю програму свята." },
-  { icon: Cake, title: "Святковий стіл", text: "Дитяча кухня без гострого і без алкоголю." },
-  { icon: Gift, title: "Торт на вибір", text: "Класичний, без цукру або з фото дитини." },
-  { icon: PartyPopper, title: "Прикраси зони", text: "Кульки, банери, тематична фотозона." },
-  { icon: Music, title: "Музика і мікрофон", text: "Озвучення для ведучого і танців." },
-  { icon: Camera, title: "Фото з події", text: "Базовий пакет — на телефон аніматора." },
-];
+  const formats = [
+    { roman: "I",  title: t("fmt_1_title"), description: t("fmt_1_desc"), image: "/images/restaurant/animation_lasertag_kids_outdoor.jpg", icon: PartyPopper },
+    { roman: "II", title: t("fmt_2_title"), description: t("fmt_2_desc"), image: "/images/restaurant/animation_kids_pirate_night.jpg",      icon: Gift },
+    { roman: "III",title: t("fmt_3_title"), description: t("fmt_3_desc"), image: "/images/restaurant/animation_clown_with_child.jpg",        icon: Cake },
+    { roman: "IV", title: t("fmt_4_title"), description: t("fmt_4_desc"), image: "/images/restaurant/event_happy_birthday_number2_pink.jpg", icon: Users },
+  ];
 
-const locations = [
-  {
-    title: "Зелена альтанка",
-    text: "У саду комплексу, затишно, у тіні дерев. Ідеально для теплих днів.",
-  },
-  {
-    title: "Банкетна зала",
-    text: "Для дощу або холодної погоди. Вміщує до 30 дітей з батьками.",
-  },
-  {
-    title: "Тераса біля води",
-    text: "Видовищна локація для літніх свят — із видом на ставок.",
-  },
-];
+  const imgAlts = [t("fmt_1_img_alt"), t("fmt_2_img_alt"), t("fmt_3_img_alt"), t("fmt_4_img_alt")];
 
-const gallery = [
-  {
-    src: "/images/restaurant/event_birthday_balloon_decor.jpg",
-    alt: "Святковий декор із кульок",
-  },
-  {
-    src: "/images/restaurant/event_happy_birthday_number1_red.jpg",
-    alt: "Декор Happy Birthday червоний",
-  },
-  {
-    src: "/images/restaurant/animation_clown_with_child.jpg",
-    alt: "Аніматор з дитиною",
-  },
-  {
-    src: "/images/restaurant/animation_kids_pirate_night.jpg",
-    alt: "Піратська ніч для дітей",
-  },
-  {
-    src: "/images/restaurant/decor_photozone_green_hedge.jpg",
-    alt: "Зелена фотозона",
-  },
-  {
-    src: "/images/restaurant/event_fruit_table_terrace.jpg",
-    alt: "Фруктовий стіл на терасі",
-  },
-];
+  const included = [
+    { icon: Users,      title: t("incl_1_title"), text: t("incl_1_text") },
+    { icon: Cake,       title: t("incl_2_title"), text: t("incl_2_text") },
+    { icon: Gift,       title: t("incl_3_title"), text: t("incl_3_text") },
+    { icon: PartyPopper,title: t("incl_4_title"), text: t("incl_4_text") },
+    { icon: Music,      title: t("incl_5_title"), text: t("incl_5_text") },
+    { icon: Camera,     title: t("incl_6_title"), text: t("incl_6_text") },
+  ];
 
-const preparation = [
-  {
-    n: "01",
-    title: "Бронювання за 2 тижні",
-    text: "Щоб команда встигла підготувати сценарій, декор і меню.",
-  },
-  {
-    n: "02",
-    title: "Узгодження сценарію",
-    text: "Разом з нашою командою обираємо формат, програму і меню.",
-  },
-  {
-    n: "03",
-    title: "Список гостей і вік",
-    text: "Щоб підібрати правильну активність для кожної вікової групи.",
-  },
-  {
-    n: "04",
-    title: "Побажання щодо торта",
-    text: "Класичний смак, без цукру або дієтичний — на вибір.",
-  },
-  {
-    n: "05",
-    title: "Алергії у дітей",
-    text: "Обов'язково попередити заздалегідь для безпеки меню.",
-  },
-];
+  const locations = [
+    { title: t("loc_1_title"), text: t("loc_1_text") },
+    { title: t("loc_2_title"), text: t("loc_2_text") },
+    { title: t("loc_3_title"), text: t("loc_3_text") },
+  ];
 
-const jsonLdString = JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Service",
-  serviceType: "Children's Party",
-  name: "Дитячі свята у Глухомані",
-  description:
-    "Організація дитячих свят, днів народження і тематичних вечірок у рекреаційному комплексі «Глухомань».",
-  areaServed: "Полтавська область, Україна",
-  provider: {
-    "@type": "LodgingBusiness",
-    name: "Глухомань",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Нижні Млини",
-      addressRegion: "Полтавська область",
-      addressCountry: "UA",
+  const gallery = [
+    { src: "/images/restaurant/event_birthday_balloon_decor.jpg",    alt: t("gallery_alt_1") },
+    { src: "/images/restaurant/event_happy_birthday_number1_red.jpg", alt: t("gallery_alt_2") },
+    { src: "/images/restaurant/animation_clown_with_child.jpg",      alt: t("gallery_alt_3") },
+    { src: "/images/restaurant/animation_kids_pirate_night.jpg",     alt: t("gallery_alt_4") },
+    { src: "/images/restaurant/decor_photozone_green_hedge.jpg",     alt: t("gallery_alt_5") },
+    { src: "/images/restaurant/event_fruit_table_terrace.jpg",       alt: t("gallery_alt_6") },
+  ];
+
+  const preparation = [
+    { n: t("prep_1_n"), title: t("prep_1_title"), text: t("prep_1_text") },
+    { n: t("prep_2_n"), title: t("prep_2_title"), text: t("prep_2_text") },
+    { n: t("prep_3_n"), title: t("prep_3_title"), text: t("prep_3_text") },
+    { n: t("prep_4_n"), title: t("prep_4_title"), text: t("prep_4_text") },
+    { n: t("prep_5_n"), title: t("prep_5_title"), text: t("prep_5_text") },
+  ];
+
+  const jsonLdString = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Children's Party",
+    name: t("jsonld_name"),
+    description: t("jsonld_description"),
+    areaServed: "Полтавська область, Україна",
+    provider: {
+      "@type": "LodgingBusiness",
+      name: "Глухомань",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Нижні Млини",
+        addressRegion: "Полтавська область",
+        addressCountry: "UA",
+      },
     },
-  },
-});
+  });
 
-export default function KidsPartiesPage() {
   return (
     <main style={{ backgroundColor: CREAM }} className="text-[#0b1410]">
-      <script
-        type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: jsonLdString }}
-      />
+      <Script id="kids-parties-jsonld" type="application/ld+json">
+        {jsonLdString}
+      </Script>
 
       {/* 1. HERO */}
       <section
@@ -193,7 +128,7 @@ export default function KidsPartiesPage() {
         <div className="absolute inset-0 opacity-40">
           <Image
             src="/images/restaurant/event_birthday_balloon_decor.jpg"
-            alt="Дитяче свято у Глухомані"
+            alt={t("hero_img_alt")}
             fill
             priority
             className="object-cover"
@@ -207,21 +142,19 @@ export default function KidsPartiesPage() {
         </div>
         <div className="relative max-w-6xl mx-auto px-6 py-28 md:py-36">
           <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: TAN }}>
-            Свята • Глухомань
+            {t("hero_eyebrow")}
           </p>
           <h1 className="font-display mt-6 text-5xl md:text-7xl lg:text-8xl leading-[0.95]">
-            Дитячі свята{" "}
+            {t("hero_title")}{" "}
             <span className="italic font-light" style={{ color: TAN }}>
-              з душею
+              {t("hero_title_em")}
             </span>
           </h1>
           <p
             className="mt-8 max-w-2xl text-lg md:text-xl leading-relaxed"
             style={{ color: `${CREAM}cc` }}
           >
-            Незабутні дні народження для дітей віком від 3 до 14 років — на
-            свіжому повітрі, з аніматорами, солодким столом і програмою у
-            форматі лісового квесту або піратської ночі.
+            {t("hero_body")}
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-4">
             <BookingButton />
@@ -230,7 +163,7 @@ export default function KidsPartiesPage() {
               className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.18em] border-b pb-1 transition-opacity hover:opacity-80"
               style={{ borderColor: TAN, color: TAN }}
             >
-              Формати свят <ArrowUpRight className="h-4 w-4" />
+              {t("hero_formats_link")} <ArrowUpRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -245,21 +178,16 @@ export default function KidsPartiesPage() {
                 className="text-[11px] uppercase tracking-[0.22em]"
                 style={{ color: FOREST }}
               >
-                Про свята
+                {t("intro_eyebrow")}
               </p>
               <h2 className="font-display mt-6 text-4xl md:text-5xl leading-tight">
-                Організуємо{" "}
-                <span className="italic font-light">на природі</span>
+                {t("intro_heading_pt1")}{" "}
+                <span className="italic font-light">{t("intro_heading_em")}</span>
               </h2>
             </div>
             <div className="md:col-span-8">
               <p className="text-lg md:text-xl leading-relaxed text-[#0b1410]/80">
-                Ми організовуємо дитячі свята у «Глухомані» — на природі, з
-                аніматорами, конкурсами, тортом і смачною дитячою їжею. Команда
-                заздалегідь обговорює сценарій з батьками, готує святковий
-                стіл, прикрашає зону і забезпечує програму від 2 до 4 годин.
-                Усі дитячі активності супроводжує досвідчений
-                аніматор-педагог.
+                {t("intro_body")}
               </p>
             </div>
           </div>
@@ -267,28 +195,25 @@ export default function KidsPartiesPage() {
       </section>
 
       {/* 3. FORMATS */}
-      <section
-        id="formats"
-        style={{ backgroundColor: DEEP, color: CREAM }}
-      >
+      <section id="formats" style={{ backgroundColor: DEEP, color: CREAM }}>
         <div className="max-w-6xl mx-auto px-6 py-28 md:py-36">
           <div className="max-w-3xl">
             <p
               className="text-[11px] uppercase tracking-[0.22em]"
               style={{ color: TAN }}
             >
-              Формати
+              {t("formats_eyebrow")}
             </p>
             <h2 className="font-display mt-6 text-4xl md:text-5xl leading-tight">
-              Чотири сценарії{" "}
+              {t("formats_heading_pt1")}{" "}
               <span className="italic font-light" style={{ color: TAN }}>
-                на вибір
+                {t("formats_heading_em")}
               </span>
             </h2>
           </div>
 
           <div className="mt-20 grid md:grid-cols-2 gap-x-12 gap-y-20">
-            {formats.map((f) => {
+            {formats.map((f, idx) => {
               const Icon = f.icon;
               return (
                 <article key={f.title}>
@@ -301,7 +226,7 @@ export default function KidsPartiesPage() {
                   >
                     <Image
                       src={f.image}
-                      alt={f.title}
+                      alt={imgAlts[idx]}
                       fill
                       className="object-cover"
                     />
@@ -316,9 +241,7 @@ export default function KidsPartiesPage() {
                     <div>
                       <div className="flex items-center gap-3">
                         <Icon className="h-5 w-5" style={{ color: TAN }} />
-                        <h3 className="font-display text-2xl md:text-3xl">
-                          {f.title}
-                        </h3>
+                        <h3 className="font-display text-2xl md:text-3xl">{f.title}</h3>
                       </div>
                       <p
                         className="mt-4 leading-relaxed"
@@ -343,11 +266,11 @@ export default function KidsPartiesPage() {
               className="text-[11px] uppercase tracking-[0.22em]"
               style={{ color: FOREST }}
             >
-              Що включено
+              {t("included_eyebrow")}
             </p>
             <h2 className="font-display mt-6 text-4xl md:text-5xl leading-tight">
-              Усе для свята{" "}
-              <span className="italic font-light">під ключ</span>
+              {t("included_heading_pt1")}{" "}
+              <span className="italic font-light">{t("included_heading_em")}</span>
             </h2>
           </div>
 
@@ -361,9 +284,7 @@ export default function KidsPartiesPage() {
                 >
                   <Icon className="h-6 w-6" style={{ color: FOREST }} />
                   <h3 className="font-display mt-6 text-2xl">{item.title}</h3>
-                  <p className="mt-3 text-[#0b1410]/70 leading-relaxed">
-                    {item.text}
-                  </p>
+                  <p className="mt-3 text-[#0b1410]/70 leading-relaxed">{item.text}</p>
                 </div>
               );
             })}
@@ -377,12 +298,10 @@ export default function KidsPartiesPage() {
               className="text-[11px] uppercase tracking-[0.22em]"
               style={{ color: FOREST }}
             >
-              Ціни
+              {t("prices_label")}
             </p>
             <p className="mt-4 font-display text-2xl md:text-3xl italic font-light leading-snug">
-              Пакети залежать від кількості гостей, програми і тривалості.
-              Орієнтовний діапазон — від 2 до 4 годин, від 6 до 30 дітей. За
-              запитом.
+              {t("prices_note")}
             </p>
           </div>
         </div>
@@ -396,12 +315,12 @@ export default function KidsPartiesPage() {
               className="text-[11px] uppercase tracking-[0.22em]"
               style={{ color: TAN }}
             >
-              Локації
+              {t("locations_eyebrow")}
             </p>
             <h2 className="font-display mt-6 text-4xl md:text-5xl leading-tight">
-              Три локації{" "}
+              {t("locations_heading_pt1")}{" "}
               <span className="italic font-light" style={{ color: TAN }}>
-                на території
+                {t("locations_heading_em")}
               </span>
             </h2>
           </div>
@@ -425,9 +344,7 @@ export default function KidsPartiesPage() {
                   </span>
                   <MapPin className="h-5 w-5" style={{ color: TAN }} />
                 </div>
-                <h3 className="font-display mt-6 text-2xl md:text-3xl">
-                  {loc.title}
-                </h3>
+                <h3 className="font-display mt-6 text-2xl md:text-3xl">{loc.title}</h3>
                 <p
                   className="mt-4 leading-relaxed"
                   style={{ color: `${CREAM}bb` }}
@@ -448,11 +365,11 @@ export default function KidsPartiesPage() {
               className="text-[11px] uppercase tracking-[0.22em]"
               style={{ color: FOREST }}
             >
-              Галерея
+              {t("gallery_eyebrow")}
             </p>
             <h2 className="font-display mt-6 text-4xl md:text-5xl leading-tight">
-              Моменти{" "}
-              <span className="italic font-light">свят</span>
+              {t("gallery_heading_pt1")}{" "}
+              <span className="italic font-light">{t("gallery_heading_em")}</span>
             </h2>
           </div>
           <div className="mt-16">
@@ -470,11 +387,11 @@ export default function KidsPartiesPage() {
                 className="text-[11px] uppercase tracking-[0.22em]"
                 style={{ color: FOREST }}
               >
-                Як підготуватися
+                {t("prep_eyebrow")}
               </p>
               <h2 className="font-display mt-6 text-4xl md:text-5xl leading-tight">
-                П&apos;ять кроків{" "}
-                <span className="italic font-light">до свята</span>
+                {t("prep_heading_pt1")}{" "}
+                <span className="italic font-light">{t("prep_heading_em")}</span>
               </h2>
             </div>
 
@@ -493,14 +410,10 @@ export default function KidsPartiesPage() {
                     </span>
                   </div>
                   <div className="md:col-span-4">
-                    <h3 className="font-display text-2xl md:text-3xl">
-                      {step.title}
-                    </h3>
+                    <h3 className="font-display text-2xl md:text-3xl">{step.title}</h3>
                   </div>
                   <div className="md:col-span-6">
-                    <p className="text-lg text-[#0b1410]/75 leading-relaxed">
-                      {step.text}
-                    </p>
+                    <p className="text-lg text-[#0b1410]/75 leading-relaxed">{step.text}</p>
                   </div>
                 </li>
               ))}
@@ -516,30 +429,21 @@ export default function KidsPartiesPage() {
             className="text-[11px] uppercase tracking-[0.22em]"
             style={{ color: TAN }}
           >
-            Зв&apos;язок
+            {t("cta_eyebrow")}
           </p>
           <h2 className="font-display mt-6 text-5xl md:text-7xl leading-[0.95]">
-            Обговоримо{" "}
+            {t("cta_heading_pt1")}{" "}
             <span className="italic font-light" style={{ color: TAN }}>
-              свято
+              {t("cta_heading_em")}
             </span>
           </h2>
           <p
             className="mt-8 max-w-xl mx-auto text-lg leading-relaxed"
             style={{ color: `${CREAM}cc` }}
           >
-            Напишіть або зателефонуйте — підготуємо персональний сценарій
-            свята для вашої дитини.
+            {t("cta_body")}
           </p>
           <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6">
-            <a
-              href="tel:+380951234567"
-              className="inline-flex items-center gap-3 text-lg border-b pb-1 transition-opacity hover:opacity-80"
-              style={{ borderColor: TAN, color: TAN }}
-            >
-              <Phone className="h-5 w-5" />
-              +38 (095) 123-45-67
-            </a>
             <BookingButton />
           </div>
         </div>

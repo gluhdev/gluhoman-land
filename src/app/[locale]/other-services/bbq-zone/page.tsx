@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import Script from "next/script";
 import {
   Flame,
@@ -11,37 +10,28 @@ import {
   Phone,
   ArrowUpRight,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/routing";
 import { BookingButton } from "@/components/ui/BookingButton";
 
-export const metadata: Metadata = {
-  title: "Мангальна зона — Глухомань",
-  description:
-    "Обладнана мангальна зона для барбекю біля води у рекреаційному комплексі «Глухомань». Мангал на дровах, навіс, столи. Полтавщина.",
-  openGraph: {
-    title: "Мангальна зона у Глухомані",
-    description: "Гриль-вечір на природі",
-    type: "website",
-    locale: "uk_UA",
-  },
-};
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  name: "Мангальна зона — Глухомань",
-  serviceType: "Barbecue area",
-  areaServed: "Полтавська область, Україна",
-  provider: {
-    "@type": "LodgingBusiness",
-    name: "Рекреаційний комплекс «Глухомань»",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Нижні Млини",
-      addressRegion: "Полтавська область",
-      addressCountry: "UA",
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "other_services.bbq_zone" });
+  return {
+    title: t("meta_title"),
+    description: t("meta_description"),
+    openGraph: {
+      title: t("meta_og_title"),
+      description: t("meta_og_description"),
+      type: "website",
+      locale: locale === "uk" ? "uk_UA" : "en_US",
     },
-  },
-};
+  };
+}
 
 const cream = "#faf6ec";
 const surface = "#f4ecd8";
@@ -49,70 +39,56 @@ const tan = "#e6d9b8";
 const deepForest = "#0f1f18";
 const nearBlack = "#0b1410";
 
-const included = [
-  {
-    icon: Flame,
-    title: "Мангал на дровах",
-    desc: "Великий, професійний, з ґратами і шампурами.",
-  },
-  {
-    icon: Users,
-    title: "Столи і лави",
-    desc: "До 20 осіб комфортно за одним столом.",
-  },
-  {
-    icon: Utensils,
-    title: "Навіс",
-    desc: "Захист від дощу і прямого сонця протягом дня.",
-  },
-  {
-    icon: Droplets,
-    title: "Раковина",
-    desc: "Вбудована мийка для рук і продуктів поруч.",
-  },
-  {
-    icon: Flame,
-    title: "Дрова",
-    desc: "Привозимо при бронюванні — сухі, готові до вогню.",
-  },
-  {
-    icon: Utensils,
-    title: "Посуд",
-    desc: "За запитом — тарілки, склянки, прибори.",
-  },
-];
+export default async function BbqZonePage() {
+  const t = await getTranslations("other_services.bbq_zone");
 
-const formats = [
-  {
-    tag: "01",
-    title: "Ваші продукти",
-    desc:
-      "Ви привозите м'ясо, маринади і напої, а ми надаємо простір, мангал, дрова і обладнання. Це найекономніший варіант для компанії, яка любить готувати сама.",
-  },
-  {
-    tag: "02",
-    title: "Наш мангальний сет",
-    desc:
-      "Ми готуємо маринований шашлик, овочі-гриль, соуси і хліб з нашої кухні. Ви приходите у зону — все вже готове до вогню і подачі.",
-  },
-];
+  const included = [
+    { icon: Flame,    title: t("equip_1_title"), desc: t("equip_1_desc") },
+    { icon: Users,    title: t("equip_2_title"), desc: t("equip_2_desc") },
+    { icon: Utensils, title: t("equip_3_title"), desc: t("equip_3_desc") },
+    { icon: Droplets, title: t("equip_4_title"), desc: t("equip_4_desc") },
+    { icon: Flame,    title: t("equip_5_title"), desc: t("equip_5_desc") },
+    { icon: Utensils, title: t("equip_6_title"), desc: t("equip_6_desc") },
+  ];
 
-const addons = [
-  "Свинячий шашлик маринований — за запитом",
-  "Курячі крильця і стегна — за запитом",
-  "Грильовані овочі (баклажан, перець, цукіні)",
-  "Салати, хліб, соуси — повний набір для пікніка",
-];
+  const formats = [
+    { tag: "01", title: t("fmt_1_title"), desc: t("fmt_1_desc") },
+    { tag: "02", title: t("fmt_2_title"), desc: t("fmt_2_desc") },
+  ];
 
-const rules = [
-  "Бронювання за 2 дні наперед.",
-  "Мінімальний час оренди — 3 години.",
-  "Залишки після себе прибираємо разом (штраф за залишений сміття).",
-  "Алкоголь дозволений, але помірно.",
-  "Діти під наглядом — мангал це вогонь.",
-];
+  const addons = [
+    t("addon_1"),
+    t("addon_2"),
+    t("addon_3"),
+    t("addon_4"),
+  ];
 
-export default function BbqZonePage() {
+  const rules = [
+    t("rule_1"),
+    t("rule_2"),
+    t("rule_3"),
+    t("rule_4"),
+    t("rule_5"),
+  ];
+
+  const jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: t("jsonld_name"),
+    serviceType: "Barbecue area",
+    areaServed: "Полтавська область, Україна",
+    provider: {
+      "@type": "LodgingBusiness",
+      name: "Рекреаційний комплекс «Глухомань»",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Нижні Млини",
+        addressRegion: "Полтавська область",
+        addressCountry: "UA",
+      },
+    },
+  });
+
   return (
     <main style={{ backgroundColor: cream }} className="font-display">
       <Script
@@ -120,7 +96,7 @@ export default function BbqZonePage() {
         type="application/ld+json"
         strategy="beforeInteractive"
       >
-        {JSON.stringify(jsonLd)}
+        {jsonLd}
       </Script>
 
       {/* 1 · HERO */}
@@ -131,7 +107,7 @@ export default function BbqZonePage() {
         <div className="absolute inset-0">
           <Image
             src="/images/restaurant/hall_oven.jpg"
-            alt="Мангал на дровах"
+            alt={t("hero_img_alt")}
             fill
             priority
             className="object-cover opacity-55"
@@ -149,35 +125,33 @@ export default function BbqZonePage() {
             className="text-[11px] uppercase tracking-[0.22em]"
             style={{ color: tan }}
           >
-            Гриль • Глухомань
+            {t("hero_eyebrow")}
           </p>
           <h1 className="mt-6 text-5xl md:text-7xl leading-[1.05]">
-            Мангальна зона{" "}
+            {t("hero_title_pt1")}{" "}
             <span className="italic" style={{ color: tan }}>
-              біля води
+              {t("hero_title_em")}
             </span>
           </h1>
           <p
             className="mt-8 max-w-2xl text-lg md:text-xl leading-relaxed"
             style={{ color: "#d8d0b8" }}
           >
-            Обладнана зона для барбекю у затишному кутку комплексу. Мангал на
-            дровах, зручні столи, навіс від дощу і вид на ставок. Ви принесете
-            продукти — ми зробимо вечір.
+            {t("hero_body")}
           </p>
           <div className="mt-12 flex flex-wrap items-center gap-5">
             <BookingButton
               className="inline-flex items-center gap-2 px-8 py-4 text-sm uppercase tracking-[0.22em]"
               style={{ backgroundColor: cream, color: nearBlack }}
             >
-              Забронювати зону <ArrowUpRight className="h-4 w-4" />
+              {t("book_zone")} <ArrowUpRight className="h-4 w-4" />
             </BookingButton>
             <Link
               href="tel:+380991234567"
               className="inline-flex items-center gap-2 px-8 py-4 text-sm uppercase tracking-[0.22em] border"
               style={{ borderColor: tan, color: cream }}
             >
-              <Phone className="h-4 w-4" /> Зателефонувати
+              <Phone className="h-4 w-4" /> {t("call_btn")}
             </Link>
           </div>
         </div>
@@ -187,24 +161,15 @@ export default function BbqZonePage() {
       <section style={{ backgroundColor: cream, color: nearBlack }}>
         <div className="max-w-6xl mx-auto px-6 py-28 md:py-36">
           <p className="text-[11px] uppercase tracking-[0.22em] text-black/50">
-            Про зону
+            {t("intro_eyebrow")}
           </p>
           <h2 className="mt-5 text-4xl md:text-5xl leading-[1.1] max-w-3xl">
-            Простір для своїх.{" "}
-            <span className="italic text-black/60">Без поспіху.</span>
+            {t("intro_heading_pt1")}{" "}
+            <span className="italic text-black/60">{t("intro_heading_em")}</span>
           </h2>
           <div className="mt-14 grid md:grid-cols-2 gap-12 md:gap-16 text-base md:text-lg leading-relaxed text-black/75">
-            <p>
-              У «Глухомані» є окрема мангальна зона, яку можна орендувати на
-              вечір або цілий день. Це напівкрита зона з мангалом на дровах,
-              зручними столами, лавами і вбудованою раковиною для миття рук та
-              продуктів.
-            </p>
-            <p>
-              Ми надаємо усе обладнання, а ви — приносите ваш шашлик, ковбаски,
-              овочі й напої. Або можете замовити мангальний сет з ресторану
-              «Глухомань» — ми підготуємо усе з нашої кухні.
-            </p>
+            <p>{t("intro_p1")}</p>
+            <p>{t("intro_p2")}</p>
           </div>
         </div>
       </section>
@@ -218,18 +183,17 @@ export default function BbqZonePage() {
                 className="text-[11px] uppercase tracking-[0.22em]"
                 style={{ color: tan }}
               >
-                Обладнання
+                {t("equip_eyebrow")}
               </p>
               <h2 className="mt-5 text-4xl md:text-5xl leading-[1.1]">
-                Що{" "}
+                {t("equip_heading_pt1")}{" "}
                 <span className="italic" style={{ color: tan }}>
-                  включено
+                  {t("equip_heading_em")}
                 </span>
               </h2>
             </div>
             <p className="max-w-sm text-sm leading-relaxed text-white/60">
-              Усе, що потрібно для комфортного гриль-вечора на природі — ми вже
-              підготували.
+              {t("equip_note")}
             </p>
           </div>
 
@@ -245,9 +209,7 @@ export default function BbqZonePage() {
               >
                 <Icon className="h-6 w-6" style={{ color: tan }} />
                 <h3 className="mt-6 text-2xl">{title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/70">
-                  {desc}
-                </p>
+                <p className="mt-3 text-sm leading-relaxed text-white/70">{desc}</p>
               </div>
             ))}
           </div>
@@ -258,11 +220,11 @@ export default function BbqZonePage() {
       <section style={{ backgroundColor: cream, color: nearBlack }}>
         <div className="max-w-6xl mx-auto px-6 py-28 md:py-36">
           <p className="text-[11px] uppercase tracking-[0.22em] text-black/50">
-            Формати
+            {t("formats_eyebrow")}
           </p>
           <h2 className="mt-5 text-4xl md:text-5xl leading-[1.1] max-w-3xl">
-            Два шляхи до{" "}
-            <span className="italic text-black/60">одного вечора</span>
+            {t("formats_heading_pt1")}{" "}
+            <span className="italic text-black/60">{t("formats_heading_em")}</span>
           </h2>
 
           <div className="mt-16 grid md:grid-cols-2 gap-10">
@@ -277,16 +239,12 @@ export default function BbqZonePage() {
               >
                 <div className="flex items-baseline justify-between">
                   <span className="text-[11px] uppercase tracking-[0.22em] text-black/50">
-                    Формат {f.tag}
+                    {t("fmt_tag_prefix")} {f.tag}
                   </span>
                   <Flame className="h-5 w-5 text-black/40" />
                 </div>
-                <h3 className="mt-8 text-3xl md:text-4xl leading-tight">
-                  {f.title}
-                </h3>
-                <p className="mt-6 text-base leading-relaxed text-black/70">
-                  {f.desc}
-                </p>
+                <h3 className="mt-8 text-3xl md:text-4xl leading-tight">{f.title}</h3>
+                <p className="mt-6 text-base leading-relaxed text-black/70">{f.desc}</p>
               </article>
             ))}
           </div>
@@ -300,7 +258,7 @@ export default function BbqZonePage() {
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
                 src="/images/restaurant/exterior_summer_terrace_water.jpg"
-                alt="Літня зона біля води"
+                alt={t("location_img_alt")}
                 fill
                 className="object-cover"
               />
@@ -310,18 +268,16 @@ export default function BbqZonePage() {
                 className="text-[11px] uppercase tracking-[0.22em]"
                 style={{ color: tan }}
               >
-                Локація
+                {t("location_eyebrow")}
               </p>
               <h2 className="mt-5 text-4xl md:text-5xl leading-[1.1]">
-                Куток з{" "}
+                {t("location_heading_pt1")}{" "}
                 <span className="italic" style={{ color: tan }}>
-                  видом на ставок
+                  {t("location_heading_em")}
                 </span>
               </h2>
               <p className="mt-8 text-lg leading-relaxed text-white/75">
-                Мангальна зона розташована окремо від ресторану, у куточку з
-                видом на ставок. Тиша, природа, жодних зайвих людей. Можна
-                привести свою компанію і провести час у своєму колі.
+                {t("location_body")}
               </p>
             </div>
           </div>
@@ -332,11 +288,11 @@ export default function BbqZonePage() {
       <section style={{ backgroundColor: cream, color: nearBlack }}>
         <div className="max-w-6xl mx-auto px-6 py-28 md:py-36">
           <p className="text-[11px] uppercase tracking-[0.22em] text-black/50">
-            Меню з кухні
+            {t("addons_eyebrow")}
           </p>
           <h2 className="mt-5 text-4xl md:text-5xl leading-[1.1] max-w-3xl">
-            Що можна{" "}
-            <span className="italic text-black/60">замовити додатково</span>
+            {t("addons_heading_pt1")}{" "}
+            <span className="italic text-black/60">{t("addons_heading_em")}</span>
           </h2>
 
           <ul className="mt-16">
@@ -356,9 +312,7 @@ export default function BbqZonePage() {
           </ul>
 
           <p className="mt-16 max-w-2xl text-base leading-relaxed text-black/65">
-            Оренда зони — залежить від часу (3/6/12 годин). Мангальний сет з
-            ресторану — від <span className="italic">450 грн на особу</span>.
-            Уточнюйте при бронюванні.
+            {t("addons_pricing")}
           </p>
         </div>
       </section>
@@ -369,11 +323,11 @@ export default function BbqZonePage() {
           <div className="grid md:grid-cols-[1fr_2fr] gap-12 md:gap-20">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] text-black/50">
-                Правила
+                {t("rules_eyebrow")}
               </p>
               <h2 className="mt-5 text-4xl md:text-5xl leading-[1.1]">
-                Коротко про{" "}
-                <span className="italic text-black/60">головне</span>
+                {t("rules_heading_pt1")}{" "}
+                <span className="italic text-black/60">{t("rules_heading_em")}</span>
               </h2>
             </div>
             <ol className="space-y-0">
@@ -421,41 +375,33 @@ export default function BbqZonePage() {
             className="text-[11px] uppercase tracking-[0.22em]"
             style={{ color: tan }}
           >
-            Бронювання
+            {t("cta_eyebrow")}
           </p>
           <h2 className="mt-6 text-4xl md:text-6xl leading-[1.05]">
-            Вечір біля{" "}
+            {t("cta_heading_pt1")}{" "}
             <span className="italic" style={{ color: tan }}>
-              вогню чекає
+              {t("cta_heading_em")}
             </span>
           </h2>
           <p
             className="mt-8 max-w-xl mx-auto text-base md:text-lg leading-relaxed"
             style={{ color: "#cfc6ae" }}
           >
-            Забронюйте мангальну зону за 2 дні наперед — ми підготуємо дрова,
-            мангал і зустрінемо вашу компанію.
+            {t("cta_body")}
           </p>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-5">
             <BookingButton
               className="inline-flex items-center gap-2 px-10 py-4 text-sm uppercase tracking-[0.22em]"
               style={{ backgroundColor: cream, color: nearBlack }}
             >
-              Забронювати <ArrowUpRight className="h-4 w-4" />
+              {t("cta_book")} <ArrowUpRight className="h-4 w-4" />
             </BookingButton>
-            <Link
-              href="tel:+380991234567"
-              className="inline-flex items-center gap-2 px-10 py-4 text-sm uppercase tracking-[0.22em] border"
-              style={{ borderColor: tan, color: cream }}
-            >
-              <Phone className="h-4 w-4" /> +38 (099) 123 45 67
-            </Link>
           </div>
           <p
             className="mt-14 text-[11px] uppercase tracking-[0.22em] flex items-center justify-center gap-3"
             style={{ color: tan }}
           >
-            <Clock className="h-4 w-4" /> Мін. оренда — 3 години
+            <Clock className="h-4 w-4" /> {t("cta_min_rental")}
           </p>
         </div>
       </section>

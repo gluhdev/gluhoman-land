@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import Script from "next/script";
 import {
   Cat,
@@ -12,18 +11,27 @@ import {
   Clock,
   Phone,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/routing";
 
-export const metadata: Metadata = {
-  title: "Контактний зоопарк — Глухомань",
-  description:
-    "Маленький сімейний зоопарк у рекреаційному комплексі «Глухомань». Кози, кролики, павичі, гуси. Для дітей від 2 років. Полтавщина.",
-  openGraph: {
-    title: "Контактний зоопарк у Глухомані",
-    description: "Дружба з природою для всієї родини",
-    type: "website",
-    locale: "uk_UA",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "other_services.petting_zoo" });
+  return {
+    title: t("meta_title"),
+    description: t("meta_description"),
+    openGraph: {
+      title: t("meta_og_title"),
+      description: t("meta_og_description"),
+      type: "website",
+      locale: locale === "uk" ? "uk_UA" : "en_US",
+    },
+  };
+}
 
 const CREAM = "#faf6ec";
 const SURFACE = "#f4ecd8";
@@ -32,78 +40,55 @@ const DEEP = "#0f1f18";
 const FOREST = "#1a3d2e";
 const NEAR_BLACK = "#0b1410";
 
-const residents = [
-  {
-    icon: Cat,
-    name: "Карликові кози",
-    desc: "Найвідкритіші і допитливі. Люблять гризти одяг — обережно.",
-  },
-  {
-    icon: Rabbit,
-    name: "Кролики",
-    desc: "У окремій зоні, можна брати на руки (під наглядом).",
-  },
-  {
-    icon: Feather,
-    name: "Павичі",
-    desc: "Красиві, гордовиті, іноді розкривають хвости. Не прирученні — тільки фото.",
-  },
-  {
-    icon: Feather,
-    name: "Курочки і гуси",
-    desc: "Ходять вільно, клюють з рук. Малі діти в захваті.",
-  },
-  {
-    icon: Heart,
-    name: "Віслюк",
-    desc: "Повільний, терплячий, дає себе гладити.",
-  },
-  {
-    icon: Baby,
-    name: "Поні (іноді)",
-    desc: "Коли погода дозволяє — прогулянка на поні для дітей.",
-  },
-];
+export default async function PettingZooPage() {
+  const t = await getTranslations("other_services.petting_zoo");
 
-const allowed = [
-  "Годувати з рук (корм надаємо при вході)",
-  "Гладити кроликів і кіз",
-  "Фотографувати без обмежень",
-  "Брати фото і відео з тваринами",
-];
+  const residents = [
+    { icon: Cat,     name: t("res_1_name"), desc: t("res_1_desc") },
+    { icon: Rabbit,  name: t("res_2_name"), desc: t("res_2_desc") },
+    { icon: Feather, name: t("res_3_name"), desc: t("res_3_desc") },
+    { icon: Feather, name: t("res_4_name"), desc: t("res_4_desc") },
+    { icon: Heart,   name: t("res_5_name"), desc: t("res_5_desc") },
+    { icon: Baby,    name: t("res_6_name"), desc: t("res_6_desc") },
+  ];
 
-const rules = [
-  "Діти до 6 років — тільки у супроводі дорослого",
-  "Не годуйте тварин своєю їжею (чіпси, цукерки — шкодять)",
-  "Павичів не чіпати — вони агресивні, коли злякалися",
-  "Кіз тримати на відстані — люблять гризти одяг і кишені",
-  "Якщо маєте алергію на шерсть — попередьте",
-];
+  const allowed = [
+    t("allow_1"),
+    t("allow_2"),
+    t("allow_3"),
+    t("allow_4"),
+  ];
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  serviceType: "Petting Zoo",
-  name: "Контактний зоопарк — Глухомань",
-  description:
-    "Сімейний контактний зоопарк у рекреаційному комплексі «Глухомань». Кози, кролики, павичі, гуси, віслюк.",
-  provider: {
-    "@type": "LodgingBusiness",
-    name: "Глухомань",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Нижні Млини",
-      addressRegion: "Полтавська область",
-      addressCountry: "UA",
+  const rules = [
+    t("rule_1"),
+    t("rule_2"),
+    t("rule_3"),
+    t("rule_4"),
+    t("rule_5"),
+  ];
+
+  const jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Petting Zoo",
+    name: t("jsonld_name"),
+    description: t("jsonld_description"),
+    provider: {
+      "@type": "LodgingBusiness",
+      name: "Глухомань",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Нижні Млини",
+        addressRegion: "Полтавська область",
+        addressCountry: "UA",
+      },
     },
-  },
-};
+  });
 
-export default function PettingZooPage() {
   return (
     <main style={{ backgroundColor: CREAM }} className="font-sans">
       <Script id="petting-zoo-jsonld" type="application/ld+json">
-        {JSON.stringify(jsonLd)}
+        {jsonLd}
       </Script>
 
       {/* 1. HERO */}
@@ -115,20 +100,18 @@ export default function PettingZooPage() {
           <div className="grid md:grid-cols-[1fr_auto] gap-12 items-center">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] opacity-70">
-                Для родин • Глухомань
+                {t("hero_eyebrow")}
               </p>
               <h1 className="font-display text-5xl md:text-7xl leading-[1.05] mt-6">
-                Контактний зоопарк
+                {t("hero_title")}
                 <br />
-                <span className="italic opacity-80">дружба з природою</span>
+                <span className="italic opacity-80">{t("hero_title_em")}</span>
               </h1>
               <p
                 className="mt-8 text-lg md:text-xl max-w-xl leading-relaxed opacity-80"
                 style={{ color: SURFACE }}
               >
-                Невеликий сімейний зоопарк із доброзичливими тваринами — кози,
-                кролики, павичі, курочки і гуси. Можна годувати з рук,
-                фотографувати і гладити. Ідеально для дітей від 2 років.
+                {t("hero_body")}
               </p>
               <div className="mt-12 flex items-center gap-6">
                 <div
@@ -136,7 +119,7 @@ export default function PettingZooPage() {
                   style={{ backgroundColor: TAN, opacity: 0.4 }}
                 />
                 <span className="text-[11px] uppercase tracking-[0.22em] opacity-60">
-                  Щодня 10:00 — 19:00
+                  {t("hero_hours")}
                 </span>
               </div>
             </div>
@@ -147,7 +130,7 @@ export default function PettingZooPage() {
               >
                 <Image
                   src="/images/restaurant/peacock_aviary_zhar_ptytsi.jpg"
-                  alt="Павич у вольєрі"
+                  alt={t("hero_img_alt")}
                   fill
                   className="object-cover opacity-90"
                 />
@@ -166,21 +149,17 @@ export default function PettingZooPage() {
           <div className="grid md:grid-cols-12 gap-12">
             <div className="md:col-span-4">
               <p className="text-[11px] uppercase tracking-[0.22em] opacity-60">
-                Про зоопарк
+                {t("intro_eyebrow")}
               </p>
               <h2 className="font-display text-4xl md:text-5xl mt-6 leading-[1.1]">
-                Маленька ферма,
+                {t("intro_heading_pt1")}
                 <br />
-                <span className="italic">велике враження</span>
+                <span className="italic">{t("intro_heading_em")}</span>
               </h2>
             </div>
             <div className="md:col-span-7 md:col-start-6">
               <p className="text-lg md:text-xl leading-relaxed opacity-85">
-                Наш контактний зоопарк — не класичний зоосад з клітками. Це
-                більше схоже на маленьку ферму, де тварини живуть у великих
-                загонах і звикли до гостей. Ви можете підійти, годувати з рук,
-                гладити і фотографувати. Для дітей — це магічний досвід першого
-                знайомства з домашніми і трохи екзотичними тваринами.
+                {t("intro_body")}
               </p>
             </div>
           </div>
@@ -196,14 +175,15 @@ export default function PettingZooPage() {
           <div className="flex items-end justify-between flex-wrap gap-6 mb-16">
             <div>
               <p className="text-[11px] uppercase tracking-[0.22em] opacity-60">
-                Знайомтесь
+                {t("residents_eyebrow")}
               </p>
               <h2 className="font-display text-4xl md:text-5xl mt-6 leading-[1.1]">
-                Наші <span className="italic">мешканці</span>
+                {t("residents_heading_pt1")}{" "}
+                <span className="italic">{t("residents_heading_em")}</span>
               </h2>
             </div>
             <p className="text-sm opacity-60 max-w-xs">
-              Шість видів тварин, які чекають вашого візиту
+              {t("residents_note")}
             </p>
           </div>
 
@@ -221,17 +201,12 @@ export default function PettingZooPage() {
                 >
                   <div
                     className="w-12 h-12 flex items-center justify-center"
-                    style={{
-                      border: `1px solid ${TAN}`,
-                      color: TAN,
-                    }}
+                    style={{ border: `1px solid ${TAN}`, color: TAN }}
                   >
                     <Icon className="w-5 h-5" />
                   </div>
                   <h3 className="font-display text-2xl mt-8">{r.name}</h3>
-                  <p className="mt-4 text-sm leading-relaxed opacity-70">
-                    {r.desc}
-                  </p>
+                  <p className="mt-4 text-sm leading-relaxed opacity-70">{r.desc}</p>
                 </div>
               );
             })}
@@ -248,10 +223,11 @@ export default function PettingZooPage() {
           <div className="grid md:grid-cols-12 gap-12">
             <div className="md:col-span-4">
               <p className="text-[11px] uppercase tracking-[0.22em] opacity-60">
-                Дозволено
+                {t("allowed_eyebrow")}
               </p>
               <h2 className="font-display text-4xl md:text-5xl mt-6 leading-[1.1]">
-                Що <span className="italic">можна</span>
+                {t("allowed_heading_pt1")}{" "}
+                <span className="italic">{t("allowed_heading_em")}</span>
               </h2>
             </div>
             <div className="md:col-span-7 md:col-start-6">
@@ -263,17 +239,13 @@ export default function PettingZooPage() {
                     style={{
                       borderTop: `1px solid ${TAN}`,
                       borderBottom:
-                        i === allowed.length - 1
-                          ? `1px solid ${TAN}`
-                          : undefined,
+                        i === allowed.length - 1 ? `1px solid ${TAN}` : undefined,
                     }}
                   >
                     <span className="font-display text-2xl opacity-40 w-8">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-lg leading-relaxed opacity-85 flex-1">
-                      {a}
-                    </span>
+                    <span className="text-lg leading-relaxed opacity-85 flex-1">{a}</span>
                   </li>
                 ))}
               </ul>
@@ -292,18 +264,16 @@ export default function PettingZooPage() {
             <div className="md:col-span-4">
               <div
                 className="w-12 h-12 flex items-center justify-center"
-                style={{
-                  border: `1px solid ${FOREST}`,
-                  color: FOREST,
-                }}
+                style={{ border: `1px solid ${FOREST}`, color: FOREST }}
               >
                 <AlertCircle className="w-5 h-5" />
               </div>
               <p className="text-[11px] uppercase tracking-[0.22em] opacity-60 mt-8">
-                Важливо
+                {t("rules_eyebrow")}
               </p>
               <h2 className="font-display text-4xl md:text-5xl mt-6 leading-[1.1]">
-                Правила <span className="italic">безпеки</span>
+                {t("rules_heading_pt1")}{" "}
+                <span className="italic">{t("rules_heading_em")}</span>
               </h2>
             </div>
             <div className="md:col-span-7 md:col-start-6">
@@ -315,9 +285,7 @@ export default function PettingZooPage() {
                     style={{
                       borderTop: `1px solid ${TAN}`,
                       borderBottom:
-                        i === rules.length - 1
-                          ? `1px solid ${TAN}`
-                          : undefined,
+                        i === rules.length - 1 ? `1px solid ${TAN}` : undefined,
                     }}
                   >
                     <span
@@ -350,15 +318,14 @@ export default function PettingZooPage() {
                 <Clock className="w-5 h-5" />
               </div>
               <p className="text-[11px] uppercase tracking-[0.22em] opacity-60 mt-8">
-                Розклад
+                {t("schedule_eyebrow")}
               </p>
               <h3 className="font-display text-3xl md:text-4xl mt-4 leading-tight">
-                Коли <span className="italic">приходити</span>
+                {t("schedule_heading")}{" "}
+                <span className="italic">{t("schedule_heading_em")}</span>
               </h3>
               <p className="mt-6 text-base md:text-lg leading-relaxed opacity-80">
-                Зоопарк відкритий щодня з 10:00 до 19:00. У спекотні дні тварини
-                ховаються в тіні — найкращий час для відвідування: ранок (до 12)
-                або вечір (після 17). Взимку зоопарк працює за домовленістю.
+                {t("schedule_body")}
               </p>
             </div>
             <div>
@@ -369,15 +336,14 @@ export default function PettingZooPage() {
                 <Heart className="w-5 h-5" />
               </div>
               <p className="text-[11px] uppercase tracking-[0.22em] opacity-60 mt-8">
-                Ціни
+                {t("prices_eyebrow")}
               </p>
               <h3 className="font-display text-3xl md:text-4xl mt-4 leading-tight">
-                Доступно <span className="italic">для всіх</span>
+                {t("prices_heading")}{" "}
+                <span className="italic">{t("prices_heading_em")}</span>
               </h3>
               <p className="mt-6 text-base md:text-lg leading-relaxed opacity-80">
-                Вхід до зоопарку включений для гостей комплексу. Для
-                відвідувачів без проживання — символічна плата, корм надаємо
-                окремо.
+                {t("prices_body")}
               </p>
             </div>
           </div>
@@ -391,14 +357,14 @@ export default function PettingZooPage() {
       >
         <div className="max-w-6xl mx-auto px-6 text-center">
           <p className="text-[11px] uppercase tracking-[0.22em] opacity-60">
-            Запрошуємо
+            {t("cta_eyebrow")}
           </p>
           <h2 className="font-display text-5xl md:text-6xl mt-6 leading-[1.05]">
-            Приходьте <span className="italic">з дітьми</span>
+            {t("cta_heading_pt1")}{" "}
+            <span className="italic">{t("cta_heading_em")}</span>
           </h2>
           <p className="mt-8 text-lg md:text-xl leading-relaxed opacity-80 max-w-2xl mx-auto">
-            Перше знайомство з тваринами, яке діти запам&apos;ятають надовго.
-            Зателефонуйте, щоб уточнити деталі візиту.
+            {t("cta_body")}
           </p>
           <div className="mt-12 inline-flex items-center gap-4">
             <div
@@ -408,10 +374,7 @@ export default function PettingZooPage() {
             <Link
               href="tel:+380501234567"
               className="inline-flex items-center gap-3 px-8 py-4 text-sm uppercase tracking-[0.18em]"
-              style={{
-                backgroundColor: FOREST,
-                color: CREAM,
-              }}
+              style={{ backgroundColor: FOREST, color: CREAM }}
             >
               <Phone className="w-4 h-4" />
               +38 (050) 123 45 67

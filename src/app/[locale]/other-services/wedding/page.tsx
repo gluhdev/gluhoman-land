@@ -2,29 +2,37 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Script from "next/script";
 import { Heart, Sparkles, MapPin, Users, Music, Camera } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { CONTACT_INFO } from "@/constants";
 import { BookingButton } from "@/components/ui/BookingButton";
 import { GalleryGrid } from "@/components/ui/GalleryGrid";
 
-export const metadata: Metadata = {
-  title: "Виїзні весільні церемонії — Глухомань",
-  description:
-    "Затишні весільні церемонії на природі у рекреаційному комплексі «Глухомань». Локації біля води, банкетні зали, координатор, кейтеринг. Полтавщина.",
-  openGraph: {
-    title: "Весілля у Глухомані",
-    description: "Виїзні весільні церемонії серед природи",
-    type: "website",
-    locale: "uk_UA",
-    images: [
-      {
-        url: "/images/restaurant/exterior_summer_terrace_water.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Виїзна весільна церемонія у Глухомані",
-      },
-    ],
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "other_services.wedding" });
+  return {
+    title: t("meta_title"),
+    description: t("meta_description"),
+    openGraph: {
+      title: t("meta_og_title"),
+      description: t("meta_og_description"),
+      type: "website",
+      locale: locale === "uk" ? "uk_UA" : "en_US",
+      images: [
+        {
+          url: "/images/restaurant/exterior_summer_terrace_water.jpg",
+          width: 1200,
+          height: 630,
+          alt: t("meta_og_image_alt"),
+        },
+      ],
+    },
+  };
+}
 
 const SHAPES = [
   "58% 42% 63% 37% / 45% 55% 45% 55%",
@@ -33,137 +41,71 @@ const SHAPES = [
   "45% 55% 40% 60% / 60% 45% 55% 40%",
 ];
 
-const INCLUSIONS = [
-  {
-    icon: MapPin,
-    title: "Локації для церемонії",
-    text: "альтанка біля ставка, літня тераса, зелена альтанка",
-  },
-  {
-    icon: Music,
-    title: "Технічне забезпечення",
-    text: "звук, підсилювачі, мікрофони для реєстрації",
-  },
-  {
-    icon: Sparkles,
-    title: "Прикраси та декор",
-    text: "живі квіти, арки, доріжки зі стрічок",
-  },
-  {
-    icon: Users,
-    title: "Координатор",
-    text: "ведення програми, комунікація з підрядниками",
-  },
-  {
-    icon: Camera,
-    title: "Фотозона",
-    text: "зелена жива альтанка, кущі троянд, вихід до води",
-  },
-  {
-    icon: Heart,
-    title: "Послуги кейтерингу",
-    text: "банкет у ресторані «Глухомань», кухня з української печі",
-  },
-];
+export default async function WeddingPage() {
+  const t = await getTranslations("other_services.wedding");
+  const phone = CONTACT_INFO.phone[0];
 
-const FORMATS = [
-  {
-    n: "01",
-    title: "Коротка церемонія",
-    text: "2–3 години, до 30 гостей, без банкету. Фото сесія + легкі закуски.",
-  },
-  {
-    n: "02",
-    title: "Класичне весілля",
-    text: "до 80 гостей, банкет у залі «Глухомань», програма до 6 годин.",
-  },
-  {
-    n: "03",
-    title: "Весільний day-out",
-    text: "повний день, до 120 гостей, виїзна церемонія + банкет + ранкова прогулянка наступного дня з проживанням у готелі.",
-  },
-];
+  const INCLUSIONS = [
+    { icon: MapPin, title: t("incl_1_title"), text: t("incl_1_text") },
+    { icon: Music, title: t("incl_2_title"), text: t("incl_2_text") },
+    { icon: Sparkles, title: t("incl_3_title"), text: t("incl_3_text") },
+    { icon: Users, title: t("incl_4_title"), text: t("incl_4_text") },
+    { icon: Camera, title: t("incl_5_title"), text: t("incl_5_text") },
+    { icon: Heart, title: t("incl_6_title"), text: t("incl_6_text") },
+  ];
 
-const LOCATIONS = [
-  {
-    title: "Літня тераса біля води",
-    src: "/images/restaurant/exterior_summer_terrace_water.jpg",
-  },
-  {
-    title: "Зелена альтанка",
-    src: "/images/restaurant/decor_photozone_green_hedge.jpg",
-  },
-  {
-    title: "Банкетна зала з каміном",
-    src: "/images/restaurant/hall_banquet.jpg",
-  },
-  {
-    title: "Святкова вечеря з десертами",
-    src: "/images/restaurant/event_fruit_table_terrace.jpg",
-  },
-];
+  const FORMATS = [
+    { n: "01", title: t("format_1_title"), text: t("format_1_text") },
+    { n: "02", title: t("format_2_title"), text: t("format_2_text") },
+    { n: "03", title: t("format_3_title"), text: t("format_3_text") },
+  ];
 
-const GALLERY = [
-  {
-    src: "/images/restaurant/event_01.jpg",
-    alt: "Весільна подія у Глухомані",
-  },
-  {
-    src: "/images/restaurant/event_02.jpg",
-    alt: "Гості на весіллі",
-  },
-  {
-    src: "/images/restaurant/event_03.jpg",
-    alt: "Святкування весілля",
-  },
-  {
-    src: "/images/restaurant/event_04_music.jpg",
-    alt: "Музичний супровід весілля",
-  },
-  {
-    src: "/images/restaurant/decor_photozone_green_hedge.jpg",
-    alt: "Фотозона з зеленою альтанкою",
-  },
-  {
-    src: "/images/restaurant/exterior_summer_terrace_water.jpg",
-    alt: "Літня тераса біля води",
-  },
-];
+  const LOCATIONS = [
+    { title: t("loc_1_title"), src: "/images/restaurant/exterior_summer_terrace_water.jpg" },
+    { title: t("loc_2_title"), src: "/images/restaurant/decor_photozone_green_hedge.jpg" },
+    { title: t("loc_3_title"), src: "/images/restaurant/hall_banquet.jpg" },
+    { title: t("loc_4_title"), src: "/images/restaurant/event_fruit_table_terrace.jpg" },
+  ];
 
-const REQUIREMENTS = [
-  "Дата події за 2 місяці наперед (чим раніше, тим кращі локації)",
-  "Попередній список гостей (для розміру залу)",
-  "Ваші уподобання щодо декору і музики",
-  "Вимоги до меню (ми складаємо індивідуальне)",
-];
+  const GALLERY = [
+    { src: "/images/restaurant/event_01.jpg", alt: t("gallery_alt_1") },
+    { src: "/images/restaurant/event_02.jpg", alt: t("gallery_alt_2") },
+    { src: "/images/restaurant/event_03.jpg", alt: t("gallery_alt_3") },
+    { src: "/images/restaurant/event_04_music.jpg", alt: t("gallery_alt_4") },
+    { src: "/images/restaurant/decor_photozone_green_hedge.jpg", alt: t("gallery_alt_5") },
+    { src: "/images/restaurant/exterior_summer_terrace_water.jpg", alt: t("gallery_alt_6") },
+  ];
 
-const phone = CONTACT_INFO.phone[0];
+  const REQUIREMENTS = [
+    t("req_1"),
+    t("req_2"),
+    t("req_3"),
+    t("req_4"),
+  ];
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  serviceType: "Wedding",
-  name: "Виїзні весільні церемонії — Глухомань",
-  description:
-    "Затишні виїзні весільні церемонії на території рекреаційного комплексу «Глухомань» у с. Нижні Млини, Полтавська область.",
-  areaServed: {
-    "@type": "Place",
-    name: "Полтавська область, Україна",
-  },
-  provider: {
-    "@type": "LodgingBusiness",
-    name: "Рекреаційний комплекс «Глухомань»",
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "UA",
-      addressRegion: "Полтавська область",
-      addressLocality: "Нижні Млини",
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Wedding",
+    name: t("jsonld_name"),
+    description: t("jsonld_description"),
+    areaServed: {
+      "@type": "Place",
+      name: "Полтавська область, Україна",
     },
-    telephone: phone,
-  },
-};
+    provider: {
+      "@type": "LodgingBusiness",
+      name: t("jsonld_provider"),
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "UA",
+        addressRegion: "Полтавська область",
+        addressLocality: "Нижні Млини",
+      },
+      telephone: phone,
+    },
+  };
 
-export default function WeddingPage() {
   return (
     <main className="bg-[#faf6ec] text-[#0b1410]">
       <Script id="wedding-jsonld" type="application/ld+json">
@@ -175,7 +117,7 @@ export default function WeddingPage() {
         <div className="absolute inset-0">
           <Image
             src="/images/restaurant/exterior_summer_terrace_water.jpg"
-            alt="Літня тераса Глухомані біля води"
+            alt={t("hero_img_alt")}
             fill
             priority
             sizes="100vw"
@@ -186,62 +128,55 @@ export default function WeddingPage() {
         <div className="relative mx-auto flex min-h-[80vh] max-w-6xl flex-col justify-end px-6 py-28 md:py-36">
           <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]">
             <Heart className="h-4 w-4" strokeWidth={1.5} />
-            <span>Весілля • Глухомань</span>
+            <span>{t("hero_eyebrow")}</span>
           </div>
           <h1 className="font-display mt-6 text-5xl leading-[1.05] md:text-7xl lg:text-8xl">
-            Весільна церемонія
+            {t("hero_title")}
             <span className="block font-display italic text-[#e6d9b8]">
-              серед природи
+              {t("hero_title_em")}
             </span>
           </h1>
           <p className="mt-8 max-w-2xl text-lg leading-relaxed text-[#faf6ec]/85 md:text-xl">
-            Затишні виїзні церемонії на березі ставка, під зеленню альтанок.
-            Тиха природа замість галасу міста — і день, що запам&apos;ятається
-            на все життя.
+            {t("hero_body")}
           </p>
         </div>
       </section>
 
-      {/* 2. ПРО */}
+      {/* 2. ABOUT */}
       <section className="bg-[#faf6ec] py-28 md:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4">
               <div className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]">
-                Про нас
+                {t("about_eyebrow")}
               </div>
               <h2 className="font-display mt-6 text-4xl leading-tight md:text-5xl">
-                День,
+                {t("about_heading_pt1")}
                 <span className="block font-display italic text-[#1a3d2e]">
-                  який належить вам
+                  {t("about_heading_em")}
                 </span>
               </h2>
             </div>
             <div className="md:col-span-8">
               <p className="text-lg leading-relaxed text-[#0b1410]/80 md:text-xl">
-                Ми проводимо виїзні весільні церемонії на території комплексу
-                «Глухомань» у с. Нижні Млини. Наш майданчик — це поєднання
-                автентичної української природи, затишної тераси біля води,
-                романтичних альтанок і живописних закутків для найкращих фото.
-                Місце, де час сповільнюється, а молодята можуть насолодитися
-                кожним моментом.
+                {t("about_body")}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. ЩО ВКЛЮЧЕНО */}
+      {/* 3. INCLUDED */}
       <section className="bg-[#0f1f18] py-28 text-[#faf6ec] md:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-2xl">
             <div className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]">
-              Що включено
+              {t("included_eyebrow")}
             </div>
             <h2 className="font-display mt-6 text-4xl leading-tight md:text-5xl">
-              Від ідеї{" "}
+              {t("included_heading_pt1")}{" "}
               <span className="font-display italic text-[#e6d9b8]">
-                до останнього тосту
+                {t("included_heading_em")}
               </span>
             </h2>
           </div>
@@ -262,17 +197,17 @@ export default function WeddingPage() {
         </div>
       </section>
 
-      {/* 4. ФОРМАТИ */}
+      {/* 4. FORMATS */}
       <section className="bg-[#faf6ec] py-28 md:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-2xl">
             <div className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]">
-              Формати
+              {t("formats_eyebrow")}
             </div>
             <h2 className="font-display mt-6 text-4xl leading-tight md:text-5xl">
-              Три варіанти,{" "}
+              {t("formats_heading_pt1")}{" "}
               <span className="font-display italic text-[#1a3d2e]">
-                одна атмосфера
+                {t("formats_heading_em")}
               </span>
             </h2>
           </div>
@@ -294,17 +229,17 @@ export default function WeddingPage() {
         </div>
       </section>
 
-      {/* 5. ЛОКАЦІЇ */}
+      {/* 5. LOCATIONS */}
       <section className="bg-[#0f1f18] py-28 text-[#faf6ec] md:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-2xl">
             <div className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]">
-              Локації
+              {t("locations_eyebrow")}
             </div>
             <h2 className="font-display mt-6 text-4xl leading-tight md:text-5xl">
-              Місця, де{" "}
+              {t("locations_heading_pt1")}{" "}
               <span className="font-display italic text-[#e6d9b8]">
-                все починається
+                {t("locations_heading_em")}
               </span>
             </h2>
           </div>
@@ -332,17 +267,17 @@ export default function WeddingPage() {
         </div>
       </section>
 
-      {/* 6. ГАЛЕРЕЯ */}
+      {/* 6. GALLERY */}
       <section className="bg-[#faf6ec] py-28 md:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <div className="max-w-2xl">
             <div className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]">
-              Галерея подій
+              {t("gallery_eyebrow")}
             </div>
             <h2 className="font-display mt-6 text-4xl leading-tight md:text-5xl">
-              Моменти,{" "}
+              {t("gallery_heading_pt1")}{" "}
               <span className="font-display italic text-[#1a3d2e]">
-                що залишаються
+                {t("gallery_heading_em")}
               </span>
             </h2>
           </div>
@@ -352,36 +287,32 @@ export default function WeddingPage() {
         </div>
       </section>
 
-      {/* 7. ПРОВЕДЕНІ ВЕСІЛЛЯ */}
+      {/* 7. PAST WEDDINGS */}
       <section className="bg-[#faf6ec] pb-28 md:pb-36">
         <div className="mx-auto max-w-4xl px-6">
           <div className="border-t border-[#0b1410]/15 pt-16">
             <div className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]">
-              Проведені весілля
+              {t("past_eyebrow")}
             </div>
             <p className="font-display mt-8 text-3xl leading-[1.3] text-[#0b1410] md:text-4xl">
-              За роки існування комплексу ми провели{" "}
-              <span className="italic text-[#1a3d2e]">десятки весіль</span> —
-              від інтимних церемоній на 20 гостей до святкувань на 100+ осіб.
-              Кожне весілля ми робимо унікальним — прислухаючись до побажань
-              пари.
+              {t("past_body")}
             </p>
           </div>
         </div>
       </section>
 
-      {/* 8. ЩО ВІД НАС ПОТРІБНО */}
+      {/* 8. REQUIREMENTS */}
       <section className="bg-[#0f1f18] py-28 text-[#faf6ec] md:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-5">
               <div className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]">
-                Що від нас потрібно
+                {t("requirements_eyebrow")}
               </div>
               <h2 className="font-display mt-6 text-4xl leading-tight md:text-5xl">
-                Декілька{" "}
+                {t("requirements_heading_pt1")}{" "}
                 <span className="font-display italic text-[#e6d9b8]">
-                  простих деталей
+                  {t("requirements_heading_em")}
                 </span>
               </h2>
             </div>
@@ -407,14 +338,11 @@ export default function WeddingPage() {
       {/* 9. CTA */}
       <section className="bg-[#0b1410] py-28 text-[#faf6ec] md:py-36">
         <div className="mx-auto max-w-6xl px-6 text-center">
-          <Heart
-            className="mx-auto h-7 w-7 text-[#e6d9b8]"
-            strokeWidth={1.25}
-          />
+          <Heart className="mx-auto h-7 w-7 text-[#e6d9b8]" strokeWidth={1.25} />
           <h2 className="font-display mx-auto mt-8 max-w-4xl text-5xl leading-[1.05] md:text-7xl">
-            Почнемо планувати{" "}
+            {t("cta_heading_pt1")}{" "}
             <span className="font-display italic text-[#e6d9b8]">
-              ваше весілля
+              {t("cta_heading_em")}
             </span>
           </h2>
           <div className="mt-14 flex flex-col items-center gap-8">
@@ -424,10 +352,8 @@ export default function WeddingPage() {
             >
               {phone}
             </a>
-            <BookingButton
-              className="border border-[#e6d9b8] bg-[#e6d9b8] px-12 py-5 text-[11px] uppercase tracking-[0.22em] text-[#0b1410] transition-colors hover:bg-[#faf6ec]"
-            >
-              Забронювати дату
+            <BookingButton className="border border-[#e6d9b8] bg-[#e6d9b8] px-12 py-5 text-[11px] uppercase tracking-[0.22em] text-[#0b1410] transition-colors hover:bg-[#faf6ec]">
+              {t("book_date")}
             </BookingButton>
           </div>
         </div>

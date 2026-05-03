@@ -10,20 +10,28 @@ import {
   ArrowUpRight,
   Phone,
 } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { CONTACT_INFO } from "@/constants";
 import { BookingButton } from "@/components/ui/BookingButton";
 
-export const metadata: Metadata = {
-  title: "Пейнтбол у Глухомані — лісовий полігон",
-  description:
-    "Пейнтбол у сосновому лісі на території Глухоманю. Корпоративи, дитячі ігри, парубоцькі вечірки. Полтавщина.",
-  openGraph: {
-    title: "Пейнтбол у Глухомані",
-    description: "Адреналін і тактика у сосновому лісі",
-    type: "website",
-    locale: "uk_UA",
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "other_services.paintball" });
+  return {
+    title: t("meta_title"),
+    description: t("meta_description"),
+    openGraph: {
+      title: t("meta_og_title"),
+      description: t("meta_og_description"),
+      type: "website",
+      locale: locale === "uk" ? "uk_UA" : "en_US",
+    },
+  };
+}
 
 const CREAM = "#faf6ec";
 const SURFACE = "#f4ecd8";
@@ -32,98 +40,72 @@ const DEEP_FOREST = "#0f1f18";
 const FOREST = "#1a3d2e";
 const NEAR_BLACK = "#0b1410";
 
-const longDescription = `Адреналін, тактика і командна гра у власному пейнтбольному клубі «Глухомань». Майданчик розташований у сосновому лісі — натуральні укриття, штучні барикади і безпечне обладнання забезпечують яскравий досвід для команд будь-якого розміру.
+export default async function PaintballPage() {
+  const t = await getTranslations("other_services.paintball");
+  const primaryPhone = CONTACT_INFO.phone[0];
 
-Ми проводимо корпоративні турніри, дитячі та підліткові ігри (від 12 років), а також святкові формати — день народження у форматі бойової місії, парубоцькі вечірки, тимбілдинги. Інструктор проводить інструктаж і супроводжує гру.`;
+  const features = [
+    { title: t("feat_1_title"), desc: t("feat_1_desc") },
+    { title: t("feat_2_title"), desc: t("feat_2_desc") },
+    { title: t("feat_3_title"), desc: t("feat_3_desc") },
+    { title: t("feat_4_title"), desc: t("feat_4_desc") },
+  ];
 
-const features = [
-  { title: "Лісовий полігон", desc: "Природні укриття серед сосен" },
-  { title: "Професійне обладнання", desc: "Маркери, маски, захисний одяг" },
-  { title: "Інструктор", desc: "Безпека і інструктаж перед грою" },
-  { title: "Декілька сценаріїв", desc: "Захоплення прапора, штурм, командний бій" },
-];
+  const scenarios = [
+    { roman: "I",   title: t("scenario_1_title"), desc: t("scenario_1_desc") },
+    { roman: "II",  title: t("scenario_2_title"), desc: t("scenario_2_desc") },
+    { roman: "III", title: t("scenario_3_title"), desc: t("scenario_3_desc") },
+    { roman: "IV",  title: t("scenario_4_title"), desc: t("scenario_4_desc") },
+  ];
 
-const scenarios = [
-  {
-    roman: "I",
-    title: "Захоплення прапора",
-    desc: "Класика пейнтболу. Дві команди, два прапори, одна ціль — захопити ворожий і принести на свою базу.",
-  },
-  {
-    roman: "II",
-    title: "Штурм фортеці",
-    desc: "Одна команда захищає, інша атакує. Динаміка і тактика.",
-  },
-  {
-    roman: "III",
-    title: "Командний бій",
-    desc: "Хто останній — той переможе. Швидко, інтенсивно, для невеликих груп.",
-  },
-  {
-    roman: "IV",
-    title: "Бойова місія",
-    desc: "Спеціальний сценарій на замовлення для днів народження і тимбілдингів.",
-  },
-];
+  const audiences = [
+    { icon: Users, title: t("aud_1_title"), desc: t("aud_1_desc") },
+    { icon: Cake,  title: t("aud_2_title"), desc: t("aud_2_desc") },
+    { icon: Beer,  title: t("aud_3_title"), desc: t("aud_3_desc") },
+  ];
 
-const audiences = [
-  {
-    icon: Users,
-    title: "Корпоративи",
-    desc: "Тимбілдинг, перемикання після робочого тижня",
-  },
-  {
-    icon: Cake,
-    title: "День народження",
-    desc: "Від 12 років, у форматі пригодницької місії",
-  },
-  {
-    icon: Beer,
-    title: "Парубоцькі вечірки",
-    desc: "Адреналін без класичних штампів",
-  },
-];
+  const preparation = [
+    t("prep_1"),
+    t("prep_2"),
+    t("prep_3"),
+    t("prep_4"),
+  ];
 
-const preparation = [
-  "Зручний одяг, який не шкода забруднити (на пейнтболі бувають фарбові плями)",
-  "Закрите спортивне взуття (кеди, кросівки — але не сандалі)",
-  "Бажано прибути за 15 хвилин до початку для брифінгу з інструктором",
-  "Пейнтбол дозволений з 12 років, до 16 років — лише в супроводі батьків",
-];
+  const stats = [
+    { icon: Users,  label: t("stat_group_label"),   value: t("stat_group_value") },
+    { icon: Target, label: t("stat_bullets_label"),  value: t("stat_bullets_value") },
+    { icon: Clock,  label: t("stat_duration_label"), value: t("stat_duration_value") },
+  ];
 
-const primaryPhone = CONTACT_INFO.phone[0];
-const [introParagraph, detailParagraph] = longDescription.split("\n\n");
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  serviceType: "Paintball",
-  name: "Пейнтбол у Глухомані",
-  description:
-    "Пейнтбол у сосновому лісі на території рекреаційного комплексу «Глухомань». Корпоративи, дитячі ігри, парубоцькі вечірки.",
-  areaServed: "Полтавська область, Україна",
-  provider: {
-    "@type": "LodgingBusiness",
-    name: "Глухомань",
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "UA",
-      addressRegion: "Полтавська область",
-      addressLocality: "с. Нижні Млини",
+  const jsonLd = JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Paintball",
+    name: t("jsonld_name"),
+    description: t("jsonld_description"),
+    areaServed: "Полтавська область, Україна",
+    provider: {
+      "@type": "LodgingBusiness",
+      name: "Глухомань",
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "UA",
+        addressRegion: "Полтавська область",
+        addressLocality: "с. Нижні Млини",
+      },
+      telephone: primaryPhone,
     },
-    telephone: primaryPhone,
-  },
-};
+  });
 
-export default function PaintballPage() {
   return (
     <>
       <Script
         id="paintball-jsonld"
         type="application/ld+json"
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+        strategy="afterInteractive"
+      >
+        {jsonLd}
+      </Script>
 
       <main style={{ backgroundColor: CREAM }} className="font-display">
         {/* 1. HERO */}
@@ -143,27 +125,26 @@ export default function PaintballPage() {
                 className="text-[11px] uppercase tracking-[0.22em]"
                 style={{ color: TAN }}
               >
-                Глухомань · Активний відпочинок
+                {t("hero_eyebrow")}
               </div>
               <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[1.02]">
-                Пейнтбол
+                {t("hero_title")}
                 <br />
                 <span className="italic" style={{ color: TAN }}>
-                  лісовий полігон
+                  {t("hero_title_em")}
                 </span>
               </h1>
               <p
                 className="max-w-xl text-lg md:text-xl leading-relaxed"
                 style={{ color: SURFACE }}
               >
-                Сосновий ліс, тактика, адреналін. Команди від 6 до 20 гравців —
-                під супроводом інструктора.
+                {t("hero_body")}
               </p>
             </div>
           </div>
         </section>
 
-        {/* 2. ПРО ГРУ */}
+        {/* 2. ABOUT */}
         <section
           style={{ backgroundColor: CREAM, color: DEEP_FOREST }}
           className="py-28 md:py-36"
@@ -172,32 +153,30 @@ export default function PaintballPage() {
             <div className="grid md:grid-cols-12 gap-12 md:gap-16">
               <div className="md:col-span-4">
                 <div className="text-[11px] uppercase tracking-[0.22em] mb-6">
-                  Про гру
+                  {t("intro_eyebrow")}
                 </div>
                 <h2 className="font-display text-4xl md:text-5xl leading-[1.05]">
-                  Тактика у
+                  {t("intro_heading_pt1")}
                   <br />
-                  <span className="italic">сосновому лісі</span>
+                  <span className="italic">{t("intro_heading_em")}</span>
                 </h2>
               </div>
               <div className="md:col-span-8 space-y-6">
                 <p className="text-lg md:text-xl leading-relaxed">
-                  {introParagraph}
+                  {t("long_desc_p1")}
                 </p>
-                {detailParagraph && (
-                  <p
-                    className="text-base md:text-lg leading-relaxed"
-                    style={{ color: FOREST }}
-                  >
-                    {detailParagraph}
-                  </p>
-                )}
+                <p
+                  className="text-base md:text-lg leading-relaxed"
+                  style={{ color: FOREST }}
+                >
+                  {t("long_desc_p2")}
+                </p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 3. ОСОБЛИВОСТІ */}
+        {/* 3. FEATURES */}
         <section
           style={{ backgroundColor: DEEP_FOREST, color: CREAM }}
           className="py-28 md:py-36"
@@ -209,10 +188,11 @@ export default function PaintballPage() {
                   className="text-[11px] uppercase tracking-[0.22em] mb-5"
                   style={{ color: TAN }}
                 >
-                  Особливості
+                  {t("features_eyebrow")}
                 </div>
                 <h2 className="font-display text-4xl md:text-5xl leading-[1.05]">
-                  Що на <span className="italic">полігоні</span>
+                  {t("features_heading_pt1")}{" "}
+                  <span className="italic">{t("features_heading_em")}</span>
                 </h2>
               </div>
             </div>
@@ -241,7 +221,7 @@ export default function PaintballPage() {
           </div>
         </section>
 
-        {/* 4. СЦЕНАРІЇ */}
+        {/* 4. SCENARIOS */}
         <section
           style={{ backgroundColor: CREAM, color: DEEP_FOREST }}
           className="py-28 md:py-36"
@@ -249,10 +229,11 @@ export default function PaintballPage() {
           <div className="max-w-6xl mx-auto px-6">
             <div className="mb-16">
               <div className="text-[11px] uppercase tracking-[0.22em] mb-5">
-                Сценарії
+                {t("scenarios_eyebrow")}
               </div>
               <h2 className="font-display text-4xl md:text-5xl leading-[1.05]">
-                Чотири <span className="italic">режими гри</span>
+                {t("scenarios_heading_pt1")}{" "}
+                <span className="italic">{t("scenarios_heading_em")}</span>
               </h2>
             </div>
             <div
@@ -290,7 +271,7 @@ export default function PaintballPage() {
           </div>
         </section>
 
-        {/* 5. ДЛЯ КОГО */}
+        {/* 5. AUDIENCE */}
         <section
           style={{ backgroundColor: DEEP_FOREST, color: CREAM }}
           className="py-28 md:py-36"
@@ -301,10 +282,11 @@ export default function PaintballPage() {
                 className="text-[11px] uppercase tracking-[0.22em] mb-5"
                 style={{ color: TAN }}
               >
-                Для кого
+                {t("audience_eyebrow")}
               </div>
               <h2 className="font-display text-4xl md:text-5xl leading-[1.05]">
-                Формати <span className="italic">для різних нагод</span>
+                {t("audience_heading_pt1")}{" "}
+                <span className="italic">{t("audience_heading_em")}</span>
               </h2>
             </div>
             <div className="grid md:grid-cols-3 gap-10 md:gap-8">
@@ -335,7 +317,7 @@ export default function PaintballPage() {
           </div>
         </section>
 
-        {/* 6. ЦІНИ */}
+        {/* 6. PRICING */}
         <section
           style={{ backgroundColor: CREAM, color: DEEP_FOREST }}
           className="py-28 md:py-36"
@@ -344,24 +326,22 @@ export default function PaintballPage() {
             <div className="grid md:grid-cols-12 gap-12 md:gap-16">
               <div className="md:col-span-5">
                 <div className="text-[11px] uppercase tracking-[0.22em] mb-5">
-                  Ціни та умови
+                  {t("pricing_eyebrow")}
                 </div>
                 <h2 className="font-display text-4xl md:text-5xl leading-[1.05]">
-                  Просто й <span className="italic">прозоро</span>
+                  {t("pricing_heading_pt1")}{" "}
+                  <span className="italic">{t("pricing_heading_em")}</span>
                 </h2>
               </div>
               <div className="md:col-span-7">
                 <p className="text-lg md:text-xl leading-relaxed mb-6">
-                  Базовий пакет — від 200 куль на гравця. Додаткові кулі за
-                  запитом. Усе обладнання (маркер, маска, захисний костюм)
-                  входить у вартість. Мінімальна кількість гравців — 6 осіб,
-                  максимальна — 20.
+                  {t("pricing_p1")}
                 </p>
                 <p
                   className="text-base leading-relaxed"
                   style={{ color: FOREST }}
                 >
-                  Від 6 до 20 осіб. Оптимальний розмір команди — 5–8 гравців.
+                  {t("pricing_p2")}
                 </p>
               </div>
             </div>
@@ -370,23 +350,7 @@ export default function PaintballPage() {
               className="mt-16 grid sm:grid-cols-3 gap-0 border-t"
               style={{ borderColor: TAN }}
             >
-              {[
-                {
-                  icon: Users,
-                  label: "Розмір групи",
-                  value: "6–20 гравців",
-                },
-                {
-                  icon: Target,
-                  label: "Базовий пакет",
-                  value: "від 200 куль",
-                },
-                {
-                  icon: Clock,
-                  label: "Тривалість",
-                  value: "1,5–2 години",
-                },
-              ].map((stat) => {
+              {stats.map((stat) => {
                 const Icon = stat.icon;
                 return (
                   <div
@@ -415,7 +379,7 @@ export default function PaintballPage() {
           </div>
         </section>
 
-        {/* 7. ЯК ПІДГОТУВАТИСЯ */}
+        {/* 7. PREPARATION */}
         <section
           style={{ backgroundColor: SURFACE, color: DEEP_FOREST }}
           className="py-28 md:py-36"
@@ -423,10 +387,11 @@ export default function PaintballPage() {
           <div className="max-w-6xl mx-auto px-6">
             <div className="mb-16">
               <div className="text-[11px] uppercase tracking-[0.22em] mb-5">
-                Як підготуватися
+                {t("prep_eyebrow")}
               </div>
               <h2 className="font-display text-4xl md:text-5xl leading-[1.05]">
-                Перед <span className="italic">грою</span>
+                {t("prep_heading_pt1")}{" "}
+                <span className="italic">{t("prep_heading_em")}</span>
               </h2>
             </div>
             <ol className="space-y-0 border-t" style={{ borderColor: TAN }}>
@@ -463,21 +428,20 @@ export default function PaintballPage() {
                   className="text-[11px] uppercase tracking-[0.22em] mb-6"
                   style={{ color: TAN }}
                 >
-                  Бронювання
+                  {t("cta_eyebrow")}
                 </div>
                 <h2 className="font-display text-5xl md:text-6xl lg:text-7xl leading-[1.02]">
-                  Забронюйте
+                  {t("cta_heading_pt1")}
                   <br />
                   <span className="italic" style={{ color: TAN }}>
-                    гру
+                    {t("cta_heading_em")}
                   </span>
                 </h2>
                 <p
                   className="mt-8 max-w-xl text-lg leading-relaxed"
                   style={{ color: SURFACE }}
                 >
-                  Зв&apos;яжіться з нами, щоб узгодити сценарій, склад команди
-                  та час проведення гри.
+                  {t("cta_body")}
                 </p>
               </div>
               <div className="md:col-span-4 flex flex-col gap-5">
@@ -488,9 +452,7 @@ export default function PaintballPage() {
                 >
                   <span className="flex items-center gap-3">
                     <Phone className="h-5 w-5" strokeWidth={1.5} />
-                    <span className="font-display text-xl">
-                      {primaryPhone}
-                    </span>
+                    <span className="font-display text-xl">{primaryPhone}</span>
                   </span>
                   <ArrowUpRight className="h-5 w-5" strokeWidth={1.5} />
                 </a>
@@ -498,7 +460,7 @@ export default function PaintballPage() {
                   className="inline-flex items-center justify-between gap-4 px-6 py-5 font-display text-xl"
                   style={{ backgroundColor: TAN, color: DEEP_FOREST }}
                 >
-                  <span>Забронювати</span>
+                  <span>{t("cta_book")}</span>
                   <ArrowUpRight className="h-5 w-5" strokeWidth={1.5} />
                 </BookingButton>
               </div>
