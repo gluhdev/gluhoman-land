@@ -1,0 +1,24 @@
+name: i18n drift check
+
+on:
+  pull_request:
+    paths:
+      - 'messages/**'
+      - 'src/**/*.tsx'
+      - 'src/**/*.ts'
+  push:
+    branches: [main]
+    paths:
+      - 'messages/**'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run i18n:check
