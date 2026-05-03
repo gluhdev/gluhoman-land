@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
 import {
   Phone,
@@ -20,6 +19,8 @@ import {
   ADDITIONAL_SERVICES,
 } from '@/constants';
 import { openBookingDialog } from '@/components/ui/BookingDialog';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/routing';
 
 const EYEBROW =
   'text-[11px] uppercase tracking-[0.22em] font-medium text-white/60';
@@ -27,13 +28,14 @@ const LINK =
   'text-sm text-white/75 hover:text-white transition-colors duration-200';
 
 const SOCIAL_LINKS = [
-  { name: 'Instagram', href: 'https://instagram.com', Icon: Instagram },
-  { name: 'Facebook', href: 'https://facebook.com', Icon: Facebook },
-  { name: 'Telegram', href: 'https://t.me', Icon: Send },
-  { name: 'WhatsApp', href: 'https://wa.me', Icon: MessageCircle },
+  { nameKey: 'instagram', href: 'https://instagram.com', Icon: Instagram },
+  { nameKey: 'facebook', href: 'https://facebook.com', Icon: Facebook },
+  { nameKey: 'telegram', href: 'https://t.me', Icon: Send },
+  { nameKey: 'whatsapp', href: 'https://wa.me', Icon: MessageCircle },
 ];
 
 export default function Footer() {
+  const t = useTranslations('footer');
   const year = new Date().getFullYear();
 
   return (
@@ -43,26 +45,25 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-10">
           {/* Column 1: Brand */}
           <div className="lg:col-span-4">
-            <Link href="/" className="inline-block" aria-label="Глухомань — головна">
+            <Link href="/" className="inline-block" aria-label={t('logo_aria')}>
               <Image
                 src="/images/logo.png"
-                alt="Глухомань"
+                alt={t('logo_alt')}
                 width={200}
                 height={104}
                 className="h-16 w-auto object-contain drop-shadow-[0_2px_8px_rgba(0,0,0,0.4)]"
               />
             </Link>
             <p className="mt-6 max-w-xs text-sm leading-relaxed text-white/70">
-              Затишний куточок природи Полтавщини — родинна гостинність,
-              вишукана кухня та комфорт у серці лісу.
+              {t('tagline')}
             </p>
 
             <div className="mt-8 flex items-center gap-3">
-              {SOCIAL_LINKS.map(({ name, href, Icon }) => (
+              {SOCIAL_LINKS.map(({ nameKey, href, Icon }) => (
                 <a
-                  key={name}
+                  key={nameKey}
                   href={href}
-                  aria-label={name}
+                  aria-label={t(`social.${nameKey}`)}
                   target="_blank"
                   rel="noreferrer"
                   className="flex h-10 w-10 items-center justify-center border border-white/15 text-white/70 transition-colors duration-200 hover:border-white/40 hover:text-white"
@@ -75,7 +76,7 @@ export default function Footer() {
 
           {/* Column 2: Services */}
           <div className="lg:col-span-3">
-            <h3 className={EYEBROW}>Послуги</h3>
+            <h3 className={EYEBROW}>{t('services_heading')}</h3>
             <nav className="mt-6 space-y-3">
               {MAIN_SERVICES.map((service) => (
                 <Link key={service.id} href={service.href} className={`block ${LINK}`}>
@@ -84,7 +85,7 @@ export default function Footer() {
               ))}
             </nav>
 
-            <h4 className={`${EYEBROW} mt-10 block`}>Інші послуги</h4>
+            <h4 className={`${EYEBROW} mt-10 block`}>{t('other_services_heading')}</h4>
             <nav className="mt-6 space-y-3">
               {ADDITIONAL_SERVICES.slice(0, 5).map((service) => (
                 <Link
@@ -100,7 +101,7 @@ export default function Footer() {
 
           {/* Column 3: Contacts */}
           <div className="lg:col-span-3">
-            <h3 className={EYEBROW}>Контакти</h3>
+            <h3 className={EYEBROW}>{t('contacts_heading')}</h3>
             <div className="mt-6 space-y-4">
               <div className="space-y-2">
                 {CONTACT_INFO.phone.map((phone) => (
@@ -137,10 +138,9 @@ export default function Footer() {
 
           {/* Column 4: Booking */}
           <div className="lg:col-span-2">
-            <h3 className={EYEBROW}>Забронювати</h3>
+            <h3 className={EYEBROW}>{t('book_heading')}</h3>
             <p className="mt-6 text-sm leading-relaxed text-white/70">
-              Залиште заявку онлайн або зателефонуйте — ми допоможемо
-              спланувати ваш відпочинок.
+              {t('book_cta_desc')}
             </p>
 
             <button
@@ -148,14 +148,14 @@ export default function Footer() {
               onClick={() => openBookingDialog()}
               className="group mt-6 inline-flex w-full items-center justify-between border border-white/25 px-5 py-3 text-[11px] uppercase tracking-[0.22em] text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-[#1a3d2e]"
             >
-              <span>Залишити заявку</span>
+              <span>{t('book_cta_button')}</span>
               <ArrowUpRight
                 className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 strokeWidth={1.5}
               />
             </button>
 
-            <p className={`${EYEBROW} mt-8`}>Або напишіть нам</p>
+            <p className={`${EYEBROW} mt-8`}>{t('write_us')}</p>
             <div className="mt-4 flex flex-col gap-2">
               <a
                 href="https://t.me"
@@ -164,7 +164,7 @@ export default function Footer() {
                 className="inline-flex items-center gap-2 text-sm text-white/75 transition-colors duration-200 hover:text-white"
               >
                 <Send className="h-3.5 w-3.5" strokeWidth={1.5} />
-                <span>Telegram</span>
+                <span>{t('social.telegram')}</span>
               </a>
               <a
                 href="https://wa.me"
@@ -173,7 +173,7 @@ export default function Footer() {
                 className="inline-flex items-center gap-2 text-sm text-white/75 transition-colors duration-200 hover:text-white"
               >
                 <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.5} />
-                <span>WhatsApp</span>
+                <span>{t('social.whatsapp')}</span>
               </a>
             </div>
           </div>
@@ -183,22 +183,22 @@ export default function Footer() {
         <div className="mt-16 border-t border-white/10 pt-8 lg:mt-20">
           <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
             <p className="text-xs text-white/50">
-              © {year} Глухомань. Всі права захищено.
+              {t('copyright', { year })}
             </p>
 
             <nav className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-white/50">
               <Link href="/privacy" className="transition-colors hover:text-white">
-                Політика конфіденційності
+                {t('privacy')}
               </Link>
               <Link href="/terms" className="transition-colors hover:text-white">
-                Публічна оферта
+                {t('terms')}
               </Link>
             </nav>
 
             <p className="inline-flex items-center gap-1.5 text-xs text-white/50">
-              <span>Створено з</span>
+              <span>{t('made_with')}</span>
               <Heart className="h-3 w-3 fill-white/60 text-white/60" strokeWidth={1.5} />
-              <span>у Полтаві</span>
+              <span>{t('made_in')}</span>
             </p>
           </div>
         </div>
