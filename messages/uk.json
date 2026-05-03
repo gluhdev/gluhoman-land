@@ -1,1 +1,62 @@
-{}
+{
+  "nav": {
+    "home": "Головна",
+    "aquapark": "Аквапарк",
+    "hotel": "Готель",
+    "restaurant": "Ресторан",
+    "sauna": "Лазня",
+    "other_services": "Інші послуги",
+    "open_menu": "Відкрити меню",
+    "close_menu": "Закрити меню",
+    "see_menu": "Дивитися меню",
+    "groups": {
+      "active": "Активний відпочинок",
+      "wellness": "Велнес та відпочинок",
+      "events": "Події та свята"
+    },
+    "additional": {
+      "apitherapy": { "title": "Апітерапія" },
+      "wedding": { "title": "Виїзні весільні церемонії" },
+      "paintball": { "title": "Пейнтбол" },
+      "horses": { "title": "Прогулянки на конях" },
+      "kids-parties": { "title": "Дитячі свята" },
+      "bbq-zone": { "title": "Мангальна зона" },
+      "brewery-tour": { "title": "Тур по пивоварні" },
+      "petting-zoo": { "title": "Контактний зоопарк" }
+    }
+  },
+  "header": {
+    "logo_aria": "Глухомань — на головну",
+    "logo_mobile_alt": "Глухомань",
+    "logo_alt": "Глухомань — ресторанно-готельний комплекс",
+    "main_nav_aria": "Головна навігація",
+    "mobile_nav_aria": "Мобільна навігація",
+    "mobile_drawer_aria": "Головне меню",
+    "call_aria": "Зателефонувати {phone}",
+    "book_now": "Забронювати",
+    "contact_us": "Зв'яжіться з нами"
+  },
+  "footer": {
+    "logo_aria": "Глухомань — головна",
+    "logo_alt": "Глухомань",
+    "tagline": "Затишний куточок природи Полтавщини — родинна гостинність, вишукана кухня та комфорт у серці лісу.",
+    "services_heading": "Послуги",
+    "other_services_heading": "Інші послуги",
+    "contacts_heading": "Контакти",
+    "book_heading": "Забронювати",
+    "book_cta_desc": "Залиште заявку онлайн або зателефонуйте — ми допоможемо спланувати ваш відпочинок.",
+    "book_cta_button": "Залишити заявку",
+    "write_us": "Або напишіть нам",
+    "copyright": "© {year} Глухомань. Всі права захищено.",
+    "made_with": "Створено з",
+    "made_in": "у Полтаві",
+    "privacy": "Політика конфіденційності",
+    "terms": "Публічна оферта",
+    "social": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "telegram": "Telegram",
+      "whatsapp": "WhatsApp"
+    }
+  }
+}

@@ -1,1 +1,78 @@
-{}
+{
+  "nav": {
+    "home": "Home",
+    "aquapark": "Water park",
+    "hotel": "Hotel",
+    "restaurant": "Restaurant",
+    "sauna": "Sauna",
+    "other_services": "Other services",
+    "open_menu": "Open the menu",
+    "close_menu": "Close the menu",
+    "see_menu": "View the menu",
+    "groups": {
+      "active": "Active recreation",
+      "wellness": "Wellness and recreation",
+      "events": "Events and holidays"
+    },
+    "additional": {
+      "apitherapy": {
+        "title": "Apitherapy"
+      },
+      "wedding": {
+        "title": "Offsite wedding ceremonies"
+      },
+      "paintball": {
+        "title": "Paintball"
+      },
+      "horses": {
+        "title": "Horseback riding"
+      },
+      "kids-parties": {
+        "title": "Children's parties"
+      },
+      "bbq-zone": {
+        "title": "Barbecue area"
+      },
+      "brewery-tour": {
+        "title": "Tour of the brewery"
+      },
+      "petting-zoo": {
+        "title": "Contact zoo"
+      }
+    }
+  },
+  "header": {
+    "logo_aria": "Glukhoman - to the main page",
+    "logo_mobile_alt": "Glukhoman",
+    "logo_alt": "Glukhoman - restaurant and hotel complex",
+    "main_nav_aria": "Main navigation",
+    "mobile_nav_aria": "Mobile navigation",
+    "mobile_drawer_aria": "Main menu",
+    "call_aria": "Call {phone}",
+    "book_now": "Book",
+    "contact_us": "Contact us"
+  },
+  "footer": {
+    "logo_aria": "Glukhoman — home",
+    "logo_alt": "Glukhoman",
+    "tagline": "A cozy corner of nature in Poltava region - family hospitality, gourmet cuisine and comfort in the heart of the forest.",
+    "services_heading": "Services",
+    "other_services_heading": "Other services",
+    "contacts_heading": "Contacts",
+    "book_heading": "Book",
+    "book_cta_desc": "Leave a request online or call us - we will help you plan your vacation.",
+    "book_cta_button": "Leave a request",
+    "write_us": "Or write to us",
+    "copyright": "© {year} Glukhoman. All rights reserved.",
+    "made_with": "Created with",
+    "made_in": "in Poltava",
+    "privacy": "Privacy policy",
+    "terms": "Public offer",
+    "social": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "telegram": "Telegram",
+      "whatsapp": "WhatsApp"
+    }
+  }
+}
