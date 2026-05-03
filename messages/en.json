@@ -767,5 +767,194 @@
         }
       }
     }
+  },
+  "restaurant": {
+    "meta": {
+      "title": "Restaurant \"Glukhoman\" - European-Ukrainian cuisine",
+      "description": "A two-storey restaurant in old fairy-tale style with a covered terrace and three summer areas on the water. European-Ukrainian cuisine, craft beer, live music."
+    },
+    "booking_cta": {
+      "book_table": "Book a table",
+      "or_by_phone": "or by tel:",
+      "book_table_details": "More information"
+    },
+    "hero": {
+      "eyebrow": "Restaurant",
+      "name": "\"Glukhoman\"",
+      "tagline": "A fabulous world of taste.",
+      "tagline_italic": "Among fountains and swans.",
+      "cta_book": "Book a table",
+      "cta_menu": "View the menu"
+    },
+    "intro": {
+      "eyebrow": "About the restaurant",
+      "title": "Two-storey restaurant",
+      "title_italic": "in an old fairy-tale style.",
+      "body": "On the territory of the restaurant and hotel complex \"Glukhoman\" you will find a two-story restaurant in an old fairy-tale style with a covered terrace and three summer areas on the water, surrounded by fountains and swans.",
+      "img_alt_1": "Restaurant hall decorated for the holidays",
+      "img_alt_2": "Restaurant hall on Valentine's Day"
+    },
+    "cuisine": {
+      "eyebrow": "Food and beer",
+      "title": "European and Ukrainian cuisine",
+      "title_italic": "and craft beer.",
+      "body": "The restaurant \"Glukhoman\" will meet you with excellent European-Ukrainian cuisine and friendly staff. This is the best place for craft beer lovers. Here you can enjoy beer of our own production.",
+      "img_alt_1": "Craft beer from our own brewery",
+      "img_alt_2": "Restaurant staff"
+    },
+    "music": {
+      "eyebrow": "Live music",
+      "title": "Music evenings",
+      "title_italic": "friday - Saturday - Sunday",
+      "body": "On Friday, Saturday and Sunday, we invite you to musical evenings. Live music performed by our vocalist, musician, frontman of the \"Cover Show Disco 90s\", member of the \"Live Drums\" band DANIL REVEKA will mesmerize you with his vocals.",
+      "img_alt": "DANIL REVEKA performs songs",
+      "qr_img_alt": "QR code of the musician's Instagram",
+      "ig_aria_label": "Instagram of the musician DANIL REVEKA - @danilreveka"
+    },
+    "halls": {
+      "hall_i": {
+        "eyebrow": "Hall - I floor - 25 seats",
+        "title": "A real Ukrainian stove",
+        "title_italic": "on firewood.",
+        "body": "The pride of our establishment is a real Ukrainian stove, hand-built from clay and fired bricks. It is located in the center of the hall, and in the cold season we light wood in it. The live fire, the aroma of fragrant wood and the soft warmth emanating from the stove create a unique home-like atmosphere of calm and warmth. Also, the menu from November to March includes dishes cooked in the oven.",
+        "img_alt_1": "Ukrainian hand-painted stove",
+        "img_alt_2": "Hall with a stove in winter",
+        "img_alt_3": "Restaurant hall on Valentine's Day"
+      },
+      "hall_ii": {
+        "eyebrow": "Separate hall - I floor - 8 seats",
+        "title": "Separate room",
+        "title_italic": "for two or a family.",
+        "body": "Cozy atmosphere, ideal for both evening dates and family dinners.",
+        "img_alt_1": "Separate table for two",
+        "img_alt_2": "Separate room with floral curtains",
+        "img_alt_3": "Cozy hall in a wooden style"
+      },
+      "hall_iii": {
+        "eyebrow": "Hall \"Firebird\" - I floor - 20 seats",
+        "title": "Pavilion behind the glass",
+        "title_italic": "in the heart of the hall.",
+        "body": "The heart of the hall is our spacious, elegantly designed pavilion behind a glass partition. Watching these graceful birds while dining adds a sense of exoticism and tranquility to the atmosphere.",
+        "img_alt_1": "A peacock in the peacock garden of the Zhar-Bird Hall",
+        "img_alt_2": "Firebird Hall with wooden lamps",
+        "img_alt_3": "Tables in the hall of \"Zhar-Ptitsa\"",
+        "img_alt_4": "Served table in the hall of Zhar-Ptitsa"
+      },
+      "hall_iv": {
+        "eyebrow": "Hall - II floor - 25 seats - fireplace + balcony",
+        "title": "Fireplace, balcony",
+        "title_italic": "and a quiet conversation.",
+        "body": "We invite you to our cozy lounge, which perfectly combines modern comfort with a classic relaxation atmosphere. The centerpiece of the interior is a stylish electric fireplace. It instantly adds a sense of warmth and coziness to the space without unnecessary smoke or odor. The combination of a cozy fireplace area and the ability to go out to the balcony makes it a favorite place for our guests at any time of the year.",
+        "img_alt_1": "Electric fireplace in the hall on the second floor",
+        "img_alt_2": "Balcony overlooking the pine forest",
+        "img_alt_3": "General view of the hall",
+        "img_alt_4": "Door to the balcony"
+      },
+      "hall_v": {
+        "eyebrow": "VIP - 12-foot billiards",
+        "title": "VIP lounge with billiards",
+        "title_italic": "and a soft corner.",
+        "body": "Billiards helps you relax, motivates you to have a friendly or business conversation, calms you down and helps you develop your thinking and logic. In our VIP room, you can enjoy the game at any time of the day or night, as well as enjoy unfiltered beer of our own production.",
+        "img_alt_1": "VIP lounge with a 12-foot billiard table",
+        "img_alt_2": "Billiard table with cues and balls",
+        "img_alt_3": "Soft corner and billiard room"
+      },
+      "hall_vi": {
+        "eyebrow": "Hall \"Terrace\" - I floor - 50 seats",
+        "title": "Terrace Hall",
+        "title_italic": "for your holidays and corporate events.",
+        "body": "The perfect location for anniversaries, corporate parties or large family celebrations. We invite you to enjoy exquisite cuisine and first-class service in an atmosphere of lightness and celebration. The spacious layout makes it easy to transform the space for any event format: from classic banquet seating to a free lounge buffet.",
+        "img_alt_1": "General view of the Terrace hall",
+        "img_alt_2": "Serving a long table",
+        "img_alt_3": "Terrace in daylight",
+        "img_alt_4": "Logo of Glukhoman on the green wall",
+        "img_alt_5": "Festive arrangement with balloons for a birthday"
+      },
+      "hall_vii": {
+        "eyebrow": "Banquet hall - II floor - 90 seats",
+        "title": "Banquet hall",
+        "title_italic": "up to 90 guests.",
+        "body": "We invite you to our spacious and luxurious banquet hall, which is ideal for large-scale celebrations. The hall can comfortably accommodate up to 90 guests in a banquet format. The layout allows you to arrange the tables in different ways (U-shaped, round tables or herringbone), with space for a dance floor, stage and a separate area for photo shoots or a buffet table.",
+        "img_alt_1": "Banquet hall with green columns",
+        "img_alt_2": "Banquet hall with a long table",
+        "img_alt_3": "Entrance to the banquet hall with a logo",
+        "img_alt_4": "Banquet with full service"
+      },
+      "hall_viii": {
+        "eyebrow": "Holidays - Events",
+        "title_line1": "Birthday,",
+        "title_line2": "wedding, corporate event",
+        "title_italic": "in \"Glukhomania\".",
+        "body": "Celebrate your birthday, wedding or corporate event at Glukhoman restaurant and make it unforgettable! Come together with your friends and family to enjoy delicious dishes, refined atmosphere and the best service. You can also order an individual photo zone for your celebration. And our art director DANIL REVEKA will organize musical accompaniment for you (live music, DJ, hostess).",
+        "img_alt_1": "Happy Birthday photo zone",
+        "img_alt_2": "Photo zone in red and gold colors",
+        "img_alt_3": "Festive decor with balloons",
+        "img_alt_4": "Art director of the restaurant DANIL REVEKA",
+        "img_alt_5": "Fruit table on the terrace"
+      },
+      "hall_ix": {
+        "eyebrow": "Children's room",
+        "title": "Free",
+        "title_italic": "children's playroom.",
+        "body": "For kids, Glukhoman also has something special - a free playroom (on the second floor of the restaurant) with toys, a maze and coloring books. Kids will have fun with our animators. We also have a children's menu and desserts that will delight them with their favorite flavors.",
+        "img_alt_1": "Children's room with soft floor",
+        "img_alt_2": "Children's maze",
+        "img_alt_3": "Sports area for children"
+      },
+      "hall_x": {
+        "eyebrow": "Animators",
+        "title": "Quests, animations, shows,",
+        "title_italic": "laser tag.",
+        "body": "Our animators conduct various quests, animations, soap shows, cryo shows, laser tag.",
+        "img_alt_1": "An animator in a costume with a child",
+        "img_alt_2": "Children's pirate party",
+        "img_alt_3": "Laser tag in the open air",
+        "img_alt_4": "Quest in the water park",
+        "img_alt_5": "Adventures outside",
+        "img_alt_6": "Rope park for children"
+      }
+    },
+    "menu_section": {
+      "eyebrow": "Menu",
+      "title": "Restaurant menu",
+      "title_italic": "\"Glukhoman\".",
+      "click_hint": "Click on the preview to open the full menu"
+    },
+    "final_cta": {
+      "eyebrow": "Book a table",
+      "heading": "Book a table by tel:",
+      "cta_button": "Book a table",
+      "or": "or"
+    },
+    "floating_nav": {
+      "aria_label": "Contents",
+      "intro": "About the restaurant",
+      "cuisine": "Food and beer",
+      "music": "Live music",
+      "hall_i": "Stove",
+      "hall_ii": "Separated",
+      "hall_iii": "Firebirds",
+      "hall_iv": "Fireplace + balcony",
+      "hall_v": "VIP",
+      "hall_vi": "Terrace",
+      "hall_vii": "Banquet",
+      "hall_viii": "Holidays",
+      "hall_ix": "Children",
+      "hall_x": "Animators",
+      "menu": "Menu"
+    },
+    "menu_preview": {
+      "aria_open": "Open the full menu",
+      "title": "Restaurant menu",
+      "name": "\"Glukhoman\"",
+      "stats": "{totalCats} categories - {totalDishes} dishes",
+      "dishes_count": "{count} dishes",
+      "open_button": "Open the menu"
+    },
+    "menu_dialog": {
+      "aria_dialog": "Restaurant menu",
+      "aria_close_top": "Close",
+      "aria_close_bottom": "Close the menu"
+    }
   }
 }

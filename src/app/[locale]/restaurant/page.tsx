@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Script from "next/script";
 import { Phone, UtensilsCrossed, ArrowUpRight } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { BookingButton } from "@/components/ui/BookingButton";
 import { HallSlider, type HallSlide } from "@/components/restaurant/HallSlider";
 import { Reveal } from "@/components/restaurant/Reveal";
@@ -12,11 +13,13 @@ import { MenuDialog } from "@/components/restaurant/MenuDialog";
 import { MenuTrigger } from "@/components/restaurant/MenuTrigger";
 import { MenuPreview } from "@/components/restaurant/MenuPreview";
 
-export const metadata: Metadata = {
-  title: "Ресторан «Глухомань» — Європейсько-українська кухня",
-  description:
-    "Двоповерховий ресторан у старовинному казковому стилі з критою терасою і трьома літніми майданчиками на воді. Європейсько-українська кухня, крафтове пиво, жива музика.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("restaurant.meta");
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 const PHONE_PRIMARY = "050 850 3 555";
 const PHONE_SECONDARY = "0532-648-548";
@@ -107,8 +110,8 @@ function Paragraph({
 }
 
 function BookingCTA({
-  label = "Забронювати столик",
-  prefix = "або за тел:",
+  label,
+  prefix,
   light = false,
 }: {
   label?: string;
@@ -169,7 +172,7 @@ function HallSection({
   photos,
   aspect = "aspect-[16/10]",
   light = false,
-  ctaLabel = "Забронювати столик",
+  ctaLabel,
   reverse = false,
   ghost,
 }: {
@@ -269,7 +272,9 @@ function HallSection({
    Page
    ══════════════════════════════════════════════════════════════════ */
 
-export default function RestaurantPage() {
+export default async function RestaurantPage() {
+  const t = await getTranslations("restaurant");
+
   return (
     <div className="bg-[#faf6ec]">
       <Script id="restaurant-jsonld" type="application/ld+json" strategy="afterInteractive">
@@ -286,7 +291,7 @@ export default function RestaurantPage() {
         <HeroParallax>
           <Image
             src={P(1)}
-            alt="Літні майданчики ресторану Глухомань на воді"
+            alt={t("intro.img_alt_1")}
             fill
             priority
             quality={85}
@@ -298,16 +303,16 @@ export default function RestaurantPage() {
 
         <Reveal className="relative z-10 max-w-5xl px-6 text-center">
           <p className="text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8] mb-6">
-            Ресторан
+            {t("hero.eyebrow")}
           </p>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.9] mb-6 font-light">
-            «Глухомань»
+            {t("hero.name")}
           </h1>
           <p className="font-display text-3xl md:text-5xl text-[#f4ecd8] max-w-3xl mx-auto leading-[1.05] mb-2">
-            Казковий світ смаку.
+            {t("hero.tagline")}
           </p>
           <p className="font-display italic text-2xl md:text-4xl text-[#e6d9b8]/90 max-w-3xl mx-auto leading-snug mb-10">
-            Серед фонтанів і лебедів.
+            {t("hero.tagline_italic")}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
@@ -316,11 +321,11 @@ export default function RestaurantPage() {
               className="inline-flex items-center justify-center gap-2 bg-[#e6d9b8] text-[#0f1f18] px-8 sm:px-10 py-4 text-sm font-medium tracking-wide hover:bg-[#f4ecd8] transition-colors min-h-[44px] w-full sm:w-auto"
             >
               <Phone className="w-4 h-4" strokeWidth={2} />
-              Забронювати столик
+              {t("hero.cta_book")}
             </BookingButton>
             <MenuTrigger className="inline-flex items-center justify-center gap-2 border border-[#e6d9b8]/70 text-[#f4ecd8] px-8 sm:px-10 py-4 text-sm font-medium tracking-wide hover:bg-[#e6d9b8]/10 transition-colors min-h-[44px] w-full sm:w-auto cursor-pointer">
               <UtensilsCrossed className="w-4 h-4" strokeWidth={2} />
-              Переглянути меню
+              {t("hero.cta_menu")}
               <ArrowUpRight className="w-3.5 h-3.5" strokeWidth={2} />
             </MenuTrigger>
           </div>
@@ -345,29 +350,26 @@ export default function RestaurantPage() {
                 <span className="font-display italic text-4xl md:text-5xl leading-none text-[#1a3d2e]/35">
                   0
                 </span>
-                <SectionEyebrow>Про ресторан</SectionEyebrow>
+                <SectionEyebrow>{t("intro.eyebrow")}</SectionEyebrow>
               </div>
               <SectionTitle>
-                Двоповерховий ресторан
+                {t("intro.title")}
                 <span className="block font-display italic text-[#1a3d2e]/65 mt-2">
-                  у старовинному казковому стилі.
+                  {t("intro.title_italic")}
                 </span>
               </SectionTitle>
               <Paragraph>
-                На території ресторанно – готельного комплексу «Глухомань» на
-                Вас очікує двоповерховий ресторан в старовинному казковому
-                стилі з критою терасою і трьома літніми майданчиками на воді в
-                оточенні фонтанів та лебедів.
+                {t("intro.body")}
               </Paragraph>
-              <BookingCTA />
+              <BookingCTA label={t("booking_cta.book_table")} prefix={t("booking_cta.or_by_phone")} />
             </Reveal>
 
             <Reveal className="md:col-span-7" delay={0.15}>
               <HallSlider
                 aspect="aspect-[4/3]"
                 photos={[
-                  { n: 2, alt: "Зал ресторану, прикрашений до свят" },
-                  { n: 3, alt: "Зал ресторану у день Св. Валентина" },
+                  { n: 2, alt: t("intro.img_alt_1") },
+                  { n: 3, alt: t("intro.img_alt_2") },
                 ]}
               />
             </Reveal>
@@ -404,19 +406,16 @@ export default function RestaurantPage() {
                 <span className="font-display italic text-4xl md:text-5xl leading-none text-[#e6d9b8]/60">
                   §
                 </span>
-                <SectionEyebrow light>Кухня та пиво</SectionEyebrow>
+                <SectionEyebrow light>{t("cuisine.eyebrow")}</SectionEyebrow>
               </div>
               <SectionTitle light>
-                Європейсько – українська кухня
+                {t("cuisine.title")}
                 <span className="block font-display italic text-[#e6d9b8]/80 mt-2">
-                  та крафтове пиво.
+                  {t("cuisine.title_italic")}
                 </span>
               </SectionTitle>
               <Paragraph light>
-                Ресторан «Глухомань» зустріне Вас з відмінною європейсько –
-                українською кухнею та привітним персоналом. Це найкраще місце
-                для любителів крафтового пива. У нас можна посмакувати пивом
-                власного виробництва.
+                {t("cuisine.body")}
               </Paragraph>
             </Reveal>
 
@@ -425,8 +424,8 @@ export default function RestaurantPage() {
                 light
                 aspect="aspect-[4/3]"
                 photos={[
-                  { n: 5, alt: "Крафтове пиво з власної пивоварні" },
-                  { n: 4, alt: "Персонал ресторану" },
+                  { n: 5, alt: t("cuisine.img_alt_1") },
+                  { n: 4, alt: t("cuisine.img_alt_2") },
                 ]}
               />
             </Reveal>
@@ -455,28 +454,25 @@ export default function RestaurantPage() {
                 <span className="font-display italic text-4xl md:text-5xl leading-none text-[#1a3d2e]/35">
                   ♪
                 </span>
-                <SectionEyebrow>Жива музика</SectionEyebrow>
+                <SectionEyebrow>{t("music.eyebrow")}</SectionEyebrow>
               </div>
               <SectionTitle>
-                Музичні вечори
+                {t("music.title")}
                 <span className="block font-display italic text-[#1a3d2e]/65 mt-2">
-                  п&apos;ятниця · субота · неділя
+                  {t("music.title_italic")}
                 </span>
               </SectionTitle>
               <Paragraph>
-                У п&apos;ятницю, суботу та неділю запрошуємо Вас на музичні
-                вечори. Жива музика у виконанні нашого вокаліста, музиканта,
-                фронтмена «Кавер шоу Дискотека 90-х», учасник гурту «Живі
-                барабани» DANIL REVEKA заворожить Вас своїм вокалом.
+                {t("music.body")}
               </Paragraph>
-              <BookingCTA />
+              <BookingCTA label={t("booking_cta.book_table")} prefix={t("booking_cta.or_by_phone")} />
             </Reveal>
 
             <Reveal className="md:col-span-7" delay={0.15}>
               <div className="relative aspect-[4/5] overflow-hidden rounded-[4px] ring-1 ring-[#1a3d2e]/15 shadow-[0_25px_60px_-18px_rgba(26,61,46,0.25)]">
                 <Image
                   src="/images/restaurant/doc/6.jpg"
-                  alt="DANIL REVEKA виконує пісні"
+                  alt={t("music.img_alt")}
                   fill
                   sizes="(min-width: 1024px) 66vw, 100vw"
                   className="object-cover"
@@ -485,7 +481,7 @@ export default function RestaurantPage() {
                   aria-hidden
                   className="absolute inset-2 rounded-[2px] ring-1 ring-inset ring-[#1a3d2e]/10 pointer-events-none"
                 />
-                {/* QR overlay — Instagram музиканта. На мобайлі компактніше. */}
+                {/* QR overlay */}
                 <div className="absolute bottom-3 right-3 md:bottom-6 md:right-6 flex items-end gap-2 md:gap-3">
                   <div className="hidden sm:block rounded-sm bg-[#0f1f18]/80 backdrop-blur-sm ring-1 ring-[#e6d9b8]/25 px-3 py-2 text-[#f4ecd8] text-right">
                     <p className="text-[9px] uppercase tracking-[0.28em] text-[#e6d9b8]/70">Instagram</p>
@@ -495,19 +491,19 @@ export default function RestaurantPage() {
                     href="https://instagram.com/danilreveka"
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Instagram музиканта DANIL REVEKA — @danilreveka"
+                    aria-label={t("music.ig_aria_label")}
                     className="block w-20 h-20 md:w-28 md:h-28 rounded-sm overflow-hidden bg-white p-1.5 md:p-2 shadow-[0_12px_30px_-8px_rgba(0,0,0,0.5)] ring-1 ring-[#e6d9b8]/25 transition-transform duration-300 hover:scale-[1.03] active:scale-[0.98]"
                   >
                     <Image
                       src="/images/restaurant/doc/40.jpg"
-                      alt="QR-код Instagram музиканта"
+                      alt={t("music.qr_img_alt")}
                       width={224}
                       height={224}
                       className="w-full h-full object-contain"
                     />
                   </a>
                 </div>
-                {/* Підпис під QR на мобайлі (ховається коли є плашка поруч) */}
+                {/* Mobile caption */}
                 <div className="sm:hidden absolute bottom-[calc(0.75rem+5rem+0.5rem)] right-3 rounded-sm bg-[#0f1f18]/80 backdrop-blur-sm ring-1 ring-[#e6d9b8]/25 px-2.5 py-1.5 text-[#f4ecd8]">
                   <p className="text-[8px] uppercase tracking-[0.24em] text-[#e6d9b8]/70 leading-none">Instagram</p>
                   <p className="font-display italic text-xs leading-tight mt-0.5">@danilreveka</p>
@@ -521,154 +517,160 @@ export default function RestaurantPage() {
       <SectionFlourish />
 
       {/* ═══════════════════════════════════════════════════════════
-          5. ЗАЛ — І ПОВЕРХ — 25 МІСЦЬ — УКРАЇНСЬКА ПІЧ
+          5. ЗАЛ I — УКРАЇНСЬКА ПІЧ
           ═══════════════════════════════════════════════════════════ */}
       <HallSection
         id="hall-i"
         light
         ghost="I"
         roman="I"
-        eyebrow="Зал · І поверх · 25 місць"
-        titleBold="Справжня українська піч"
-        titleItalic="на дровах."
-        body="Гордістю нашого закладу є справжня українська піч, викладена вручну з глини та обпаленої цегли. Вона розташована в центрі залу, і в холодну пору року ми розпалюємо в ній дрова. Живий вогонь, аромат духмяного дерева та м'яке тепло, що розходиться від печі, створюють неповторну домашню атмосферу спокою та тепла. Також в меню з листопада по березень присутні страви які готуються в печі."
+        eyebrow={t("halls.hall_i.eyebrow")}
+        titleBold={t("halls.hall_i.title")}
+        titleItalic={t("halls.hall_i.title_italic")}
+        body={t("halls.hall_i.body")}
         photos={[
-          { n: 8, alt: "Українська піч, розписана вручну" },
-          { n: 9, alt: "Зал з піччю взимку" },
-          { n: 10, alt: "Зал ресторану у день Св. Валентина" },
+          { n: 8, alt: t("halls.hall_i.img_alt_1") },
+          { n: 9, alt: t("halls.hall_i.img_alt_2") },
+          { n: 10, alt: t("halls.hall_i.img_alt_3") },
         ]}
+        ctaLabel={t("booking_cta.book_table")}
         reverse
       />
 
       <SectionFlourish light />
 
       {/* ═══════════════════════════════════════════════════════════
-          6. ВІДОКРЕМЛЕНИЙ ЗАЛ — І ПОВЕРХ — 8 МІСЦЬ
+          6. ЗАЛ II — ВІДОКРЕМЛЕНИЙ
           ═══════════════════════════════════════════════════════════ */}
       <HallSection
         id="hall-ii"
         ghost="II"
         roman="II"
-        eyebrow="Відокремлений зал · І поверх · 8 посадочних місць"
-        titleBold="Відокремлений зал"
-        titleItalic="для двох або сім'ї."
-        body="Затишна атмосфера, що ідеально підходить як для вечірніх побачень, так і для сімейних обідів."
+        eyebrow={t("halls.hall_ii.eyebrow")}
+        titleBold={t("halls.hall_ii.title")}
+        titleItalic={t("halls.hall_ii.title_italic")}
+        body={t("halls.hall_ii.body")}
         photos={[
-          { n: 13, alt: "Відокремлений столик для двох" },
-          { n: 11, alt: "Відокремлений зал з квітковими шторами" },
-          { n: 12, alt: "Затишний зал у дерев'яному стилі" },
+          { n: 13, alt: t("halls.hall_ii.img_alt_1") },
+          { n: 11, alt: t("halls.hall_ii.img_alt_2") },
+          { n: 12, alt: t("halls.hall_ii.img_alt_3") },
         ]}
+        ctaLabel={t("booking_cta.book_table")}
       />
 
       <SectionFlourish />
 
       {/* ═══════════════════════════════════════════════════════════
-          7. ЗАЛ «ЖАР-ПТИЦІ» — І ПОВЕРХ — 20 МІСЦЬ
+          7. ЗАЛ III — ЖАР-ПТИЦІ
           ═══════════════════════════════════════════════════════════ */}
       <HallSection
         id="hall-iii"
         light
         ghost="III"
         roman="III"
-        eyebrow="Зал «Жар-Птиці» · І поверх · 20 місць"
-        titleBold="Павлінарій за склом"
-        titleItalic="у серці залу."
-        body="Серцем залу є наш просторий, елегантно оформлений павлінарій за скляною перегородкою. Спостереження за цими граційними птахами під час трапези додає атмосфері відчуття екзотики та спокою."
+        eyebrow={t("halls.hall_iii.eyebrow")}
+        titleBold={t("halls.hall_iii.title")}
+        titleItalic={t("halls.hall_iii.title_italic")}
+        body={t("halls.hall_iii.body")}
         aspect="aspect-[4/5]"
         photos={[
-          { n: 15, alt: "Павич у павлінарії залу «Жар-Птиці»" },
-          { n: 14, alt: "Зал «Жар-Птиці» з дерев'яними лампами" },
-          { n: 16, alt: "Столики у залі «Жар-Птиці»" },
-          { n: 17, alt: "Сервірований стіл у залі «Жар-Птиці»" },
+          { n: 15, alt: t("halls.hall_iii.img_alt_1") },
+          { n: 14, alt: t("halls.hall_iii.img_alt_2") },
+          { n: 16, alt: t("halls.hall_iii.img_alt_3") },
+          { n: 17, alt: t("halls.hall_iii.img_alt_4") },
         ]}
+        ctaLabel={t("booking_cta.book_table")}
         reverse
       />
 
       <SectionFlourish light />
 
       {/* ═══════════════════════════════════════════════════════════
-          8. ЗАЛ — ІІ ПОВЕРХ — 25 МІСЦЬ — БАЛКОН + КАМІН
+          8. ЗАЛ IV — КАМІН + БАЛКОН
           ═══════════════════════════════════════════════════════════ */}
       <HallSection
         id="hall-iv"
         ghost="IV"
         roman="IV"
-        eyebrow="Зал · ІІ поверх · 25 місць · камін + балкон"
-        titleBold="Камін, балкон"
-        titleItalic="і тиха розмова."
-        body="Запрошуємо вас до нашого затишного залу, який ідеально поєднує сучасний комфорт із класичною атмосферою відпочинку. Центральним елементом інтер'єру є стильний електричний камін. Він миттєво додає простору відчуття тепла та затишку без зайвого диму чи запаху. Поєднання затишної камінної зони та можливості вийти на балкон робить його улюбленим місцем наших гостей у будь-яку пору року."
+        eyebrow={t("halls.hall_iv.eyebrow")}
+        titleBold={t("halls.hall_iv.title")}
+        titleItalic={t("halls.hall_iv.title_italic")}
+        body={t("halls.hall_iv.body")}
         photos={[
-          { n: 20, alt: "Електричний камін у залі на ІІ поверсі" },
-          { n: 21, alt: "Балкон із видом на сосновий ліс" },
-          { n: 18, alt: "Загальний вигляд залу" },
-          { n: 22, alt: "Двері на балкон" },
+          { n: 20, alt: t("halls.hall_iv.img_alt_1") },
+          { n: 21, alt: t("halls.hall_iv.img_alt_2") },
+          { n: 18, alt: t("halls.hall_iv.img_alt_3") },
+          { n: 22, alt: t("halls.hall_iv.img_alt_4") },
         ]}
+        ctaLabel={t("booking_cta.book_table")}
       />
 
       <SectionFlourish />
 
       {/* ═══════════════════════════════════════════════════════════
-          9. VIP — 12-ФУТОВИЙ БІЛЬЯРДНИЙ СТІЛ
+          9. ЗАЛ V — VIP БІЛЬЯРД
           ═══════════════════════════════════════════════════════════ */}
       <HallSection
         id="hall-v"
         light
         ghost="V"
         roman="V"
-        eyebrow="VIP · 12-футовий більярд"
-        titleBold="VIP-зал з більярдом"
-        titleItalic="і м'яким куточком."
-        body="Більярд допомагає відпочити, мотивує на дружню або ділову бесіду, заспокоює та допомагає розвинути мислення та логіку. В нашій VIP – кімнаті Ви можете насолодитися грою в будь який час доби, а також посмакувати нефільтрованим пивом власного виробництва."
+        eyebrow={t("halls.hall_v.eyebrow")}
+        titleBold={t("halls.hall_v.title")}
+        titleItalic={t("halls.hall_v.title_italic")}
+        body={t("halls.hall_v.body")}
         photos={[
-          { n: 23, alt: "VIP-зал з 12-футовим більярдним столом" },
-          { n: 24, alt: "Більярдний стіл з кіями і кулями" },
-          { n: 25, alt: "М'який куточок та більярдний зал" },
+          { n: 23, alt: t("halls.hall_v.img_alt_1") },
+          { n: 24, alt: t("halls.hall_v.img_alt_2") },
+          { n: 25, alt: t("halls.hall_v.img_alt_3") },
         ]}
+        ctaLabel={t("booking_cta.book_table")}
         reverse
       />
 
       <SectionFlourish light />
 
       {/* ═══════════════════════════════════════════════════════════
-          10. ЗАЛ «ТЕРАСА» — І ПОВЕРХ — 50 МІСЦЬ
+          10. ЗАЛ VI — ТЕРАСА
           ═══════════════════════════════════════════════════════════ */}
       <HallSection
         id="hall-vi"
         ghost="VI"
         roman="VI"
-        eyebrow="Зал «Тераса» · І поверх · 50 місць"
-        titleBold="Зал «Тераса»"
-        titleItalic="для ваших свят і корпоративів."
-        body="Ідеальна локація для ювілеїв, корпоративних вечірок або великих сімейних святкувань. Ми пропонуємо вам насолодитися вишуканою кухнею та першокласним сервісом в атмосфері легкості та свята. Просторе планування дозволяє легко трансформувати простір під будь-який формат заходу: від класичного банкетного розсадження до вільного лаунж – фуршету."
+        eyebrow={t("halls.hall_vi.eyebrow")}
+        titleBold={t("halls.hall_vi.title")}
+        titleItalic={t("halls.hall_vi.title_italic")}
+        body={t("halls.hall_vi.body")}
         photos={[
-          { n: 27, alt: "Загальний вигляд зали «Тераса»" },
-          { n: 28, alt: "Сервірування довгого столу" },
-          { n: 26, alt: "Тераса у денному світлі" },
-          { n: 31, alt: "Логотип Глухомань на зеленій стіні" },
-          { n: 30, alt: "Святкова композиція з кулями для дня народження" },
+          { n: 27, alt: t("halls.hall_vi.img_alt_1") },
+          { n: 28, alt: t("halls.hall_vi.img_alt_2") },
+          { n: 26, alt: t("halls.hall_vi.img_alt_3") },
+          { n: 31, alt: t("halls.hall_vi.img_alt_4") },
+          { n: 30, alt: t("halls.hall_vi.img_alt_5") },
         ]}
+        ctaLabel={t("booking_cta.book_table")}
       />
 
       <SectionFlourish />
 
       {/* ═══════════════════════════════════════════════════════════
-          11. БАНКЕТНА ЗАЛА — ІІ ПОВЕРХ — 90 МІСЦЬ
+          11. ЗАЛ VII — БАНКЕТНА ЗАЛА
           ═══════════════════════════════════════════════════════════ */}
       <HallSection
         id="hall-vii"
         light
         ghost="VII"
         roman="VII"
-        eyebrow="Банкетна зала · ІІ поверх · 90 місць"
-        titleBold="Банкетна зала"
-        titleItalic="до 90 гостей."
-        body="Запрошуємо вас до нашого просторого та розкішного банкетного залу, який ідеально підходить для проведення масштабних святкувань. Зал комфортно вміщує до 90 гостей у форматі банкету. Планування дозволяє розмістити столи різними способами (П-подібно, круглими столами або «ялинкою»), з місцем для танцполу, сцени та окремої зони для фотосесій чи фуршету."
-        ctaLabel="Детальна інформація"
+        eyebrow={t("halls.hall_vii.eyebrow")}
+        titleBold={t("halls.hall_vii.title")}
+        titleItalic={t("halls.hall_vii.title_italic")}
+        body={t("halls.hall_vii.body")}
+        ctaLabel={t("booking_cta.book_table_details")}
         photos={[
-          { n: 35, alt: "Банкетна зала з зеленими колонами" },
-          { n: 34, alt: "Банкетна зала з довгим столом" },
-          { n: 32, alt: "Вхід до банкетної зали з логотипом" },
-          { n: 36, alt: "Банкет з повноцінним сервіруванням" },
+          { n: 35, alt: t("halls.hall_vii.img_alt_1") },
+          { n: 34, alt: t("halls.hall_vii.img_alt_2") },
+          { n: 32, alt: t("halls.hall_vii.img_alt_3") },
+          { n: 36, alt: t("halls.hall_vii.img_alt_4") },
         ]}
         reverse
       />
@@ -676,53 +678,53 @@ export default function RestaurantPage() {
       <SectionFlourish light />
 
       {/* ═══════════════════════════════════════════════════════════
-          12. СВЯТА
+          12. ЗАЛ VIII — СВЯТА
           ═══════════════════════════════════════════════════════════ */}
       <HallSection
         id="hall-viii"
         ghost="VIII"
         roman="VIII"
-        eyebrow="Свята · Події"
+        eyebrow={t("halls.hall_viii.eyebrow")}
         titleBold={
           <>
-            День народження,
+            {t("halls.hall_viii.title_line1")}
             <br />
-            весілля, корпоратив
+            {t("halls.hall_viii.title_line2")}
           </>
         }
-        titleItalic="у «Глухомані»."
-        body="Відзначте Ваш день народження, весілля або корпоратив у ресторані «Глухомань» та зробіть його незабутнім! Прийдіть разом з друзями та родиною, щоб насолодитися смачними стравами, вишуканою атмосферою та найкращим обслуговуванням. Також можна замовити індивідуальну фотозону для Вашого свята. А наш арт – директор DANIL REVEKA організує для Вас музичний супровід (жива музика, ді-джей, ведуча)."
-        ctaLabel="Детальна інформація"
+        titleItalic={t("halls.hall_viii.title_italic")}
+        body={t("halls.hall_viii.body")}
+        ctaLabel={t("booking_cta.book_table_details")}
         aspect="aspect-[4/5]"
         photos={[
-          { n: 29, alt: "Фотозона «З днем народження»" },
-          { n: 39, alt: "Фотозона у червоно-золотих тонах" },
-          { n: 37, alt: "Святковий декор з кульками" },
-          { n: 38, alt: "Арт-директор ресторану DANIL REVEKA" },
-          { n: 30, alt: "Фруктовий стіл на терасі" },
+          { n: 29, alt: t("halls.hall_viii.img_alt_1") },
+          { n: 39, alt: t("halls.hall_viii.img_alt_2") },
+          { n: 37, alt: t("halls.hall_viii.img_alt_3") },
+          { n: 38, alt: t("halls.hall_viii.img_alt_4") },
+          { n: 30, alt: t("halls.hall_viii.img_alt_5") },
         ]}
       />
 
       <SectionFlourish />
 
       {/* ═══════════════════════════════════════════════════════════
-          13. ДИТЯЧА КІМНАТА
+          13. ЗАЛ IX — ДИТЯЧА КІМНАТА
           ═══════════════════════════════════════════════════════════ */}
       <HallSection
         id="hall-ix"
         light
         ghost="IX"
         roman="IX"
-        eyebrow="Дитяча кімната"
-        titleBold="Безкоштовна"
-        titleItalic="ігрова дитяча кімната."
-        body="Для малечі в ресторані «Глухомань» теж є дещо особливе – безкоштовна ігрова дитяча кімната (на ІІ поверсі ресторану) з іграшками, лабіринтом та розмальовками. Дітки весело проведуть час з нашими аніматорами. А також є дитяче меню і десерти, які потішать улюбленими смаками."
-        ctaLabel="Детальна інформація"
+        eyebrow={t("halls.hall_ix.eyebrow")}
+        titleBold={t("halls.hall_ix.title")}
+        titleItalic={t("halls.hall_ix.title_italic")}
+        body={t("halls.hall_ix.body")}
+        ctaLabel={t("booking_cta.book_table_details")}
         aspect="aspect-[4/5]"
         photos={[
-          { n: 42, alt: "Дитяча кімната з мʼякою підлогою" },
-          { n: 41, alt: "Дитячий лабіринт" },
-          { n: 43, alt: "Спортивна зона для дітей" },
+          { n: 42, alt: t("halls.hall_ix.img_alt_1") },
+          { n: 41, alt: t("halls.hall_ix.img_alt_2") },
+          { n: 43, alt: t("halls.hall_ix.img_alt_3") },
         ]}
         reverse
       />
@@ -730,32 +732,32 @@ export default function RestaurantPage() {
       <SectionFlourish light />
 
       {/* ═══════════════════════════════════════════════════════════
-          14. АНІМАТОРИ
+          14. ЗАЛ X — АНІМАТОРИ
           ═══════════════════════════════════════════════════════════ */}
       <HallSection
         id="hall-x"
         ghost="X"
         roman="X"
-        eyebrow="Аніматори"
-        titleBold="Квести, анімації, шоу,"
-        titleItalic="лазертаг."
-        body="Наші аніматори проводять різноманітні квести, анімації, мильні шоу, кріо – шоу, лазертаг."
-        ctaLabel="Детальна інформація"
+        eyebrow={t("halls.hall_x.eyebrow")}
+        titleBold={t("halls.hall_x.title")}
+        titleItalic={t("halls.hall_x.title_italic")}
+        body={t("halls.hall_x.body")}
+        ctaLabel={t("booking_cta.book_table_details")}
         aspect="aspect-[4/5]"
         photos={[
-          { n: 46, alt: "Аніматор у костюмі з дитиною" },
-          { n: 45, alt: "Дитяча піратська вечірка" },
-          { n: 44, alt: "Лазертаг на природі" },
-          { n: 47, alt: "Квест у аквапарку" },
-          { n: 48, alt: "Пригоди надворі" },
-          { n: 49, alt: "Мотузковий парк для дітей" },
+          { n: 46, alt: t("halls.hall_x.img_alt_1") },
+          { n: 45, alt: t("halls.hall_x.img_alt_2") },
+          { n: 44, alt: t("halls.hall_x.img_alt_3") },
+          { n: 47, alt: t("halls.hall_x.img_alt_4") },
+          { n: 48, alt: t("halls.hall_x.img_alt_5") },
+          { n: 49, alt: t("halls.hall_x.img_alt_6") },
         ]}
       />
 
       <SectionFlourish />
 
       {/* ═══════════════════════════════════════════════════════════
-          15. МЕНЮ — тизер, відкриває модал
+          15. МЕНЮ
           ═══════════════════════════════════════════════════════════ */}
       <section
         id="menu"
@@ -782,12 +784,12 @@ export default function RestaurantPage() {
             <div className="text-center mb-14 md:mb-16">
               <p className="text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8] mb-6 flex items-center justify-center gap-3">
                 <UtensilsCrossed className="w-4 h-4" strokeWidth={1.5} />
-                Меню
+                {t("menu_section.eyebrow")}
               </p>
               <h2 className="font-display text-5xl md:text-6xl lg:text-[68px] leading-[0.95] tracking-tight font-light">
-                Меню ресторану
+                {t("menu_section.title")}
                 <span className="block font-display italic text-[#e6d9b8]/90 mt-3">
-                  «Глухомань».
+                  {t("menu_section.title_italic")}
                 </span>
               </h2>
             </div>
@@ -798,7 +800,7 @@ export default function RestaurantPage() {
           </Reveal>
 
           <p className="mt-10 text-center text-[10px] uppercase tracking-[0.32em] text-[#e6d9b8]/55">
-            Клікніть на превʼю, щоб відкрити повне меню
+            {t("menu_section.click_hint")}
           </p>
         </div>
       </section>
@@ -811,9 +813,9 @@ export default function RestaurantPage() {
       <section className="py-24 md:py-32 bg-[#faf6ec] relative overflow-hidden rest-grain rest-grain--light">
         <Reveal>
           <div className="max-w-4xl mx-auto px-6 text-center">
-            <SectionEyebrow>Забронювати столик</SectionEyebrow>
+            <SectionEyebrow>{t("final_cta.eyebrow")}</SectionEyebrow>
             <h2 className="mt-4 font-display text-4xl md:text-6xl leading-[1.05] text-[#1a3d2e] mb-10 tracking-tight">
-              Забронювати столик за тел:
+              {t("final_cta.heading")}
               <span className="block mt-3">
                 <a
                   href={`tel:${PHONE_PRIMARY_TEL}`}
@@ -821,7 +823,7 @@ export default function RestaurantPage() {
                 >
                   {PHONE_PRIMARY}
                 </a>{" "}
-                <span className="text-[#1a3d2e]/40">або</span>{" "}
+                <span className="text-[#1a3d2e]/40">{t("final_cta.or")}</span>{" "}
                 <a
                   href={`tel:${PHONE_SECONDARY_TEL}`}
                   className="font-display italic hover:opacity-70 transition-opacity"
@@ -835,7 +837,7 @@ export default function RestaurantPage() {
               className="inline-flex items-center gap-3 bg-[#1a3d2e] text-[#f4ecd8] px-10 py-4 font-medium tracking-wide hover:bg-[#0f1f18] transition-colors min-h-[44px]"
             >
               <Phone className="w-4 h-4" />
-              Забронювати столик
+              {t("final_cta.cta_button")}
             </BookingButton>
           </div>
         </Reveal>

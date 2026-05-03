@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import menuData from '@/data/menu.json';
 import { openMenuDialog } from './MenuDialog';
 
@@ -48,11 +49,13 @@ const navCategories = menu.categories.slice(0, 8);
  * Gradient fade at bottom signals "there's more". Hover darkens & scales.
  */
 export function MenuPreview() {
+  const t = useTranslations('restaurant.menu_preview');
+
   return (
     <button
       type="button"
       onClick={openMenuDialog}
-      aria-label="Відкрити повне меню"
+      aria-label={t('aria_open')}
       className="group relative block w-full max-w-4xl mx-auto text-left cursor-pointer"
     >
       <div className="relative overflow-hidden rounded-[4px] bg-[#fdfaf0] ring-1 ring-[#e6d9b8] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.65)] transition-all duration-700 group-hover:shadow-[0_50px_120px_-20px_rgba(0,0,0,0.8)] group-hover:ring-[#e6d9b8]/80 group-hover:-translate-y-1">
@@ -60,15 +63,15 @@ export function MenuPreview() {
         <div className="px-6 lg:px-8 py-5 border-b border-[#e6d9b8] bg-gradient-to-b from-[#fdfaf0] to-[#f4ecd8]/40 flex items-center justify-between flex-wrap gap-3">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55">
-              Меню ресторану
+              {t('title')}
             </p>
             <h3 className="font-display text-2xl text-[#0f1f18] mt-0.5">
-              «Глухомань»
+              {t('name')}
             </h3>
           </div>
           <div className="text-right">
             <p className="text-[10px] uppercase tracking-wider text-[#1a3d2e]/55">
-              {totalCats} категорій · {totalDishes} страв
+              {t('stats', { totalCats, totalDishes })}
             </p>
           </div>
         </div>
@@ -116,7 +119,7 @@ export function MenuPreview() {
               {previewCategory.name}
             </h4>
             <span className="ml-auto text-[10px] uppercase tracking-[0.22em] text-[#1a3d2e]/45">
-              {previewCategory.items.length} страв
+              {t('dishes_count', { count: previewCategory.items.length })}
             </span>
           </div>
 
@@ -175,7 +178,7 @@ export function MenuPreview() {
           aria-hidden
           className="absolute left-1/2 -translate-x-1/2 bottom-7 flex items-center gap-3 bg-[#0f1f18] text-[#f4ecd8] px-8 md:px-10 py-4 text-[12px] font-medium uppercase tracking-[0.24em] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)] ring-1 ring-[#e6d9b8]/30 rounded-sm transition-all duration-500 group-hover:px-12 group-hover:-translate-x-1/2 group-hover:-translate-y-1"
         >
-          <span>Відкрити меню</span>
+          <span>{t('open_button')}</span>
           <ArrowUpRight
             className="w-4 h-4 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1"
             strokeWidth={2}

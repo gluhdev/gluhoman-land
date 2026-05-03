@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface Entry {
   id: string;
@@ -8,37 +9,41 @@ interface Entry {
   label: string;
 }
 
-const defaultEntries: Entry[] = [
-  { id: 'intro', roman: '0', label: 'Про ресторан' },
-  { id: 'cuisine', roman: '§', label: 'Кухня та пиво' },
-  { id: 'music', roman: '♪', label: 'Жива музика' },
-  { id: 'hall-i', roman: 'I', label: 'Піч' },
-  { id: 'hall-ii', roman: 'II', label: 'Відокремлений' },
-  { id: 'hall-iii', roman: 'III', label: 'Жар-Птиці' },
-  { id: 'hall-iv', roman: 'IV', label: 'Камін + балкон' },
-  { id: 'hall-v', roman: 'V', label: 'VIP' },
-  { id: 'hall-vi', roman: 'VI', label: 'Тераса' },
-  { id: 'hall-vii', roman: 'VII', label: 'Банкет' },
-  { id: 'hall-viii', roman: 'VIII', label: 'Свята' },
-  { id: 'hall-ix', roman: 'IX', label: 'Діти' },
-  { id: 'hall-x', roman: 'X', label: 'Аніматори' },
-  { id: 'menu', roman: '∎', label: 'Меню' },
-];
-
 /**
  * Floating section index (xl+). Uses mix-blend-mode:difference so the nav
  * automatically inverts against whatever section is behind it — readable
  * on both cream and dark-green backgrounds without theme tracking.
  */
 export function FloatingNav({
-  entries = defaultEntries,
+  entries,
 }: {
   entries?: Entry[];
 } = {}) {
-  const [activeId, setActiveId] = useState<string>(entries[0]?.id ?? 'intro');
+  const t = useTranslations('restaurant.floating_nav');
+
+  const defaultEntries: Entry[] = [
+    { id: 'intro', roman: '0', label: t('intro') },
+    { id: 'cuisine', roman: '§', label: t('cuisine') },
+    { id: 'music', roman: '♪', label: t('music') },
+    { id: 'hall-i', roman: 'I', label: t('hall_i') },
+    { id: 'hall-ii', roman: 'II', label: t('hall_ii') },
+    { id: 'hall-iii', roman: 'III', label: t('hall_iii') },
+    { id: 'hall-iv', roman: 'IV', label: t('hall_iv') },
+    { id: 'hall-v', roman: 'V', label: t('hall_v') },
+    { id: 'hall-vi', roman: 'VI', label: t('hall_vi') },
+    { id: 'hall-vii', roman: 'VII', label: t('hall_vii') },
+    { id: 'hall-viii', roman: 'VIII', label: t('hall_viii') },
+    { id: 'hall-ix', roman: 'IX', label: t('hall_ix') },
+    { id: 'hall-x', roman: 'X', label: t('hall_x') },
+    { id: 'menu', roman: '∎', label: t('menu') },
+  ];
+
+  const resolvedEntries = entries ?? defaultEntries;
+
+  const [activeId, setActiveId] = useState<string>(resolvedEntries[0]?.id ?? 'intro');
 
   useEffect(() => {
-    const targets = entries
+    const targets = resolvedEntries
       .map((e) => document.getElementById(e.id))
       .filter((el): el is HTMLElement => !!el);
 
@@ -63,9 +68,9 @@ export function FloatingNav({
       },
     );
 
-    targets.forEach((t) => observer.observe(t));
+    targets.forEach((tgt) => observer.observe(tgt));
     return () => observer.disconnect();
-  }, [entries]);
+  }, [resolvedEntries]);
 
   const jumpTo = (id: string) => {
     const el = document.getElementById(id);
@@ -77,11 +82,11 @@ export function FloatingNav({
 
   return (
     <nav
-      aria-label="Зміст"
+      aria-label={t('aria_label')}
       className="fixed right-5 top-1/2 -translate-y-1/2 z-30 hidden xl:flex flex-col gap-0 text-white"
       style={{ mixBlendMode: 'difference', isolation: 'isolate' }}
     >
-      {entries.map((e) => {
+      {resolvedEntries.map((e) => {
         const active = activeId === e.id;
         return (
           <button

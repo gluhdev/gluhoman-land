@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { EmbeddedMenu } from '@/components/menu/EmbeddedMenu';
 
 const OPEN_EVENT = 'glu:menu-open';
@@ -25,6 +26,7 @@ export function closeMenuDialog() {
  * to the page. Closes on Escape / backdrop click / X button.
  */
 export function MenuDialog() {
+  const t = useTranslations('restaurant.menu_dialog');
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const scrollYRef = useRef(0);
@@ -87,7 +89,7 @@ export function MenuDialog() {
           className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 md:p-8"
           role="dialog"
           aria-modal="true"
-          aria-label="Меню ресторану"
+          aria-label={t('aria_dialog')}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -96,7 +98,7 @@ export function MenuDialog() {
           {/* Backdrop */}
           <motion.button
             type="button"
-            aria-label="Закрити"
+            aria-label={t('aria_close_top')}
             onClick={() => setOpen(false)}
             className="absolute inset-0 bg-[#0b1410]/85 backdrop-blur-md cursor-default"
             initial={{ opacity: 0 }}
@@ -115,7 +117,7 @@ export function MenuDialog() {
             <button
               type="button"
               onClick={() => setOpen(false)}
-              aria-label="Закрити меню"
+              aria-label={t('aria_close_bottom')}
               className="absolute top-3 right-3 md:top-4 md:right-4 z-20 w-10 h-10 rounded-full bg-[#0f1f18] text-[#f4ecd8] flex items-center justify-center hover:bg-[#1a3d2e] ring-1 ring-[#e6d9b8]/30 shadow-lg transition-colors"
             >
               <X className="w-4 h-4" strokeWidth={2} />
