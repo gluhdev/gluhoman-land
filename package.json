@@ -14,7 +14,8 @@
     "db:seed": "tsx prisma/seed.ts",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "i18n:sync": "tsx --env-file=.env.local scripts/i18n/sync.ts"
+    "i18n:sync": "tsx --env-file=.env.local scripts/i18n/sync.ts",
+    "i18n:check": "tsx scripts/i18n/check.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
