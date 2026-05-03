@@ -24,139 +24,39 @@ import {
   FileText,
 } from 'lucide-react';
 import { CONTACT_INFO } from '@/constants';
+import { getTranslations } from 'next-intl/server';
 
-export const metadata: Metadata = {
-  title: 'Аквапарк «Глухомань» — літо, вода та сонце для всієї родини',
-  description:
-    'Водні гірки, басейни з підігрівом та окрема дитяча зона. Цілий день відпочинку для всієї родини — від ранку до заходу сонця. Сезон: травень — вересень.',
-  keywords:
-    'аквапарк, глухомань, водні гірки, басейни, відпочинок, полтавська область, нижні млини, водні розваги',
-  openGraph: {
-    title: 'Аквапарк «Глухомань» — літо, вода та сонце',
-    description:
-      'Преміум аквапарк у Нижніх Млинах: гірки, басейни з підігрівом, дитяча зона, бар та лежаки під тінню.',
-    type: 'website',
-    locale: 'uk_UA',
-    images: [
-      {
-        url: '/og-aquapark.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Аквапарк Глухомань',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Аквапарк «Глухомань»',
-    description:
-      'Літній аквапарк у Нижніх Млинах: гірки, басейни, дитяча зона та бар.',
-    images: ['/og-aquapark.jpg'],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('aquapark.meta');
+  return {
+    title: t('title'),
+    description: t('description'),
+    keywords: t('keywords'),
+    openGraph: {
+      title: t('og_title'),
+      description: t('og_description'),
+      type: 'website',
+      locale: 'uk_UA',
+      images: [
+        {
+          url: '/og-aquapark.jpg',
+          width: 1200,
+          height: 630,
+          alt: t('og_image_alt'),
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: t('twitter_title'),
+      description: t('twitter_description'),
+      images: ['/og-aquapark.jpg'],
+    },
+  };
+}
 
 const phonePrimary = CONTACT_INFO.phone[0];
 const telHref = `tel:${phonePrimary.replace(/\s+/g, '')}`;
-
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'TouristAttraction',
-  name: 'Аквапарк Глухомань',
-  description:
-    'Сучасний аквапарк рекреаційного комплексу Глухомань: водні гірки, басейни, дитяча зона, бар та зона відпочинку.',
-  image: 'https://gluhoman.com.ua/images/akvapark.webp',
-  telephone: phonePrimary,
-  address: {
-    '@type': 'PostalAddress',
-    addressCountry: 'UA',
-    addressRegion: 'Полтавська область',
-    addressLocality: 'с. Нижні Млини',
-  },
-  isAccessibleForFree: false,
-  publicAccess: true,
-  openingHoursSpecification: [
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
-      ],
-      opens: '09:00',
-      closes: '22:00',
-    },
-  ],
-};
-
-const faqJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: [
-    {
-      '@type': 'Question',
-      name: 'Коли працює аквапарк?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Сезон триває з травня до вересня. Точну дату відкриття уточнюйте за телефоном — вона залежить від погоди.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Чи є дитяча зона?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Так, у нас є окрема дитяча зона з мілководними басейнами, маленькими гірками та водними іграшками. Безпека гарантована — за дітьми наглядають професійні рятувальники.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Чи можна приходити з немовлятами?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Так, ви можете прийти з немовлям, але купання дозволено лише в дитячих басейнах. Шафки та стільчики для годування — за запитом.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Чи є рятувальники?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'На території аквапарку постійно чергують професійні рятувальники з медичною підготовкою.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Що включено у вартість?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: 'Вхід до аквапарку, доступ до всіх басейнів, гірок, шафок, душових та зони відпочинку. Рушники — за окрему оплату або за запитом.',
-      },
-    },
-    {
-      '@type': 'Question',
-      name: 'Чи можна забронювати окрему зону для свята?',
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: "Так, ми приймаємо групові замовлення для днів народження, корпоративів та інших свят. Зв'яжіться з нами для деталей.",
-      },
-    },
-  ],
-};
-
-type Zone = {
-  n: string;
-  kicker: string;
-  title: string;
-  italic: string;
-  description: string;
-  features: string[];
-  image: string;
-  imageAlt: string;
-};
 
 const SHAPES = [
   '58% 42% 63% 37% / 45% 55% 45% 55%',
@@ -166,113 +66,192 @@ const SHAPES = [
 ];
 const ROTS = ['rotate(-2deg)', 'rotate(2.5deg)', 'rotate(-1.5deg)', 'rotate(2deg)'];
 
-const zones: Zone[] = [
-  {
-    n: 'I',
-    kicker: 'Вода і ігри',
-    title: 'Дитяча зона',
-    italic: 'для найменших',
-    description:
-      'Безпечні мілководні басейнчики, м’які гірочки та водні іграшки для наймолодших гостей — усе під постійним наглядом рятувальників.',
-    features: ['Мілкі басейнчики', 'Міні гірки', 'Постійний нагляд'],
-    image: '/images/akvapark.webp',
-    imageAlt: 'Дитяча зона аквапарку Глухомань',
-  },
-  {
-    n: 'II',
-    kicker: 'Швидкість',
-    title: 'Дорослі гірки',
-    italic: 'та адреналін',
-    description:
-      'Захоплюючі швидкісні та звивисті спуски різного рівня складності — для підлітків, молоді та дорослих, які шукають трохи адреналіну.',
-    features: ['Швидкісні спуски', 'Звивисті траси', 'Безпечні покриття'],
-    image: '/images/akvapark.webp',
-    imageAlt: 'Водні гірки аквапарку Глухомань',
-  },
-  {
-    n: 'III',
-    kicker: 'Тепла вода',
-    title: 'Басейни',
-    italic: 'з підігрівом',
-    description:
-      'Басейни різних глибин — від релаксаційних до спортивних. Джакузі для ідеального завершення дня біля води.',
-    features: ['Мілководна зона', 'Басейн для плавання', 'Джакузі'],
-    image: '/images/akvapark.webp',
-    imageAlt: 'Басейни аквапарку Глухомань',
-  },
-  {
-    n: 'IV',
-    kicker: 'Тінь і спокій',
-    title: 'Зона відпочинку',
-    italic: 'під навісами',
-    description:
-      'Комфортні лежаки, тіньові навіси і бар із прохолодними напоями для приємних пауз між купанням.',
-    features: ['Зручні лежаки', 'Тіньові навіси', 'Бар та снеки'],
-    image: '/images/akvapark.webp',
-    imageAlt: 'Зона відпочинку аквапарку Глухомань',
-  },
-];
-
-const inclusions = [
-  'Рушники для кожного гостя',
-  'Індивідуальні шафки для речей',
-  'Професійні рятувальники на всіх зонах',
-  'Бар із напоями та снеками',
-  'Душові та переодягальні',
-  'Безкоштовний Wi-Fi',
-];
-
-const rules = [
-  {
-    icon: Clock,
-    title: 'Режим роботи',
-    text: 'Щоденно з 09:00 до 22:00, без вихідних.',
-  },
-  {
-    icon: Users,
-    title: 'Вікові обмеження',
-    text: 'Діти до 12 років — лише у супроводі дорослих.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Безпека',
-    text: 'Професійні рятувальники чергують на всіх зонах постійно.',
-  },
-];
-
-const faqItems = [
-  {
-    q: 'Коли працює аквапарк?',
-    a: 'Сезон триває з травня до вересня. Точну дату відкриття уточнюйте за телефоном — вона залежить від погоди.',
-  },
-  {
-    q: 'Чи є дитяча зона?',
-    a: 'Так, у нас є окрема дитяча зона з мілководними басейнами, маленькими гірками та водними іграшками. Безпека гарантована — за дітьми наглядають професійні рятувальники.',
-  },
-  {
-    q: 'Чи можна приходити з немовлятами?',
-    a: 'Так, ви можете прийти з немовлям, але купання дозволено лише в дитячих басейнах. Шафки та стільчики для годування — за запитом.',
-  },
-  {
-    q: 'Чи є рятувальники?',
-    a: 'На території аквапарку постійно чергують професійні рятувальники з медичною підготовкою.',
-  },
-  {
-    q: 'Що включено у вартість?',
-    a: 'Вхід до аквапарку, доступ до всіх басейнів, гірок, шафок, душових та зони відпочинку. Рушники — за окрему оплату або за запитом.',
-  },
-  {
-    q: 'Чи можна забронювати окрему зону для свята?',
-    a: "Так, ми приймаємо групові замовлення для днів народження, корпоративів та інших свят. Зв'яжіться з нами для деталей.",
-  },
-];
-
 export default async function AquaparkPage() {
+  const t = await getTranslations('aquapark');
+
   const heroImage = await getImage('aquapark.hero.image', '/images/akvapark.webp');
   const heroSubtitle = await getText(
     'aquapark.hero.subtitle',
-    'Водні гірки, басейни з підігрівом та окрема дитяча зона. Цілий день відпочинку для всієї родини — від ранку до заходу сонця.'
+    t('hero.subtitle')
   );
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'TouristAttraction',
+    name: t('jsonld.name'),
+    description: t('jsonld.description'),
+    image: 'https://gluhoman.com.ua/images/akvapark.webp',
+    telephone: phonePrimary,
+    address: {
+      '@type': 'PostalAddress',
+      addressCountry: 'UA',
+      addressRegion: t('jsonld.address_region'),
+      addressLocality: t('jsonld.address_locality'),
+    },
+    isAccessibleForFree: false,
+    publicAccess: true,
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: [
+          'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+          'Friday', 'Saturday', 'Sunday',
+        ],
+        opens: '09:00',
+        closes: '22:00',
+      },
+    ],
+  };
+
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      { '@type': 'Question', name: t('faq.q1'), acceptedAnswer: { '@type': 'Answer', text: t('faq.a1') } },
+      { '@type': 'Question', name: t('faq.q2'), acceptedAnswer: { '@type': 'Answer', text: t('faq.a2') } },
+      { '@type': 'Question', name: t('faq.q3'), acceptedAnswer: { '@type': 'Answer', text: t('faq.a3') } },
+      { '@type': 'Question', name: t('faq.q4'), acceptedAnswer: { '@type': 'Answer', text: t('faq.a4') } },
+      { '@type': 'Question', name: t('faq.q5'), acceptedAnswer: { '@type': 'Answer', text: t('faq.a5') } },
+      { '@type': 'Question', name: t('faq.q6'), acceptedAnswer: { '@type': 'Answer', text: t('faq.a6') } },
+    ],
+  };
+
+  const zones = [
+    {
+      n: 'I',
+      kicker: t('zones.zone_1.kicker'),
+      title: t('zones.zone_1.title'),
+      italic: t('zones.zone_1.italic'),
+      description: t('zones.zone_1.description'),
+      features: [t('zones.zone_1.feature_1'), t('zones.zone_1.feature_2'), t('zones.zone_1.feature_3')],
+      image: '/images/akvapark.webp',
+      imageAlt: t('zones.zone_1.image_alt'),
+    },
+    {
+      n: 'II',
+      kicker: t('zones.zone_2.kicker'),
+      title: t('zones.zone_2.title'),
+      italic: t('zones.zone_2.italic'),
+      description: t('zones.zone_2.description'),
+      features: [t('zones.zone_2.feature_1'), t('zones.zone_2.feature_2'), t('zones.zone_2.feature_3')],
+      image: '/images/akvapark.webp',
+      imageAlt: t('zones.zone_2.image_alt'),
+    },
+    {
+      n: 'III',
+      kicker: t('zones.zone_3.kicker'),
+      title: t('zones.zone_3.title'),
+      italic: t('zones.zone_3.italic'),
+      description: t('zones.zone_3.description'),
+      features: [t('zones.zone_3.feature_1'), t('zones.zone_3.feature_2'), t('zones.zone_3.feature_3')],
+      image: '/images/akvapark.webp',
+      imageAlt: t('zones.zone_3.image_alt'),
+    },
+    {
+      n: 'IV',
+      kicker: t('zones.zone_4.kicker'),
+      title: t('zones.zone_4.title'),
+      italic: t('zones.zone_4.italic'),
+      description: t('zones.zone_4.description'),
+      features: [t('zones.zone_4.feature_1'), t('zones.zone_4.feature_2'), t('zones.zone_4.feature_3')],
+      image: '/images/akvapark.webp',
+      imageAlt: t('zones.zone_4.image_alt'),
+    },
+  ];
+
+  const inclusions = [
+    t('includes.item_1'), t('includes.item_2'), t('includes.item_3'),
+    t('includes.item_4'), t('includes.item_5'), t('includes.item_6'),
+  ];
+
+  const rules = [
+    { icon: Clock, title: t('includes.rule_1_title'), text: t('includes.rule_1_text') },
+    { icon: Users, title: t('includes.rule_2_title'), text: t('includes.rule_2_text') },
+    { icon: ShieldCheck, title: t('includes.rule_3_title'), text: t('includes.rule_3_text') },
+  ];
+
+  const faqItems = [
+    { q: t('faq.q1'), a: t('faq.a1') },
+    { q: t('faq.q2'), a: t('faq.a2') },
+    { q: t('faq.q3'), a: t('faq.a3') },
+    { q: t('faq.q4'), a: t('faq.a4') },
+    { q: t('faq.q5'), a: t('faq.a5') },
+    { q: t('faq.q6'), a: t('faq.a6') },
+  ];
+
+  const slides = [
+    {
+      n: 'I',
+      name: t('slides.slide_1.name'),
+      stats: [
+        { k: t('slides.slide_1.stat_1_k'), v: t('slides.slide_1.stat_1_v') },
+        { k: t('slides.slide_1.stat_2_k'), v: t('slides.slide_1.stat_2_v') },
+        { k: t('slides.slide_1.stat_3_k'), v: t('slides.slide_1.stat_3_v') },
+      ],
+      text: t('slides.slide_1.text'),
+    },
+    {
+      n: 'II',
+      name: t('slides.slide_2.name'),
+      stats: [
+        { k: t('slides.slide_2.stat_1_k'), v: t('slides.slide_2.stat_1_v') },
+        { k: t('slides.slide_2.stat_2_k'), v: t('slides.slide_2.stat_2_v') },
+        { k: t('slides.slide_2.stat_3_k'), v: t('slides.slide_2.stat_3_v') },
+      ],
+      text: t('slides.slide_2.text'),
+    },
+    {
+      n: 'III',
+      name: t('slides.slide_3.name'),
+      stats: [
+        { k: t('slides.slide_3.stat_1_k'), v: t('slides.slide_3.stat_1_v') },
+        { k: t('slides.slide_3.stat_2_k'), v: t('slides.slide_3.stat_2_v') },
+        { k: t('slides.slide_3.stat_3_k'), v: t('slides.slide_3.stat_3_v') },
+      ],
+      text: t('slides.slide_3.text'),
+    },
+    {
+      n: 'IV',
+      name: t('slides.slide_4.name'),
+      stats: [
+        { k: t('slides.slide_4.stat_1_k'), v: t('slides.slide_4.stat_1_v') },
+        { k: t('slides.slide_4.stat_2_k'), v: t('slides.slide_4.stat_2_v') },
+        { k: t('slides.slide_4.stat_3_k'), v: t('slides.slide_4.stat_3_v') },
+      ],
+      text: t('slides.slide_4.text'),
+    },
+  ];
+
+  const scheduleRows = [
+    { t: '09:00', h: t('schedule.row_1_h'), d: t('schedule.row_1_d') },
+    { t: '11:00', h: t('schedule.row_2_h'), d: t('schedule.row_2_d') },
+    { t: '13:00', h: t('schedule.row_3_h'), d: t('schedule.row_3_d') },
+    { t: '15:00', h: t('schedule.row_4_h'), d: t('schedule.row_4_d') },
+    { t: '18:00', h: t('schedule.row_5_h'), d: t('schedule.row_5_d') },
+    { t: '21:00', h: t('schedule.row_6_h'), d: t('schedule.row_6_d') },
+  ];
+
+  const safetyCards = [
+    { icon: ShieldCheck, title: t('safety.card_1_title'), text: t('safety.card_1_text') },
+    { icon: Heart, title: t('safety.card_2_title'), text: t('safety.card_2_text') },
+    { icon: Droplets, title: t('safety.card_3_title'), text: t('safety.card_3_text') },
+    { icon: Users, title: t('safety.card_4_title'), text: t('safety.card_4_text') },
+  ];
+
+  const packingItems = [
+    { icon: Shirt, title: t('packing.item_1_title'), text: t('packing.item_1_text') },
+    { icon: Sun, title: t('packing.item_2_title'), text: t('packing.item_2_text') },
+    { icon: Droplet, title: t('packing.item_3_title'), text: t('packing.item_3_text') },
+    { icon: FileText, title: t('packing.item_4_title'), text: t('packing.item_4_text') },
+  ];
+
+  const familyFeatures = [
+    { icon: Baby, label: t('family.feature_1') },
+    { icon: ShieldCheck, label: t('family.feature_2') },
+    { icon: Sun, label: t('family.feature_3') },
+    { icon: Waves, label: t('family.feature_4') },
+  ];
+
   return (
     <>
       <Script
@@ -286,13 +265,13 @@ export default async function AquaparkPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      {/* 1. HERO — dark forest */}
+      {/* 1. HERO */}
       <section id="hero-section" className="hero-section relative min-h-[90svh] flex items-center justify-center overflow-clip bg-[#0b1410]">
         <Image
           fill
           priority
           src={heroImage}
-          alt="Аквапарк Глухомань"
+          alt={t('hero.img_alt')}
           className="object-cover opacity-55"
           sizes="100vw"
           quality={90}
@@ -309,11 +288,10 @@ export default async function AquaparkPage() {
               "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
           }}
         />
-
         <div className="relative z-10 max-w-5xl px-6 text-center text-[#f4ecd8]">
           <p className="mb-6 flex items-center justify-center gap-4 text-[11px] uppercase tracking-[0.32em] text-[#e6d9b8]">
             <span className="h-px w-10 bg-[#e6d9b8]/50" />
-            <EditableText k="aquapark.hero.eyebrow" fallback="Вода та сонце • II" as="span" />
+            <EditableText k="aquapark.hero.eyebrow" fallback={t('hero.eyebrow')} as="span" />
             <span className="h-px w-10 bg-[#e6d9b8]/50" />
           </p>
           <h1
@@ -325,8 +303,8 @@ export default async function AquaparkPage() {
               fontWeight: 300,
             }}
           >
-            <EditableText k="aquapark.hero.title" fallback="Аквапарк" as="span" />
-            <span className="block italic text-[#e6d9b8]">«Глухомань»</span>
+            <EditableText k="aquapark.hero.title" fallback={t('hero.title')} as="span" />
+            <span className="block italic text-[#e6d9b8]">{t('hero.brand')}</span>
           </h1>
           <p className="mx-auto mb-12 max-w-2xl text-lg md:text-xl font-light leading-relaxed text-[#f4ecd8]/80">
             {heroSubtitle}
@@ -336,7 +314,7 @@ export default async function AquaparkPage() {
               service="aquapark"
               className="inline-flex items-center gap-3 bg-[#e6d9b8] text-[#0f1f18] px-10 py-4 text-xs uppercase tracking-[0.22em] font-medium hover:bg-[#f4ecd8] transition"
             >
-              Забронювати візит
+              {t('hero.cta_book')}
               <ArrowUpRight className="h-4 w-4" />
             </BookingButton>
             <a
@@ -350,12 +328,12 @@ export default async function AquaparkPage() {
         </div>
       </section>
 
-      {/* 2. SEASON CALLOUT — cream */}
+      {/* 2. SEASON CALLOUT */}
       <section className="bg-[#faf6ec] py-20 md:py-24">
         <div className="mx-auto max-w-4xl px-6 text-center">
           <p className="mb-5 flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]/70">
             <span className="h-px w-8 bg-[#1a3d2e]/30" />
-            Сезон 2026
+            {t('season.kicker')}
             <span className="h-px w-8 bg-[#1a3d2e]/30" />
           </p>
           <h2
@@ -367,12 +345,13 @@ export default async function AquaparkPage() {
               fontWeight: 300,
             }}
           >
-            Працюємо з <span className="italic">травня</span> до{' '}
-            <span className="italic">вересня</span>
+            {t('season.title_p1')}{' '}
+            <span className="italic">{t('season.title_may')}</span>{' '}
+            {t('season.title_to')}{' '}
+            <span className="italic">{t('season.title_sep')}</span>
           </h2>
           <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-[#0f1f18]/65">
-            Графік відкриття залежить від погоди — уточнюйте за телефоном. У
-            сезон аквапарк відкритий щодня з 09:00 до 22:00.
+            {t('season.description')}
           </p>
           <a
             href={telHref}
@@ -384,14 +363,14 @@ export default async function AquaparkPage() {
         </div>
       </section>
 
-      {/* 3. ZONES — editorial cards on cream */}
+      {/* 3. ZONES */}
       <section className="relative overflow-hidden bg-[#faf6ec] py-28 md:py-36">
         <div className="relative mx-auto max-w-[1400px] px-6 md:px-12 lg:px-16">
           <div className="flex items-end justify-between gap-8 border-b border-[#0f1f18]/15 pb-10">
             <div>
               <p className="mb-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]/80">
                 <span className="h-px w-10 bg-[#1a3d2e]/40" />
-                Чотири зони
+                {t('zones.kicker')}
               </p>
               <h2
                 className="font-display text-[#0f1f18]"
@@ -402,13 +381,12 @@ export default async function AquaparkPage() {
                   fontWeight: 300,
                 }}
               >
-                Простір для кожного —{' '}
-                <span className="italic">від малюків до дорослих</span>
+                {t('zones.title_p1')}{' '}
+                <span className="italic">{t('zones.title_italic')}</span>
               </h2>
             </div>
             <div className="hidden max-w-xs text-sm leading-relaxed text-[#0f1f18]/65 md:block">
-              Кожна зона створена з увагою до деталей: безпека, комфорт і
-              простір для відпочинку всієї родини.
+              {t('zones.description')}
             </div>
           </div>
 
@@ -420,7 +398,6 @@ export default async function AquaparkPage() {
                   key={z.n}
                   className="group grid grid-cols-12 items-center gap-y-10"
                 >
-                  {/* Image */}
                   <div
                     className={`col-span-12 lg:col-span-7 ${
                       reverse ? 'lg:col-start-6' : 'lg:col-start-1'
@@ -464,7 +441,6 @@ export default async function AquaparkPage() {
                     </div>
                   </div>
 
-                  {/* Text */}
                   <div
                     className={`col-span-12 lg:col-span-5 ${
                       reverse
@@ -511,13 +487,13 @@ export default async function AquaparkPage() {
         </div>
       </section>
 
-      {/* 3b. SLIDE CATALOG — cream */}
+      {/* 3b. SLIDE CATALOG */}
       <section className="bg-[#faf6ec] py-28 md:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-20 max-w-3xl">
             <p className="mb-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]/80">
               <span className="h-px w-10 bg-[#1a3d2e]/40" />
-              Каталог гірок
+              {t('slides.kicker')}
             </p>
             <h2
               className="font-display text-[#0f1f18]"
@@ -528,57 +504,16 @@ export default async function AquaparkPage() {
                 fontWeight: 300,
               }}
             >
-              Чотири траси — <span className="italic">чотири настрої</span>
+              {t('slides.title_p1')}{' '}
+              <span className="italic">{t('slides.title_italic')}</span>
             </h2>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-[#0f1f18]/65">
-              Від швидкісних спусків до спокійних сімейних маршрутів. Кожна
-              гірка має свій характер, свою довжину та свій темп.
+              {t('slides.description')}
             </p>
           </div>
 
           <div className="border-t border-[#0f1f18]/15">
-            {[
-              {
-                n: 'I',
-                name: 'Лісова блискавка',
-                stats: [
-                  { k: 'Довжина', v: '68 м' },
-                  { k: 'Перепад', v: '12 м' },
-                  { k: 'Зріст', v: 'від 140 см' },
-                ],
-                text: 'Швидкісний спуск з двох паралельних трас. Перепад дванадцять метрів, час проходження — шість секунд. Для відвідувачів від 140 сантиметрів зросту.',
-              },
-              {
-                n: 'II',
-                name: 'Чорний тунель',
-                stats: [
-                  { k: 'Довжина', v: '82 м' },
-                  { k: 'Вік', v: '12+' },
-                  { k: 'Тип', v: 'закрита' },
-                ],
-                text: 'Закрита труба з крутими поворотами у повній темряві. Сцена «лісова печера» з підсвіткою та звуком. Не для тих, хто боїться невідомого.',
-              },
-              {
-                n: 'III',
-                name: 'Рафтинг «Родина»',
-                stats: [
-                  { k: 'Місткість', v: '4 особи' },
-                  { k: 'Темп', v: 'спокійний' },
-                  { k: 'Для', v: 'родини' },
-                ],
-                text: 'Широка гірка, яка приймає до чотирьох осіб одночасно. Спокійний темп і безпечна траєкторія — ідеально для першого спільного спуску всієї родини.',
-              },
-              {
-                n: 'IV',
-                name: 'Дитячий потічок',
-                stats: [
-                  { k: 'Висота', v: '2 м' },
-                  { k: 'Вік', v: '4–8 років' },
-                  { k: 'Нагляд', v: 'аніматор' },
-                ],
-                text: 'Невелика хвиляста гірка для наймолодших. Висота два метри, м’яке приземлення у мілководний басейнчик. Поруч завжди чергує аніматор.',
-              },
-            ].map((s) => (
+            {slides.map((s) => (
               <article
                 key={s.n}
                 className="grid grid-cols-12 items-start gap-6 border-b border-[#0f1f18]/15 py-12 md:py-16"
@@ -627,7 +562,7 @@ export default async function AquaparkPage() {
         </div>
       </section>
 
-      {/* 4. FAMILY — deep forest */}
+      {/* 4. FAMILY */}
       <section className="relative overflow-hidden bg-[#0f1f18] py-28 md:py-36 text-[#f4ecd8]">
         <div
           aria-hidden
@@ -660,7 +595,7 @@ export default async function AquaparkPage() {
                 >
                   <Image
                     src="/images/restaurant/aquapark_entrance_family.jpg"
-                    alt="Сім'я біля входу до аквапарку Глухомань"
+                    alt={t('family.img_alt')}
                     fill
                     sizes="(min-width: 1024px) 58vw, 100vw"
                     placeholder="blur"
@@ -675,7 +610,7 @@ export default async function AquaparkPage() {
             <div className="col-span-12 lg:col-span-5 lg:pl-12">
               <p className="mb-5 flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-[#e6d9b8]/80">
                 <span className="h-px w-6 bg-[#e6d9b8]/50" />
-                Для всієї родини
+                {t('family.kicker')}
               </p>
               <h2
                 className="font-display text-[#f4ecd8]"
@@ -686,29 +621,19 @@ export default async function AquaparkPage() {
                   fontWeight: 300,
                 }}
               >
-                Місце, де відпочиває
+                {t('family.title_p1')}
                 <br />
-                <span className="italic text-[#e6d9b8]">вся сім’я</span>
+                <span className="italic text-[#e6d9b8]">{t('family.title_italic')}</span>
               </h2>
               <p className="mt-6 max-w-md text-base leading-relaxed text-[#f4ecd8]/75">
-                Аквапарк Глухомань створений так, щоб кожен член родини знайшов
-                своє улюблене заняття: малюки плескаються у безпечних мілких
-                басейнчиках, підлітки куштують швидкісні гірки, а дорослі
-                відпочивають у джакузі або на тіньових лежаках біля бару.
+                {t('family.description_p1')}
               </p>
               <p className="mt-4 max-w-md text-base leading-relaxed text-[#f4ecd8]/65">
-                Наші рятувальники пильно стежать за порядком у всіх зонах —
-                можете спокійно насолоджуватися сонячним днем, знаючи, що діти у
-                надійних руках.
+                {t('family.description_p2')}
               </p>
 
               <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-5">
-                {[
-                  { icon: Baby, label: 'Дитяча зона' },
-                  { icon: ShieldCheck, label: 'Безпека 24/7' },
-                  { icon: Sun, label: 'Літнє сонце' },
-                  { icon: Waves, label: 'Вода з підігрівом' },
-                ].map(({ icon: Icon, label }) => (
+                {familyFeatures.map(({ icon: Icon, label }) => (
                   <div
                     key={label}
                     className="flex items-center gap-3 text-sm text-[#f4ecd8]/80"
@@ -723,14 +648,14 @@ export default async function AquaparkPage() {
         </div>
       </section>
 
-      {/* 5. INCLUDES / RULES — cream */}
+      {/* 5. INCLUDES / RULES */}
       <section className="bg-[#faf6ec] py-28 md:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 md:gap-16">
             <div className="lg:col-span-5">
               <p className="mb-6 flex items-center gap-3 text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]/80">
                 <span className="h-px w-8 bg-[#1a3d2e]/40" />
-                Що включено
+                {t('includes.kicker')}
               </p>
               <h2
                 className="font-display text-[#0f1f18]"
@@ -741,12 +666,11 @@ export default async function AquaparkPage() {
                   fontWeight: 300,
                 }}
               >
-                Всі деталі —{' '}
-                <span className="italic">про вас подбали</span>
+                {t('includes.title_p1')}{' '}
+                <span className="italic">{t('includes.title_italic')}</span>
               </h2>
               <p className="mt-6 max-w-md text-base leading-relaxed text-[#0f1f18]/65">
-                Від рушника до прохолодного напою — ми подбали про кожну деталь,
-                щоб ваш візит був комфортним від першої до останньої хвилини.
+                {t('includes.description')}
               </p>
             </div>
 
@@ -784,7 +708,7 @@ export default async function AquaparkPage() {
         </div>
       </section>
 
-      {/* 5b. SAFETY — deep forest */}
+      {/* 5b. SAFETY */}
       <section className="relative overflow-hidden bg-[#0f1f18] py-28 md:py-36 text-[#f4ecd8]">
         <div
           aria-hidden
@@ -798,7 +722,7 @@ export default async function AquaparkPage() {
           <div className="max-w-3xl">
             <p className="mb-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]/80">
               <span className="h-px w-10 bg-[#e6d9b8]/50" />
-              Безпека та правила
+              {t('safety.kicker')}
             </p>
             <h2
               className="font-display text-[#f4ecd8]"
@@ -809,41 +733,18 @@ export default async function AquaparkPage() {
                 fontWeight: 300,
               }}
             >
-              Безпека понад усе —{' '}
+              {t('safety.title_p1')}{' '}
               <span className="italic text-[#e6d9b8]">
-                комфорт для кожного
+                {t('safety.title_italic')}
               </span>
             </h2>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-[#f4ecd8]/70">
-              Ми створили середовище, у якому можна повністю довіритися відпочинку.
-              Професійна команда, суворі протоколи й чистота, яка не потребує
-              пояснень.
+              {t('safety.description')}
             </p>
           </div>
 
           <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 border-t border-[#e6d9b8]/20 pt-16">
-            {[
-              {
-                icon: ShieldCheck,
-                title: 'Рятувальники',
-                text: 'Троє професійних рятувальників на зміну. Сертифікація Ministry of Sport та регулярні тренування.',
-              },
-              {
-                icon: Heart,
-                title: 'Медпункт',
-                text: 'Медсестра на території, автоматичний дефібрилятор і повна аптечка — на випадок будь-яких ситуацій.',
-              },
-              {
-                icon: Droplets,
-                title: 'Контроль води',
-                text: 'Хімічний аналіз кожні дві години. Автоматична система фільтрації та знезараження працює постійно.',
-              },
-              {
-                icon: Users,
-                title: 'Вік і зріст',
-                text: 'Для кожної гірки — чіткі правила за віком та зростом. Персонал уважно стежить за дотриманням.',
-              },
-            ].map(({ icon: Icon, title, text }) => (
+            {safetyCards.map(({ icon: Icon, title, text }) => (
               <div key={title}>
                 <Icon className="h-5 w-5 text-[#e6d9b8] mb-5" />
                 <h3 className="font-display text-xl text-[#f4ecd8] mb-3" style={{ fontWeight: 400 }}>
@@ -858,13 +759,13 @@ export default async function AquaparkPage() {
         </div>
       </section>
 
-      {/* 5c. DAILY SCHEDULE — cream */}
+      {/* 5c. DAILY SCHEDULE */}
       <section className="bg-[#faf6ec] py-28 md:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-20 max-w-3xl">
             <p className="mb-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]/80">
               <span className="h-px w-10 bg-[#1a3d2e]/40" />
-              Один день у аквапарку
+              {t('schedule.kicker')}
             </p>
             <h2
               className="font-display text-[#0f1f18]"
@@ -875,48 +776,16 @@ export default async function AquaparkPage() {
                 fontWeight: 300,
               }}
             >
-              Від першого променя —{' '}
-              <span className="italic">до золотого заходу</span>
+              {t('schedule.title_p1')}{' '}
+              <span className="italic">{t('schedule.title_italic')}</span>
             </h2>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-[#0f1f18]/65">
-              Кожна година має свій настрій. Ось як зазвичай минає літній день
-              на території аквапарку «Глухомань».
+              {t('schedule.description')}
             </p>
           </div>
 
           <div className="border-t border-[#0f1f18]/15">
-            {[
-              {
-                t: '09:00',
-                h: 'Відкриття',
-                d: 'Прохолодна вода, перші сонячні промені крізь дерева, майже пусті гірки. Час для тих, хто цінує тишу.',
-              },
-              {
-                t: '11:00',
-                h: 'Аніматори на старті',
-                d: 'Аніматори починають активності для дітей біля дитячої зони — ігри, конкурси й водні пригоди.',
-              },
-              {
-                t: '13:00',
-                h: 'Обідня перерва',
-                d: 'Тераса ресторану «Глухомань» — у трьох хвилинах пішки. Літнє меню, холодні напої, тіньові столики.',
-              },
-              {
-                t: '15:00',
-                h: 'Піковий час',
-                d: 'Найбільше людей, найбільше сміху. Жива музика на літній площадці й черги біля улюблених гірок.',
-              },
-              {
-                t: '18:00',
-                h: 'Вечірні знижки',
-                d: 'Натовп рідшає, вода залишається теплою, а сонце стає золотим. Найкрасивіша година дня.',
-              },
-              {
-                t: '21:00',
-                h: 'Закриття',
-                d: 'Повертаємось у готель «Глухомань» — теплий душ, вечеря та довгий спокійний сон у лісовій тиші.',
-              },
-            ].map((row, idx, arr) => (
+            {scheduleRows.map((row, idx, arr) => (
               <div
                 key={row.t}
                 className={`grid grid-cols-12 items-start gap-6 py-10 md:py-12 ${
@@ -960,12 +829,12 @@ export default async function AquaparkPage() {
         </div>
       </section>
 
-      {/* 6. PRICING — cream editorial */}
+      {/* 6. PRICING */}
       <section className="bg-[#f4ecd8] py-28 md:py-36">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <p className="mb-6 flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]/80">
             <span className="h-px w-8 bg-[#1a3d2e]/40" />
-            Тарифи
+            {t('pricing.kicker')}
             <span className="h-px w-8 bg-[#1a3d2e]/40" />
           </p>
           <h2
@@ -977,12 +846,11 @@ export default async function AquaparkPage() {
               fontWeight: 300,
             }}
           >
-            Ціни — <span className="italic">за запитом</span>
+            {t('pricing.title_p1')}{' '}
+            <span className="italic">{t('pricing.title_italic')}</span>
           </h2>
           <p className="mx-auto mt-8 max-w-xl text-base md:text-lg leading-relaxed text-[#0f1f18]/65">
-            Щоб ви завжди отримували актуальну інформацію про сімейні пакети,
-            акції та групові замовлення, ми радимо звертатися напряму. Один
-            дзвінок — і ми підкажемо найкраще рішення для вашої родини.
+            {t('pricing.description')}
           </p>
           <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-5">
             <a
@@ -996,20 +864,20 @@ export default async function AquaparkPage() {
               service="aquapark"
               className="inline-flex items-center gap-3 border-b border-[#1a3d2e]/40 pb-1 text-xs uppercase tracking-[0.22em] text-[#1a3d2e] hover:border-[#1a3d2e] transition"
             >
-              Забронювати візит
+              {t('pricing.cta_book')}
               <ArrowUpRight className="h-3.5 w-3.5" />
             </BookingButton>
           </div>
         </div>
       </section>
 
-      {/* 7. FAQ — cream */}
+      {/* 7. FAQ */}
       <section className="bg-[#faf6ec] py-28 md:py-36">
         <div className="mx-auto max-w-5xl px-6">
           <div className="text-center mb-16">
             <p className="mb-6 flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]/80">
               <span className="h-px w-8 bg-[#1a3d2e]/40" />
-              Питання та відповіді
+              {t('faq.kicker')}
               <span className="h-px w-8 bg-[#1a3d2e]/40" />
             </p>
             <h2
@@ -1021,7 +889,8 @@ export default async function AquaparkPage() {
                 fontWeight: 300,
               }}
             >
-              Часті <span className="italic">запитання</span>
+              {t('faq.title_p1')}{' '}
+              <span className="italic">{t('faq.title_italic')}</span>
             </h2>
           </div>
 
@@ -1046,14 +915,14 @@ export default async function AquaparkPage() {
         </div>
       </section>
 
-      {/* 7b. PACKING LIST — cream */}
+      {/* 7b. PACKING LIST */}
       <section className="bg-[#faf6ec] py-28 md:py-36">
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-8 border-b border-[#0f1f18]/15 pb-10">
             <div className="max-w-xl">
               <p className="mb-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]/80">
                 <span className="h-px w-10 bg-[#1a3d2e]/40" />
-                Що взяти з собою
+                {t('packing.kicker')}
               </p>
               <h2
                 className="font-display text-[#0f1f18]"
@@ -1064,38 +933,17 @@ export default async function AquaparkPage() {
                   fontWeight: 300,
                 }}
               >
-                Коротка <span className="italic">валіза</span>
+                {t('packing.title_p1')}{' '}
+                <span className="italic">{t('packing.title_italic')}</span>
               </h2>
             </div>
             <p className="max-w-sm text-base leading-relaxed text-[#0f1f18]/65">
-              Усе інше можна орендувати або купити на місці — рушники, шапочки,
-              крем і прохолодні напої чекають на ресепшені.
+              {t('packing.description')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-            {[
-              {
-                icon: Shirt,
-                title: 'Одяг',
-                text: 'Купальник або плавки, шльопанці та шапочка для басейнів — обов’язкова в усіх спортивних зонах.',
-              },
-              {
-                icon: Sun,
-                title: 'Захист',
-                text: 'Сонцезахисний крем SPF 50, капелюх або панама для тіні. Сонце у Нижніх Млинах — щедре.',
-              },
-              {
-                icon: Droplet,
-                title: 'Комфорт',
-                text: 'Рушник (або орендуйте на місці) та пляшка питної води. Решту принесе бар.',
-              },
-              {
-                icon: FileText,
-                title: 'Документи',
-                text: 'Паспорт для дорослих і квиток на вхід. Ключ від шафки — отримаєте на ресепшені.',
-              },
-            ].map(({ icon: Icon, title, text }) => (
+            {packingItems.map(({ icon: Icon, title, text }) => (
               <div key={title}>
                 <Icon className="h-5 w-5 text-[#1a3d2e] mb-5" />
                 <h3
@@ -1113,7 +961,7 @@ export default async function AquaparkPage() {
         </div>
       </section>
 
-      {/* 8. BOOKING CTA — deep forest */}
+      {/* 8. BOOKING CTA */}
       <section className="relative overflow-hidden bg-[#0f1f18] py-28 md:py-36 text-[#f4ecd8]">
         <div
           aria-hidden
@@ -1127,7 +975,7 @@ export default async function AquaparkPage() {
           <p className="mb-6 flex items-center justify-center gap-3 text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]/80">
             <span className="h-px w-8 bg-[#e6d9b8]/50" />
             <CalendarDays className="h-3.5 w-3.5" />
-            Літній сезон
+            {t('cta.kicker')}
             <span className="h-px w-8 bg-[#e6d9b8]/50" />
           </p>
           <h2
@@ -1139,18 +987,18 @@ export default async function AquaparkPage() {
               fontWeight: 300,
             }}
           >
-            Готові до <span className="italic text-[#e6d9b8]">розваг?</span>
+            {t('cta.title_p1')}{' '}
+            <span className="italic text-[#e6d9b8]">{t('cta.title_italic')}</span>
           </h2>
           <p className="mx-auto mt-8 max-w-xl text-base md:text-lg font-light leading-relaxed text-[#f4ecd8]/75">
-            Забронюйте свій візит уже зараз — і ми підготуємо для вас найкращий
-            день біля води.
+            {t('cta.description')}
           </p>
           <div className="mt-12 flex flex-col sm:flex-row gap-5 items-center justify-center">
             <BookingButton
               service="aquapark"
               className="inline-flex items-center gap-3 bg-[#e6d9b8] text-[#0f1f18] px-10 py-4 text-xs uppercase tracking-[0.22em] font-medium hover:bg-[#f4ecd8] transition"
             >
-              Забронювати візит
+              {t('cta.cta_book')}
               <ArrowUpRight className="h-4 w-4" />
             </BookingButton>
             <a

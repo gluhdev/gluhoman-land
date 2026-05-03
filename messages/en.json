@@ -1169,5 +1169,238 @@
       "body": "Write to us and we will find the perfect room, confirm your reservation, and tell you how to get there. Everything else is ready.",
       "button": "Book a room"
     }
+  },
+  "aquapark": {
+    "meta": {
+      "title": "Water park \"Glukhoman\" - summer, water and sun for the whole family",
+      "description": "Water slides, heated pools and a separate children's area. A whole day of recreation for the whole family - from morning to sunset. Season: May - September.",
+      "keywords": "water park, wilderness, water slides, swimming pools, recreation, poltava region, nizhni mlyny, water entertainment",
+      "og_title": "Water park \"Glukhoman\" - summer, water and sun",
+      "og_description": "Premium water park in Nyzhni Mlynky: slides, heated pools, children's area, bar and sun loungers under the shade.",
+      "og_image_alt": "Water park Glukhoman",
+      "twitter_title": "Water park \"Glukhoman\"",
+      "twitter_description": "Summer water park in Nyzhni Mlynky: slides, swimming pools, children's area and bar."
+    },
+    "jsonld": {
+      "name": "Water park Glukhoman",
+      "description": "Modern water park of the Glukhoman recreational complex: water slides, swimming pools, children's area, bar and recreation area.",
+      "address_region": "gLOSSARY_4__",
+      "address_locality": "с. Nyzhni Mlyny"
+    },
+    "hero": {
+      "eyebrow": "Water and sun - II",
+      "title": "Water park",
+      "brand": "\"Glukhoman\"",
+      "img_alt": "Water park Glukhoman",
+      "subtitle": "Water slides, heated pools and a separate children's area. A whole day of recreation for the whole family - from morning to sunset.",
+      "cta_book": "Book a visit"
+    },
+    "season": {
+      "kicker": "Season 2026",
+      "title_p1": "We work with",
+      "title_may": "may",
+      "title_to": "to",
+      "title_sep": "september",
+      "description": "The opening schedule depends on the weather - check by phone. During the season, the water park is open daily from 09:00 to 22:00."
+    },
+    "zones": {
+      "kicker": "Four zones",
+      "title_p1": "Space for everyone",
+      "title_italic": "from toddlers to adults",
+      "description": "Each area is designed with attention to detail: safety, comfort and space for the whole family to relax.",
+      "zone_1": {
+        "kicker": "Water and games",
+        "title": "Children's area",
+        "italic": "for the little ones",
+        "description": "Safe shallow pools, soft slides, and water toys for the youngest guests are all under the constant supervision of lifeguards.",
+        "feature_1": "Shallow pools",
+        "feature_2": "Mini slides",
+        "feature_3": "Constant supervision",
+        "image_alt": "Children's area of the water park Glukhoman"
+      },
+      "zone_2": {
+        "kicker": "Speed",
+        "title": "Adult slides",
+        "italic": "and adrenaline",
+        "description": "Exciting high-speed and winding slopes of varying difficulty levels - for teenagers, young people and adults looking for a little adrenaline.",
+        "feature_1": "High-speed descents",
+        "feature_2": "Winding routes",
+        "feature_3": "Safe coatings",
+        "image_alt": "Water slides in the water park Glukhoman"
+      },
+      "zone_3": {
+        "kicker": "Warm water",
+        "title": "Swimming pools",
+        "italic": "heated",
+        "description": "Pools of various depths - from relaxation to sports. Jacuzzi for the perfect end to a day by the water.",
+        "feature_1": "Shallow water zone",
+        "feature_2": "Swimming pool",
+        "feature_3": "Jacuzzi",
+        "image_alt": "Pools of the water park Glukhoman"
+      },
+      "zone_4": {
+        "kicker": "Shade and tranquility",
+        "title": "Recreation area",
+        "italic": "under the canopies",
+        "description": "Comfortable sun loungers, shade canopies and a bar with refreshments for pleasant pauses between swims.",
+        "feature_1": "Comfortable sunbeds",
+        "feature_2": "Shadow canopies",
+        "feature_3": "Bar and snacks",
+        "image_alt": "Recreation area of the water park Glukhoman"
+      }
+    },
+    "slides": {
+      "kicker": "Catalog of slides",
+      "title_p1": "Four tracks -",
+      "title_italic": "four moods",
+      "description": "From high-speed downhill runs to calm family routes. Each hill has its own character, length and pace.",
+      "slide_1": {
+        "name": "Forest lightning",
+        "stat_1_k": "Length",
+        "stat_1_v": "68 м",
+        "stat_2_k": "Difference",
+        "stat_2_v": "12 м",
+        "stat_3_k": "Height",
+        "stat_3_v": "from 140 cm",
+        "text": "A high-speed descent from two parallel tracks. The drop is twelve meters and the time to complete the course is six seconds. For visitors from 140 centimeters in height."
+      },
+      "slide_2": {
+        "name": "Black tunnel",
+        "stat_1_k": "Length",
+        "stat_1_v": "82 м",
+        "stat_2_k": "Age",
+        "stat_2_v": "12+",
+        "stat_3_k": "Type",
+        "stat_3_v": "closed",
+        "text": "Closed pipe with sharp turns in complete darkness. The \"forest cave\" scene with lighting and sound. Not for those who are afraid of the unknown."
+      },
+      "slide_3": {
+        "name": "Rafting \"Rodina\"",
+        "stat_1_k": "Capacity",
+        "stat_1_v": "4 persons",
+        "stat_2_k": "Tempo",
+        "stat_2_v": "calm",
+        "stat_3_k": "For",
+        "stat_3_v": "families",
+        "text": "A wide slide that can accommodate up to four people at a time. The calm pace and safe trajectory are ideal for the first time the whole family goes down together."
+      },
+      "slide_4": {
+        "name": "Children's stream",
+        "stat_1_k": "Height",
+        "stat_1_v": "2 м",
+        "stat_2_k": "Age",
+        "stat_2_v": "4-8 years",
+        "stat_3_k": "Supervision",
+        "stat_3_v": "animator",
+        "text": "A small wavy slide for the youngest ones. It is two meters high and has a soft landing in a shallow pool. An animator is always on duty nearby."
+      }
+    },
+    "family": {
+      "kicker": "For the whole family",
+      "img_alt": "Family at the entrance to the water park Glukhoman",
+      "title_p1": "A place to relax",
+      "title_italic": "the whole family",
+      "description_p1": "The Glukhoman water park is designed so that every member of the family can find their favorite activity: kids splash in safe shallow pools, teenagers try out high-speed slides, and adults relax in the jacuzzi or on shady sun loungers at the bar.",
+      "description_p2": "Our rescuers keep a close eye on all areas, so you can enjoy a sunny day knowing that your children are in safe hands.",
+      "feature_1": "Children's area",
+      "feature_2": "Security 24/7",
+      "feature_3": "Summer sunshine",
+      "feature_4": "Heated water"
+    },
+    "includes": {
+      "kicker": "What's included",
+      "title_p1": "All the details are",
+      "title_italic": "you are taken care of",
+      "description": "From a towel to a soft drink, we have taken care of every detail to make your visit comfortable from the first to the last minute.",
+      "item_1": "Towels for each guest",
+      "item_2": "Individual lockers for clothes",
+      "item_3": "Professional rescuers in all areas",
+      "item_4": "Bar with drinks and snacks",
+      "item_5": "Showers and changing rooms",
+      "item_6": "Free Wi-Fi",
+      "rule_1_title": "Mode of operation",
+      "rule_1_text": "Every day from 09:00 to 22:00, seven days a week.",
+      "rule_2_title": "Age restrictions",
+      "rule_2_text": "Children under 12 years of age must be accompanied by an adult.",
+      "rule_3_title": "Security",
+      "rule_3_text": "Professional rescuers are on duty at all zones at all times."
+    },
+    "safety": {
+      "kicker": "Safety and rules",
+      "title_p1": "Safety is above all else",
+      "title_italic": "comfort for everyone",
+      "description": "We have created an environment where you can fully trust your vacation. A professional team, strict protocols, and cleanliness that does not require explanation.",
+      "card_1_title": "Rescuers",
+      "card_1_text": "Three professional lifeguards per shift. Ministry of Sport certification and regular training.",
+      "card_2_title": "Medical center",
+      "card_2_text": "An on-site nurse, an automatic defibrillator and a full first aid kit are available in case of any emergency.",
+      "card_3_title": "Water control",
+      "card_3_text": "Chemical analysis every two hours. The automatic filtration and disinfection system operates continuously.",
+      "card_4_title": "Age and height",
+      "card_4_text": "Each slide has clear age and height restrictions. The staff closely monitors compliance."
+    },
+    "schedule": {
+      "kicker": "One day at the water park",
+      "title_p1": "From the first ray",
+      "title_italic": "to the golden sunset",
+      "description": "Every hour has its own mood. This is how a summer day usually passes on the territory of the water park \"Glukhoman\".",
+      "row_1_h": "Opening",
+      "row_1_d": "Cool water, first sunlight through the trees, almost empty slides. Time for those who appreciate silence.",
+      "row_2_h": "Animators at the start",
+      "row_2_d": "Animators start activities for children near the children's area - games, contests and water adventures.",
+      "row_3_h": "Lunch break",
+      "row_3_d": "The terrace of the restaurant \"Glukhoman\" is a three-minute walk away. Summer menu, cold drinks, shady tables.",
+      "row_4_h": "Peak time",
+      "row_4_d": "The most people, the most laughter. Live music on the summer playground and queues at your favorite slides.",
+      "row_5_h": "Evening discounts",
+      "row_5_d": "The crowd is thinning, the water is still warm, and the sun is turning golden. It's the most beautiful hour of the day.",
+      "row_6_h": "Closing",
+      "row_6_d": "We return to the hotel \"Glukhoman\" for a warm shower, dinner, and a long, peaceful sleep in the forest silence."
+    },
+    "pricing": {
+      "kicker": "Tariffs",
+      "title_p1": "Prices",
+      "title_italic": "on request",
+      "description": "To ensure that you always receive the latest information about family packages, promotions and group orders, we encourage you to contact us directly. One call and we'll find the best solution for your family.",
+      "cta_book": "Book a visit"
+    },
+    "faq": {
+      "kicker": "Questions and answers",
+      "title_p1": "Frequent",
+      "title_italic": "question",
+      "q1": "When is the water park open?",
+      "a1": "The season lasts from May to September. Check the exact opening date by phone - it depends on the weather.",
+      "q2": "Is there a children's area?",
+      "a2": "Yes, we have a separate children's area with shallow pools, small slides and water toys. Safety is guaranteed - professional lifeguards supervise the children.",
+      "q3": "Can I come with babies?",
+      "a3": "Yes, you are welcome to bring your baby, but swimming is only allowed in the children's pools. Lockers and high chairs are available upon request.",
+      "q4": "Are there any rescuers?",
+      "a4": "Professional lifeguards with medical training are constantly on duty at the water park.",
+      "q5": "What is included in the price?",
+      "a5": "Entrance to the water park, access to all pools, slides, lockers, showers and recreation areas. Towels are available for a fee or on request.",
+      "q6": "Is it possible to book a separate area for the celebration?",
+      "a6": "Yes, we accept group orders for birthdays, corporate events, and other celebrations. Contact us for details."
+    },
+    "packing": {
+      "kicker": "What to take with you",
+      "title_p1": "Short",
+      "title_italic": "suitcase",
+      "description": "Everything else can be rented or bought on site - towels, hats, cream, and refreshments are waiting at the reception.",
+      "item_1_title": "Clothing",
+      "item_1_text": "A swimsuit or swimming trunks, flip-flops and a swimming cap are required in all sports areas.",
+      "item_2_title": "Protection",
+      "item_2_text": "SPF 50 sunscreen, a hat or panama hat for shade. The sun in Nyzhni Mlynky is generous.",
+      "item_3_title": "Comfort",
+      "item_3_text": "A towel (or rent one on site) and a bottle of drinking water. The rest will be brought by the bar.",
+      "item_4_title": "Documents",
+      "item_4_text": "An adult passport and an entrance ticket. You will receive the key to the locker at the reception."
+    },
+    "cta": {
+      "kicker": "Summer season",
+      "title_p1": "Ready for",
+      "title_italic": "entertainment?",
+      "description": "Book your visit now and we'll make sure you have the best day by the water.",
+      "cta_book": "Book a visit"
+    }
   }
 }
