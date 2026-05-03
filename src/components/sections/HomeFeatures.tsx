@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { TreePine } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type Feature = {
   number: string;
@@ -17,115 +18,36 @@ type Feature = {
   href: string; // where the tile navigates on click
 };
 
-const features: Feature[] = [
-  {
-    number: "01",
-    kicker: "Ресторан",
-    title: "Банкетна зала на 90 гостей",
-    description:
-      "Склепіння, світло свічок та довгий стіл для весіль, ювілеїв і урочистих подій.",
-    scale: "hero",
-    image: "/images/restaurant/terrace_hall_with_logo.jpg",
-    focal: "center 40%",
-    href: "/restaurant",
-  },
-  {
-    number: "02",
-    kicker: "Кухня",
-    title: "Українська піч на дровах",
-    description: "Автентичні страви з живого вогню за старовинними рецептами.",
-    scale: "tall",
-    image: "/images/restaurant/ukrainian_clay_oven_pich_food.jpg",
-    focal: "center center",
-    href: "/menu",
-  },
-  {
-    number: "03",
-    kicker: "Вечори",
-    title: "Жива музика на вихідних",
-    description:
-      "П'ятниця, субота, неділя — акустичні сети у головній залі ресторану.",
-    scale: "wide",
-    image: "/images/restaurant/live_music_danil.jpg",
-    focal: "center 35%",
-    href: "/restaurant",
-  },
-  {
-    number: "04",
-    kicker: "Спа",
-    title: "Чани на дровах з травами",
-    description:
-      "Купелі з настоями карпатських трав під зоряним небом — для двох.",
-    scale: "tall",
-    image: "/images/sauna/chan_citrus_couple_night.jpg",
-    focal: "center center",
-    href: "/sauna",
-  },
-  {
-    number: "05",
-    kicker: "Пивоварня",
-    title: "Крафтова пивоварня",
-    description: "Власне виробництво — дегустації та екскурсії для гостей.",
-    scale: "wide",
-    image: "/images/restaurant/about_craft_beer.jpg",
-    focal: "center center",
-    href: "/restaurant",
-  },
-  {
-    number: "06",
-    kicker: "Для дітей",
-    title: "Дитячі розваги з аніматорами",
-    description: "Лабіринт, лазертаг, мильне шоу та простора ігрова кімната.",
-    scale: "small",
-    image: "/images/restaurant/kids_room_labyrinth_maze.jpg",
-    focal: "center center",
-    href: "/restaurant",
-  },
-  {
-    number: "07",
-    kicker: "Унікальне",
-    title: "Павичі у «Жар-Птиці»",
-    description:
-      "Окрема зала з живим вольєром — обід у товаристві казкових птахів.",
-    scale: "small",
-    image: "/images/restaurant/peacock_aviary_zhar_ptytsi.jpg",
-    focal: "center center",
-    href: "/restaurant",
-  },
-  {
-    number: "08",
-    kicker: "Літо",
-    title: "Відкритий аквапарк",
-    description: "Басейни, гірки та зона відпочинку у теплий сезон.",
-    scale: "wide",
-    image: "/images/akvapark.webp",
-    focal: "center 45%",
-    href: "/aquapark",
-  },
-  {
-    number: "09",
-    kicker: "На воді",
-    title: "Літні тераси над ставком",
-    description:
-      "Три літні майданчики на воді в оточенні фонтанів та лебедів.",
-    scale: "small",
-    image: "/images/restaurant/exterior_summer_terrace_water.jpg",
-    href: "/restaurant",
-  },
-  {
-    number: "10",
-    kicker: "VIP",
-    title: "Більярдна з крафтовим пивом",
-    description:
-      "VIP-зал з 12-футовим столом і нефільтрованим пивом власного виробництва.",
-    scale: "small",
-    image: "/images/restaurant/vip_billiards_full_view.jpg",
-    href: "/restaurant",
-  },
+const FEATURES_META = [
+  { number: "01", scale: "hero" as const,  image: "/images/restaurant/terrace_hall_with_logo.jpg",          focal: "center 40%",    href: "/restaurant" },
+  { number: "02", scale: "tall" as const,  image: "/images/restaurant/ukrainian_clay_oven_pich_food.jpg",    focal: "center center", href: "/menu" },
+  { number: "03", scale: "wide" as const,  image: "/images/restaurant/live_music_danil.jpg",                 focal: "center 35%",    href: "/restaurant" },
+  { number: "04", scale: "tall" as const,  image: "/images/sauna/chan_citrus_couple_night.jpg",               focal: "center center", href: "/sauna" },
+  { number: "05", scale: "wide" as const,  image: "/images/restaurant/about_craft_beer.jpg",                 focal: "center center", href: "/restaurant" },
+  { number: "06", scale: "small" as const, image: "/images/restaurant/kids_room_labyrinth_maze.jpg",         focal: "center center", href: "/restaurant" },
+  { number: "07", scale: "small" as const, image: "/images/restaurant/peacock_aviary_zhar_ptytsi.jpg",       focal: "center center", href: "/restaurant" },
+  { number: "08", scale: "wide" as const,  image: "/images/akvapark.webp",                                   focal: "center 45%",    href: "/aquapark" },
+  { number: "09", scale: "small" as const, image: "/images/restaurant/exterior_summer_terrace_water.jpg",    focal: undefined,       href: "/restaurant" },
+  { number: "10", scale: "small" as const, image: "/images/restaurant/vip_billiards_full_view.jpg",          focal: undefined,       href: "/restaurant" },
 ];
 
 export default function HomeFeatures() {
+  const t = useTranslations('home.features');
   const prefersReducedMotion = useReducedMotion();
+
+  const features: Feature[] = FEATURES_META.map((m, i) => {
+    const n = String(i + 1).padStart(2, '0') as `0${number}`;
+    return {
+      number: m.number,
+      kicker: t(`f${n}_kicker` as Parameters<typeof t>[0]),
+      title: t(`f${n}_title` as Parameters<typeof t>[0]),
+      description: t(`f${n}_description` as Parameters<typeof t>[0]),
+      scale: m.scale,
+      image: m.image,
+      focal: m.focal,
+      href: m.href,
+    };
+  });
 
   const container: Variants = {
     hidden: {},
@@ -199,7 +121,7 @@ export default function HomeFeatures() {
               >
                 <span className="h-px w-12 bg-[#c9a95c]/60" />
                 <span className="text-[0.7rem] font-medium uppercase tracking-[0.38em]">
-                  Особливості комплексу
+                  {t('section_kicker')}
                 </span>
               </motion.div>
               <motion.h2
@@ -207,10 +129,10 @@ export default function HomeFeatures() {
                 className="font-display font-light leading-[0.92] text-[#f4ecd8]"
                 style={{ fontSize: "clamp(2.5rem, 6vw, 6rem)" }}
               >
-                Глухомань
+                {t('headline')}
                 <br />
                 <span className="italic text-[#c9a95c]">
-                  у десяти деталях
+                  {t('headline_italic')}
                 </span>
               </motion.h2>
             </div>
@@ -218,13 +140,11 @@ export default function HomeFeatures() {
               <div className="flex items-center gap-3 text-[#c9a95c]/70">
                 <TreePine className="h-5 w-5" strokeWidth={1.3} />
                 <span className="text-[0.65rem] uppercase tracking-[0.3em]">
-                  Нижні Млини · Полтавщина
+                  {t('location_tag')}
                 </span>
               </div>
               <p className="mt-5 max-w-sm text-sm leading-relaxed text-[#f1e9d2]/70">
-                Від власної пивоварні та живої музики до чанів на дровах,
-                павичів у вольєрі й ставка з лебедями — десять причин
-                затриматися надовше.
+                {t('intro')}
               </p>
             </motion.div>
           </div>

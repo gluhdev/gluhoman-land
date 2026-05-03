@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 import { useIsTouch } from "@/lib/use-is-touch";
 import { useRef } from "react";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 /**
  * HomeStory — editorial "chapter opening" spread.
@@ -11,6 +12,7 @@ import Image from "next/image";
  * pull quote, decorative ornament, and two asymmetric photos with parallax.
  */
 export default function HomeStory() {
+  const t = useTranslations('home.story');
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
   const isTouch = useIsTouch();
@@ -58,7 +60,7 @@ export default function HomeStory() {
             </div>
             <div className="mt-0 flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-[#1a3d2e]/60 lg:mt-8">
               <span className="hidden h-px w-8 bg-[#1a3d2e]/40 lg:inline-block" />
-              Про комплекс
+              {t('section_kicker')}
             </div>
           </motion.div>
         </div>
@@ -81,9 +83,9 @@ export default function HomeStory() {
               fontWeight: 300,
             }}
           >
-            Світ, де <span className="italic">казка</span>
+            {t('headline_p1')} <span className="italic">{t('headline_italic')}</span>
             <br />
-            стає реальністю
+            {t('headline_p2')}
           </motion.h2>
 
           {/* Mobile-only first photo — appears right after headline on phones */}
@@ -97,7 +99,7 @@ export default function HomeStory() {
             <div className="relative aspect-[4/5] overflow-hidden rounded-sm shadow-[0_24px_48px_-20px_rgba(26,61,46,0.35)]">
               <Image
                 src="/images/restaurant/exterior_summer_terrace_water.jpg"
-                alt="Літня тераса над ставком"
+                alt={t('photo1_alt')}
                 fill
                 sizes="100vw"
                 className="object-cover"
@@ -107,7 +109,7 @@ export default function HomeStory() {
             <div className="mt-3 flex items-center gap-3 text-[9px] uppercase tracking-[0.28em] text-[#1a3d2e]/55">
               <span>01</span>
               <span className="h-px flex-1 bg-[#1a3d2e]/25" />
-              <span>Тераса над водою</span>
+              <span>{t('photo1_caption')}</span>
             </div>
           </motion.div>
 
@@ -139,11 +141,7 @@ export default function HomeStory() {
               >
                 Н
               </span>
-              а території села Нижні Млини, серед вербового гаю й тихого ставка
-              з лебедями, збудовано цілий світ для тих, хто стомився від міста.
-              Двоповерховий ресторан у старовинному казковому стилі, готель
-              серед природи, лазня на дровах з карпатськими травами та
-              відкритий аквапарк — усе це в одному місці.
+              {t('prose')}
             </p>
           </motion.div>
 
@@ -163,12 +161,11 @@ export default function HomeStory() {
                 fontWeight: 300,
               }}
             >
-              «Три літні майданчики на воді, оточені фонтанами та лебедями — тут
-              починається справжній відпочинок.»
+              {t('pull_quote')}
             </p>
             <div className="mt-5 flex items-center gap-3 text-[11px] uppercase tracking-[0.24em] text-[#1a3d2e]/55">
               <span className="h-px w-8 bg-[#1a3d2e]/40" />
-              Родина Глухомань
+              {t('pull_quote_attr')}
             </div>
           </motion.blockquote>
 
@@ -182,14 +179,14 @@ export default function HomeStory() {
           >
             <p className="mb-6 flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-[#1a3d2e]/55">
               <span className="h-px w-8 bg-[#1a3d2e]/35" />
-              Глухомань · у цифрах
+              {t('stats_kicker')}
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4">
               {[
-                { roman: "I", n: "295", l: "Фірмових страв", sub: "у меню" },
-                { roman: "II", n: "7", l: "Унікальних залів", sub: "ресторану" },
-                { roman: "III", n: "2", l: "Лазні на дровах", sub: "з чанами" },
-                { roman: "IV", n: "4", l: "Напрямки", sub: "відпочинку" },
+                { roman: "I", n: "295", l: t('stat1_label'), sub: t('stat1_sub') },
+                { roman: "II", n: "7", l: t('stat2_label'), sub: t('stat2_sub') },
+                { roman: "III", n: "2", l: t('stat3_label'), sub: t('stat3_sub') },
+                { roman: "IV", n: "4", l: t('stat4_label'), sub: t('stat4_sub') },
               ].map((s, idx) => (
                 <div
                   key={s.l}
@@ -243,7 +240,7 @@ export default function HomeStory() {
                 >
                   <Image
                     src="/images/restaurant/exterior_summer_terrace_water.jpg"
-                    alt="Літня тераса над ставком"
+                    alt={t('photo1_alt')}
                     fill
                     sizes="(min-width: 1024px) 28vw, 85vw"
                     className="object-cover"
@@ -253,7 +250,7 @@ export default function HomeStory() {
               <div className="mt-3 flex items-center gap-3 text-[9px] uppercase tracking-[0.28em] text-[#1a3d2e]/50">
                 <span>01</span>
                 <span className="h-px flex-1 bg-[#1a3d2e]/25" />
-                <span>Тераса над водою</span>
+                <span>{t('photo1_caption')}</span>
               </div>
             </motion.div>
 
@@ -272,7 +269,7 @@ export default function HomeStory() {
                 >
                   <Image
                     src="/images/9.jpg"
-                    alt="Готель «Глухомань» нічний екстер'єр"
+                    alt={t('photo2_alt')}
                     fill
                     sizes="(min-width: 1024px) 22vw, 70vw"
                     className="object-cover"
@@ -282,7 +279,7 @@ export default function HomeStory() {
               <div className="mt-3 flex items-center gap-3 text-[9px] uppercase tracking-[0.28em] text-[#1a3d2e]/50">
                 <span>02</span>
                 <span className="h-px flex-1 bg-[#1a3d2e]/25" />
-                <span>Готель уночі</span>
+                <span>{t('photo2_caption')}</span>
               </div>
             </motion.div>
           </div>

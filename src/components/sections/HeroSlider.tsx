@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Calendar, ArrowRight } from 'lucide-react';
 import { openBookingDialog } from '@/components/ui/BookingDialog';
+import { useTranslations } from 'next-intl';
 
 type SplashPanel = {
   href: string;
@@ -23,63 +24,93 @@ type Slide = {
   panels?: SplashPanel[];
 };
 
-const SLIDES: Slide[] = [
+const SLIDE_META = [
   {
     id: 'splash',
-    eyebrow: 'Головна',
-    title: 'Глухомань',
-    description:
-      'Ресторан, готель, аквапарк і лазня на дровах — чотири напрямки відпочинку в одному місці. Оберіть свій вечір.',
     panels: [
-      { href: '/restaurant', label: 'Ресторан', image: '/images/restaurant/terrace_hall_with_logo.jpg' },
-      { href: '/hotel', label: 'Готель', image: '/images/9.jpg' },
-      { href: '/sauna', label: 'Лазня', image: '/images/sauna/chan_exterior_stone_steps.jpg' },
-      { href: '/aquapark', label: 'Аквапарк', image: '/images/akvapark.webp' },
+      { href: '/restaurant', imageKey: 'restaurant', image: '/images/restaurant/terrace_hall_with_logo.jpg' },
+      { href: '/hotel', imageKey: 'hotel', image: '/images/9.jpg' },
+      { href: '/sauna', imageKey: 'sauna', image: '/images/sauna/chan_exterior_stone_steps.jpg' },
+      { href: '/aquapark', imageKey: 'aquapark', image: '/images/akvapark.webp' },
     ],
   },
   {
     id: 'restaurant',
-    eyebrow: 'Ресторан',
-    title: 'Ресторан «Глухомань»',
-    description:
-      'Двоповерховий ресторан у старовинному казковому стилі, крита тераса і три літні майданчики на воді. Українська піч на дровах, крафтове пиво та жива музика на вихідних.',
     image: '/images/restaurant/terrace_hall_with_logo.jpg',
     href: '/restaurant',
   },
   {
     id: 'hotel',
-    eyebrow: 'Готель',
-    title: 'Готель «Глухомань»',
-    description:
-      'Затишні номери на території комплексу з видом на ставок, лебедів та фонтани. Поруч — ресторан, аквапарк і лазня на дровах.',
     image: '/images/9.jpg',
     href: '/hotel',
   },
   {
     id: 'sauna',
-    eyebrow: 'Лазня',
-    title: 'Лазня на дровах',
-    description:
-      'Чани на дровах з карпатськими травами, парна, дубові та бамбукові віники, масажі і кімнати відпочинку із самоварами.',
     image: '/images/sauna/exterior_small_sauna_building.jpg',
     href: '/sauna',
   },
   {
     id: 'aquapark',
-    eyebrow: 'Аквапарк',
-    title: 'Аквапарк «Глухомань»',
-    description:
-      'Відкритий аквапарк з водними гірками, басейнами з підігрівом та окремою дитячою зоною. Працює у літній сезон.',
     image: '/images/akvapark.webp',
     href: '/aquapark',
     seasonLocked: true,
   },
-];
+] as const;
 
 const AUTOPLAY_MS = 4000;
 const SPLASH_AUTOPLAY_MS = 4000;
 
 export default function HeroSlider() {
+  const t = useTranslations('home.hero_slider');
+
+  const SLIDES: Slide[] = [
+    {
+      id: 'splash',
+      eyebrow: t('slides.splash.eyebrow'),
+      title: t('slides.splash.title'),
+      description: t('slides.splash.description'),
+      panels: [
+        { href: '/restaurant', label: t('panels.restaurant'), image: '/images/restaurant/terrace_hall_with_logo.jpg' },
+        { href: '/hotel', label: t('panels.hotel'), image: '/images/9.jpg' },
+        { href: '/sauna', label: t('panels.sauna'), image: '/images/sauna/chan_exterior_stone_steps.jpg' },
+        { href: '/aquapark', label: t('panels.aquapark'), image: '/images/akvapark.webp' },
+      ],
+    },
+    {
+      id: 'restaurant',
+      eyebrow: t('slides.restaurant.eyebrow'),
+      title: t('slides.restaurant.title'),
+      description: t('slides.restaurant.description'),
+      image: SLIDE_META[1].image,
+      href: SLIDE_META[1].href,
+    },
+    {
+      id: 'hotel',
+      eyebrow: t('slides.hotel.eyebrow'),
+      title: t('slides.hotel.title'),
+      description: t('slides.hotel.description'),
+      image: SLIDE_META[2].image,
+      href: SLIDE_META[2].href,
+    },
+    {
+      id: 'sauna',
+      eyebrow: t('slides.sauna.eyebrow'),
+      title: t('slides.sauna.title'),
+      description: t('slides.sauna.description'),
+      image: SLIDE_META[3].image,
+      href: SLIDE_META[3].href,
+    },
+    {
+      id: 'aquapark',
+      eyebrow: t('slides.aquapark.eyebrow'),
+      title: t('slides.aquapark.title'),
+      description: t('slides.aquapark.description'),
+      image: SLIDE_META[4].image,
+      href: SLIDE_META[4].href,
+      seasonLocked: true,
+    },
+  ];
+
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const dragStartX = useRef<number | null>(null);
@@ -217,7 +248,7 @@ export default function HeroSlider() {
                       <div className="absolute inset-x-0 bottom-0 p-8 md:p-10">
                         <div className="flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-white/70 mb-2">
                           <span className="h-px w-6 bg-white/50" />
-                          Обрати
+                          {t('slide_select_label')}
                         </div>
                         <div
                           className="font-display text-white text-3xl md:text-4xl lg:text-5xl font-light tracking-tight drop-shadow-[0_4px_16px_rgba(0,0,0,0.7)]"
@@ -300,10 +331,10 @@ export default function HeroSlider() {
                       >
                         <span className="inline-flex items-center gap-3">
                           <Calendar className="h-5 w-5" />
-                          Бронювання з травня
+                          {t('season_locked_label')}
                         </span>
                         <span className="text-xs font-normal tracking-normal text-white/60 ml-8">
-                          Аквапарк працює влітку
+                          {t('season_locked_hint')}
                         </span>
                       </div>
                     ) : (
@@ -312,7 +343,7 @@ export default function HeroSlider() {
                         className="group inline-flex items-center justify-center gap-3 px-9 py-4 rounded-full bg-white text-[#0f1f18] font-medium text-sm uppercase tracking-[0.18em] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.4)] hover:bg-[#faf6ec] hover:-translate-y-0.5 transition-all duration-300"
                       >
                         <Calendar className="h-4 w-4" />
-                        Забронювати
+                        {t('book_now')}
                       </button>
                     )}
 
@@ -321,7 +352,7 @@ export default function HeroSlider() {
                         href={slide.href}
                         className="group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full border-2 border-white bg-black/50 backdrop-blur-md text-white font-semibold text-base shadow-xl hover:bg-black/70 hover:scale-[1.03] transition-all duration-300"
                       >
-                        Детальніше
+                        {t('more_details')}
                         <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                       </Link>
                     )}
@@ -336,14 +367,14 @@ export default function HeroSlider() {
       {/* Arrows */}
       <button
         onClick={prev}
-        aria-label="Попередній слайд"
+        aria-label={t('prev_slide')}
         className="group absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/30 bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/20 [@media(hover:hover)]:hover:scale-110 transition-all duration-300"
       >
         <ChevronLeft className="h-6 w-6 group-hover:-translate-x-0.5 transition-transform" />
       </button>
       <button
         onClick={next}
-        aria-label="Наступний слайд"
+        aria-label={t('next_slide')}
         className="group absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full border border-white/30 bg-black/30 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/20 [@media(hover:hover)]:hover:scale-110 transition-all duration-300"
       >
         <ChevronRight className="h-6 w-6 group-hover:translate-x-0.5 transition-transform" />
@@ -361,7 +392,7 @@ export default function HeroSlider() {
             <button
               key={s.id}
               onClick={() => goTo(i)}
-              aria-label={`Слайд ${i + 1}: ${s.eyebrow}`}
+              aria-label={t('dot_label', { n: i + 1, eyebrow: s.eyebrow })}
               className="group flex flex-col items-center gap-2"
             >
               <div

@@ -6,23 +6,33 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
-type Slide = { src: string; caption: string; tag: string };
-
-const SLIDES: Slide[] = [
-  { src: "/images/restaurant/terrace_hall_green_columns_far.jpg", caption: "Тераса серед зелених колон", tag: "Ресторан" },
-  { src: "/images/sauna/chan_carpathian_herbs_steam.jpg", caption: "Чан з карпатськими травами", tag: "Лазня" },
-  { src: "/images/restaurant/main_hall_long_table_evening.jpg", caption: "Вечір у головній залі", tag: "Ресторан" },
-  { src: "/images/sauna/relaxation_room_big_sauna_leather_sofa.jpg", caption: "Кімната відпочинку з шкіряним диваном", tag: "Лазня" },
-  { src: "/images/restaurant/hall_fireplace_balcony.jpg", caption: "Зала з каміном", tag: "Ресторан" },
-  { src: "/images/sauna/pool_big_sauna_indoor_full.jpg", caption: "Басейн великої лазні", tag: "Лазня" },
-  { src: "/images/restaurant/ukrainian_clay_oven_pich_food.jpg", caption: "Страви з української печі", tag: "Кухня" },
-  { src: "/images/sauna/small_sauna_outdoor_pool_barrel.jpg", caption: "Зовнішній басейн-бочка", tag: "Лазня" },
-  { src: "/images/restaurant/bar_rustic_tree_trunk.jpg", caption: "Бар із живого дерева", tag: "Ресторан" },
-  { src: "/images/restaurant/hall_floor1_rustic_wide.jpg", caption: "Рустикальна зала", tag: "Ресторан" },
+const SLIDE_SRCS = [
+  "/images/restaurant/terrace_hall_green_columns_far.jpg",
+  "/images/sauna/chan_carpathian_herbs_steam.jpg",
+  "/images/restaurant/main_hall_long_table_evening.jpg",
+  "/images/sauna/relaxation_room_big_sauna_leather_sofa.jpg",
+  "/images/restaurant/hall_fireplace_balcony.jpg",
+  "/images/sauna/pool_big_sauna_indoor_full.jpg",
+  "/images/restaurant/ukrainian_clay_oven_pich_food.jpg",
+  "/images/sauna/small_sauna_outdoor_pool_barrel.jpg",
+  "/images/restaurant/bar_rustic_tree_trunk.jpg",
+  "/images/restaurant/hall_floor1_rustic_wide.jpg",
 ];
 
 export default function HomeGallery() {
+  const t = useTranslations('home.gallery');
+
+  const SLIDES = SLIDE_SRCS.map((src, i) => {
+    const n = i + 1;
+    return {
+      src,
+      caption: t(`slide${n}_caption` as Parameters<typeof t>[0]),
+      tag: t(`slide${n}_tag` as Parameters<typeof t>[0]),
+    };
+  });
+
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "start", dragFree: true, containScroll: "trimSnaps" },
     [Autoplay({ delay: 4500, stopOnInteraction: false, stopOnMouseEnter: true })]
@@ -55,7 +65,7 @@ export default function HomeGallery() {
           <div>
             <p className="mb-6 flex items-center gap-4 text-[11px] uppercase tracking-[0.32em] text-[#1a3d2e]/70">
               <span className="h-px w-10 bg-[#1a3d2e]/40" />
-              Галерея &nbsp;—&nbsp; Сорок кадрів тиші
+              {t('section_kicker')}
             </p>
             <h2
               className="font-display text-[#1a3d2e]"
@@ -66,22 +76,22 @@ export default function HomeGallery() {
                 fontWeight: 300,
               }}
             >
-              Декілька <span className="italic">настроїв</span>, зроблених
-              <br className="hidden md:block" /> у Глухомані
+              {t('headline_p1')} <span className="italic">{t('headline_italic')}</span>,{' '}
+              <br className="hidden md:block" />{t('headline_p2')}
             </h2>
           </div>
 
           <div className="hidden shrink-0 items-center gap-3 md:flex">
             <button
               onClick={scrollPrev}
-              aria-label="Попередній слайд"
+              aria-label={t('prev_slide')}
               className="flex h-12 w-12 items-center justify-center rounded-full border border-[#1a3d2e]/25 text-[#1a3d2e] transition-colors hover:border-[#1a3d2e] hover:bg-[#1a3d2e] hover:text-[#f4ecd8]"
             >
               <ArrowLeft className="h-4 w-4" />
             </button>
             <button
               onClick={scrollNext}
-              aria-label="Наступний слайд"
+              aria-label={t('next_slide')}
               className="flex h-12 w-12 items-center justify-center rounded-full border border-[#1a3d2e]/25 text-[#1a3d2e] transition-colors hover:border-[#1a3d2e] hover:bg-[#1a3d2e] hover:text-[#f4ecd8]"
             >
               <ArrowRight className="h-4 w-4" />
@@ -126,7 +136,7 @@ export default function HomeGallery() {
               <button
                 key={i}
                 onClick={() => emblaApi?.scrollTo(i)}
-                aria-label={`Слайд ${i + 1}`}
+                aria-label={t('dot_label', { n: i + 1 })}
                 className={`h-px flex-1 transition-colors ${
                   i === selected ? "bg-[#1a3d2e]" : "bg-[#1a3d2e]/20"
                 }`}

@@ -6,6 +6,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { Calendar, Phone } from "lucide-react";
 import { openBookingDialog } from "@/components/ui/BookingDialog";
+import { useTranslations } from "next-intl";
 
 const CONTACT_PHONE = "+38 050 850 3555";
 
@@ -16,6 +17,7 @@ const CONTACT_PHONE = "+38 050 850 3555";
  * (book online / call), and a signature ornament below.
  */
 export default function HomeBookingCta() {
+  const t = useTranslations('home.booking_cta');
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
   const isTouch = useIsTouch();
@@ -110,7 +112,7 @@ export default function HomeBookingCta() {
           >
             <span className="h-px w-12 bg-[#c9a95c]/70" />
             <span className="text-[11px] uppercase tracking-[0.34em] text-[#c9a95c]/90">
-              Запрошення
+              {t('section_kicker')}
             </span>
             <span className="h-px w-12 bg-[#c9a95c]/70" />
           </motion.div>
@@ -129,10 +131,10 @@ export default function HomeBookingCta() {
               fontWeight: 300,
             }}
           >
-            Забронюйте
+            {t('headline_p1')}
             <br />
-            <span className="italic text-[#e6d9b8]">незабутній</span>{" "}
-            <span className="italic">вечір</span>
+            <span className="italic text-[#e6d9b8]">{t('headline_italic1')}</span>{" "}
+            <span className="italic">{t('headline_italic2')}</span>
           </motion.h2>
 
           {/* Ornament + sub-copy */}
@@ -155,8 +157,7 @@ export default function HomeBookingCta() {
             transition={{ duration: 0.41, delay: 0.15 }}
             className="mt-10 max-w-xl font-display italic text-xl leading-[1.6] text-[#f4ecd8]/90 md:text-2xl"
           >
-            На краю села, над ставом з лебедями й фонтанами —
-            тут починається ваш справжній відпочинок.
+            {t('tagline')}
           </motion.p>
 
           <motion.p
@@ -166,9 +167,7 @@ export default function HomeBookingCta() {
             transition={{ duration: 0.41, delay: 0.19 }}
             className="mt-6 max-w-xl text-sm leading-relaxed text-[#f4ecd8]/65 md:text-base"
           >
-            Номер у готелі, стіл у ресторані, чан на дровах, банкет на
-            90 гостей чи сімейний вихідний&nbsp;— залиште заявку або зателефонуйте,
-            ми подбаємо про решту.
+            {t('body')}
           </motion.p>
 
           {/* Split CTA row — two framed cards */}
@@ -188,10 +187,10 @@ export default function HomeBookingCta() {
               <span className="pointer-events-none absolute inset-0 origin-left scale-x-0 bg-[#f4ecd8] transition-transform duration-700 ease-out group-hover:scale-x-100" />
               <div className="relative z-10">
                 <div className="mb-1 text-[10px] uppercase tracking-[0.28em] text-[#c9a95c] group-hover:text-[#1a3d2e]/70">
-                  Онлайн
+                  {t('online_label')}
                 </div>
                 <div className="font-display text-2xl font-light text-[#f4ecd8] transition-colors group-hover:text-[#0b1410] md:text-3xl">
-                  Забронювати зараз
+                  {t('book_now')}
                 </div>
               </div>
               <Calendar className="relative z-10 h-6 w-6 shrink-0 text-[#f4ecd8] transition-all duration-500 group-hover:translate-x-1 group-hover:text-[#0b1410]" />
@@ -204,7 +203,7 @@ export default function HomeBookingCta() {
             >
               <div className="relative z-10">
                 <div className="mb-1 text-[10px] uppercase tracking-[0.28em] text-[#c9a95c]">
-                  Телефон
+                  {t('phone_label')}
                 </div>
                 <div className="font-display text-2xl font-light text-[#f4ecd8] md:text-3xl">
                   {CONTACT_PHONE}
@@ -223,9 +222,9 @@ export default function HomeBookingCta() {
             className="mt-16 flex items-center gap-4 text-[10px] uppercase tracking-[0.3em] text-[#e6d9b8]/45"
           >
             <span className="h-px w-10 bg-[#e6d9b8]/30" />
-            <span>с. Нижні Млини</span>
+            <span>{t('village')}</span>
             <span>·</span>
-            <span>Полтавська область</span>
+            <span>{t('region')}</span>
             <span className="h-px w-10 bg-[#e6d9b8]/30" />
           </motion.div>
         </div>

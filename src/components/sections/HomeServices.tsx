@@ -2,9 +2,10 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { ArrowUpRight, Calendar } from "lucide-react";
 import { openBookingDialog } from "@/components/ui/BookingDialog";
+import { useTranslations } from "next-intl";
 
 /* ---------- palette ---------- */
 const CREAM = "#faf6ec";
@@ -37,112 +38,43 @@ type Panel = {
   booking?: { rating: string; label: string; reviews?: string; href: string };
 };
 
-const PANELS: Panel[] = [
+const PANELS_META = [
   {
-    n: "01",
-    total: "04",
-    kicker: "Проживання",
-    title: "Готель",
-    titleItalic: "«Глухомань»",
-    verticalLabel: "HOTEL",
-    tagline: "Прокидайтесь під спів птахів за 20 метрів від ставка.",
-    description:
-      "Дерев'яні номери на території комплексу — від стандартних до сімейних котеджів. Крок до ресторану, аквапарку та лазні, тиша соснового лісу і власна парковка біля корпусу.",
-    highlights: [
-      "Дерев'яні номери з терасою",
-      "Ставок, лебеді, фонтани під вікном",
-      "Сніданок у ресторані комплексу",
-    ],
-    stat: { value: "10", label: "номерів та котеджів" },
-    priceHint: "від 1 400 грн / ніч",
-    hours: "Заїзд 14:00 · Виїзд 12:00",
-    href: "/hotel",
-    booking: {
-      rating: "9.2",
-      label: "Чудово",
-      reviews: "відгуки на Booking.com",
-      href: "https://www.booking.com/hotel/ua/gluhoman.uk.html",
-    },
-    image: "/images/9.jpg",
-    imageAlt: "Готель Глухомань вночі",
+    n: "01", total: "04", verticalLabel: "HOTEL",
+    href: "/hotel", image: "/images/9.jpg",
+    stat: { value: "10" },
+    booking: { rating: "9.2", href: "https://www.booking.com/hotel/ua/gluhoman.uk.html" },
   },
   {
-    n: "02",
-    total: "04",
-    kicker: "Вода та сонце",
-    title: "Аквапарк",
-    titleItalic: "«Глухомань»",
-    verticalLabel: "AQUA",
-    tagline: "Ціле літо — у басейнах із підігрівом та під гірками.",
-    description:
-      "Відкритий аквапарк із водними гірками, басейнами для дорослих та окремою дитячою зоною. Лежаки, бар біля води, роздягальні та безпечне дно. Працює у теплий сезон.",
-    highlights: [
-      "5 водних гірок різної висоти",
-      "Басейни з підігрівом води",
-      "Дитяча зона та рятувальники",
-    ],
-    stat: { value: "5", label: "водних гірок" },
-    priceHint: "вхід від 300 грн",
-    hours: "Сезон: травень — вересень",
-    href: "/aquapark",
-    image: "/images/akvapark.webp",
-    imageAlt: "Аквапарк Глухомань",
+    n: "02", total: "04", verticalLabel: "AQUA",
+    href: "/aquapark", image: "/images/akvapark.webp",
+    stat: { value: "5" },
     seasonLocked: true,
   },
   {
-    n: "03",
-    total: "04",
-    kicker: "Кухня та музика",
-    title: "Ресторан",
-    titleItalic: "«Глухомань»",
-    verticalLabel: "CUISINE",
-    tagline: "Страви з української печі на дровах і павичі у залі.",
-    description:
-      "Два поверхи, велика літня тераса, українська піч на дровах і крафтове пиво власного виробництва. Зал «Жар-Птиця» з павлінарієм, жива музика на вихідних та банкети до 150 гостей.",
-    highlights: [
-      "Українська піч на дровах",
-      "Крафтове пиво власного виробництва",
-      "Павлінарій у залі «Жар-Птиця»",
-    ],
-    stat: { value: "150", label: "посадкових місць" },
-    priceHint: "середній чек від 450 грн",
-    hours: "Щодня 10:00 — 23:00",
-    href: "/restaurant",
-    image: "/images/restaurant/terrace_hall_with_logo.jpg",
-    imageAlt: "Ресторан Глухомань",
+    n: "03", total: "04", verticalLabel: "CUISINE",
+    href: "/restaurant", image: "/images/restaurant/terrace_hall_with_logo.jpg",
+    stat: { value: "150" },
   },
   {
-    n: "04",
-    total: "04",
-    kicker: "Тіло та дух",
-    title: "Лазня",
-    titleItalic: "на дровах",
-    verticalLabel: "BANYA",
-    tagline: "Чани з карпатськими травами під зоряним небом.",
-    description:
-      "Чани на дровах з карпатськими травами, парна з дубовими та бамбуковими віниками, кімната відпочинку із самоваром та холодна купіль. Класична українська традиція у сучасному виконанні.",
-    highlights: [
-      "Чани на дровах з травами",
-      "Дубові та бамбукові віники",
-      "Самовар та кімната відпочинку",
-    ],
-    stat: { value: "4", label: "чани на дровах" },
-    priceHint: "від 1 200 грн / година",
-    hours: "За попереднім бронюванням",
-    href: "/sauna",
-    image: "/images/sauna/exterior_small_sauna_building.jpg",
-    imageAlt: "Лазня на дровах Глухомань",
+    n: "04", total: "04", verticalLabel: "BANYA",
+    href: "/sauna", image: "/images/sauna/exterior_small_sauna_building.jpg",
+    stat: { value: "4" },
   },
-];
+] as const;
 
 /* ---------- small subcomponents ---------- */
+
+type TFunc = ReturnType<typeof useTranslations<'home.services'>>;
 
 function BookButton({
   seasonLocked,
   dark,
+  t,
 }: {
   seasonLocked?: boolean;
-  dark: boolean; // panel bg is forest? true=forest, false=cream
+  dark: boolean;
+  t: TFunc;
 }) {
   if (seasonLocked) {
     return (
@@ -156,14 +88,14 @@ function BookButton({
       >
         <span className="inline-flex items-center gap-2.5 text-[11px] font-medium uppercase tracking-[0.2em]">
           <Calendar className="h-3.5 w-3.5" />
-          Бронювання з травня
+          {t('season_locked_label')}
         </span>
         <span
           className={`ml-[22px] text-[10px] ${
             dark ? "text-[#f4ecd8]/55" : "text-[#0f1f18]/55"
           }`}
         >
-          Аквапарк працює влітку
+          {t('season_locked_hint')}
         </span>
       </div>
     );
@@ -179,12 +111,12 @@ function BookButton({
       }`}
     >
       <Calendar className="h-3.5 w-3.5" />
-      Забронювати
+      {t('book_now')}
     </button>
   );
 }
 
-function DetailLink({ href, dark }: { href: string; dark: boolean }) {
+function DetailLink({ href, dark, t }: { href: string; dark: boolean; t: TFunc }) {
   return (
     <Link
       href={href}
@@ -194,7 +126,7 @@ function DetailLink({ href, dark }: { href: string; dark: boolean }) {
           : "border-[#0f1f18]/40 text-[#0f1f18] hover:border-[#0f1f18]"
       }`}
     >
-      Детальніше
+      {t('more_details')}
       <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/d:-translate-y-0.5 group-hover/d:translate-x-0.5" />
     </Link>
   );
@@ -211,10 +143,10 @@ function Hairline({ dark }: { dark: boolean }) {
 
 /* ---------- panel layouts (each unique) ---------- */
 
-type PanelProps = { p: Panel; reduced: boolean };
+type PanelProps = { p: Panel; reduced: boolean; t: TFunc };
 
 // Panel 01 — Готель: photo-left / structured info-card right with vertical HOTEL label
-function PanelHotel({ p, reduced }: PanelProps) {
+function PanelHotel({ p, reduced, t }: PanelProps) {
   return (
     <section
       className="relative overflow-hidden"
@@ -360,8 +292,8 @@ function PanelHotel({ p, reduced }: PanelProps) {
           </div>
 
           <div className="mt-10 flex flex-wrap items-center gap-5">
-            <BookButton seasonLocked={p.seasonLocked} dark={false} />
-            <DetailLink href={p.href} dark={false} />
+            <BookButton seasonLocked={p.seasonLocked} dark={false} t={t} />
+            <DetailLink href={p.href} dark={false} t={t} />
           </div>
 
           {p.booking && (
@@ -407,7 +339,7 @@ function PanelHotel({ p, reduced }: PanelProps) {
 }
 
 // Panel 02 — Аквапарк: photo-full background with floating cream text card
-function PanelAqua({ p, reduced }: PanelProps) {
+function PanelAqua({ p, reduced, t }: PanelProps) {
   return (
     <section
       className="relative overflow-hidden"
@@ -525,8 +457,8 @@ function PanelAqua({ p, reduced }: PanelProps) {
                   {p.description}
                 </p>
                 <div className="mt-8 flex flex-wrap items-center gap-5">
-                  <BookButton seasonLocked={p.seasonLocked} dark={true} />
-                  <DetailLink href={p.href} dark={true} />
+                  <BookButton seasonLocked={p.seasonLocked} dark={true} t={t} />
+                  <DetailLink href={p.href} dark={true} t={t} />
                 </div>
               </div>
 
@@ -586,7 +518,7 @@ function PanelAqua({ p, reduced }: PanelProps) {
 }
 
 // Panel 03 — Ресторан: asymmetric three-column with big italic title on left, photo right, stat floating
-function PanelRestaurant({ p, reduced }: PanelProps) {
+function PanelRestaurant({ p, reduced, t }: PanelProps) {
   return (
     <section
       className="relative overflow-hidden"
@@ -628,10 +560,10 @@ function PanelRestaurant({ p, reduced }: PanelProps) {
             }}
           >
             <span className="italic" style={{ color: MOSS }}>
-              Ресторан
+              {t('restaurant.headline_line1')}
             </span>
             <br />
-            на дровах
+            {t('restaurant.headline_line2')}
           </h3>
           <p
             className="mt-6 max-w-md text-sm leading-relaxed"
@@ -662,13 +594,13 @@ function PanelRestaurant({ p, reduced }: PanelProps) {
             >
               {p.stat.label}
               <br />
-              на двох поверхах
+              {t('restaurant_on_two_floors')}
             </span>
           </div>
 
           <div className="mt-10 flex flex-wrap items-center gap-5">
-            <BookButton seasonLocked={p.seasonLocked} dark={false} />
-            <DetailLink href={p.href} dark={false} />
+            <BookButton seasonLocked={p.seasonLocked} dark={false} t={t} />
+            <DetailLink href={p.href} dark={false} t={t} />
           </div>
         </motion.div>
 
@@ -713,7 +645,7 @@ function PanelRestaurant({ p, reduced }: PanelProps) {
               className="mb-4 text-[10px] uppercase tracking-[0.3em]"
               style={{ color: `${INK}80` }}
             >
-              Ключові фішки
+              {t('key_features')}
             </p>
             <ul className="space-y-3 text-sm" style={{ color: `${INK}CC` }}>
               {p.highlights.map((h) => (
@@ -747,7 +679,7 @@ function PanelRestaurant({ p, reduced }: PanelProps) {
 }
 
 // Panel 04 — Лазня: centered "quote" style, single wide photo, verticals + ritual list
-function PanelBanya({ p, reduced }: PanelProps) {
+function PanelBanya({ p, reduced, t }: PanelProps) {
   return (
     <section
       className="relative overflow-hidden"
@@ -863,7 +795,7 @@ function PanelBanya({ p, reduced }: PanelProps) {
               style={{ color: `${GOLD}CC` }}
             >
               <span className="h-px w-8" style={{ backgroundColor: `${GOLD}66` }} />
-              <span>Мала та велика лазня</span>
+              <span>{t('sauna.photo1_caption')}</span>
             </p>
           </Link>
 
@@ -878,7 +810,7 @@ function PanelBanya({ p, reduced }: PanelProps) {
             >
               <Image
                 src="/images/sauna/chan_citrus_couple_night.jpg"
-                alt="Карпатський чан на дровах під відкритим небом"
+                alt={t('sauna.photo2_alt')}
                 fill
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover transition-transform duration-[1600ms] ease-out group-hover:scale-[1.06]"
@@ -908,7 +840,7 @@ function PanelBanya({ p, reduced }: PanelProps) {
               className="mt-4 flex items-center justify-end gap-3 text-[10px] uppercase tracking-[0.32em]"
               style={{ color: `${GOLD}CC` }}
             >
-              <span>Карпатський чан</span>
+              <span>{t('sauna.photo2_caption')}</span>
               <span className="h-px w-8" style={{ backgroundColor: `${GOLD}66` }} />
             </p>
           </Link>
@@ -950,7 +882,7 @@ function PanelBanya({ p, reduced }: PanelProps) {
               className="mb-4 text-[10px] uppercase tracking-[0.3em]"
               style={{ color: `${GOLD}` }}
             >
-              Ритуал
+              {t('ritual')}
             </p>
             <ul className="space-y-2 text-sm" style={{ color: `${CREAM}CC` }}>
               {p.highlights.map((h) => (
@@ -980,8 +912,8 @@ function PanelBanya({ p, reduced }: PanelProps) {
               )}
             </div>
             <div className="flex flex-wrap items-center gap-5">
-              <BookButton seasonLocked={p.seasonLocked} dark={true} />
-              <DetailLink href={p.href} dark={true} />
+              <BookButton seasonLocked={p.seasonLocked} dark={true} t={t} />
+              <DetailLink href={p.href} dark={true} t={t} />
             </div>
           </div>
         </motion.div>
@@ -994,6 +926,81 @@ function PanelBanya({ p, reduced }: PanelProps) {
 
 export default function HomeServices() {
   const reduced = useReducedMotion() ?? false;
+  const t = useTranslations('home.services');
+
+  const PANELS: Panel[] = [
+    {
+      n: "01", total: "04",
+      kicker: t('hotel.kicker'),
+      title: t('hotel.title'),
+      titleItalic: t('hotel.title_italic'),
+      verticalLabel: "HOTEL",
+      tagline: t('hotel.tagline'),
+      description: t('hotel.description'),
+      highlights: [t('hotel.h1'), t('hotel.h2'), t('hotel.h3')],
+      stat: { value: PANELS_META[0].stat.value, label: t('hotel.stat_label') },
+      priceHint: t('hotel.price_hint'),
+      hours: t('hotel.hours'),
+      href: "/hotel",
+      booking: {
+        rating: "9.2",
+        label: t('hotel.booking_label'),
+        reviews: t('hotel.booking_reviews'),
+        href: "https://www.booking.com/hotel/ua/gluhoman.uk.html",
+      },
+      image: "/images/9.jpg",
+      imageAlt: t('hotel.image_alt'),
+    },
+    {
+      n: "02", total: "04",
+      kicker: t('aquapark.kicker'),
+      title: t('aquapark.title'),
+      titleItalic: t('aquapark.title_italic'),
+      verticalLabel: "AQUA",
+      tagline: t('aquapark.tagline'),
+      description: t('aquapark.description'),
+      highlights: [t('aquapark.h1'), t('aquapark.h2'), t('aquapark.h3')],
+      stat: { value: PANELS_META[1].stat.value, label: t('aquapark.stat_label') },
+      priceHint: t('aquapark.price_hint'),
+      hours: t('aquapark.hours'),
+      href: "/aquapark",
+      image: "/images/akvapark.webp",
+      imageAlt: t('aquapark.image_alt'),
+      seasonLocked: true,
+    },
+    {
+      n: "03", total: "04",
+      kicker: t('restaurant.kicker'),
+      title: t('restaurant.title'),
+      titleItalic: t('restaurant.title_italic'),
+      verticalLabel: "CUISINE",
+      tagline: t('restaurant.tagline'),
+      description: t('restaurant.description'),
+      highlights: [t('restaurant.h1'), t('restaurant.h2'), t('restaurant.h3')],
+      stat: { value: PANELS_META[2].stat.value, label: t('restaurant.stat_label') },
+      priceHint: t('restaurant.price_hint'),
+      hours: t('restaurant.hours'),
+      href: "/restaurant",
+      image: "/images/restaurant/terrace_hall_with_logo.jpg",
+      imageAlt: t('restaurant.image_alt'),
+    },
+    {
+      n: "04", total: "04",
+      kicker: t('sauna.kicker'),
+      title: t('sauna.title'),
+      titleItalic: t('sauna.title_italic'),
+      verticalLabel: "BANYA",
+      tagline: t('sauna.tagline'),
+      description: t('sauna.description'),
+      highlights: [t('sauna.h1'), t('sauna.h2'), t('sauna.h3')],
+      stat: { value: PANELS_META[3].stat.value, label: t('sauna.stat_label') },
+      priceHint: t('sauna.price_hint'),
+      hours: t('sauna.hours'),
+      href: "/sauna",
+      image: "/images/sauna/exterior_small_sauna_building.jpg",
+      imageAlt: t('sauna.image_alt'),
+    },
+  ];
 
   return (
     <section id="services" className="relative">
@@ -1020,7 +1027,7 @@ export default function HomeServices() {
                 style={{ color: `${INK}99` }}
               >
                 <Hairline dark={false} />
-                Чотири напрямки — один комплекс
+                {t('intro_kicker')}
               </p>
               <h2
                 className="font-display"
@@ -1032,30 +1039,28 @@ export default function HomeServices() {
                   color: INK,
                 }}
               >
-                Кожен напрямок —{" "}
+                {t('intro_headline_p1')}{" "}
                 <span className="italic" style={{ color: MOSS }}>
-                  окрема історія
+                  {t('intro_headline_italic')}
                 </span>
-                , одне місце.
+                {t('intro_headline_p2')}
               </h2>
             </div>
             <div
               className="col-span-12 text-sm leading-relaxed lg:col-span-4"
               style={{ color: `${INK}99` }}
             >
-              Готель, ресторан, аквапарк і лазня на одній території. Приїздіть
-              на обід, залишайтеся на вихідні, святкуйте весілля чи ювілей на
-              150 гостей.
+              {t('intro_body')}
             </div>
           </motion.div>
         </div>
       </div>
 
       {/* Four alternating panels — each unique */}
-      <PanelHotel p={PANELS[0]} reduced={reduced} />
-      <PanelAqua p={PANELS[1]} reduced={reduced} />
-      <PanelRestaurant p={PANELS[2]} reduced={reduced} />
-      <PanelBanya p={PANELS[3]} reduced={reduced} />
+      <PanelHotel p={PANELS[0]} reduced={reduced} t={t} />
+      <PanelAqua p={PANELS[1]} reduced={reduced} t={t} />
+      <PanelRestaurant p={PANELS[2]} reduced={reduced} t={t} />
+      <PanelBanya p={PANELS[3]} reduced={reduced} t={t} />
     </section>
   );
 }

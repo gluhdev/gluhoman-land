@@ -1,48 +1,13 @@
 "use client";
 
 import { Star } from "lucide-react";
+import { useTranslations } from "next-intl";
 
-const REVIEWS = [
-  {
-    name: "Ірина К.",
-    rating: 5,
-    date: "Березень 2026",
-    text:
-      "Повернулися вже втретє. Готель, ресторан, аквапарк — все на одному рівні. Особлива подяка шефу за качку з яблуками і персоналу, який памʼятав нас з минулого візиту.",
-  },
-  {
-    name: "Олексій і Марія",
-    rating: 5,
-    date: "Лютий 2026",
-    text:
-      "Святкували річницю весілля. Номер «Люкс» з видом на ставок, вечеря на терасі, лазня на дровах — незабутньо. Їхали з Харкова саме сюди і не пожалкували ні секунди.",
-  },
-  {
-    name: "Віталій М.",
-    rating: 5,
-    date: "Лютий 2026",
-    text:
-      "Проводили корпоратив для 40 людей. Банкетна зала, анімація, пивоварня з дегустацією — усе зроблено без жодної затримки. Команда організованa бездоганно.",
-  },
-  {
-    name: "Катерина С.",
-    rating: 5,
-    date: "Січень 2026",
-    text:
-      "Приїхали з дітьми (3 і 7 років) на зимові канікули. Аквапарк працював, у ресторані дитяче меню, тепла сімейна кімната в готелі. Діти у захваті, ми відпочили.",
-  },
-  {
-    name: "Наталія Р.",
-    rating: 5,
-    date: "Січень 2026",
-    text:
-      "Лазня на дровах з карпатськими травами — окрема пісня. Такого глибокого відпочинку я не отримувала давно. Чайна кімната з самоваром — родзинка. Обовʼязково приїдемо ще.",
-  },
-];
+const REVIEW_RATINGS = [5, 5, 5, 5, 5];
 
-function StarRow({ rating }: { rating: number }) {
+function StarRow({ rating, ratingAriaLabel }: { rating: number; ratingAriaLabel: string }) {
   return (
-    <div className="flex items-center gap-0.5" aria-label={`Оцінка ${rating} з 5`}>
+    <div className="flex items-center gap-0.5" aria-label={ratingAriaLabel}>
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
@@ -57,8 +22,16 @@ function StarRow({ rating }: { rating: number }) {
 }
 
 export default function HomeReviews() {
+  const t = useTranslations('home.reviews');
   const averageRating = 4.9;
   const totalReviews = 243;
+
+  const REVIEWS = REVIEW_RATINGS.map((rating, i) => ({
+    name: t(`r${i + 1}_name` as Parameters<typeof t>[0]),
+    rating,
+    date: t(`r${i + 1}_date` as Parameters<typeof t>[0]),
+    text: t(`r${i + 1}_text` as Parameters<typeof t>[0]),
+  }));
 
   return (
     <section
@@ -70,11 +43,11 @@ export default function HomeReviews() {
         <div className="mb-14 grid gap-8 md:grid-cols-12 md:items-end">
           <div className="md:col-span-7">
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#c9a95c]">
-              Голоси гостей
+              {t('section_kicker')}
             </p>
             <h2 className="mt-4 font-display text-4xl text-[#1a3d2e] md:text-6xl leading-[1.05]">
-              Що кажуть про
-              <span className="italic text-[#1a3d2e]/80"> «Глухомань»</span>
+              {t('headline_p1')}
+              <span className="italic text-[#1a3d2e]/80"> {t('headline_italic')}</span>
             </h2>
           </div>
           <div className="md:col-span-5">
@@ -83,9 +56,9 @@ export default function HomeReviews() {
                 {averageRating}
               </span>
               <div className="flex flex-col gap-1.5">
-                <StarRow rating={5} />
+                <StarRow rating={5} ratingAriaLabel={t('rating_aria', { rating: 5 })} />
                 <span className="text-xs text-[#1a3d2e]/60">
-                  {totalReviews}+ відгуків
+                  {t('reviews_count', { count: totalReviews })}
                 </span>
               </div>
             </div>
@@ -102,7 +75,7 @@ export default function HomeReviews() {
               className="w-[82vw] max-w-[340px] flex-shrink-0 snap-center md:w-auto md:max-w-none md:flex-shrink bg-white border border-[#1a3d2e]/10 p-6 md:p-7 flex flex-col gap-4 rounded-sm"
             >
               <div className="flex items-center justify-between">
-                <StarRow rating={r.rating} />
+                <StarRow rating={r.rating} ratingAriaLabel={t('rating_aria', { rating: r.rating })} />
                 <span className="text-[10px] uppercase tracking-wider text-[#1a3d2e]/45">
                   {r.date}
                 </span>
@@ -124,7 +97,7 @@ export default function HomeReviews() {
 
         {/* Swipe hint on mobile */}
         <p className="mt-4 text-center text-[10px] uppercase tracking-[0.22em] text-[#1a3d2e]/50 md:hidden">
-          ← свайп →
+          {t('swipe_hint')}
         </p>
       </div>
     </section>
