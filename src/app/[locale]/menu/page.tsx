@@ -14,8 +14,13 @@ import { CartButton } from '@/components/menu/CartButton';
 import { CartDrawer } from '@/components/menu/CartDrawer';
 import { MenuBookingCTA } from './MenuBookingCTA';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('menu.meta');
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'menu.meta' });
   return {
     title: t('title'),
     description: t('description'),
@@ -24,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: t('ogTitle'),
       description: t('ogDescription'),
       type: 'website',
-      locale: 'uk_UA',
+      locale: locale === 'uk' ? 'uk_UA' : 'en_US',
       images: [
         {
           url: '/og-restaurant.jpg',

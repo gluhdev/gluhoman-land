@@ -28,8 +28,13 @@ import {
 import { CONTACT_INFO } from '@/constants';
 import { getTranslations } from 'next-intl/server';
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('hotel.meta');
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'hotel.meta' });
   return {
     title: t('title'),
     description: t('description'),
@@ -38,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: t('og_title'),
       description: t('og_description'),
       type: 'website',
-      locale: 'uk_UA',
+      locale: locale === 'uk' ? 'uk_UA' : 'en_US',
       images: [
         {
           url: '/og-hotel.jpg',

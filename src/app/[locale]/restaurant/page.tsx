@@ -13,11 +13,22 @@ import { MenuDialog } from "@/components/restaurant/MenuDialog";
 import { MenuTrigger } from "@/components/restaurant/MenuTrigger";
 import { MenuPreview } from "@/components/restaurant/MenuPreview";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("restaurant.meta");
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "restaurant.meta" });
   return {
     title: t("title"),
     description: t("description"),
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+      type: "website",
+      locale: locale === "uk" ? "uk_UA" : "en_US",
+    },
   };
 }
 
