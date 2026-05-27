@@ -82,6 +82,10 @@
       "central": {
         "title": "Central Hotel",
         "description": "Three-star hotel with 23 rooms near the brewery and zoo building"
+      },
+      "brewery": {
+        "title": "Brewery building",
+        "description": "Chamber hotel near the brewery - 2 room categories"
       }
     }
   },
@@ -3387,26 +3391,15 @@
         "cta": "See the houses",
         "img_alt": "Houses Glukhoman"
       },
-      "placeholder": {
+      "brewery": {
         "kicker": "Hotel #4",
-        "name": "Coming soon",
-        "tagline": "Another option is to live at work.",
-        "highlights_1": "Details will be added soon",
-        "highlights_2": "",
-        "highlights_3": "",
-        "cta": "",
-        "img_alt": "",
-        "work_in_progress": "at work"
-      },
-      "aquapark_park": {
-        "kicker": "Hotel #4",
-        "name": "Water park",
-        "tagline": "Seasonal water park with slides and pools.",
-        "highlights_1": "Outdoor water park with 5 water slides",
-        "highlights_2": "Swimming pools with heated water",
-        "highlights_3": "Children's area and lifeguards",
-        "cta": "See the water park",
-        "img_alt": "Water park Glukhoman"
+        "name": "Brewery building",
+        "tagline": "A chamber hotel near the brewery.",
+        "highlights_1": "Standard with balcony - up to 2 adults and 1 child",
+        "highlights_2": "Standard with bunk bed - up to 2 adults",
+        "highlights_3": "Next to the craft brewery \"Glukhoman\"",
+        "cta": "See the rooms",
+        "img_alt": "Brovarnya Corps - a hotel near the brewery"
       }
     },
     "amenities": {
@@ -3700,34 +3693,6 @@
         "bullet_6": "",
         "bullet_7": "",
         "capacity": "The room is designed for a maximum of 2 adults."
-      },
-      "brewery-balcony": {
-        "kicker": "Category VI - Brewery building",
-        "name": "Standard with balcony",
-        "tagline": "The building of the brewery.",
-        "subtitle": "The Standard room has a double bed and all the necessary amenities and facilities for a good rest.",
-        "bullet_1": "Double bed",
-        "bullet_2": "Balcony",
-        "bullet_3": "Bathroom with shower cabin",
-        "bullet_4": "Daily cleaning",
-        "bullet_5": "",
-        "bullet_6": "",
-        "bullet_7": "",
-        "capacity": "The room is designed for a maximum of 2 adults and 1 child. It is possible to order an extra bed."
-      },
-      "brewery-bunk": {
-        "kicker": "Category VII - Brewery building",
-        "name": "Standard with bunk bed",
-        "tagline": "No balcony, view of the parking lot.",
-        "subtitle": "The Standard room has a bunk bed and all the necessary amenities and facilities for a good rest.",
-        "bullet_1": "Bunk bed",
-        "bullet_2": "Bathroom with shower cabin",
-        "bullet_3": "Daily cleaning",
-        "bullet_4": "",
-        "bullet_5": "",
-        "bullet_6": "",
-        "bullet_7": "",
-        "capacity": "The room is designed for a maximum of 2 adults."
       }
     },
     "amenities_paid": {
@@ -3767,6 +3732,107 @@
       "eyebrow": "Booking",
       "title": "Book a room at",
       "title_italic": "Central Hotel.",
+      "body": "Call or leave a request - we will contact you within an hour and confirm your reservation.",
+      "cta": "Book",
+      "prefix": "or dial"
+    }
+  },
+  "hotel_brewery": {
+    "meta": {
+      "title": "Brewery building \"Glukhoman\" - a chamber hotel near the brewery",
+      "description": "Hotel in the building of the brewery \"Glukhoman\". Two categories of standard rooms - with a balcony or with a bunk bed. Quiet, overlooking the parking lot, next to the craft brewery.",
+      "og_title": "Brewery building \"Glukhoman\"",
+      "og_description": "The chamber hotel near the craft brewery \"Glukhoman\" has two categories of standard rooms.",
+      "og_image_alt": "Brewery building Glukhoman"
+    },
+    "hero": {
+      "eyebrow": "Brewery building",
+      "title": "Brewery building",
+      "title_italic": "\"Glukhoman\".",
+      "lead": "A separate building near the craft brewery with two categories of standard rooms is for those looking for an intimate vacation with its own character.",
+      "img_alt": "Brewery building Glukhoman - appearance",
+      "cta_explore": "See the rooms",
+      "cta_book": "Book"
+    },
+    "intro": {
+      "eyebrow": "About the case",
+      "title": "Chamber hotel",
+      "title_italic": "with its own face.",
+      "body": "The Brewery building is located next to our own craft brewery \"Glukhoman\" - the same one that brews beer for our restaurant. Guests staying here have the same level of service as in the main hotel: daily cleaning, Wi-Fi, 180-channel TV, and a delicious breakfast included in the price."
+    },
+    "rooms_eyebrow": "Room categories",
+    "rooms": {
+      "brewery-balcony": {
+        "kicker": "Category I",
+        "name": "Standard with balcony",
+        "tagline": "The building of the brewery.",
+        "subtitle": "The Standard room has a double bed and all the necessary amenities and facilities for a good rest. The hotel staff provides daily housekeeping.",
+        "bullet_1": "Double bed",
+        "bullet_2": "Balcony",
+        "bullet_3": "Bathroom with shower cabin",
+        "bullet_4": "Daily cleaning",
+        "bullet_5": "",
+        "bullet_6": "",
+        "bullet_7": "",
+        "capacity": "The room is designed for a maximum of 2 adults and 1 child. It is possible to order an extra bed."
+      },
+      "brewery-bunk": {
+        "kicker": "Category II",
+        "name": "Standard with bunk bed",
+        "tagline": "No balcony, view of the parking lot.",
+        "subtitle": "The Standard room has a bunk bed and all the necessary amenities and facilities for a good rest. The hotel staff provides daily housekeeping.",
+        "bullet_1": "Bunk bed",
+        "bullet_2": "Bathroom with shower cabin",
+        "bullet_3": "Daily cleaning",
+        "bullet_4": "",
+        "bullet_5": "",
+        "bullet_6": "",
+        "bullet_7": "",
+        "capacity": "The room is designed for a maximum of 2 adults."
+      }
+    },
+    "amenities_paid": {
+      "eyebrow": "Additional services",
+      "title": "Services for an additional fee",
+      "item_1": "Laundry",
+      "item_2": "Fax, copying",
+      "item_3": "Room service by restaurant waiters",
+      "item_4": "Additional sleeping place",
+      "item_5": "Early check-in and late check-out"
+    },
+    "amenities_free": {
+      "title": "Free services",
+      "item_1": "Wi-Fi zone",
+      "item_2": "Parking your car",
+      "item_3": "Safe",
+      "item_4": "Ironing board and iron",
+      "item_5": "Wake-up call service on request",
+      "item_6": "Call a taxi",
+      "item_7": "Luggage storage room",
+      "item_8": "Watching TV (180 channels)"
+    },
+    "rules": {
+      "eyebrow": "Booking procedure",
+      "title": "Transparently",
+      "title_italic": "no surprises.",
+      "body": "Reservations are accepted after a 100% deposit within 3 banking days. After this period, the reservation is automatically canceled. The money is not refundable if you have not notified within 3 days before arrival.",
+      "extra_bed": "The cost of an extra bed in the room is 250 UAH / day.",
+      "timing": "Check-in time: 14:30 - Check-out time: 12:00"
+    },
+    "phone": {
+      "eyebrow": "Contacts",
+      "title": "Phone number for booking",
+      "primary": "+38 050 406 35 55",
+      "note": "Give us a call and our administrators will tell you the available rooms."
+    },
+    "labels": {
+      "book_cta": "Book \"{name}\"",
+      "price_hint": "price on request"
+    },
+    "final": {
+      "eyebrow": "Booking",
+      "title": "Book a room at",
+      "title_italic": "The Brovary building.",
       "body": "Call or leave a request - we will contact you within an hour and confirm your reservation.",
       "cta": "Book",
       "prefix": "or dial"

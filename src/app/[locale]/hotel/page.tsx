@@ -133,7 +133,7 @@ export default async function HotelsOverviewPage({
   const t = await getTranslations({ locale, namespace: "hotels_overview" });
 
   const cards: Array<{
-    key: "aquapark" | "central" | "cottages" | "aquapark_park";
+    key: "aquapark" | "central" | "cottages" | "brewery";
     href: string;
     image: string;
   }> = [
@@ -153,9 +153,10 @@ export default async function HotelsOverviewPage({
       image: "/images/cottages/yaga/1.jpg",
     },
     {
-      key: "aquapark_park",
-      href: "/aquapark",
-      image: "/images/akvapark.webp",
+      key: "brewery",
+      href: "/hotel/brewery",
+      // Use a Central-Hotel photo as brewery placeholder until user supplies dedicated photos.
+      image: "/images/hotels/central/40.jpg",
     },
   ];
 

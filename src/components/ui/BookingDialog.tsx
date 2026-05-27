@@ -44,7 +44,7 @@ const BOOKING_OPEN_EVENT = "gluhoman:booking:open";
 
 export interface BookingPrefill {
   comment?: string;
-  hotelSlug?: "aquapark" | "central" | "cottages";
+  hotelSlug?: "aquapark" | "central" | "cottages" | "brewery";
   roomCategorySlug?: string;
 }
 
@@ -181,7 +181,7 @@ export default function BookingDialog() {
 
   // Multi-hotel prefill (silent — populated from /hotel/* booking buttons)
   const [hotelSlug, setHotelSlugState] = useState<
-    "aquapark" | "central" | "cottages" | undefined
+    "aquapark" | "central" | "cottages" | "brewery" | undefined
   >(undefined);
   const [roomCategorySlug, setRoomCategorySlugState] = useState<
     string | undefined

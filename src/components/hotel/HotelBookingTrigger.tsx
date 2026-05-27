@@ -5,7 +5,7 @@ import { openBookingDialog } from "@/components/ui/BookingDialog";
 
 interface Props {
   label: string;
-  hotelSlug: "aquapark" | "central" | "cottages";
+  hotelSlug: "aquapark" | "central" | "cottages" | "brewery";
   roomCategorySlug: string;
   roomName: string;
   light?: boolean;
@@ -57,5 +57,7 @@ function labelFor(slug: Props["hotelSlug"]): string {
       return "Центральний Готель";
     case "cottages":
       return "Будиночки";
+    case "brewery":
+      return "Корпус Броварні";
   }
 }

@@ -9,6 +9,7 @@ const STATIC_ROUTES = [
   "/hotel",
   "/hotel/aquapark",
   "/hotel/central",
+  "/hotel/brewery",
   "/cottages",
   "/conference-hall",
   "/sauna",

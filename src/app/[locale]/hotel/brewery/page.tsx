@@ -1,9 +1,8 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Script from "next/script";
-import { Clock, Coffee, Users, Check, Phone, Wifi, Car, Bed } from "lucide-react";
+import { Clock, Coffee, Users, Check, Phone, Wifi, Car } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { HallSlider, type HallSlide } from "@/components/restaurant/HallSlider";
 import { Reveal } from "@/components/restaurant/Reveal";
 import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
@@ -16,7 +15,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "hotel_central" });
+  const t = await getTranslations({ locale, namespace: "hotel_brewery" });
   return {
     title: t("meta.title"),
     description: t("meta.description"),
@@ -27,7 +26,7 @@ export async function generateMetadata({
       locale: locale === "uk" ? "uk_UA" : "en_US",
       images: [
         {
-          url: "/images/hotels/central/1.jpg",
+          url: "/images/hotels/central/40.jpg",
           width: 1920,
           height: 1280,
           alt: t("meta.og_image_alt"),
@@ -39,40 +38,19 @@ export async function generateMetadata({
 
 const PHONE_PRIMARY = "050 406 35 55";
 const PHONE_PRIMARY_TEL = "+380504063555";
-const PHONE_SECONDARY = "0532 648 548";
-const PHONE_SECONDARY_TEL = "+380532648548";
 
-type RoomSlug =
-  | "lux-balcony"
-  | "standard-balcony-1f"
-  | "standard-balcony-2f"
-  | "standard-no-balcony-twin"
-  | "standard-no-balcony-double";
+type RoomSlug = "brewery-balcony" | "brewery-bunk";
 
-const ROOMS: RoomSlug[] = [
-  "lux-balcony",
-  "standard-balcony-1f",
-  "standard-balcony-2f",
-  "standard-no-balcony-twin",
-  "standard-no-balcony-double",
-];
+const ROOMS: RoomSlug[] = ["brewery-balcony", "brewery-bunk"];
+const ROMAN = ["I", "II"] as const;
 
-const ROMAN = ["I", "II", "III", "IV", "V"] as const;
-
-const GALLERY_PHOTOS: HallSlide[] = Array.from({ length: 64 }, (_, i) => ({
-  n: i + 1,
-  alt: "",
-}));
-
-const centralJsonLd = {
+const breweryJsonLd = {
   "@context": "https://schema.org",
   "@type": "Hotel",
-  name: "Центральний Готель «Глухомань»",
+  name: "Корпус Броварні «Глухомань»",
   description:
-    "Тризірковий готель «Глухомань» на 23 номери у мальовничому місці біля с. Нижні Млини, Полтавська область.",
-  starRating: { "@type": "Rating", ratingValue: "3" },
+    "Камерний готель у корпусі броварні «Глухомань» — дві категорії стандартних номерів біля крафтової пивоварні.",
   telephone: PHONE_PRIMARY_TEL,
-  faxNumber: PHONE_SECONDARY_TEL,
   address: {
     "@type": "PostalAddress",
     addressCountry: "UA",
@@ -148,11 +126,11 @@ async function RoomCard({
   index: number;
   locale: string;
 }) {
-  const t = await getTranslations({ locale, namespace: "hotel_central" });
+  const t = await getTranslations({ locale, namespace: "hotel_brewery" });
   const k = (suffix: string) =>
     `rooms.${slug}.${suffix}` as Parameters<typeof t>[0];
   const price = await getText(
-    `hotel.central.${slug}.price`,
+    `hotel.brewery.${slug}.price`,
     t("labels.price_hint")
   );
 
@@ -206,7 +184,7 @@ async function RoomCard({
 
         <div className="mt-auto pt-6 border-t border-[#1a3d2e]/10 flex flex-wrap items-center gap-x-4 gap-y-2">
           <HotelBookingTrigger
-            hotelSlug="central"
+            hotelSlug="brewery"
             roomCategorySlug={slug}
             roomName={t(k("name"))}
             label={t("labels.book_cta", { name: t(k("name")) })}
@@ -220,13 +198,13 @@ async function RoomCard({
   );
 }
 
-export default async function HotelCentralPage({
+export default async function HotelBreweryPage({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "hotel_central" });
+  const t = await getTranslations({ locale, namespace: "hotel_brewery" });
 
   const paidItems = ["item_1", "item_2", "item_3", "item_4", "item_5"] as const;
   const freeItems = [
@@ -238,28 +216,22 @@ export default async function HotelCentralPage({
     "item_6",
     "item_7",
     "item_8",
-    "item_9",
   ] as const;
-
-  const gallerySlides = GALLERY_PHOTOS.map((s) => ({
-    ...s,
-    alt: t("gallery.alt"),
-  }));
 
   return (
     <>
       <Script
-        id="hotel-central-jsonld"
+        id="hotel-brewery-jsonld"
         type="application/ld+json"
         strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(centralJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breweryJsonLd) }}
       />
 
       {/* HERO */}
       <section className="relative min-h-[92svh] flex items-center justify-center overflow-clip bg-[#0b1410] text-[#f4ecd8] rest-grain">
         <HeroParallax>
           <Image
-            src="/images/hotels/central/1.jpg"
+            src="/images/hotels/central/40.jpg"
             alt={t("hero.img_alt")}
             fill
             priority
@@ -269,14 +241,17 @@ export default async function HotelCentralPage({
         </HeroParallax>
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-b from-[#0b1410]/50 via-[#0b1410]/35 to-[#0b1410]/85"
+          className="absolute inset-0 bg-gradient-to-b from-[#0b1410]/85 via-[#0b1410]/65 to-[#0b1410]/95"
         />
         <div className="relative z-10 max-w-5xl px-6 md:px-10 text-center">
           <Reveal>
             <Eyebrow light>{t("hero.eyebrow")}</Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight mt-6 text-[#f4ecd8]">
+            <h1
+              className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight mt-6 text-[#f4ecd8]"
+              style={{ textShadow: "0 2px 24px rgba(0,0,0,0.55)" }}
+            >
               {t("hero.title")}
               <span className="block font-display italic text-[#e6d9b8] mt-3 text-3xl md:text-5xl">
                 {t("hero.title_italic")}
@@ -301,7 +276,7 @@ export default async function HotelCentralPage({
 
       {/* INTRO */}
       <section className="py-20 md:py-28 bg-[#faf6ec] relative overflow-hidden rest-grain rest-grain--light">
-        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10 grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+        <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-10 text-center">
           <Reveal>
             <Eyebrow>{t("intro.eyebrow")}</Eyebrow>
             <H2>
@@ -311,60 +286,23 @@ export default async function HotelCentralPage({
               </span>
             </H2>
             <P>{t("intro.body")}</P>
-            <P className="mt-4">{t("intro.body_extra")}</P>
-            <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-3">
-              {(["bullet_1", "bullet_2", "bullet_3", "bullet_4"] as const).map((k) => (
-                <li key={k} className="flex items-start gap-3">
-                  <Bed
-                    className="w-5 h-5 mt-0.5 text-[#1a3d2e] flex-shrink-0"
-                    strokeWidth={1.7}
-                  />
-                  <span className="text-[15px] text-[#0f1f18]/85 leading-[1.55]">
-                    {t(`intro.${k}`)}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-6 font-display italic text-[17px] text-[#1a3d2e]/70">
-              {t("intro.note")}
-            </p>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <figure className="relative aspect-[4/5] overflow-hidden ring-1 ring-[#1a3d2e]/15 shadow-[0_30px_60px_-25px_rgba(26,61,46,0.35)]">
-              <Image
-                src="/images/hotels/central/8.jpg"
-                alt={t("hero.img_alt")}
-                fill
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="object-cover"
-              />
-            </figure>
           </Reveal>
         </div>
         <SectionFlourish />
       </section>
 
-      {/* PHONE CARD */}
+      {/* PHONE */}
       <section className="py-16 md:py-20 bg-[#1a3d2e] text-[#f4ecd8] relative overflow-hidden rest-grain">
-        <div className="relative z-10 max-w-4xl mx-auto px-6 md:px-10 text-center">
+        <div className="relative z-10 max-w-3xl mx-auto px-6 md:px-10 text-center">
           <Reveal>
             <Eyebrow light>{t("phone.eyebrow")}</Eyebrow>
             <H2 light>{t("phone.title")}</H2>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-              <a
-                href={`tel:${PHONE_PRIMARY_TEL}`}
-                className="font-display text-3xl md:text-4xl text-[#e6d9b8] hover:text-[#f4ecd8] transition-colors"
-              >
-                {PHONE_PRIMARY}
-              </a>
-              <span className="text-[#e6d9b8]/40 text-2xl">/</span>
-              <a
-                href={`tel:${PHONE_SECONDARY_TEL}`}
-                className="font-display text-2xl md:text-3xl text-[#e6d9b8] hover:text-[#f4ecd8] transition-colors"
-              >
-                {PHONE_SECONDARY}
-              </a>
-            </div>
+            <a
+              href={`tel:${PHONE_PRIMARY_TEL}`}
+              className="mt-6 inline-block font-display text-3xl md:text-4xl text-[#e6d9b8] hover:text-[#f4ecd8] transition-colors"
+            >
+              {PHONE_PRIMARY}
+            </a>
             <P light className="mt-6">
               {t("phone.note")}
             </P>
@@ -372,38 +310,18 @@ export default async function HotelCentralPage({
         </div>
       </section>
 
-      {/* GENERAL GALLERY */}
-      <section className="py-20 md:py-28 bg-[#0f1f18] text-[#f4ecd8] relative overflow-hidden rest-grain">
-        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
-          <Reveal>
-            <Eyebrow light>{t("gallery.eyebrow")}</Eyebrow>
-            <H2 light>{t("gallery.title")}</H2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="mt-12">
-              <HallSlider
-                photos={gallerySlides}
-                light
-                aspect="aspect-[16/10]"
-                base="/images/hotels/central/"
-              />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ROOMS GRID */}
+      {/* ROOMS */}
       <section
         id="rooms"
         className="py-20 md:py-28 bg-[#faf6ec] relative overflow-hidden rest-grain rest-grain--light scroll-mt-20"
       >
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10">
+        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
           <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
             <Reveal>
               <Eyebrow>{t("rooms_eyebrow")}</Eyebrow>
             </Reveal>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {ROOMS.map((slug, idx) => (
               <RoomCard key={slug} slug={slug} index={idx} locale={locale} />
             ))}

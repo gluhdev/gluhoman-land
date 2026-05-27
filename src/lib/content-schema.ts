@@ -188,8 +188,14 @@ export const CONTENT_SCHEMA: PageDef[] = [
           { key: 'hotel.central.standard-balcony-2f.price', label: 'Стандарт з балконом (ІІ поверх)', type: 'text', fallback: 'Ціна за запитом' },
           { key: 'hotel.central.standard-no-balcony-twin.price', label: 'Стандарт без балкону (2 ліжка)', type: 'text', fallback: 'Ціна за запитом' },
           { key: 'hotel.central.standard-no-balcony-double.price', label: 'Стандарт без балкону (двоспальне)', type: 'text', fallback: 'Ціна за запитом' },
-          { key: 'hotel.central.brewery-balcony.price', label: 'Корпус броварні: Стандарт з балконом', type: 'text', fallback: 'Ціна за запитом' },
-          { key: 'hotel.central.brewery-bunk.price', label: 'Корпус броварні: Стандарт з двоярусним ліжком', type: 'text', fallback: 'Ціна за запитом' },
+        ],
+      },
+      {
+        id: 'brewery',
+        label: 'Корпус Броварні',
+        fields: [
+          { key: 'hotel.brewery.brewery-balcony.price', label: 'Стандарт із балконом', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'hotel.brewery.brewery-bunk.price', label: 'Стандарт з двоярусним ліжком', type: 'text', fallback: 'Ціна за запитом' },
         ],
       },
       {

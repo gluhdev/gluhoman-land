@@ -34,6 +34,7 @@ const PRIMARY_NAV: PrimaryItem[] = [
       { id: 'all', href: '/hotel' },
       { id: 'aquapark', href: '/hotel/aquapark' },
       { id: 'central', href: '/hotel/central' },
+      { id: 'brewery', href: '/hotel/brewery' },
       { id: 'cottages', href: '/cottages' },
     ],
   },

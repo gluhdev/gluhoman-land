@@ -1,106 +1,86 @@
-# Dependencies
-node_modules/
-.pnpm-debug.log*
-
-# Next.js
-.next/
-out/
-build/
-dist/
-
-# Environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Debug
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-
-# Dependency directories
-jspm_packages/
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
-.eslintcache
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# parcel-bundler cache (https://parceljs.org/)
-.cache
-.parcel-cache
-
-# next.js build output
-.next
-
-# nuxt.js build output
-.nuxt
-
-# vuepress build output
-.vuepress/dist
-
-# Serverless directories
-.serverless/
-
-# FuseBox cache
-.fusebox/
-
-# DynamoDB Local files
-.dynamodb/
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
 
 # Claude settings
-.claude/
-
-# Sentry
-.sentryclirc
-
+# Coverage directory used by tools like istanbul
+# Debug
+# Dependencies
+# Dependency directories
+# DynamoDB Local files
+# Environment variables
+# FuseBox cache
+# IDE files
+# Next.js
+# OS generated files
+# Optional eslint cache
+# Optional npm cache directory
+# Output of 'npm pack'
+# Phase 1: file-based order storage (swap to Prisma in Phase 2)
+# Playwright
 # Prisma
+# Runtime data
+# Sentry
+# Serverless directories
+# Yarn Integrity file
+# next.js build output
+# nuxt.js build output
+# parcel-bundler cache (https://parceljs.org/)
+# vuepress build output
+*.db
+*.db-journal
+*.lcov
+*.log
+*.pid
+*.pid.lock
+*.seed
+*.swo
+*.swp
+*.tgz
+*~
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+._*
+.cache
+.claude/
+.data/
+.dynamodb/
+.env
+.env.development.local
+.env.local
+.env.production.local
+.env.test.local
+.eslintcache
+.firecrawl/
+.fusebox/
+.idea/
+.next
+.next/
+.npm
+.nuxt
+.parcel-cache
+.pnpm-debug.log*
+.sentryclirc
+.serverless/
+.vscode/
+.vuepress/dist
+.yarn-integrity
+/budinochki/
+/conference-zone/
+/hotel-all-info/
+Thumbs.db
+build/
+coverage/
+dist/
+ehthumbs.db
+jspm_packages/
+node_modules/
+npm-debug.log*
+out/
+pids
+playwright-report/
 prisma/dev.db
 prisma/dev.db-journal
 prisma/migrations/dev.db
-*.db
-*.db-journal
-
-# Phase 1: file-based order storage (swap to Prisma in Phase 2)
-.data/
-
-# Playwright
 test-results/
-playwright-report/
-.firecrawl/
+yarn-debug.log*
+yarn-error.log*

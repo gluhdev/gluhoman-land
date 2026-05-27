@@ -24,7 +24,7 @@ export interface BookingPayload {
   breakfast?: boolean;
 
   // Multi-hotel routing (set from /hotel/* and /cottages booking buttons)
-  hotelSlug?: "aquapark" | "central" | "cottages";
+  hotelSlug?: "aquapark" | "central" | "cottages" | "brewery";
   roomCategorySlug?: string;
 
   // Aquapark-specific
@@ -59,6 +59,7 @@ const HOTEL_SLUG_LABEL: Record<NonNullable<BookingPayload["hotelSlug"]>, string>
   aquapark: "Готель-Аквапарк",
   central: "Центральний Готель",
   cottages: "Будиночки",
+  brewery: "Корпус Броварні",
 };
 
 const SERVICE_LABEL: Record<BookingService, string> = {
@@ -173,6 +174,8 @@ function chatIdForHotel(hotelSlug?: BookingPayload["hotelSlug"]): string | undef
     return process.env.TELEGRAM_CHAT_ID_CENTRAL;
   if (hotelSlug === "cottages" && process.env.TELEGRAM_CHAT_ID_COTTAGES)
     return process.env.TELEGRAM_CHAT_ID_COTTAGES;
+  if (hotelSlug === "brewery" && process.env.TELEGRAM_CHAT_ID_BREWERY)
+    return process.env.TELEGRAM_CHAT_ID_BREWERY;
   return process.env.TELEGRAM_CHAT_ID;
 }
 
