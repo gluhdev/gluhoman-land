@@ -7,6 +7,7 @@ import { signOut } from 'next-auth/react';
 import {
   LayoutDashboard,
   ShoppingBag,
+  Inbox,
   UtensilsCrossed,
   Hotel,
   Waves,
@@ -26,6 +27,7 @@ interface Props {
 const NAV = [
   { href: '/admin', label: 'Огляд', icon: LayoutDashboard, exact: true },
   { href: '/admin/orders', label: 'Замовлення', icon: ShoppingBag },
+  { href: '/admin/bookings', label: 'Заявки', icon: Inbox },
   { href: '/admin/menu', label: 'Меню', icon: UtensilsCrossed },
   { href: '/admin/hotel', label: 'Готель', icon: Hotel },
   { href: '/admin/aquapark', label: 'Аквапарк', icon: Waves },
@@ -36,6 +38,7 @@ const NAV = [
 const SECTION_LABEL: Record<string, string> = {
   '/admin': 'Огляд',
   '/admin/orders': 'Замовлення',
+  '/admin/bookings': 'Заявки',
   '/admin/menu': 'Меню',
   '/admin/hotel': 'Готель',
   '/admin/aquapark': 'Аквапарк',

@@ -23,6 +23,10 @@ export interface BookingPayload {
   children?: number;
   breakfast?: boolean;
 
+  // Multi-hotel routing (set from /hotel/* and /cottages booking buttons)
+  hotelSlug?: "aquapark" | "central" | "cottages";
+  roomCategorySlug?: string;
+
   // Aquapark-specific
   adultsCount?: number;
   kidsCount?: number;
@@ -50,6 +54,12 @@ interface ChannelResult {
   channel: ChannelName;
   error?: string;
 }
+
+const HOTEL_SLUG_LABEL: Record<NonNullable<BookingPayload["hotelSlug"]>, string> = {
+  aquapark: "Готель-Аквапарк",
+  central: "Центральний Готель",
+  cottages: "Будиночки",
+};
 
 const SERVICE_LABEL: Record<BookingService, string> = {
   hotel: "Готель",
@@ -124,6 +134,8 @@ function formatMessage(p: BookingPayload, bookingId: string): string {
   ];
   if (p.email) lines.push(`✉️ ${p.email}`);
   lines.push(`👥 Гостей: ${p.guests}`);
+  if (p.hotelSlug) lines.push(`🏨 Готель: ${HOTEL_SLUG_LABEL[p.hotelSlug]}`);
+  if (p.roomCategorySlug) lines.push(`🏷 Категорія: ${p.roomCategorySlug}`);
   if (p.service === "hotel") {
     lines.push(`📅 Заїзд: ${p.dateFrom}`);
     lines.push(`📅 Виїзд: ${p.dateTo}`);
@@ -154,9 +166,22 @@ function formatMessage(p: BookingPayload, bookingId: string): string {
   return lines.join("\n");
 }
 
-async function sendTelegram(message: string): Promise<ChannelResult> {
+function chatIdForHotel(hotelSlug?: BookingPayload["hotelSlug"]): string | undefined {
+  if (hotelSlug === "aquapark" && process.env.TELEGRAM_CHAT_ID_AQUAPARK)
+    return process.env.TELEGRAM_CHAT_ID_AQUAPARK;
+  if (hotelSlug === "central" && process.env.TELEGRAM_CHAT_ID_CENTRAL)
+    return process.env.TELEGRAM_CHAT_ID_CENTRAL;
+  if (hotelSlug === "cottages" && process.env.TELEGRAM_CHAT_ID_COTTAGES)
+    return process.env.TELEGRAM_CHAT_ID_COTTAGES;
+  return process.env.TELEGRAM_CHAT_ID;
+}
+
+async function sendTelegram(
+  message: string,
+  hotelSlug?: BookingPayload["hotelSlug"]
+): Promise<ChannelResult> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const chatId = chatIdForHotel(hotelSlug);
   try {
     const res = await fetch(
       `https://api.telegram.org/bot${token}/sendMessage`,
@@ -288,6 +313,8 @@ export async function submitBooking(
             : null,
         time: payload.time || null,
         comment: enrichedComment,
+        hotelSlug: payload.hotelSlug ?? null,
+        roomCategorySlug: payload.roomCategorySlug ?? null,
         ipAddress,
         userAgent,
       },
@@ -311,7 +338,7 @@ export async function submitBooking(
     !!process.env.BOOKING_EMAIL_TO;
 
   const channels: Promise<ChannelResult>[] = [];
-  if (telegramConfigured) channels.push(sendTelegram(message));
+  if (telegramConfigured) channels.push(sendTelegram(message, payload.hotelSlug));
   if (emailConfigured) channels.push(sendEmail(payload, message));
 
   if (channels.length === 0) {

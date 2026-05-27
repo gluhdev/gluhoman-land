@@ -65,11 +65,23 @@
     "hotel_menu": {
       "rooms": {
         "title": "Hotel rooms",
-        "description": "Wooden rooms near a pond with swans and fountains"
+        "description": "Overview of all room categories"
       },
       "cottages": {
         "title": "Houses",
-        "description": "Four author's fairy houses - from 2 to 4 people"
+        "description": "Four author's fairy-tale houses in the forest"
+      },
+      "all": {
+        "title": "All hotels",
+        "description": "Overview of all accommodation options in the complex"
+      },
+      "aquapark": {
+        "title": "Hotel-Aquapark",
+        "description": "Main hotel with Standard and Deluxe rooms and views of the Water Park"
+      },
+      "central": {
+        "title": "Central Hotel",
+        "description": "Three-star hotel with 23 rooms near the brewery and zoo building"
       }
     }
   },
@@ -3320,6 +3332,434 @@
       "body": "Leave a request - we will contact you within an hour and agree on the dates, wishes for the lodge and additional services.",
       "cta": "Book a house",
       "prefill": "We are interested in houses. Please contact us for available dates."
+    }
+  },
+  "hotels_overview": {
+    "meta": {
+      "title": "Hotels of RGC \"Glukhoman\" - choose your accommodation option",
+      "description": "Four hotels on the territory of the complex: Hotel-Aquapark, Central Hotel, Cottages in the Forest. European service, breakfast included, near Poltava.",
+      "og_title": "Hotels \"Glukhoman\" - four accommodation options",
+      "og_description": "Hotel-Aquapark, Central Hotel, fairy houses - choose your option on the territory of the RGC \"Glukhoman\".",
+      "og_image_alt": "Hotels of the complex Glukhoman"
+    },
+    "hero": {
+      "eyebrow": "Accommodation",
+      "title": "Four hotels -",
+      "title_italic": "one complex.",
+      "lead": "We offer various accommodation options in the Glukhoman complex - from the main Aquapark Hotel and the classic Central Hotel to chamber houses in the forest. Choose your vacation format.",
+      "img_alt": "Hotels of the Glukhoman complex - general view",
+      "cta_explore": "View hotels"
+    },
+    "intro": {
+      "eyebrow": "Overview",
+      "title": "One complex is",
+      "title_italic": "many options.",
+      "body": "Each hotel has its own character. In the Aquapark Hotel, it's cozy and has direct access to water activities. The Central Hotel offers classic three-star service. In the Cottages - a fairy tale among the pines. All hotels have Wi-Fi, parking, breakfast included in the price and access to the Glukhoman restaurant."
+    },
+    "cards": {
+      "aquapark": {
+        "kicker": "Hotel №1",
+        "name": "Hotel-Aquapark",
+        "tagline": "European service with direct access to the Water Park.",
+        "highlights_1": "12 standard + 5 suites + 1 with two beds",
+        "highlights_2": "Breakfast and a drink of your choice included",
+        "highlights_3": "Direct access to the Water Park from the 1st floor",
+        "cta": "See the rooms",
+        "img_alt": "Hotel-Aquapark Glukhoman"
+      },
+      "central": {
+        "kicker": "Hotel #2",
+        "name": "Central Hotel",
+        "tagline": "A three-star classic overlooking the zoo.",
+        "highlights_1": "23 rooms: 14 standards, 2 suites, 5 single, 2 with two beds",
+        "highlights_2": "Air conditioning, hairdryer, telephone, free Wi-Fi",
+        "highlights_3": "Near the brewery and zoo building",
+        "cta": "See the rooms",
+        "img_alt": "Central Hotel Glukhoman"
+      },
+      "cottages": {
+        "kicker": "Hotel #3",
+        "name": "Houses",
+        "tagline": "A fairy-tale town in the middle of the forest.",
+        "highlights_1": "4 author's houses: Baba Yaga, The Forester, Teremok, Teremok-Lux",
+        "highlights_2": "Breakfast and 2 hours of Carpathian vat included",
+        "highlights_3": "Separate houses for complete privacy",
+        "cta": "See the houses",
+        "img_alt": "Houses Glukhoman"
+      },
+      "placeholder": {
+        "kicker": "Hotel #4",
+        "name": "Coming soon",
+        "tagline": "Another option is to live at work.",
+        "highlights_1": "Details will be added soon",
+        "highlights_2": "",
+        "highlights_3": "",
+        "cta": "",
+        "img_alt": "",
+        "work_in_progress": "at work"
+      }
+    },
+    "amenities": {
+      "eyebrow": "Common advantages",
+      "title": "The same quality",
+      "title_italic": "in every hotel.",
+      "lead": "All hotels of the Glukhoman complex guarantee a single standard of service.",
+      "items": {
+        "wifi": "Free Wi-Fi throughout the territory",
+        "parking": "Own parking lot near the buildings",
+        "breakfast": "Delicious breakfast included in the price",
+        "restaurant": "Restaurant \"Glukhoman\" on the territory of",
+        "sauna": "Wood-fired sauna and Carpathian vats nearby",
+        "tv": "TV (180 channels) in each room",
+        "cleaning": "Daily room cleaning",
+        "support": "Round-the-clock administrator support"
+      }
+    },
+    "final": {
+      "eyebrow": "Booking",
+      "title": "Can't choose?",
+      "title_italic": "Give us a call and we'll tell you.",
+      "body": "We will help you choose a hotel and room to suit your plans - for a family vacation, business trip, or romantic weekend.",
+      "cta": "Call",
+      "prefix": "or dial"
+    }
+  },
+  "hotel_aquapark": {
+    "meta": {
+      "title": "Hotel-Aquapark \"Glukhoman\" - rooms, prices, reservations",
+      "description": "Hotel \"Glukhoman\" with direct access to the Water Park. 12 standard rooms, 5 suites, 1 room with two beds. Breakfast and drink included. European service with home warmth.",
+      "og_title": "Hotel-Aquapark \"Glukhoman\"",
+      "og_description": "European level of service with direct access to the Water Park. 18 rooms. Breakfast is included.",
+      "og_image_alt": "Hotel-Aquapark Glukhoman"
+    },
+    "hero": {
+      "eyebrow": "Hotel-Aquapark",
+      "title": "Hotel Aquapark",
+      "title_italic": "\"Glukhoman\".",
+      "lead": "Welcome to the Glukhoman hotel, a place where European level of service is combined with home warmth. We have created an atmosphere of calm and comfort that will appeal equally to business travelers and guests who come to relax with their families.",
+      "img_alt": "Hotel-Aquapark Glukhoman - appearance",
+      "cta_explore": "See the rooms",
+      "cta_book": "Book"
+    },
+    "intro": {
+      "eyebrow": "Number of rooms",
+      "title": "Each room is",
+      "title_italic": "thought out to the smallest detail.",
+      "body": "From soft lighting to high-quality bedding. We offer rooms of different categories: from cozy one-room \"Standards\" to spacious two-room \"Suites\".",
+      "bullet_1": "12 standard rooms",
+      "bullet_2": "5 suites",
+      "bullet_3": "1 room with two single beds",
+      "note": "The room rate includes a delicious breakfast and a drink of your choice."
+    },
+    "rooms_eyebrow": "Room categories",
+    "rooms": {
+      "lux-balcony": {
+        "kicker": "Category I",
+        "name": "Two-room suite",
+        "tagline": "It has a balcony and views of the Water Park.",
+        "subtitle": "A space for those who appreciate real relaxation.",
+        "bullet_1": "Double bed with orthopedic mattress",
+        "bullet_2": "Folding double sofa bed in the living room",
+        "bullet_3": "Balcony overlooking the Water Park",
+        "bullet_4": "Bathtub and bidet in the bathroom",
+        "bullet_5": "TV (180 channels)",
+        "bullet_6": "Kettle in the room",
+        "bullet_7": "Daily cleaning",
+        "capacity": "Up to 4 adults, extra bed available"
+      },
+      "standard-aqua": {
+        "kicker": "Category II",
+        "name": "Standard",
+        "tagline": "1st floor with access to the Water Park.",
+        "subtitle": "The perfect choice for outdoor activities - the Water Park is just outside the door.",
+        "bullet_1": "Double bed with orthopedic mattress",
+        "bullet_2": "Folding upholstered chair as an extra bed",
+        "bullet_3": "Direct access to the Water Park",
+        "bullet_4": "Shower cabin in the bathroom",
+        "bullet_5": "TV (180 channels)",
+        "bullet_6": "Kettle in the room",
+        "bullet_7": "Daily cleaning",
+        "capacity": "Up to 2 adults, extra bed available"
+      },
+      "standard-balcony": {
+        "kicker": "Category III",
+        "name": "Standard with balcony",
+        "tagline": "Overlooking the Water Park, 2nd floor.",
+        "subtitle": "A bright room with a private balcony is for those who like their morning coffee outdoors.",
+        "bullet_1": "Double bed with orthopedic mattress",
+        "bullet_2": "Balcony overlooking the Water Park",
+        "bullet_3": "Shower cabin in the bathroom",
+        "bullet_4": "TV (180 channels)",
+        "bullet_5": "Kettle in the room",
+        "bullet_6": "Daily cleaning",
+        "bullet_7": "",
+        "capacity": "Up to 3 adults, extra bed available"
+      },
+      "standard-twin": {
+        "kicker": "Category IV",
+        "name": "Standard with twin beds",
+        "tagline": "Attic, no balcony.",
+        "subtitle": "A cozy attic room for two - peace under the roof.",
+        "bullet_1": "Two single beds",
+        "bullet_2": "Shower cabin in the bathroom",
+        "bullet_3": "TV (180 channels)",
+        "bullet_4": "Kettle in the room",
+        "bullet_5": "Daily cleaning",
+        "bullet_6": "",
+        "bullet_7": "",
+        "capacity": "Designed for 2 guests"
+      },
+      "lux-attic": {
+        "kicker": "Category V",
+        "name": "Two-room suite",
+        "tagline": "3rd floor, attic, no balcony.",
+        "subtitle": "Spacious two-room attic with its own character.",
+        "bullet_1": "Double bed",
+        "bullet_2": "Folding double sofa bed",
+        "bullet_3": "Two separate rooms - bedroom and living room",
+        "bullet_4": "Shower cabin in the bathroom",
+        "bullet_5": "TV (180 channels)",
+        "bullet_6": "Kettle in the room",
+        "bullet_7": "Daily cleaning",
+        "capacity": ""
+      },
+      "standard-basic": {
+        "kicker": "Category VI",
+        "name": "Standard",
+        "tagline": "No balcony.",
+        "subtitle": "A cozy classic room with everything you need for a comfortable stay.",
+        "bullet_1": "Double bed",
+        "bullet_2": "Shower cabin in the bathroom",
+        "bullet_3": "TV (180 channels)",
+        "bullet_4": "Kettle in the room",
+        "bullet_5": "Daily cleaning",
+        "bullet_6": "",
+        "bullet_7": "",
+        "capacity": ""
+      }
+    },
+    "amenities_paid": {
+      "eyebrow": "Additional services",
+      "title": "Services for an additional fee",
+      "item_1": "Laundry",
+      "item_2": "Room service by restaurant waiters",
+      "item_3": "Additional sleeping place",
+      "item_4": "Early check-in and late check-out"
+    },
+    "amenities_free": {
+      "title": "Free services",
+      "item_1": "Wi-Fi throughout the territory",
+      "item_2": "Parking your car",
+      "item_3": "Kettle in the room",
+      "item_4": "Iron and ironing board on request",
+      "item_5": "Wake-up call service",
+      "item_6": "Call a taxi",
+      "item_7": "Luggage storage room",
+      "item_8": "Television (180 channels)"
+    },
+    "rules": {
+      "eyebrow": "Booking procedure",
+      "title": "Transparently",
+      "title_italic": "no surprises.",
+      "body": "Reservations are confirmed after 100% prepayment within three banking days. If payment is not received within the specified period, the reservation is automatically canceled. The prepayment is non-refundable unless you notify us of your cancellation at least 3 days prior to your scheduled arrival.",
+      "extra_bed": "The cost of an extra bed in the room is 250 UAH / day.",
+      "timing": "Check-in: from 14:30 - Check-out: until 12:00"
+    },
+    "labels": {
+      "book_cta": "Book \"{name}\"",
+      "price_hint": "price on request"
+    },
+    "final": {
+      "eyebrow": "Booking",
+      "title": "Book a room at",
+      "title_italic": "Aquapark hotels.",
+      "body": "Call or leave a request - we will contact you within an hour and confirm the reservation after prepayment.",
+      "cta": "Book",
+      "prefix": "or dial"
+    }
+  },
+  "hotel_central": {
+    "meta": {
+      "title": "Central Hotel \"Glukhoman\" - 23 rooms near Poltava",
+      "description": "Three-star hotel \"Glukhoman\" in the village of Nyzhni Mlyny, Poltava region. 23 rooms: 14 standards, 2 suites, 5 single rooms, 2 with two beds. Air conditioning, Wi-Fi, breakfast included.",
+      "og_title": "Central Hotel \"Glukhoman\"",
+      "og_description": "A three-star hotel with 23 rooms in a picturesque location near Poltava.",
+      "og_image_alt": "Central Hotel Glukhoman"
+    },
+    "hero": {
+      "eyebrow": "Central Hotel",
+      "title": "Central Hotel",
+      "title_italic": "\"Glukhoman\".",
+      "lead": "The three-star hotel is located on the territory of the restaurant and hotel complex \"Glukhoman\" in a picturesque location near the village of Nyzhni Mlyny, Poltava region.",
+      "img_alt": "Central Hotel Glukhoman - facade",
+      "cta_explore": "See the rooms",
+      "cta_book": "Book"
+    },
+    "intro": {
+      "eyebrow": "Number of rooms",
+      "title": "23 comfortable rooms",
+      "title_italic": "in a traditional and original style.",
+      "body": "Free room service, air conditioning, TV, Wi-Fi, telephone, hairdryer, bathroom with shower - all this will make your stay at our hotel comfortable and pleasant.",
+      "body_extra": "Each room has disposable slippers, a shower cap, soap, shampoo, gel, and towels, so there is no need to bring these items with you from far away.",
+      "bullet_1": "14 standard rooms",
+      "bullet_2": "2 suites",
+      "bullet_3": "5 single rooms",
+      "bullet_4": "2 rooms with 2 beds",
+      "note": "The room rate includes a delicious breakfast and a drink of your choice."
+    },
+    "phone": {
+      "eyebrow": "Contacts",
+      "title": "Phone numbers for booking",
+      "primary": "+38 050 406 35 55",
+      "secondary": "+38 0532 648 548",
+      "note": "Call us at any convenient time and our administrators will advise you on the best option."
+    },
+    "gallery": {
+      "eyebrow": "Interior and rooms",
+      "title": "See what it looks like",
+      "alt": "Central Hotel Glukhoman - interior"
+    },
+    "rooms_eyebrow": "Room categories",
+    "rooms": {
+      "lux-balcony": {
+        "kicker": "Category I - Suite",
+        "name": "Two-room suite",
+        "tagline": "It has a balcony and views of the zoo.",
+        "subtitle": "The Suite room has a double bed, a sofa bed and all the necessary amenities and facilities for showering and relaxing.",
+        "bullet_1": "Double bed with orthopedic mattress",
+        "bullet_2": "Folding double sofa bed",
+        "bullet_3": "Safe for keeping personal belongings",
+        "bullet_4": "Bathtub and bidet in the bathroom",
+        "bullet_5": "Daily cleaning",
+        "bullet_6": "",
+        "bullet_7": "",
+        "capacity": "The room is designed for a maximum of 4 adults. It is possible to order an extra bed."
+      },
+      "standard-balcony-1f": {
+        "kicker": "Category II - Standard",
+        "name": "One room with balcony",
+        "tagline": "View of the zoo, first floor.",
+        "subtitle": "The Standard room has a double bed and all the necessary amenities and facilities for a good rest.",
+        "bullet_1": "Double bed",
+        "bullet_2": "Balcony overlooking the zoo",
+        "bullet_3": "Bathroom with shower cabin",
+        "bullet_4": "Daily cleaning",
+        "bullet_5": "",
+        "bullet_6": "",
+        "bullet_7": "",
+        "capacity": "The room is designed for a maximum of 2 adults and 1 child. It is possible to order an extra bed."
+      },
+      "standard-balcony-2f": {
+        "kicker": "Category III - Standard",
+        "name": "One room with balcony",
+        "tagline": "View of the zoo, second floor.",
+        "subtitle": "The Standard room has a double bed and all the necessary amenities and facilities for a good rest.",
+        "bullet_1": "Double bed",
+        "bullet_2": "Balcony overlooking the zoo",
+        "bullet_3": "Bathroom with shower cabin",
+        "bullet_4": "Daily cleaning",
+        "bullet_5": "",
+        "bullet_6": "",
+        "bullet_7": "",
+        "capacity": "The room is designed for a maximum of 2 adults and 1 child. It is possible to order an extra bed."
+      },
+      "standard-no-balcony-twin": {
+        "kicker": "Category IV - Standard",
+        "name": "One room with twin beds",
+        "tagline": "No balcony, view of the parking lot.",
+        "subtitle": "The Standard room has two single beds and all the necessary amenities and facilities for a good rest.",
+        "bullet_1": "Two single beds",
+        "bullet_2": "Bathroom with shower cabin",
+        "bullet_3": "Daily cleaning",
+        "bullet_4": "",
+        "bullet_5": "",
+        "bullet_6": "",
+        "bullet_7": "",
+        "capacity": "The room is designed for a maximum of 2 adults."
+      },
+      "standard-no-balcony-double": {
+        "kicker": "Category V - Standard",
+        "name": "One room",
+        "tagline": "No balcony, view of the parking lot.",
+        "subtitle": "The Standard room has a double bed and all the necessary amenities and facilities for a good rest.",
+        "bullet_1": "Double bed",
+        "bullet_2": "Bathroom with shower cabin",
+        "bullet_3": "Daily cleaning",
+        "bullet_4": "",
+        "bullet_5": "",
+        "bullet_6": "",
+        "bullet_7": "",
+        "capacity": "The room is designed for a maximum of 2 adults."
+      },
+      "brewery-balcony": {
+        "kicker": "Category VI - Brewery building",
+        "name": "Standard with balcony",
+        "tagline": "The building of the brewery.",
+        "subtitle": "The Standard room has a double bed and all the necessary amenities and facilities for a good rest.",
+        "bullet_1": "Double bed",
+        "bullet_2": "Balcony",
+        "bullet_3": "Bathroom with shower cabin",
+        "bullet_4": "Daily cleaning",
+        "bullet_5": "",
+        "bullet_6": "",
+        "bullet_7": "",
+        "capacity": "The room is designed for a maximum of 2 adults and 1 child. It is possible to order an extra bed."
+      },
+      "brewery-bunk": {
+        "kicker": "Category VII - Brewery building",
+        "name": "Standard with bunk bed",
+        "tagline": "No balcony, view of the parking lot.",
+        "subtitle": "The Standard room has a bunk bed and all the necessary amenities and facilities for a good rest.",
+        "bullet_1": "Bunk bed",
+        "bullet_2": "Bathroom with shower cabin",
+        "bullet_3": "Daily cleaning",
+        "bullet_4": "",
+        "bullet_5": "",
+        "bullet_6": "",
+        "bullet_7": "",
+        "capacity": "The room is designed for a maximum of 2 adults."
+      }
+    },
+    "amenities_paid": {
+      "eyebrow": "Additional services",
+      "title": "Services for an additional fee",
+      "item_1": "Laundry",
+      "item_2": "Fax, copying",
+      "item_3": "Room service by restaurant waiters",
+      "item_4": "Additional sleeping place",
+      "item_5": "Early check-in and late check-out"
+    },
+    "amenities_free": {
+      "title": "Free services",
+      "item_1": "Wi-Fi zone",
+      "item_2": "Parking your car",
+      "item_3": "Safe",
+      "item_4": "Delivery to the mail room",
+      "item_5": "Ironing board and iron",
+      "item_6": "Wake-up call service on request",
+      "item_7": "Call a taxi",
+      "item_8": "Luggage storage room",
+      "item_9": "Watching TV (180 channels)"
+    },
+    "rules": {
+      "eyebrow": "Booking procedure",
+      "title": "Transparently",
+      "title_italic": "no surprises.",
+      "body": "Reservations are accepted after a 100% deposit within 3 banking days. After this period, the reservation is automatically canceled. The money is not refundable if you have not notified within 3 days before arrival.",
+      "extra_bed": "The cost of an extra bed in the room is 250 UAH / day.",
+      "timing": "Check-in time: 14:30 - Check-out time: 12:00"
+    },
+    "labels": {
+      "book_cta": "Book \"{name}\"",
+      "price_hint": "price on request"
+    },
+    "final": {
+      "eyebrow": "Booking",
+      "title": "Book a room at",
+      "title_italic": "Central Hotel.",
+      "body": "Call or leave a request - we will contact you within an hour and confirm your reservation.",
+      "cta": "Book",
+      "prefix": "or dial"
     }
   }
 }
