@@ -4,6 +4,7 @@ import HeroSlider from "@/components/sections/HeroSlider";
 import HomeStory from "@/components/sections/HomeStory";
 import HomeServices from "@/components/sections/HomeServices";
 import HomeFeatures from "@/components/sections/HomeFeatures";
+import HomeConferenceTeaser from "@/components/sections/HomeConferenceTeaser";
 import HomeGallery from "@/components/sections/HomeGallery";
 import HomeLocation from "@/components/sections/HomeLocation";
 import HomeReviews from "@/components/sections/HomeReviews";
@@ -30,6 +31,7 @@ export default function Home() {
       <HomeStory />
       <HomeFeatures />
       <HomeServices />
+      <HomeConferenceTeaser />
       <HomeGallery />
       <HomeLocation />
       <HomeReviews />
