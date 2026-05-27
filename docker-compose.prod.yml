@@ -35,6 +35,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    env_file:
+      - path: .env
+        required: false
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
@@ -44,12 +47,25 @@ services:
       - DATABASE_URL=postgresql://${POSTGRES_USER:-gluhoman}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-gluhoman}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - TELEGRAM_CHAT_ID_AQUAPARK=${TELEGRAM_CHAT_ID_AQUAPARK:-}
+      - TELEGRAM_CHAT_ID_CENTRAL=${TELEGRAM_CHAT_ID_CENTRAL:-}
+      - TELEGRAM_CHAT_ID_COTTAGES=${TELEGRAM_CHAT_ID_COTTAGES:-}
+      - TELEGRAM_CHAT_ID_BREWERY=${TELEGRAM_CHAT_ID_BREWERY:-}
       - RESEND_API_KEY=${RESEND_API_KEY:-}
       - BOOKING_EMAIL_FROM=${BOOKING_EMAIL_FROM:-}
       - BOOKING_EMAIL_TO=${BOOKING_EMAIL_TO:-}
       - REDIS_URL=redis://redis:6379
       - SENTRY_DSN=${SENTRY_DSN:-}
       - NEXT_PUBLIC_PLAUSIBLE_DOMAIN=${NEXT_PUBLIC_PLAUSIBLE_DOMAIN:-}
+      # NextAuth / admin auth (must be present or /admin/login throws MissingSecret)
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - AUTH_SECRET=${AUTH_SECRET:-${NEXTAUTH_SECRET}}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      # LiqPay (stub mode if empty)
+      - LIQPAY_PUBLIC_KEY=${LIQPAY_PUBLIC_KEY:-}
+      - LIQPAY_PRIVATE_KEY=${LIQPAY_PRIVATE_KEY:-}
     ports:
       - "127.0.0.1:3000:3000"  # nginx host will reverse-proxy
     healthcheck:
