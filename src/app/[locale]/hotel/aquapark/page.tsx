@@ -8,6 +8,7 @@ import { Reveal } from "@/components/restaurant/Reveal";
 import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { HotelBookingTrigger } from "@/components/hotel/HotelBookingTrigger";
+import { getText } from "@/lib/site-content";
 
 export async function generateMetadata({
   params,
@@ -151,6 +152,10 @@ async function RoomBlock({
   const t = await getTranslations({ locale, namespace: "hotel_aquapark" });
   const k = (suffix: string) =>
     `rooms.${room.slug}.${suffix}` as Parameters<typeof t>[0];
+  const price = await getText(
+    `hotel.aquapark.${room.slug}.price`,
+    t("labels.price_hint")
+  );
   const reverse = index % 2 === 1;
   const light = index % 2 === 1;
   const sectionBg = light
@@ -259,7 +264,7 @@ async function RoomBlock({
                   light ? "text-[#e6d9b8]/70" : "text-[#1a3d2e]/65"
                 }`}
               >
-                {t("labels.price_hint")}
+                {price}
               </span>
             </div>
           </Reveal>

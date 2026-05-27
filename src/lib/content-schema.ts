@@ -162,6 +162,55 @@ export const CONTENT_SCHEMA: PageDef[] = [
       },
     ],
   },
+  {
+    id: 'hotel-prices',
+    label: 'Ціни на номери',
+    revalidate: ['/hotel', '/hotel/aquapark', '/hotel/central', '/cottages'],
+    sections: [
+      {
+        id: 'aquapark',
+        label: 'Готель-Аквапарк',
+        fields: [
+          { key: 'hotel.aquapark.lux-balcony.price', label: 'Двокімнатний Люкс із балконом', type: 'text', fallback: 'Ціна за запитом', hint: 'Наприклад: «від 4 800 грн / ніч»' },
+          { key: 'hotel.aquapark.standard-aqua.price', label: 'Стандарт з виходом до Аквапарку', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'hotel.aquapark.standard-balcony.price', label: 'Стандарт із балконом (2-й поверх)', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'hotel.aquapark.standard-twin.price', label: 'Стандарт з окремими ліжками (мансарда)', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'hotel.aquapark.lux-attic.price', label: 'Двокімнатний Люкс (мансарда)', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'hotel.aquapark.standard-basic.price', label: 'Стандарт без балкона', type: 'text', fallback: 'Ціна за запитом' },
+        ],
+      },
+      {
+        id: 'central',
+        label: 'Центральний Готель',
+        fields: [
+          { key: 'hotel.central.lux-balcony.price', label: 'Двокімнатний Люкс з балконом', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'hotel.central.standard-balcony-1f.price', label: 'Стандарт з балконом (І поверх)', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'hotel.central.standard-balcony-2f.price', label: 'Стандарт з балконом (ІІ поверх)', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'hotel.central.standard-no-balcony-twin.price', label: 'Стандарт без балкону (2 ліжка)', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'hotel.central.standard-no-balcony-double.price', label: 'Стандарт без балкону (двоспальне)', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'hotel.central.brewery-balcony.price', label: 'Корпус броварні: Стандарт з балконом', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'hotel.central.brewery-bunk.price', label: 'Корпус броварні: Стандарт з двоярусним ліжком', type: 'text', fallback: 'Ціна за запитом' },
+        ],
+      },
+      {
+        id: 'cottages',
+        label: 'Будиночки',
+        fields: [
+          { key: 'cottages.yaga.price', label: 'Будиночок «Баби Яги»', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'cottages.lisovyk.price', label: 'Хатинка Мудрого Лісовика', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'cottages.teremok.price', label: 'Теремок', type: 'text', fallback: 'Ціна за запитом' },
+          { key: 'cottages.terem-lux.price', label: 'Теремок-Люкс', type: 'text', fallback: 'Ціна за запитом' },
+        ],
+      },
+      {
+        id: 'common',
+        label: 'Спільні умови',
+        fields: [
+          { key: 'hotel.common.extra_bed', label: 'Додаткове спальне місце', type: 'text', fallback: '250 грн / доба', hint: 'З docx: «Вартість додаткового місця в номері — 250 грн / доба»' },
+        ],
+      },
+    ],
+  },
 ];
 
 export function getPage(id: string): PageDef | undefined {

@@ -8,6 +8,7 @@ import { Reveal } from "@/components/restaurant/Reveal";
 import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { HotelBookingTrigger } from "@/components/hotel/HotelBookingTrigger";
+import { getText } from "@/lib/site-content";
 
 export async function generateMetadata({
   params,
@@ -154,6 +155,10 @@ async function RoomCard({
   const t = await getTranslations({ locale, namespace: "hotel_central" });
   const k = (suffix: string) =>
     `rooms.${slug}.${suffix}` as Parameters<typeof t>[0];
+  const price = await getText(
+    `hotel.central.${slug}.price`,
+    t("labels.price_hint")
+  );
 
   const bullets = (
     ["bullet_1", "bullet_2", "bullet_3", "bullet_4", "bullet_5", "bullet_6", "bullet_7"] as const
@@ -211,7 +216,7 @@ async function RoomCard({
             label={t("labels.book_cta", { name: t(k("name")) })}
           />
           <span className="font-display italic text-[14px] text-[#1a3d2e]/60">
-            {t("labels.price_hint")}
+            {price}
           </span>
         </div>
       </article>

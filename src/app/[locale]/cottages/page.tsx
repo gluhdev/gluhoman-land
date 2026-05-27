@@ -21,6 +21,7 @@ import { Reveal } from "@/components/restaurant/Reveal";
 import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { CottageBookingTrigger } from "@/components/cottages/CottageBookingTrigger";
+import { getText } from "@/lib/site-content";
 
 export async function generateMetadata({
   params,
@@ -160,6 +161,10 @@ async function CottageBlock({
   const t = await getTranslations({ locale, namespace: "cottages" });
   const k = (suffix: string) =>
     `items.${cottage.slug}.${suffix}` as Parameters<typeof t>[0];
+  const price = await getText(
+    `cottages.${cottage.slug}.price`,
+    t("labels.price_hint")
+  );
 
   const reverse = index % 2 === 1;
   const light = index % 2 === 1;
@@ -332,7 +337,7 @@ async function CottageBlock({
                   light ? "text-[#e6d9b8]/70" : "text-[#1a3d2e]/65"
                 }`}
               >
-                {t("labels.price_hint")}
+                {price}
               </span>
             </div>
           </Reveal>
