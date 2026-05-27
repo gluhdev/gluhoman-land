@@ -3156,16 +3156,16 @@
       "eyebrow": "Conference room",
       "title": "A space that inspires.",
       "subtitle": "Where great solutions are born.",
-      "lead": "A cozy room on the third floor of the Waterpark Hotel. Every detail is thought out for your comfort - just you, your team and a common goal.",
+      "lead": "Imagine: a cozy room on the third floor of the Aquapark Hotel.",
       "img_alt": "Conference room Glukhoman - general view",
       "cta_call": "Call",
       "cta_details": "Parts and equipment"
     },
     "intro": {
-      "eyebrow": "About the hall",
-      "title": "The perfect place",
+      "eyebrow": "Space",
+      "title": "Perfect for",
       "title_italic": "for business events.",
-      "body": "The conference hall of the RGC \"Glukhoman\" was created for those who value comfort, focus and results. There is no room for distractions here - only productive work in a cozy atmosphere among nature.",
+      "body": "Every detail is thought out for your comfort. There's no room for distractions - just you, your team, and a common goal.",
       "bullet_1": "Business negotiations at the highest level",
       "bullet_2": "Memorable corporate training",
       "bullet_3": "Seminars and trainings that really make a difference",
@@ -3174,42 +3174,42 @@
     "equipment": {
       "eyebrow": "Equipment",
       "title": "Everything you need is already here",
-      "lead": "Don't waste time on organizational details. The hall has everything you need for a full-fledged event of any format.",
+      "lead": "Don't waste time on organizational details. The hall has everything:",
       "items": {
         "ac": {
           "title": "Air Conditioning",
-          "body": "Comfortable temperature all day long - regardless of the weather outside."
+          "body": "The air conditioning system ensures a comfortable temperature all day long."
         },
         "projector": {
           "title": "Projector + screen",
-          "body": "Multimedia projector and wall screen. A clear picture for any presentation."
+          "body": "Multimedia projector + wall screen - a clear picture for any presentation."
         },
         "flipchart": {
           "title": "Flipchart",
-          "body": "Flipcharts and markers are for those who think visually."
+          "body": "Flipchart and markers are for those who think visually."
         },
         "internet": {
           "title": "Internet + Wi-Fi",
-          "body": "High-speed cable Internet and Wi-Fi. Stable, no surprises."
+          "body": "High-speed cable Internet + Wi-Fi - stable, without surprises."
         }
       }
     },
     "pricing": {
       "eyebrow": "Capacity and price",
-      "title": "Simple format - no hidden fees",
+      "title": "Full equipment is included.",
       "capacity_label": "Capacity",
       "capacity_unit": "persons",
       "price_label": "Rent from",
       "price_unit": "gLOSSARY_6__ / hour",
-      "note": "Full equipment is already included in the rental price."
+      "note": "No hidden surcharges."
     },
     "catering": {
       "eyebrow": "Catering",
-      "title": "The delicious part is on us",
-      "body": "Our restaurant will create a menu specifically for your event: light coffee breaks between sessions, hearty lunches, gala dinners. No standard solutions - only what you need.",
-      "item_1": "Coffee breaks and receptions between working sessions",
-      "item_2": "Business lunches - Ukrainian and European cuisine",
-      "item_3": "Gala dinners with an individual menu",
+      "title": "The tasty part",
+      "body": "We will take care of everything - from morning coffee to evening buffet. Our restaurant will create a menu specifically for your event: light coffee breaks between sessions, hearty lunches, gala dinners. No standard solutions - only what you need.",
+      "item_1": "Light coffee breaks between sessions",
+      "item_2": "Hearty lunches",
+      "item_3": "Gala dinners",
       "img_alt": "Catering for conferences - restaurant Glukhoman"
     },
     "gallery": {
@@ -3221,10 +3221,10 @@
       "alt_4": "Conference room - prepared for the event"
     },
     "final": {
-      "eyebrow": "Feedback",
+      "eyebrow": "Booking",
       "title": "It's easy to book",
       "title_italic": "one call.",
-      "body": "We are happy to help you create a program for your event, from morning coffee to evening buffet.",
+      "body": "We are happy to help you create a program for your event.",
       "cta": "Call",
       "prefix": "or dial"
     }
@@ -3239,17 +3239,17 @@
     },
     "hero": {
       "eyebrow": "Accommodation",
-      "title": "A fairy-tale town",
-      "title_italic": "among the pine trees.",
-      "lead": "The restaurant and hotel complex \"Glukhoman\" has four author's houses. Each one has a unique character and interior - from Baba Yaga's hut on chicken legs to the two-room Terem-Lux.",
+      "title": "Welcome to our",
+      "title_italic": "Fairytale Town.",
+      "lead": "Here time stands still and a fairy tale becomes a reality. Our lodges are not just rooms, they are separate worlds created for your vacation.",
       "img_alt": "Fairy tale houses Glukhoman in the middle of the forest",
       "cta_explore": "See the houses"
     },
     "intro": {
-      "eyebrow": "About the houses",
+      "eyebrow": "Welcome",
       "title": "Not just numbers",
       "title_italic": "separate worlds.",
-      "body": "Here time stands still and a fairy tale becomes a reality. Our houses are not just rooms, they are separate worlds created for your vacation. There are 4 houses on the territory of the RHC \"Glukhoman\" - each has a unique style. Enjoy the views and the real magic of nature."
+      "body": "There are 4 houses on the territory of the restaurant and hotel complex \"Glukhoman\". Each house has a unique style. Enjoy the views and the real magic of nature."
     },
     "labels": {
       "capacity": "Capacity",
@@ -3268,25 +3268,25 @@
       "yaga": {
         "kicker": "House number 1",
         "emoji": "🏡",
-        "name": "Baba Yaga's house",
-        "tagline": "A hut on chicken legs.",
+        "name": "Hut on chicken legs",
+        "tagline": "Baba Yaga's house.",
         "description": "Baba Yaga's fairy house is not just a wooden structure. This is a real portal to the world of ancient legends, magic and adventure, which is guaranteed to catch the eye of every guest.",
-        "book_prefill": "House: Baba Yaga (up to 2 adults)."
+        "book_prefill": "House: Hut on chicken legs - Baba Yaga's House (up to 2 adults)."
       },
       "lisovyk": {
         "kicker": "House number 2",
         "emoji": "🌲",
-        "name": "The hut of the Wise Forester",
+        "name": "The Forest Hut of the Wise Forester",
         "tagline": "Where the forest speaks in whispers.",
         "description": "Step into a cozy corner where time stands still and the forest whispers. The Forester's Hut is not just a house, it is a part of wildlife. It is made of thick, centuries-old logs, covered with real emerald moss and winged ferns.",
-        "book_prefill": "House: The Hut of the Wise Forester (up to 2 adults)."
+        "book_prefill": "House: The Forest Hut of the Wise Forester (up to 2 adults)."
       },
       "teremok": {
         "kicker": "House number 3",
         "emoji": "🪵",
         "name": "Teremok",
         "tagline": "A cozy place where magic comes to life.",
-        "description": "Discover a real fairy tale! Our unique Teremok house is the perfect place for a family vacation, a romantic weekend or an escape from the bustle of the city. Made of environmentally friendly wood, it will take you to the world of childhood and tranquility. The house is entirely built of ecological Carpathian log and gives guests the healing aroma of pine needles.",
+        "description": "Discover a real fairy tale! Our unique Teremok house is the perfect place for a family vacation, a romantic weekend or an escape from the hustle and bustle of the city. Made of eco-friendly wood and decorated in the style of a cozy house, it will take you to the world of childhood and tranquility. The house is entirely built of ecological Carpathian log. It gives guests the healing aroma of pine needles.",
         "book_prefill": "House: Teremok (up to 2 adults)."
       },
       "terem-lux": {
@@ -3294,7 +3294,7 @@
         "emoji": "✨",
         "name": "Teremok-Lux",
         "tagline": "A cozy place where magic comes to life. Two-room apartment.",
-        "description": "The two-room version of Teremka is for families and groups of up to 4 adults. It includes a double bed and a double sofa bed in the second room, a TV with 180 channels, a refrigerator, a kettle, high-speed Wi-Fi and a bathroom with a shower.",
+        "description": "Two-room version of the Teremok. Includes a double bed and a double sofa bed, 180-channel TV, refrigerator, in-room kettle, high-speed Wi-Fi and a bathroom with shower.",
         "book_prefill": "House: Teremok Suite (up to 4 adults)."
       }
     },
@@ -3304,7 +3304,7 @@
       "lead": "All four lodges have the same basic equipment to make each one feel like home.",
       "items": {
         "bed": "Double bed",
-        "tv": "TV - 180 channels",
+        "tv": "TV with 180 channels",
         "fridge": "Refrigerator",
         "kettle": "Kettle in the room",
         "wifi": "High-speed Wi-Fi",
