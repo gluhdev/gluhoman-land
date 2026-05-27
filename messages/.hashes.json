@@ -3081,5 +3081,13 @@
   "hotel_central.final.body": "093f805f5723be4692141eea1277d734f0c9508c",
   "hotel_central.final.cta": "4266d4d55459e0164e67f23630327ab095939aae",
   "hotel_central.final.prefix": "0bd1d8daa980f72329c8b029ce8e8c6992f43119",
-  "hotels_overview.cards.placeholder.work_in_progress": "7b3f547cebf7857a532969e90afa4172d03ddeb6"
+  "hotels_overview.cards.placeholder.work_in_progress": "7b3f547cebf7857a532969e90afa4172d03ddeb6",
+  "hotels_overview.cards.aquapark_park.kicker": "53ccba222c392eea31006c8610e272728bb28476",
+  "hotels_overview.cards.aquapark_park.name": "1aa9a6f4d9e558e5fa92487aaca7c68bf98b5bd8",
+  "hotels_overview.cards.aquapark_park.tagline": "2aea9e7413f2aba802f817a60306f68a7a0362bd",
+  "hotels_overview.cards.aquapark_park.highlights_1": "2cb1740957877846a42bc8618a0c060e999f0233",
+  "hotels_overview.cards.aquapark_park.highlights_2": "3b345ba86d38c698b29fbacf789f3f87fb53e46c",
+  "hotels_overview.cards.aquapark_park.highlights_3": "a3ea3f600c2330f71c4f48c91568f716f299aa48",
+  "hotels_overview.cards.aquapark_park.cta": "95bf95b245fe65ff58d819db7b3266c75feb9aa8",
+  "hotels_overview.cards.aquapark_park.img_alt": "8b656ad19dc5aa78f7fd4ad32d60c100e3f40036"
 }

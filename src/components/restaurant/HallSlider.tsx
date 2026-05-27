@@ -118,6 +118,7 @@ export function HallSlider({
                 alt={p.alt}
                 fill
                 sizes="(min-width: 1024px) 66vw, 100vw"
+                loading={i === 0 ? 'eager' : 'lazy'}
                 style={
                   p.objectPosition ? { objectPosition: p.objectPosition } : undefined
                 }

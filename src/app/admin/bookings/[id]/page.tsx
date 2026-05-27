@@ -1,6 +1,14 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { ArrowLeft, Phone, Mail, Calendar, Users, Hash, MessageSquare } from 'lucide-react';
+import {
+  ArrowLeft,
+  Phone,
+  Mail,
+  Calendar,
+  Users,
+  Hash,
+  MessageSquare,
+} from 'lucide-react';
 import { prisma } from '@/lib/prisma';
 import { StatusActions } from './StatusActions';
 import type { BookingStatusValue } from '../actions';
@@ -33,6 +41,12 @@ const DELIVERY_LABEL: Record<string, string> = {
   FAILED: 'Помилка',
 };
 
+const DELIVERY_BADGE: Record<string, string> = {
+  PENDING: 'bg-[#e6d9b8]/30 text-[#7a5d20] border-[#c9a95c]/45',
+  SENT: 'bg-[#1a3d2e] text-[#e6d9b8] border-[#1a3d2e]',
+  FAILED: 'bg-[#7a1d1d]/10 text-[#7a1d1d] border-[#7a1d1d]/30',
+};
+
 function formatDateTime(d: Date | null): string {
   if (!d) return '—';
   return new Intl.DateTimeFormat('uk-UA', {
@@ -63,83 +77,98 @@ export default async function AdminBookingDetailPage({
   if (!booking) notFound();
 
   return (
-    <div className="p-6 lg:p-10 max-w-4xl">
+    <div className="p-6 lg:p-10 max-w-5xl">
       <Link
         href="/admin/bookings"
-        className="inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-900 mb-6"
+        className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e]/65 hover:text-[#1a3d2e] mb-8 transition-colors"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="w-3.5 h-3.5" />
         До списку заявок
       </Link>
 
-      <div className="mb-8">
-        <div className="flex items-center gap-3 flex-wrap mb-2">
-          <h1 className="text-3xl font-display text-neutral-900">{booking.name}</h1>
-          <span className="text-xs px-2 py-1 bg-neutral-100 rounded text-neutral-600 font-mono">
-            #{booking.id.slice(0, 8)}
+      {/* Header */}
+      <header className="mb-10">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 font-medium">
+          Заявка{' '}
+          <span className="font-display italic normal-case tracking-normal text-[#1a3d2e]/45">
+            · #{booking.id.slice(0, 8)}
           </span>
-        </div>
-        <p className="text-sm text-neutral-500">
+        </p>
+        <h1 className="font-display text-4xl lg:text-5xl text-[#1a3d2e] mt-2 leading-[1.1]">
+          {booking.name}
+        </h1>
+        <div className="mt-5 h-px w-24 bg-[#1a3d2e]/30" />
+        <p className="mt-5 text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/55 font-medium">
           {SERVICE_LABEL[booking.service] ?? booking.service}
-          {booking.hotelSlug && ` · ${HOTEL_LABEL[booking.hotelSlug] ?? booking.hotelSlug}`}
-          {' · Подано '}
-          {formatDateTime(booking.createdAt)}
+          {booking.hotelSlug &&
+            ` · ${HOTEL_LABEL[booking.hotelSlug] ?? booking.hotelSlug}`}
+          <span className="text-[#1a3d2e]/30"> · </span>
+          <span className="normal-case tracking-normal font-display italic text-[#1a3d2e]/55">
+            подано {formatDateTime(booking.createdAt)}
+          </span>
         </p>
-      </div>
+      </header>
 
-      <section className="mb-8">
-        <h2 className="text-xs uppercase tracking-[0.18em] text-neutral-500 mb-3">
-          Статус
-        </h2>
-        <p className="text-sm text-neutral-700 mb-3">
-          Поточний: <strong>{STATUS_LABEL[booking.status] ?? booking.status}</strong>
-        </p>
+      {/* Status */}
+      <section className="mb-10 bg-white border border-[#1a3d2e]/10 p-6">
+        <div className="flex items-baseline justify-between gap-4 flex-wrap mb-5">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 font-medium">
+            Статус
+          </p>
+          <p className="text-sm text-[#1a3d2e]/75">
+            Поточний:{' '}
+            <strong className="font-display text-[#1a3d2e] not-italic">
+              {STATUS_LABEL[booking.status] ?? booking.status}
+            </strong>
+          </p>
+        </div>
         <StatusActions
           id={booking.id}
           current={booking.status as BookingStatusValue}
         />
       </section>
 
-      <section className="grid md:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white border border-neutral-200 rounded-lg p-5">
-          <h2 className="text-xs uppercase tracking-[0.18em] text-neutral-500 mb-4">
+      {/* Two-column meta */}
+      <section className="grid md:grid-cols-2 gap-px bg-[#1a3d2e]/10 border border-[#1a3d2e]/10 mb-10">
+        <div className="bg-white p-6">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 font-medium mb-5">
             Контакт
-          </h2>
-          <dl className="space-y-3 text-sm">
-            <div className="flex items-start gap-2.5">
-              <Phone className="w-4 h-4 mt-0.5 text-neutral-400 flex-shrink-0" />
+          </p>
+          <dl className="space-y-3 text-sm text-[#0f1f18]/85">
+            <div className="flex items-start gap-3">
+              <Phone className="w-4 h-4 mt-0.5 text-[#1a3d2e]/45 flex-shrink-0" />
               <a
                 href={`tel:${booking.phone}`}
-                className="text-neutral-900 hover:underline"
+                className="text-[#1a3d2e] hover:underline underline-offset-2"
               >
                 {booking.phone}
               </a>
             </div>
             {booking.email && (
-              <div className="flex items-start gap-2.5">
-                <Mail className="w-4 h-4 mt-0.5 text-neutral-400 flex-shrink-0" />
+              <div className="flex items-start gap-3">
+                <Mail className="w-4 h-4 mt-0.5 text-[#1a3d2e]/45 flex-shrink-0" />
                 <a
                   href={`mailto:${booking.email}`}
-                  className="text-neutral-900 hover:underline"
+                  className="text-[#1a3d2e] hover:underline underline-offset-2"
                 >
                   {booking.email}
                 </a>
               </div>
             )}
-            <div className="flex items-start gap-2.5">
-              <Users className="w-4 h-4 mt-0.5 text-neutral-400 flex-shrink-0" />
+            <div className="flex items-start gap-3">
+              <Users className="w-4 h-4 mt-0.5 text-[#1a3d2e]/45 flex-shrink-0" />
               <span>{booking.guests} гостей</span>
             </div>
           </dl>
         </div>
 
-        <div className="bg-white border border-neutral-200 rounded-lg p-5">
-          <h2 className="text-xs uppercase tracking-[0.18em] text-neutral-500 mb-4">
+        <div className="bg-white p-6">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 font-medium mb-5">
             Деталі бронювання
-          </h2>
-          <dl className="space-y-3 text-sm">
-            <div className="flex items-start gap-2.5">
-              <Calendar className="w-4 h-4 mt-0.5 text-neutral-400 flex-shrink-0" />
+          </p>
+          <dl className="space-y-3 text-sm text-[#0f1f18]/85">
+            <div className="flex items-start gap-3">
+              <Calendar className="w-4 h-4 mt-0.5 text-[#1a3d2e]/45 flex-shrink-0" />
               <div>
                 <div>З: {formatDate(booking.dateFrom)}</div>
                 {booking.dateTo && <div>До: {formatDate(booking.dateTo)}</div>}
@@ -147,16 +176,21 @@ export default async function AdminBookingDetailPage({
               </div>
             </div>
             {booking.hotelSlug && (
-              <div className="flex items-start gap-2.5">
-                <Hash className="w-4 h-4 mt-0.5 text-neutral-400 flex-shrink-0" />
+              <div className="flex items-start gap-3">
+                <Hash className="w-4 h-4 mt-0.5 text-[#1a3d2e]/45 flex-shrink-0" />
                 <div>
                   <div>
                     Готель:{' '}
-                    <strong>{HOTEL_LABEL[booking.hotelSlug] ?? booking.hotelSlug}</strong>
+                    <strong className="text-[#1a3d2e]">
+                      {HOTEL_LABEL[booking.hotelSlug] ?? booking.hotelSlug}
+                    </strong>
                   </div>
                   {booking.roomCategorySlug && (
                     <div>
-                      Категорія: <strong>{booking.roomCategorySlug}</strong>
+                      Категорія:{' '}
+                      <strong className="font-display italic text-[#1a3d2e]">
+                        {booking.roomCategorySlug}
+                      </strong>
                     </div>
                   )}
                 </div>
@@ -167,54 +201,75 @@ export default async function AdminBookingDetailPage({
       </section>
 
       {booking.comment && (
-        <section className="mb-8">
-          <h2 className="text-xs uppercase tracking-[0.18em] text-neutral-500 mb-3">
+        <section className="mb-10 bg-white border border-[#1a3d2e]/10 p-6">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 font-medium mb-4 inline-flex items-center gap-2">
+            <MessageSquare className="w-3.5 h-3.5 text-[#1a3d2e]/45" />
             Коментар
-          </h2>
-          <div className="bg-white border border-neutral-200 rounded-lg p-5">
-            <MessageSquare className="w-4 h-4 text-neutral-400 mb-2" />
-            <p className="text-sm text-neutral-800 whitespace-pre-wrap leading-relaxed">
-              {booking.comment}
-            </p>
-          </div>
+          </p>
+          <p className="text-sm text-[#0f1f18]/85 leading-[1.7] whitespace-pre-wrap font-display italic">
+            {booking.comment}
+          </p>
         </section>
       )}
 
-      <section className="mb-8">
-        <h2 className="text-xs uppercase tracking-[0.18em] text-neutral-500 mb-3">
+      {/* Delivery channels */}
+      <section className="mb-10">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 font-medium mb-4">
           Доставка повідомлень
-        </h2>
-        <div className="grid sm:grid-cols-2 gap-4 text-sm">
-          <div className="bg-white border border-neutral-200 rounded-lg p-4">
-            <div className="text-xs uppercase tracking-wide text-neutral-500 mb-1">
-              Telegram
-            </div>
-            <div className="font-medium">
-              {DELIVERY_LABEL[booking.telegramStatus] ?? booking.telegramStatus}
-            </div>
-            {booking.telegramError && (
-              <div className="mt-1 text-xs text-red-600">{booking.telegramError}</div>
-            )}
-          </div>
-          <div className="bg-white border border-neutral-200 rounded-lg p-4">
-            <div className="text-xs uppercase tracking-wide text-neutral-500 mb-1">
-              Email
-            </div>
-            <div className="font-medium">
-              {DELIVERY_LABEL[booking.emailStatus] ?? booking.emailStatus}
-            </div>
-            {booking.emailError && (
-              <div className="mt-1 text-xs text-red-600">{booking.emailError}</div>
-            )}
-          </div>
+        </p>
+        <div className="grid sm:grid-cols-2 gap-px bg-[#1a3d2e]/10 border border-[#1a3d2e]/10">
+          <DeliveryCard
+            label="Telegram"
+            status={booking.telegramStatus}
+            error={booking.telegramError}
+          />
+          <DeliveryCard
+            label="Email"
+            status={booking.emailStatus}
+            error={booking.emailError}
+          />
         </div>
       </section>
 
       {(booking.ipAddress || booking.userAgent) && (
-        <section className="text-xs text-neutral-500 space-y-1">
-          {booking.ipAddress && <p>IP: {booking.ipAddress}</p>}
-          {booking.userAgent && <p className="line-clamp-1">UA: {booking.userAgent}</p>}
+        <section className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/40 font-medium space-y-1 mb-4">
+          {booking.ipAddress && <p>IP · {booking.ipAddress}</p>}
+          {booking.userAgent && (
+            <p className="line-clamp-1 normal-case tracking-normal font-display italic">
+              UA · {booking.userAgent}
+            </p>
+          )}
         </section>
+      )}
+    </div>
+  );
+}
+
+function DeliveryCard({
+  label,
+  status,
+  error,
+}: {
+  label: string;
+  status: string;
+  error: string | null;
+}) {
+  return (
+    <div className="bg-white p-5">
+      <div className="flex items-center justify-between gap-3 mb-2">
+        <p className="text-[10px] uppercase tracking-[0.22em] text-[#1a3d2e]/55 font-medium">
+          {label}
+        </p>
+        <span
+          className={`inline-block px-2 py-0.5 text-[10px] uppercase tracking-[0.18em] border ${
+            DELIVERY_BADGE[status] ?? DELIVERY_BADGE.PENDING
+          }`}
+        >
+          {DELIVERY_LABEL[status] ?? status}
+        </span>
+      </div>
+      {error && (
+        <p className="mt-1 text-xs text-[#7a1d1d] font-display italic">{error}</p>
       )}
     </div>
   );

@@ -133,10 +133,9 @@ export default async function HotelsOverviewPage({
   const t = await getTranslations({ locale, namespace: "hotels_overview" });
 
   const cards: Array<{
-    key: "aquapark" | "central" | "cottages" | "placeholder";
-    href?: string;
+    key: "aquapark" | "central" | "cottages" | "aquapark_park";
+    href: string;
     image: string;
-    disabled?: boolean;
   }> = [
     {
       key: "aquapark",
@@ -154,9 +153,9 @@ export default async function HotelsOverviewPage({
       image: "/images/cottages/yaga/1.jpg",
     },
     {
-      key: "placeholder",
-      image: "/images/hotels/aquapark/exterior/2.jpg",
-      disabled: true,
+      key: "aquapark_park",
+      href: "/aquapark",
+      image: "/images/akvapark.webp",
     },
   ];
 
@@ -192,16 +191,24 @@ export default async function HotelsOverviewPage({
             className="object-cover opacity-55"
           />
         </HeroParallax>
+        {/* Heavier overlay so cream title is readable against any sky/background */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-b from-[#0b1410]/55 via-[#0b1410]/40 to-[#0b1410]/85"
+          className="absolute inset-0 bg-gradient-to-b from-[#0b1410]/85 via-[#0b1410]/65 to-[#0b1410]/95"
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-[#0b1410]/30"
         />
         <div className="relative z-10 max-w-5xl px-6 md:px-10 text-center">
           <Reveal>
             <Eyebrow light>{t("hero.eyebrow")}</Eyebrow>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight mt-6 text-[#f4ecd8]">
+            <h1
+              className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight mt-6 text-[#f4ecd8]"
+              style={{ textShadow: "0 2px 24px rgba(0,0,0,0.55)" }}
+            >
               {t("hero.title")}
               <span className="block font-display italic text-[#e6d9b8] mt-3 text-3xl md:text-5xl">
                 {t("hero.title_italic")}
@@ -209,7 +216,10 @@ export default async function HotelsOverviewPage({
             </h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <P light className="mt-6 max-w-2xl mx-auto">
+            <P
+              light
+              className="mt-6 max-w-2xl mx-auto"
+            >
               {t("hero.lead")}
             </P>
           </Reveal>
@@ -260,16 +270,10 @@ export default async function HotelsOverviewPage({
                     t(`cards.${card.key}.highlights_2`),
                     t(`cards.${card.key}.highlights_3`),
                   ]}
-                  cta={card.disabled ? undefined : t(`cards.${card.key}.cta`)}
+                  cta={t(`cards.${card.key}.cta`)}
                   href={card.href}
                   imageSrc={card.image}
                   imageAlt={t(`cards.${card.key}.img_alt`)}
-                  disabled={card.disabled}
-                  disabledLabel={
-                    card.disabled
-                      ? t("cards.placeholder.work_in_progress")
-                      : undefined
-                  }
                 />
               </Reveal>
             ))}
