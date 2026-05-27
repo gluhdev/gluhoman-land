@@ -44,6 +44,8 @@ const BOOKING_OPEN_EVENT = "gluhoman:booking:open";
 
 export interface BookingPrefill {
   comment?: string;
+  hotelSlug?: "aquapark" | "central" | "cottages";
+  roomCategorySlug?: string;
 }
 
 export function openBookingDialog(
@@ -177,6 +179,14 @@ export default function BookingDialog() {
     "classic"
   );
 
+  // Multi-hotel prefill (silent — populated from /hotel/* booking buttons)
+  const [hotelSlug, setHotelSlugState] = useState<
+    "aquapark" | "central" | "cottages" | undefined
+  >(undefined);
+  const [roomCategorySlug, setRoomCategorySlugState] = useState<
+    string | undefined
+  >(undefined);
+
   const [errors, setErrors] = useState<Errors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -213,6 +223,8 @@ export default function BookingDialog() {
     setSubmitError(null);
     setSuccess(false);
     setSuccessId(null);
+    setHotelSlugState(undefined);
+    setRoomCategorySlugState(undefined);
   }, []);
 
   useEffect(() => {
@@ -226,6 +238,9 @@ export default function BookingDialog() {
       resetAll();
       if (detail?.service) setService(detail.service);
       if (detail?.prefill?.comment) setComment(detail.prefill.comment);
+      if (detail?.prefill?.hotelSlug) setHotelSlugState(detail.prefill.hotelSlug);
+      if (detail?.prefill?.roomCategorySlug)
+        setRoomCategorySlugState(detail.prefill.roomCategorySlug);
       setOpen(true);
     }
     window.addEventListener(BOOKING_OPEN_EVENT, onOpen);
@@ -345,6 +360,8 @@ export default function BookingDialog() {
         adults,
         children,
         breakfast,
+        hotelSlug,
+        roomCategorySlug,
       };
     } else if (service === "aquapark") {
       payload = {

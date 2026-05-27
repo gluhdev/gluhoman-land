@@ -42,21 +42,25 @@ enum DeliveryStatus {
 }
 
 model Booking {
-  id        String         @id @default(cuid())
-  service   BookingService
-  status    BookingStatus  @default(PENDING)
+  id      String         @id @default(cuid())
+  service BookingService
+  status  BookingStatus  @default(PENDING)
 
   // Guest contact
-  name      String
-  phone     String
-  email     String?
+  name  String
+  phone String
+  email String?
 
   // Booking details
-  guests    Int
-  dateFrom  DateTime
-  dateTo    DateTime?
-  time      String?
-  comment   String?
+  guests   Int
+  dateFrom DateTime
+  dateTo   DateTime?
+  time     String?
+  comment  String?
+
+  // Hotel-specific identifiers (set when service=HOTEL; aquapark / central / cottages)
+  hotelSlug        String?
+  roomCategorySlug String?
 
   // Delivery tracking — did the notification reach the operator?
   telegramStatus DeliveryStatus @default(PENDING)
@@ -75,6 +79,8 @@ model Booking {
   @@index([status])
   @@index([dateFrom])
   @@index([createdAt])
+  @@index([hotelSlug])
+  @@index([roomCategorySlug])
 }
 
 // =============================================================================
@@ -85,7 +91,7 @@ model Booking {
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
-  password  String   // bcrypt hash
+  password  String // bcrypt hash
   name      String?
   role      String   @default("admin") // "admin" | "manager"
   createdAt DateTime @default(now())
@@ -110,7 +116,7 @@ model MenuItem {
   slug        String       @unique
   name        String
   description String?
-  price       Int          // грн
+  price       Int // грн
   weight      String?
   image       String?
   active      Boolean      @default(true)
@@ -135,7 +141,7 @@ model Order {
   customerName      String
   customerPhone     String
   // Delivery
-  deliveryType      String      // "delivery" | "pickup"
+  deliveryType      String // "delivery" | "pickup"
   address           String?
   scheduledAt       DateTime?
   comment           String?
@@ -164,7 +170,7 @@ model OrderItem {
   menuItemId String?
   // Snapshot (in case the menu item is later deleted/renamed)
   name       String
-  price      Int       // грн (price at time of order)
+  price      Int // грн (price at time of order)
   quantity   Int
 
   @@index([orderId])
@@ -174,11 +180,11 @@ model OrderItem {
 model HotelRoom {
   id            String         @id @default(cuid())
   number        String         @unique
-  type          String         // "standard" | "lux" | "family"
+  type          String // "standard" | "lux" | "family"
   capacity      Int
-  pricePerNight Int            // грн
+  pricePerNight Int // грн
   description   String?
-  images        String?        // JSON-encoded array of image URLs (SQLite has no String[])
+  images        String? // JSON-encoded array of image URLs (SQLite has no String[])
   active        Boolean        @default(true)
   bookings      HotelBooking[]
   createdAt     DateTime       @default(now())
@@ -196,7 +202,7 @@ model HotelBooking {
   checkIn       DateTime
   checkOut      DateTime
   guests        Int
-  total         Int       // грн
+  total         Int // грн
   status        String    @default("pending") // pending|paid|confirmed|completed|cancelled
   paymentStatus String    @default("pending")
   payment       Payment?
@@ -213,7 +219,7 @@ model HotelBooking {
 model AquaparkTariff {
   id          String               @id @default(cuid())
   name        String
-  price       Int                  // грн
+  price       Int // грн
   description String?
   active      Boolean              @default(true)
   tickets     AquaparkTicketItem[]
@@ -229,7 +235,7 @@ model AquaparkTicket {
   customerPhone String
   customerEmail String?
   items         AquaparkTicketItem[]
-  total         Int                  // грн
+  total         Int // грн
   status        String               @default("pending")
   paymentStatus String               @default("pending")
   payment       Payment?
@@ -242,14 +248,14 @@ model AquaparkTicket {
 }
 
 model AquaparkTicketItem {
-  id        String         @id @default(cuid())
-  ticket    AquaparkTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
-  ticketId  String
-  tariff    AquaparkTariff @relation(fields: [tariffId], references: [id])
-  tariffId  String
-  name      String         // snapshot
-  price     Int            // snapshot, грн
-  quantity  Int
+  id       String         @id @default(cuid())
+  ticket   AquaparkTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  ticketId String
+  tariff   AquaparkTariff @relation(fields: [tariffId], references: [id])
+  tariffId String
+  name     String // snapshot
+  price    Int // snapshot, грн
+  quantity Int
 
   @@index([ticketId])
 }
@@ -259,16 +265,16 @@ model SaunaSlot {
   id            String   @id @default(cuid())
   number        Int      @unique
   date          DateTime
-  startTime     String   // "18:00"
-  endTime       String   // "20:00"
-  saunaType     String   // "small" | "big"
+  startTime     String // "18:00"
+  endTime       String // "20:00"
+  saunaType     String // "small" | "big"
   customerName  String?
   customerPhone String?
   customerEmail String?
   status        String   @default("free") // free|reserved|paid|completed|cancelled
   paymentStatus String   @default("pending")
   payment       Payment?
-  total         Int?     // грн
+  total         Int? // грн
   comment       String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -280,12 +286,12 @@ model SaunaSlot {
 // ─── PAYMENTS (polymorphic, one row per payment attempt) ───
 model Payment {
   id         String   @id @default(cuid())
-  provider   String   // "liqpay" | "monobank" | "stub"
+  provider   String // "liqpay" | "monobank" | "stub"
   externalId String?  @unique
-  status     String   // pending|success|failure|refund
-  amount     Int      // грн
+  status     String // pending|success|failure|refund
+  amount     Int // грн
   currency   String   @default("UAH")
-  payload    String?  // raw response JSON (string for SQLite)
+  payload    String? // raw response JSON (string for SQLite)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 

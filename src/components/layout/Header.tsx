@@ -31,7 +31,9 @@ const PRIMARY_NAV: PrimaryItem[] = [
     key: 'hotel',
     href: '/hotel',
     children: [
-      { id: 'rooms', href: '/hotel' },
+      { id: 'all', href: '/hotel' },
+      { id: 'aquapark', href: '/hotel/aquapark' },
+      { id: 'central', href: '/hotel/central' },
       { id: 'cottages', href: '/cottages' },
     ],
   },
