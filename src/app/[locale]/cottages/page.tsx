@@ -55,14 +55,15 @@ interface Cottage {
   slug: CottageSlug;
   capacity: number;
   rooms: 1 | 2;
-  photoCount: number;
+  /** Explicit list of photo numbers — gaps are intentional (e.g. yaga missing #3). */
+  photos: number[];
 }
 
 const COTTAGES: Cottage[] = [
-  { slug: "yaga", capacity: 2, rooms: 1, photoCount: 9 },
-  { slug: "lisovyk", capacity: 2, rooms: 1, photoCount: 9 },
-  { slug: "teremok", capacity: 2, rooms: 1, photoCount: 8 },
-  { slug: "terem-lux", capacity: 4, rooms: 2, photoCount: 10 },
+  { slug: "yaga", capacity: 2, rooms: 1, photos: [1, 2, 4, 5, 6, 7, 8, 9, 10] },
+  { slug: "lisovyk", capacity: 2, rooms: 1, photos: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
+  { slug: "teremok", capacity: 2, rooms: 1, photos: [1, 2, 3, 4, 5, 6, 7, 8] },
+  { slug: "terem-lux", capacity: 4, rooms: 2, photos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
 ];
 
 const cottagesJsonLd = {
@@ -161,15 +162,12 @@ async function CottageBlock({
   const reverse = index % 2 === 1;
   const light = index % 2 === 1;
 
-  const slides: HallSlide[] = Array.from(
-    { length: cottage.photoCount },
-    (_, i) => ({
-      n: i + 1,
-      alt: t(k(`gallery_alt_${i + 1}`) as Parameters<typeof t>[0], {
-        defaultValue: t(k("name")),
-      }),
-    })
-  );
+  const slides: HallSlide[] = cottage.photos.map((n) => ({
+    n,
+    alt: t(k(`gallery_alt_${n}`) as Parameters<typeof t>[0], {
+      defaultValue: t(k("name")),
+    }),
+  }));
 
   const sectionBg = light
     ? "bg-[#0f1f18] text-[#f4ecd8]"
