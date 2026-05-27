@@ -2737,5 +2737,9 @@
   "cottages.final.title_italic": "2dd36734ed3958947198aca51c8e3787e1195936",
   "cottages.final.body": "2d68db70444b2a088bf28a74a71a9594c0f090e1",
   "cottages.final.cta": "536ce39907bbafe5154388ec02810ecf012412a2",
-  "cottages.final.prefill": "6099fa3edb97570265186ad04809070073a838f9"
+  "cottages.final.prefill": "6099fa3edb97570265186ad04809070073a838f9",
+  "nav.hotel_menu.rooms.title": "23e9c0f1942304d4985abb7a05d1c61ebe807a0a",
+  "nav.hotel_menu.rooms.description": "8173552f4c1766d99d1772e2f4737326a49ab73e",
+  "nav.hotel_menu.cottages.title": "ab3aab26c49540f58848134ae3252e2d1671a967",
+  "nav.hotel_menu.cottages.description": "f19b31e85e7e61294beb3380f4b09db5a2019ded"
 }

@@ -61,6 +61,16 @@
       "restaurant": "Restaurant",
       "hotel": "Hotel",
       "sauna": "Wood-fired sauna"
+    },
+    "hotel_menu": {
+      "rooms": {
+        "title": "Hotel rooms",
+        "description": "Wooden rooms near a pond with swans and fountains"
+      },
+      "cottages": {
+        "title": "Houses",
+        "description": "Four author's fairy houses - from 2 to 4 people"
+      }
     }
   },
   "header": {

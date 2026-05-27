@@ -22,11 +22,19 @@ import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 /* Local navigation model — does NOT mutate constants                 */
 /* ------------------------------------------------------------------ */
 
-type PrimaryItem = { key: string; href: string };
+type PrimaryChild = { id: string; href: string };
+type PrimaryItem = { key: string; href: string; children?: PrimaryChild[] };
 
 const PRIMARY_NAV: PrimaryItem[] = [
   { key: 'aquapark', href: '/aquapark' },
-  { key: 'hotel', href: '/hotel' },
+  {
+    key: 'hotel',
+    href: '/hotel',
+    children: [
+      { id: 'rooms', href: '/hotel' },
+      { id: 'cottages', href: '/cottages' },
+    ],
+  },
   { key: 'restaurant', href: '/restaurant' },
   { key: 'sauna', href: '/sauna' },
 ];
@@ -191,6 +199,50 @@ export default function Header() {
                 </NavigationMenuItem>
                 {PRIMARY_NAV.map((item) => {
                   const active = isActive(item.href);
+                  if (item.children && item.children.length > 0) {
+                    return (
+                      <NavigationMenuItem key={item.href}>
+                        <NavigationMenuTrigger
+                          className={`!bg-transparent !p-0 !h-auto ${linkBase} ${linkColor} ${
+                            active
+                              ? 'after:w-full'
+                              : 'after:w-0 hover:after:w-full data-[state=open]:after:w-full'
+                          }`}
+                        >
+                          {t(`nav.${item.key}`)}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent
+                          className="!p-0 !bg-transparent !border-0 !shadow-none !left-1/2 !-translate-x-1/2 !w-[320px] !max-w-[92vw]"
+                        >
+                          <div className="relative overflow-hidden rounded-2xl bg-[#faf6ec] shadow-[0_40px_80px_-20px_rgba(0,0,0,0.25)] ring-1 ring-[#1a3d2e]/10 p-6">
+                            <ul className="space-y-2">
+                              {item.children.map((child) => (
+                                <li key={child.href}>
+                                  <NavigationMenuLink asChild>
+                                    <Link
+                                      href={child.href}
+                                      className="group/item relative block px-3 py-2.5 -mx-3 rounded-md hover:bg-[#1a3d2e]/[0.04] transition-colors"
+                                    >
+                                      <div className="text-sm font-semibold text-[#1a3d2e] transition-transform duration-500 group-hover/item:translate-x-1">
+                                        {t(
+                                          `nav.${item.key}_menu.${child.id}.title` as Parameters<typeof t>[0]
+                                        )}
+                                      </div>
+                                      <div className="text-[11px] text-[#1a3d2e]/75 mt-1 line-clamp-2">
+                                        {t(
+                                          `nav.${item.key}_menu.${child.id}.description` as Parameters<typeof t>[0]
+                                        )}
+                                      </div>
+                                    </Link>
+                                  </NavigationMenuLink>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </NavigationMenuContent>
+                      </NavigationMenuItem>
+                    );
+                  }
                   return (
                     <NavigationMenuItem key={item.href}>
                       <NavigationMenuLink asChild>
@@ -370,6 +422,25 @@ export default function Header() {
                     >
                       {t(`nav.${item.key}`)}
                     </Link>
+                    {item.children && item.children.length > 0 && (
+                      <ul className="pl-3 py-2 space-y-1">
+                        {item.children.map((child) => (
+                          <li key={child.href}>
+                            <Link
+                              href={child.href}
+                              onClick={() => setMobileOpen(false)}
+                              className={`block py-2 text-[12px] tracking-wide text-neutral-700 hover:text-neutral-900 ${
+                                isActive(child.href) ? 'text-primary font-medium' : ''
+                              }`}
+                            >
+                              {t(
+                                `nav.${item.key}_menu.${child.id}.title` as Parameters<typeof t>[0]
+                              )}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </li>
                 ))}
 
