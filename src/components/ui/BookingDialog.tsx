@@ -42,10 +42,17 @@ const SERVICE_ICONS: Record<BookingService, typeof Hotel> = {
 
 const BOOKING_OPEN_EVENT = "gluhoman:booking:open";
 
-export function openBookingDialog(service?: BookingService) {
+export interface BookingPrefill {
+  comment?: string;
+}
+
+export function openBookingDialog(
+  service?: BookingService,
+  prefill?: BookingPrefill
+) {
   if (typeof window === "undefined") return;
   window.dispatchEvent(
-    new CustomEvent(BOOKING_OPEN_EVENT, { detail: { service } })
+    new CustomEvent(BOOKING_OPEN_EVENT, { detail: { service, prefill } })
   );
 }
 
@@ -210,9 +217,15 @@ export default function BookingDialog() {
 
   useEffect(() => {
     function onOpen(e: Event) {
-      const detail = (e as CustomEvent<{ service?: BookingService }>).detail;
+      const detail = (
+        e as CustomEvent<{
+          service?: BookingService;
+          prefill?: BookingPrefill;
+        }>
+      ).detail;
       resetAll();
       if (detail?.service) setService(detail.service);
+      if (detail?.prefill?.comment) setComment(detail.prefill.comment);
       setOpen(true);
     }
     window.addEventListener(BOOKING_OPEN_EVENT, onOpen);

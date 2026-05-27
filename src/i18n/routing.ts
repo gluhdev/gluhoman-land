@@ -5,7 +5,10 @@ export const routing = defineRouting({
   locales: ['uk', 'en'],
   defaultLocale: 'uk',
   localePrefix: 'as-needed',
-  localeDetection: true,
+  // Auto-detection disabled; src/middleware.ts implements custom strict rule:
+  // primary Accept-Language tag must start with "en" to land on /en,
+  // anything else (uk, ru, de, ...) lands on Ukrainian default.
+  localeDetection: false,
 });
 
 export type Locale = (typeof routing.locales)[number];
