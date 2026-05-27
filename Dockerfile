@@ -6,7 +6,9 @@ WORKDIR /app
 RUN apk add --no-cache libc6-compat openssl
 COPY package.json package-lock.json* ./
 COPY prisma ./prisma
-RUN npm ci --no-audit --no-fund && npx prisma generate
+# Production targets PostgreSQL — generate client from the postgres schema.
+# (Local dev uses sqlite via `npm run db:generate` / `prisma generate` on host.)
+RUN npm ci --no-audit --no-fund && npx prisma generate --schema=prisma/schema.postgres.prisma
 
 # ---- Stage 2: builder ----
 FROM node:20-alpine AS builder
@@ -16,7 +18,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/prisma ./prisma
 COPY . .
 # Re-run prisma generate in case schema changed
-RUN npx prisma generate
+RUN npx prisma generate --schema=prisma/schema.postgres.prisma
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 # Skip Sentry instrumentation files (keep .prod suffix so they're not picked up)
