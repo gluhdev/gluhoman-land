@@ -2655,5 +2655,16 @@
   "conference_hall.final.title_italic": "cac3bc298286d25e73866800be099da6d480b0ab",
   "conference_hall.final.body": "80f4a4a94e219a5f03a90f98fb3758592ed9fabc",
   "conference_hall.final.cta": "a67ceca0f9232146d233ffe6f27c65b9914bd9bb",
-  "conference_hall.final.prefix": "0bd1d8daa980f72329c8b029ce8e8c6992f43119"
+  "conference_hall.final.prefix": "0bd1d8daa980f72329c8b029ce8e8c6992f43119",
+  "home.conference.kicker": "094ba12741d00c4065d8a5e1bee841ca6a7b7b80",
+  "home.conference.title": "65edff3e91faf8a9eabf5d9233da18987a1298cf",
+  "home.conference.title_italic": "39d34a5acde04c67578218d7727e343c85690f11",
+  "home.conference.body": "6450dd05a6df1b39b66a6f2912064de83b118cb2",
+  "home.conference.features.capacity": "10ab1d9091eef1342ce4e9b40dc0b57cfbadff38",
+  "home.conference.features.tech": "4cc7ddac87a3bfc6873ff96ac0e08a88f081d447",
+  "home.conference.features.comfort": "eb8429a3927f4c779e5793a481e131ecd996674b",
+  "home.conference.features.internet": "3c80820f6f182aaf5b60d9c5ba4933ebb7b5105b",
+  "home.conference.cta": "b54d3ab0089a52997991a96a8443f5e563b47c50",
+  "home.conference.price_hint": "0c105b4b18d79a86570fd5e704e7dae7bafc874d",
+  "home.conference.img_alt": "41867a4a59ea2d8eb000f45cf8f818e3533e2a2d"
 }

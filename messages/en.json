@@ -353,6 +353,21 @@
       "phone_label": "Phone",
       "village": "с. Nyzhni Mlyny",
       "region": "gLOSSARY_4__"
+    },
+    "conference": {
+      "kicker": "For business",
+      "title": "Conference room",
+      "title_italic": "for 45 people.",
+      "body": "A separate room on the third floor of the Aquapark Hotel for business meetings, trainings and seminars. Full technical equipment, catering from our restaurant and the silence of a pine forest instead of an office routine.",
+      "features": {
+        "capacity": "Up to 45 participants",
+        "tech": "Projector and screen",
+        "comfort": "Air conditioning and comfort",
+        "internet": "Cable Internet + Wi-Fi"
+      },
+      "cta": "Learn more",
+      "price_hint": "rent from 500 UAH / hour",
+      "img_alt": "Conference hall Glukhoman - space for business events"
     }
   },
   "sauna": {
