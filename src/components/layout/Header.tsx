@@ -43,7 +43,7 @@ const SERVICE_GROUPS: { groupKey: string; ids: string[] }[] = [
   },
   {
     groupKey: 'events',
-    ids: ['wedding', 'kids-parties', 'petting-zoo'],
+    ids: ['conference-hall', 'wedding', 'kids-parties', 'petting-zoo'],
   },
 ];
 

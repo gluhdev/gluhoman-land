@@ -46,6 +46,10 @@
       "petting-zoo": {
         "title": "Contact zoo",
         "description": "Communication with friendly animals for children and adults"
+      },
+      "conference-hall": {
+        "title": "Conference room",
+        "description": "Hall for 45 people with full technical equipment"
       }
     },
     "main": {
@@ -2802,6 +2806,10 @@
         "petting-zoo": {
           "title": "Contact zoo",
           "description": "Communication with friendly animals for children and adults"
+        },
+        "conference-hall": {
+          "title": "Conference room",
+          "description": "Hall for 45 people with full technical equipment - from 500 UAH/hour"
         }
       }
     }
@@ -3101,6 +3109,91 @@
       "exterior_small_sauna_chan_platform": "Small bath with a vat platform",
       "chan_citrus_couple_night_nature": "Vat under the night sky",
       "nature_33": "Nature around Hlukhomany"
+    }
+  },
+  "conference_hall": {
+    "meta": {
+      "title": "Conference hall \"Glukhoman\" - 45 people, projector, catering from 500 UAH/hour",
+      "description": "Conference room for 45 people in the Water Park Hotel \"Glukhoman\". Multimedia projector, air conditioning, Wi-Fi, flipchart. Catering from our restaurant. Rent from 500 UAH/hour.",
+      "og_title": "Conference hall \"Glukhoman\" - where great decisions are born",
+      "og_description": "Space for business meetings, trainings and seminars for 45 people. Full equipment. Catering from the restaurant.",
+      "og_image_alt": "Conference hall of the RGC \"Glukhoman\""
+    },
+    "hero": {
+      "eyebrow": "Conference room",
+      "title": "A space that inspires.",
+      "subtitle": "Where great solutions are born.",
+      "lead": "A cozy room on the third floor of the Waterpark Hotel. Every detail is thought out for your comfort - just you, your team and a common goal.",
+      "img_alt": "Conference room Glukhoman - general view",
+      "cta_call": "Call",
+      "cta_details": "Parts and equipment"
+    },
+    "intro": {
+      "eyebrow": "About the hall",
+      "title": "The perfect place",
+      "title_italic": "for business events.",
+      "body": "The conference hall of the RGC \"Glukhoman\" was created for those who value comfort, focus and results. There is no room for distractions here - only productive work in a cozy atmosphere among nature.",
+      "bullet_1": "Business negotiations at the highest level",
+      "bullet_2": "Memorable corporate training",
+      "bullet_3": "Seminars and trainings that really make a difference",
+      "img_alt": "Conference room - work area"
+    },
+    "equipment": {
+      "eyebrow": "Equipment",
+      "title": "Everything you need is already here",
+      "lead": "Don't waste time on organizational details. The hall has everything you need for a full-fledged event of any format.",
+      "items": {
+        "ac": {
+          "title": "Air Conditioning",
+          "body": "Comfortable temperature all day long - regardless of the weather outside."
+        },
+        "projector": {
+          "title": "Projector + screen",
+          "body": "Multimedia projector and wall screen. A clear picture for any presentation."
+        },
+        "flipchart": {
+          "title": "Flipchart",
+          "body": "A flipchart and a set of markers for those who think visually."
+        },
+        "internet": {
+          "title": "Internet + Wi-Fi",
+          "body": "High-speed cable Internet and Wi-Fi. Stable, no surprises."
+        }
+      }
+    },
+    "pricing": {
+      "eyebrow": "Capacity and price",
+      "title": "Simple format - no hidden fees",
+      "capacity_label": "Capacity",
+      "capacity_unit": "persons",
+      "price_label": "Rent from",
+      "price_unit": "gLOSSARY_6__ / hour",
+      "note": "Full equipment is already included in the rental price."
+    },
+    "catering": {
+      "eyebrow": "Catering",
+      "title": "The delicious part is on us",
+      "body": "Our restaurant will create a menu specifically for your event: light coffee breaks between sessions, hearty lunches, gala dinners. No standard solutions - only what you need.",
+      "item_1": "Coffee breaks and receptions between working sessions",
+      "item_2": "Business lunches - Ukrainian and European cuisine",
+      "item_3": "Gala dinners with an individual menu",
+      "img_alt": "Catering for conferences - restaurant Glukhoman"
+    },
+    "gallery": {
+      "eyebrow": "Space",
+      "title": "Take a closer look at the hall",
+      "alt_1": "Conference room - general view",
+      "alt_2": "Conference room - workplaces",
+      "alt_3": "Conference room - interior details",
+      "alt_4": "Conference room - prepared for the event"
+    },
+    "final": {
+      "eyebrow": "Feedback",
+      "title": "It's easy to book",
+      "title_italic": "one call.",
+      "body": "We are happy to help you create a program for your event, from morning coffee to evening buffet.",
+      "cta": "Call",
+      "prefix": "or dial"
     }
   }
 }

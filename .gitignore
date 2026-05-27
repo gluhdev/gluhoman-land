@@ -103,3 +103,4 @@ prisma/migrations/dev.db
 # Playwright
 test-results/
 playwright-report/
+.firecrawl/
