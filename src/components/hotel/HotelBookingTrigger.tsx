@@ -8,6 +8,7 @@ interface Props {
   hotelSlug: "aquapark" | "central" | "cottages" | "brewery";
   roomCategorySlug: string;
   roomName: string;
+  priceLabel?: string;
   light?: boolean;
 }
 
@@ -24,9 +25,12 @@ export function HotelBookingTrigger({
   hotelSlug,
   roomCategorySlug,
   roomName,
+  priceLabel,
   light = false,
 }: Props) {
-  const prefillComment = `Готель: ${labelFor(hotelSlug)} · Номер: ${roomName}.`;
+  const prefillComment = priceLabel
+    ? `Готель: ${labelFor(hotelSlug)} · Номер: ${roomName} · Тариф: ${priceLabel}.`
+    : `Готель: ${labelFor(hotelSlug)} · Номер: ${roomName}.`;
   return (
     <button
       type="button"
@@ -35,6 +39,7 @@ export function HotelBookingTrigger({
           comment: prefillComment,
           hotelSlug,
           roomCategorySlug,
+          priceLabel,
         })
       }
       className={`inline-flex items-center gap-2.5 px-6 py-3.5 text-sm font-medium tracking-wide transition-colors min-h-[44px] ${

@@ -305,3 +305,14 @@ model Payment {
   saunaSlotId      String?         @unique
   saunaSlot        SaunaSlot?      @relation(fields: [saunaSlotId], references: [id])
 }
+
+// ─── CMS — editable site content (mirror of sqlite) ───
+model SiteContent {
+  key       String   @id // e.g. "home.hero.title"
+  type      String // text | richtext | image | number | url
+  value     String // JSON-encoded
+  updatedAt DateTime @updatedAt
+  updatedBy String?
+
+  @@index([updatedAt])
+}

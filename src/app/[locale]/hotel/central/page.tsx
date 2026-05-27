@@ -209,6 +209,7 @@ async function RoomCard({
             hotelSlug="central"
             roomCategorySlug={slug}
             roomName={t(k("name"))}
+            priceLabel={price}
             label={t("labels.book_cta", { name: t(k("name")) })}
           />
           <span className="font-display italic text-[14px] text-[#1a3d2e]/60">

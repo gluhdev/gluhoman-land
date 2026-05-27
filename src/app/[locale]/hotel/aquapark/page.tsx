@@ -256,6 +256,7 @@ async function RoomBlock({
                 hotelSlug="aquapark"
                 roomCategorySlug={room.slug}
                 roomName={t(k("name"))}
+                priceLabel={price}
                 label={t("labels.book_cta", { name: t(k("name")) })}
                 light={light}
               />

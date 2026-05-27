@@ -330,6 +330,8 @@ async function CottageBlock({
               <CottageBookingTrigger
                 label={t("labels.book_cta", { name: t(k("name")) })}
                 prefill={t(k("book_prefill"))}
+                priceLabel={price}
+                cottageSlug={cottage.slug}
                 light={light}
               />
               <span
