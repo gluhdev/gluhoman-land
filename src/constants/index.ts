@@ -44,6 +44,13 @@ export const MAIN_SERVICES: ServiceCard[] = [
 
 export const ADDITIONAL_SERVICES: ServiceCard[] = [
   {
+    id: 'conference-hall',
+    title: 'Конференц-зал',
+    description: 'Зал на 45 осіб з повним технічним оснащенням — від 500 грн/год',
+    href: '/conference-hall',
+    category: 'additional'
+  },
+  {
     id: 'apitherapy',
     title: 'Апітерапія',
     description: 'Оздоровчі процедури з продуктами бджільництва',
