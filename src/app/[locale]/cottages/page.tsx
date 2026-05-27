@@ -169,11 +169,12 @@ async function CottageBlock({
   const reverse = index % 2 === 1;
   const light = index % 2 === 1;
 
+  // Use cottage name as a single shared alt — keys gallery_alt_5..10 don't
+  // exist in i18n for the larger cottages and the per-photo specificity
+  // adds no value to screen readers.
   const slides: HallSlide[] = cottage.photos.map((n) => ({
     n,
-    alt: t(k(`gallery_alt_${n}`) as Parameters<typeof t>[0], {
-      defaultValue: t(k("name")),
-    }),
+    alt: t(k("name")),
   }));
 
   const sectionBg = light
