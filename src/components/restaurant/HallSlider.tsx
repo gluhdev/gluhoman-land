@@ -183,6 +183,7 @@ export function HallSlider({
                       alt=""
                       fill
                       sizes="88px"
+                      loading="lazy"
                       style={
                         p.objectPosition
                           ? { objectPosition: p.objectPosition }

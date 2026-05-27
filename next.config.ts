@@ -37,8 +37,11 @@ const nextConfig: NextConfig = {
         source: "/images/:path*",
         headers: [
           {
+            // 30 days for raw /images/* — they're effectively content-addressed
+            // by path (room photos don't change in place; we add new slugs when
+            // content changes). Big perf win on repeat visits.
             key: "Cache-Control",
-            value: "public, max-age=3600, must-revalidate",
+            value: "public, max-age=2592000, immutable",
           },
         ],
       },
@@ -49,10 +52,10 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 2560],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     qualities: [75, 85, 90, 95],
-    // 1 година: після регенерації зображення всі браузери бачать свіже ≤1 год
-    // без необхідності ручного скидання кешу. ETag/Last-Modified роблять
-    // повторні запити дешевими (304 Not Modified).
-    minimumCacheTTL: 60 * 60,
+    // 30 days — site photos are immutable per path. Long TTL means Next
+    // image optimizer hits its on-disk cache instead of re-encoding AVIF/WebP
+    // on every request; major perf gain for repeat visitors AND lower CPU.
+    minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
       {
         protocol: 'https',
