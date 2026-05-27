@@ -44,6 +44,13 @@ export const MAIN_SERVICES: ServiceCard[] = [
 
 export const ADDITIONAL_SERVICES: ServiceCard[] = [
   {
+    id: 'cottages',
+    title: 'Будиночки',
+    description: 'Чотири авторські казкові будиночки на території комплексу — від 2 до 4 осіб',
+    href: '/cottages',
+    category: 'additional'
+  },
+  {
     id: 'conference-hall',
     title: 'Конференц-зал',
     description: 'Зал на 45 осіб з повним технічним оснащенням — від 500 грн/год',

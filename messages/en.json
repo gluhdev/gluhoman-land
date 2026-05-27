@@ -50,6 +50,10 @@
       "conference-hall": {
         "title": "Conference room",
         "description": "Hall for 45 people with full technical equipment"
+      },
+      "cottages": {
+        "title": "Houses",
+        "description": "Four author's fairy houses with full equipment"
       }
     },
     "main": {
@@ -2825,6 +2829,10 @@
         "conference-hall": {
           "title": "Conference room",
           "description": "Hall for 45 people with full technical equipment - from 500 UAH/hour"
+        },
+        "cottages": {
+          "title": "Houses",
+          "description": "Four author's fairy-tale houses on the territory of the complex - from 2 to 4 people"
         }
       }
     }
@@ -3209,6 +3217,99 @@
       "body": "We are happy to help you create a program for your event, from morning coffee to evening buffet.",
       "cta": "Call",
       "prefix": "or dial"
+    }
+  },
+  "cottages": {
+    "meta": {
+      "title": "The houses of \"Glukhoman\" - four fairy-tale houses in the forest",
+      "description": "The houses of Baba Yaga, the Forester, Teremok and Terem-Lux on the territory of the RGC \"Glukhoman\". Full equipment, breakfast and 2 hours of Carpathian vat included. Booking online.",
+      "og_title": "Fairy Tale Village \"Glukhoman\" - houses among the pines",
+      "og_description": "Four author's houses with a soul: fabulous interiors, breakfast and Carpathian vat included.",
+      "og_image_alt": "Houses Glukhoman - a fairy-tale town"
+    },
+    "hero": {
+      "eyebrow": "Accommodation",
+      "title": "A fairy-tale town",
+      "title_italic": "among the pine trees.",
+      "lead": "The restaurant and hotel complex \"Glukhoman\" has four author's houses. Each one has a unique character and interior - from Baba Yaga's hut on chicken legs to the two-room Terem-Lux.",
+      "img_alt": "Fairy tale houses Glukhoman in the middle of the forest",
+      "cta_explore": "See the houses"
+    },
+    "intro": {
+      "eyebrow": "About the houses",
+      "title": "Not just numbers",
+      "title_italic": "separate worlds.",
+      "body": "Here time stands still and a fairy tale becomes a reality. The price of accommodation in each lodge includes a delicious breakfast and 2 hours of Carpathian vat in the open air. Check in from 14:30, check out until 12:00."
+    },
+    "labels": {
+      "capacity": "Capacity",
+      "capacity_value": "{count, plural, one {# adult} few {# adults} other {# adults}}",
+      "timing": "Check in / Check out",
+      "timing_value": "14:30 / until 12:00",
+      "breakfast": "Breakfast",
+      "breakfast_value": "Included in the price",
+      "chan": "Carpathian vat",
+      "chan_value": "2 hours included",
+      "book_cta": "Book \"{name}\"",
+      "price_hint": "price on request",
+      "section_title_alt": "A separate world"
+    },
+    "items": {
+      "yaga": {
+        "kicker": "House number 1",
+        "emoji": "🏡",
+        "name": "Baba Yaga's hut",
+        "tagline": "On chicken legs.",
+        "description": "Baba Yaga's fairy house is not just a wooden structure. This is a real portal to the world of ancient legends, magic and adventure, which is guaranteed to catch the eye of every guest.",
+        "book_prefill": "House: Baba Yaga's hut (up to 2 adults)."
+      },
+      "lisovyk": {
+        "kicker": "House number 2",
+        "emoji": "🌲",
+        "name": "The hut of the Forest Man",
+        "tagline": "Where the forest speaks in whispers.",
+        "description": "Enter a cozy corner where time stands still and the forest whispers. The Forester's Hut is a part of the wildlife. It is made of thick, centuries-old logs, covered with real emerald moss and winged ferns.",
+        "book_prefill": "House: The Forester's Hut (up to 2 adults)."
+      },
+      "teremok": {
+        "kicker": "House number 3",
+        "emoji": "🪵",
+        "name": "Teremok",
+        "tagline": "A cozy place where magic comes to life.",
+        "description": "The unique Teremok house is an ideal place for a family vacation, a romantic weekend or an escape from the bustle of the city. It is made of ecologically clean Carpathian log house and gives guests the healing aroma of pine needles.",
+        "book_prefill": "House: Teremok (up to 2 adults)."
+      },
+      "terem-lux": {
+        "kicker": "House number 4",
+        "emoji": "✨",
+        "name": "Terem-Lux",
+        "tagline": "Two-room apartment for a company.",
+        "description": "Two-room Teremok Suite is for families and companies up to 4 people. A double bed and a double sofa bed in the second room. The same Carpathian log house and the same pine scent - only twice as much space.",
+        "book_prefill": "House: Terem Suite (up to 4 adults)."
+      }
+    },
+    "common": {
+      "eyebrow": "Equipment",
+      "title": "The same care in every house",
+      "lead": "All four lodges have the same basic equipment to make each one feel like home.",
+      "items": {
+        "bed": "Double bed",
+        "tv": "TV - 180 channels",
+        "fridge": "Refrigerator",
+        "kettle": "Kettle in the room",
+        "wifi": "High-speed Wi-Fi",
+        "bathroom": "Bathroom with shower cabin",
+        "robes": "Towels, bathrobes, disposable slippers",
+        "cosmetics": "Cosmetics for showering"
+      }
+    },
+    "final": {
+      "eyebrow": "Booking",
+      "title": "Ready to move in",
+      "title_italic": "in a fairy tale?",
+      "body": "Leave a request - we will contact you within an hour and agree on the dates, wishes for the lodge and additional services.",
+      "cta": "Book a house",
+      "prefill": "We are interested in houses. Please contact us for available dates."
     }
   }
 }
