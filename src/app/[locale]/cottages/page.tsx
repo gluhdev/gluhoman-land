@@ -51,6 +51,8 @@ export async function generateMetadata({
 
 type CottageSlug = "yaga" | "lisovyk" | "teremok" | "terem-lux";
 
+const ROMAN = ["I", "II", "III", "IV"] as const;
+
 interface Cottage {
   slug: CottageSlug;
   capacity: number;
@@ -198,14 +200,20 @@ async function CottageBlock({
         >
           {/* Copy */}
           <Reveal>
-            <div className="flex items-center gap-3 mb-2">
-              <span className="font-display text-3xl">{t(k("emoji"))}</span>
+            <div className="flex items-baseline gap-4 mb-5">
+              <span
+                className={`font-display italic text-4xl md:text-5xl leading-none ${
+                  light ? "text-[#e6d9b8]/45" : "text-[#1a3d2e]/35"
+                }`}
+              >
+                {ROMAN[index] ?? ""}
+              </span>
               <Eyebrow light={light}>{t(k("kicker"))}</Eyebrow>
             </div>
             <H2 light={light}>
-              {t(k("name"))}{" "}
+              {t(k("name"))}
               <span
-                className={`font-display italic ${
+                className={`block font-display italic mt-2 md:mt-3 text-2xl md:text-3xl lg:text-[32px] leading-[1.15] ${
                   light ? "text-[#e6d9b8]/85" : "text-[#1a3d2e]/65"
                 }`}
               >
@@ -425,8 +433,8 @@ export default async function CottagesPage({
           <Reveal>
             <Eyebrow>{t("intro.eyebrow")}</Eyebrow>
             <H2>
-              {t("intro.title")}{" "}
-              <span className="font-display italic text-[#1a3d2e]/65">
+              {t("intro.title")}
+              <span className="block font-display italic text-[#1a3d2e]/65 mt-2 md:mt-3">
                 {t("intro.title_italic")}
               </span>
             </H2>
@@ -490,8 +498,8 @@ export default async function CottagesPage({
           <Reveal>
             <Eyebrow>{t("final.eyebrow")}</Eyebrow>
             <H2>
-              {t("final.title")}{" "}
-              <span className="font-display italic text-[#1a3d2e]/65">
+              {t("final.title")}
+              <span className="block font-display italic text-[#1a3d2e]/65 mt-2 md:mt-3">
                 {t("final.title_italic")}
               </span>
             </H2>
