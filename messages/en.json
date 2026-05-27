@@ -3397,6 +3397,16 @@
         "cta": "",
         "img_alt": "",
         "work_in_progress": "at work"
+      },
+      "aquapark_park": {
+        "kicker": "Hotel #4",
+        "name": "Water park",
+        "tagline": "Seasonal water park with slides and pools.",
+        "highlights_1": "Outdoor water park with 5 water slides",
+        "highlights_2": "Swimming pools with heated water",
+        "highlights_3": "Children's area and lifeguards",
+        "cta": "See the water park",
+        "img_alt": "Water park Glukhoman"
       }
     },
     "amenities": {

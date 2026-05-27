@@ -55,7 +55,7 @@ interface Room {
 const ROOMS: Room[] = [
   { slug: "lux-balcony", photos: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18] },
   { slug: "standard-aqua", photos: [19, 20, 21, 22, 23, 24, 25, 26, 27, 28] },
-  { slug: "standard-balcony", photos: [29, 30, 31, 32, 33, 34] },
+  { slug: "standard-balcony", photos: [30, 29, 31, 32, 33, 34] },
   { slug: "standard-twin", photos: [35, 36, 37, 38] },
   { slug: "lux-attic", photos: [39, 40, 41, 42, 43, 44, 45, 46] },
   { slug: "standard-basic", photos: [47, 48, 49, 50, 51] },

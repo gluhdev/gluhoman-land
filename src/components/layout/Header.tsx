@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/navigation-menu';
 import { openBookingDialog } from '@/components/ui/BookingDialog';
 import { ADDITIONAL_SERVICES, CONTACT_INFO } from '@/constants';
-import { Link, usePathname } from '@/i18n/routing';
+import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
 
 /* ------------------------------------------------------------------ */
@@ -67,6 +67,7 @@ const findService = (id: string) =>
 export default function Header() {
   const t = useTranslations();
   const pathname = usePathname();
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [otherOpen, setOtherOpen] = useState(false);
@@ -205,6 +206,15 @@ export default function Header() {
                     return (
                       <NavigationMenuItem key={item.href}>
                         <NavigationMenuTrigger
+                          onClick={(e) => {
+                            // The trigger is a <button> that Radix uses to toggle
+                            // the dropdown. We also want a click to navigate to
+                            // the item's primary href (e.g. /hotel overview), so
+                            // we intercept and push manually. Dropdown still
+                            // opens/closes via Radix's own handler.
+                            e.preventDefault();
+                            router.push(item.href);
+                          }}
                           className={`!bg-transparent !p-0 !h-auto ${linkBase} ${linkColor} ${
                             active
                               ? 'after:w-full'
