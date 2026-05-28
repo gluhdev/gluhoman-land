@@ -48,7 +48,7 @@ export function LoginForm() {
           autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="admin@gluhoman.local"
+          placeholder="you@example.com"
           className="w-full px-4 py-3 bg-transparent border border-[#e6d9b8]/25 text-[#f4ecd8] placeholder:text-[#e6d9b8]/25 text-sm focus:outline-none focus:border-[#e6d9b8]/60 transition-colors"
         />
       </label>
@@ -83,10 +83,6 @@ export function LoginForm() {
         {loading && <Loader2 className="h-4 w-4 animate-spin" />}
         {loading ? 'Вхід…' : 'Увійти'}
       </button>
-
-      <p className="text-[10px] uppercase tracking-[0.22em] text-center text-[#e6d9b8]/35 font-medium pt-2">
-        admin@gluhoman.local · admin123
-      </p>
     </form>
   );
 }
