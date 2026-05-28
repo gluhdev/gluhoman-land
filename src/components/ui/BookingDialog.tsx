@@ -28,7 +28,6 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import {
   checkAvailability,
-  getAllRoomPrices,
   type AvailabilityResult,
 } from "@/app/actions/availability";
 import {
@@ -38,6 +37,12 @@ import {
 } from "@/app/actions/booking";
 import { CONTACT_INFO } from "@/constants";
 import { HOTEL_CATALOG, type HotelSlug } from "@/lib/hotel-catalog";
+import {
+  priceTiers,
+  priceForGuests,
+  priceFrom,
+  formatUAH,
+} from "@/lib/room-prices";
 import { BLUR_DATA_URL } from "@/lib/blur-placeholder";
 import { Calendar, toISO, fromISO, type DateRange } from "./Calendar";
 
@@ -208,8 +213,7 @@ export default function BookingDialog() {
   const [photoUrl, setPhotoUrlState] = useState<string | undefined>(undefined);
   const [availability, setAvailability] = useState<AvailabilityResult | null>(null);
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
-  // Multi-hotel room picker (catalog prices + which hotel tab is open)
-  const [catalogPrices, setCatalogPrices] = useState<Record<string, string>>({});
+  // Multi-hotel room picker — which hotel tab is open
   const [activeHotelTab, setActiveHotelTab] = useState<HotelSlug>("aquapark");
 
   const [errors, setErrors] = useState<Errors>({});
@@ -285,21 +289,6 @@ export default function BookingDialog() {
     setOpen(false);
     setTimeout(resetAll, 150);
   }, [resetAll]);
-
-  // Load admin-editable room prices once when the hotel service is first opened.
-  useEffect(() => {
-    if (!open || service !== "hotel") return;
-    if (Object.keys(catalogPrices).length > 0) return;
-    let cancelled = false;
-    getAllRoomPrices()
-      .then((p) => {
-        if (!cancelled) setCatalogPrices(p);
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
-  }, [open, service, catalogPrices]);
 
   // Keep the open hotel tab in sync when a room was deep-link prefilled.
   useEffect(() => {
@@ -408,14 +397,17 @@ export default function BookingDialog() {
     room: { slug: string; nameKey: string; priceKey: string; photo: string }
   ) => {
     const name = tRoot(room.nameKey as Parameters<typeof tRoot>[0]);
-    const price = catalogPrices[room.priceKey];
     setHotelSlugState(hSlug);
     setRoomCategorySlugState(room.slug);
     setRoomNameState(name);
     setPhotoUrlState(room.photo);
-    if (price) setPriceLabelState(price);
+    setPriceLabelState(undefined); // structured tiers drive the price display now
     setErrors({});
   };
+
+  // Structured per-occupancy pricing for the currently selected room.
+  const selectedTiers = priceTiers(hotelSlug, roomCategorySlug);
+  const selectedPrice = priceForGuests(selectedTiers, adults);
 
   const resetRoom = () => {
     setRoomCategorySlugState(undefined);
@@ -446,12 +438,23 @@ export default function BookingDialog() {
       return;
     }
 
+    // Append the chosen tariff to the comment so the operator sees the exact
+    // price the guest was quoted for their occupancy.
+    const priceNote =
+      service === "hotel" && selectedPrice != null
+        ? `Тариф: ${formatUAH(selectedPrice)} грн/ніч (${adults} ос.)`
+        : "";
+    const userComment = comment.trim();
+    const mergedComment = [userComment, priceNote]
+      .filter(Boolean)
+      .join(" · ") || undefined;
+
     const base = {
       service,
       name: name.trim(),
       phone: phone.trim(),
       email: email.trim() || undefined,
-      comment: comment.trim() || undefined,
+      comment: mergedComment,
     };
 
     let payload: BookingPayload;
@@ -669,7 +672,8 @@ export default function BookingDialog() {
                           const name = tRoot(
                             room.nameKey as Parameters<typeof tRoot>[0]
                           );
-                          const price = catalogPrices[room.priceKey];
+                          const tiers = priceTiers(activeHotelTab, room.slug);
+                          const from = priceFrom(tiers);
                           return (
                             <button
                               key={room.slug}
@@ -688,15 +692,29 @@ export default function BookingDialog() {
                                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                                 />
                               </span>
-                              <span className="flex flex-1 flex-col gap-1.5 p-4">
+                              <span className="flex flex-1 flex-col gap-1 p-4">
                                 <span className="font-display text-lg font-semibold leading-tight text-[#1a3d2e]">
                                   {name}
                                 </span>
-                                {price && (
-                                  <span className="mt-auto pt-1 text-[14px] font-semibold leading-snug text-[#0b1410]">
-                                    {price}
-                                  </span>
-                                )}
+                                <span className="mt-auto pt-2 leading-tight">
+                                  {from != null ? (
+                                    <>
+                                      <span className="text-[10px] uppercase tracking-[0.16em] text-[#1a3d2e]/55">
+                                        {th("price_from")}
+                                      </span>
+                                      <span className="block text-[18px] font-semibold text-[#0b1410]">
+                                        {formatUAH(from)}{" "}
+                                        <span className="text-[12px] font-normal text-[#0f1f18]/60">
+                                          {th("price_per_night")}
+                                        </span>
+                                      </span>
+                                    </>
+                                  ) : (
+                                    <span className="text-[13px] font-medium text-[#1a3d2e]/70 font-display italic">
+                                      {th("price_on_request")}
+                                    </span>
+                                  )}
+                                </span>
                               </span>
                             </button>
                           );
@@ -827,6 +845,57 @@ export default function BookingDialog() {
                         </span>
                       </button>
 
+                      {/* Price tiers — each occupancy on its own line, active row highlighted */}
+                      {selectedTiers ? (
+                        <div className="border border-[#e6d9b8] bg-[#faf6ec]">
+                          <p className="px-4 pt-3 pb-2 text-[10px] uppercase tracking-[0.18em] text-[#1a3d2e]/60 font-medium border-b border-[#e6d9b8]">
+                            {th("price_table_title")}
+                          </p>
+                          <ul>
+                            {Object.keys(selectedTiers)
+                              .map(Number)
+                              .sort((a, b) => a - b)
+                              .map((count) => {
+                                const active = adults === count;
+                                return (
+                                  <li
+                                    key={count}
+                                    className={`flex items-center justify-between px-4 py-2.5 text-[14px] border-b border-[#e6d9b8]/60 last:border-b-0 transition ${
+                                      active
+                                        ? "bg-[#1a3d2e] text-[#f4ecd8]"
+                                        : "text-[#0b1410]"
+                                    }`}
+                                  >
+                                    <span className={active ? "font-medium" : ""}>
+                                      {th("guests_count", { count })}
+                                    </span>
+                                    <span className="font-display font-semibold tabular-nums">
+                                      {formatUAH(selectedTiers![count])}{" "}
+                                      <span className="text-[11px] font-normal opacity-70">
+                                        грн
+                                      </span>
+                                    </span>
+                                  </li>
+                                );
+                              })}
+                          </ul>
+                          {selectedPrice != null && (
+                            <div className="flex items-center justify-between px-4 py-3 bg-[#e6d9b8]/40 border-t border-[#e6d9b8]">
+                              <span className="text-[11px] uppercase tracking-[0.16em] text-[#1a3d2e]/70 font-medium">
+                                {th("price_total")}
+                              </span>
+                              <span className="font-display text-lg font-semibold text-[#0b1410] tabular-nums">
+                                {formatUAH(selectedPrice)} {th("price_per_night")}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-[13px] font-display italic text-[#1a3d2e]/70">
+                          {th("price_on_request")}
+                        </p>
+                      )}
+
                       {errors.guests && (
                         <p className="text-xs text-red-700">{errors.guests}</p>
                       )}
@@ -913,8 +982,8 @@ export default function BookingDialog() {
                 )}
 
                 {step === 2 && (
-                  <form onSubmit={handleSubmit} className="space-y-5 max-w-xl mx-auto">
-                    {hotelSlug && (roomName || priceLabel) && (
+                  <form onSubmit={handleSubmit} className="space-y-5 max-w-2xl mx-auto">
+                    {hotelSlug && (roomName || priceLabel || selectedPrice != null) && (
                       <div className="bg-[#1a3d2e]/5 border border-[#1a3d2e]/15 p-3 flex items-stretch gap-3">
                         {photoUrl && (
                           // eslint-disable-next-line @next/next/no-img-element
@@ -931,10 +1000,20 @@ export default function BookingDialog() {
                               {roomName}
                             </p>
                           )}
-                          {priceLabel && (
-                            <p className="text-[12px] text-[#0f1f18]/70 font-display italic mt-0.5 leading-snug">
-                              {priceLabel}
+                          {selectedPrice != null ? (
+                            <p className="text-[14px] text-[#0b1410] font-semibold mt-0.5 leading-snug">
+                              {formatUAH(selectedPrice)} {th("price_per_night")}
+                              <span className="text-[11px] font-normal text-[#0f1f18]/60">
+                                {" · "}
+                                {th("guests_count", { count: adults })}
+                              </span>
                             </p>
+                          ) : (
+                            priceLabel && (
+                              <p className="text-[12px] text-[#0f1f18]/70 font-display italic mt-0.5 leading-snug">
+                                {priceLabel}
+                              </p>
+                            )
                           )}
                           {availability?.tracked && (
                             <p

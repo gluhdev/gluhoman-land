@@ -3143,5 +3143,11 @@
   "ui.booking_dialog_hotel.rooms_none": "29ead2829f35016b0d2bec3b3ea7e950bad94765",
   "ui.booking_dialog_hotel.step_room": "1bb3d154c74af522c56a45d0ab1c841b5a052f0d",
   "ui.booking_dialog_hotel.step_dates": "9ceff84405c1b73bd5f09e55d4edf3bb98ddcda7",
-  "ui.booking_dialog_hotel.step_contacts": "1f9e7d09cf14998ff69f1044f8e9c3348f10ed3b"
+  "ui.booking_dialog_hotel.step_contacts": "1f9e7d09cf14998ff69f1044f8e9c3348f10ed3b",
+  "ui.booking_dialog_hotel.price_from": "f764f49b764a9849c2c9d3c8e5982afaf795cf5e",
+  "ui.booking_dialog_hotel.price_per_night": "2f3dbb4dacd75ca0c20abc2b4dfd4890347d5302",
+  "ui.booking_dialog_hotel.price_on_request": "3ecd1a4f40c2066904b2beaf41051afc7313d4aa",
+  "ui.booking_dialog_hotel.price_table_title": "5d5b590273c2278187db43d79d790444e72b0deb",
+  "ui.booking_dialog_hotel.price_total": "64d575ba85757dd38f25c5fc8774f6d547af355a",
+  "ui.booking_dialog_hotel.guests_count": "0b3f378225e59ee033ff63b5a66a03def60795a3"
 }

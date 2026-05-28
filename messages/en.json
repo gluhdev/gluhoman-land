@@ -2639,7 +2639,13 @@
       "rooms_none": "No rooms available for these dates",
       "step_room": "Number",
       "step_dates": "Dates",
-      "step_contacts": "Contacts"
+      "step_contacts": "Contacts",
+      "price_from": "from",
+      "price_per_night": "UAH / night",
+      "price_on_request": "Price on request",
+      "price_table_title": "Cost per day",
+      "price_total": "Total for your quantity",
+      "guests_count": "{count, plural, one {# of persons} few {# of persons} other {# of persons}"
     },
     "booking_dialog_aquapark": {
       "tariff_label": "Tariff",
