@@ -25,6 +25,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { checkAvailability, type AvailabilityResult } from "@/app/actions/availability";
 import {
   submitBooking,
   type BookingService,
@@ -194,6 +195,8 @@ export default function BookingDialog() {
   );
   const [roomName, setRoomNameState] = useState<string | undefined>(undefined);
   const [photoUrl, setPhotoUrlState] = useState<string | undefined>(undefined);
+  const [availability, setAvailability] = useState<AvailabilityResult | null>(null);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
 
   const [errors, setErrors] = useState<Errors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -236,6 +239,8 @@ export default function BookingDialog() {
     setPriceLabelState(undefined);
     setRoomNameState(undefined);
     setPhotoUrlState(undefined);
+    setAvailability(null);
+    setAvailabilityLoading(false);
   }, []);
 
   useEffect(() => {
@@ -266,6 +271,31 @@ export default function BookingDialog() {
     setOpen(false);
     setTimeout(resetAll, 150);
   }, [resetAll]);
+
+  // Real-time availability for the selected hotel room + date range.
+  const dateFromISO = dateRange.from ? toISO(dateRange.from) : "";
+  const dateToISO = dateRange.to ? toISO(dateRange.to) : "";
+  useEffect(() => {
+    if (!open || service !== "hotel" || !hotelSlug || !roomCategorySlug || !dateFromISO) {
+      setAvailability(null);
+      return;
+    }
+    let cancelled = false;
+    setAvailabilityLoading(true);
+    checkAvailability(hotelSlug, roomCategorySlug, dateFromISO, dateToISO)
+      .then((res) => {
+        if (!cancelled) setAvailability(res);
+      })
+      .catch(() => {
+        if (!cancelled) setAvailability(null);
+      })
+      .finally(() => {
+        if (!cancelled) setAvailabilityLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [open, service, hotelSlug, roomCategorySlug, dateFromISO, dateToISO]);
 
   useEffect(() => {
     if (!open) return;
@@ -616,6 +646,21 @@ export default function BookingDialog() {
                           {priceLabel && (
                             <p className="text-[12px] text-[#0f1f18]/70 font-display italic mt-0.5 leading-snug">
                               {priceLabel}
+                            </p>
+                          )}
+                          {availability?.tracked && (
+                            <p
+                              className={`text-[11px] mt-1 font-medium uppercase tracking-[0.14em] ${
+                                availability.available > 0
+                                  ? "text-[#1a3d2e]"
+                                  : "text-[#7a1d1d]"
+                              }`}
+                            >
+                              {availabilityLoading
+                                ? "Перевіряємо наявність…"
+                                : availability.available > 0
+                                  ? `Вільно: ${availability.available} з ${availability.total}`
+                                  : "На ці дати немає вільних номерів"}
                             </p>
                           )}
                         </div>
