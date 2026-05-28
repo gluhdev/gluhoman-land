@@ -2636,7 +2636,10 @@
       "select_room_hint": "Select a number to continue",
       "checking_availability": "We check the availability of..",
       "rooms_free": "Available: {available} from {total}",
-      "rooms_none": "No rooms available for these dates"
+      "rooms_none": "No rooms available for these dates",
+      "step_room": "Number",
+      "step_dates": "Dates",
+      "step_contacts": "Contacts"
     },
     "booking_dialog_aquapark": {
       "tariff_label": "Tariff",

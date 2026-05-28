@@ -3140,5 +3140,8 @@
   "ui.booking_dialog_hotel.select_room_hint": "c3a5657efe8a36a2cd85dccc6788fcb51fdfab7e",
   "ui.booking_dialog_hotel.checking_availability": "eb8bc0f8608f8f07886fed51ed2e478e7ebfe258",
   "ui.booking_dialog_hotel.rooms_free": "70ea94c7a00cd0f889d3a1a5a9d162c913ad4b4b",
-  "ui.booking_dialog_hotel.rooms_none": "29ead2829f35016b0d2bec3b3ea7e950bad94765"
+  "ui.booking_dialog_hotel.rooms_none": "29ead2829f35016b0d2bec3b3ea7e950bad94765",
+  "ui.booking_dialog_hotel.step_room": "1bb3d154c74af522c56a45d0ab1c841b5a052f0d",
+  "ui.booking_dialog_hotel.step_dates": "9ceff84405c1b73bd5f09e55d4edf3bb98ddcda7",
+  "ui.booking_dialog_hotel.step_contacts": "1f9e7d09cf14998ff69f1044f8e9c3348f10ed3b"
 }

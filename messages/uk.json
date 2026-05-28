@@ -2636,7 +2636,10 @@
       "select_room_hint": "Оберіть номер, щоб продовжити",
       "checking_availability": "Перевіряємо наявність…",
       "rooms_free": "Вільно: {available} з {total}",
-      "rooms_none": "На ці дати немає вільних номерів"
+      "rooms_none": "На ці дати немає вільних номерів",
+      "step_room": "Номер",
+      "step_dates": "Дати",
+      "step_contacts": "Контакти"
     },
     "booking_dialog_aquapark": {
       "tariff_label": "Тариф",

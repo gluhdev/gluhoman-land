@@ -511,82 +511,121 @@ export default function BookingDialog() {
 
   if (!mounted || !open) return null;
 
-  const activeService = SERVICES.find((s) => s.id === service)!;
 
   return createPortal(
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="booking-title"
-      className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center bg-[#0b1410]/70 p-0 sm:p-6"
+      className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center bg-[#0b1410]/80 backdrop-blur-sm p-0 sm:p-6"
       onClick={(e) => {
         if (e.target === e.currentTarget) close();
       }}
     >
-      <div className="relative w-full sm:max-w-2xl md:max-w-3xl max-h-[95vh] overflow-y-auto bg-[#faf6ec] shadow-2xl">
-        {/* Close */}
-        <button
-          type="button"
-          onClick={close}
-          aria-label={t("close_aria")}
-          className="absolute right-5 top-5 z-20 flex h-10 w-10 items-center justify-center border border-[#e6d9b8] text-[#1a3d2e] hover:bg-[#f4ecd8] transition"
-        >
-          <X className="h-5 w-5" />
-        </button>
-
+      <div className="relative w-full sm:max-w-3xl lg:max-w-5xl h-[100dvh] sm:h-auto sm:max-h-[92vh] overflow-y-auto bg-[#faf6ec] shadow-2xl sm:rounded-[2px] ring-1 ring-[#0b1410]/10">
         {success ? (
           <SuccessScreen onClose={close} bookingId={successId} />
         ) : (
-          <div className="px-6 pt-10 pb-8 sm:px-10 sm:pt-12">
-            <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70 mb-3">
-              {t("eyebrow")}
-            </p>
-            <h2
-              id="booking-title"
-              className="font-display text-3xl sm:text-4xl text-[#0b1410] mb-6"
-            >
-              {t("title")} <em className="italic text-[#1a3d2e]">{t("title_em")}</em>
-            </h2>
+          <>
+            {/* Sticky header */}
+            <div className="sticky top-0 z-20 bg-[#faf6ec]/95 backdrop-blur px-6 pt-7 pb-5 sm:px-10 sm:pt-9 border-b border-[#e6d9b8]">
+              <button
+                type="button"
+                onClick={close}
+                aria-label={t("close_aria")}
+                className="absolute right-5 top-5 z-20 flex h-10 w-10 items-center justify-center border border-[#e6d9b8] text-[#1a3d2e] hover:bg-[#f4ecd8] transition"
+              >
+                <X className="h-5 w-5" />
+              </button>
 
-            {/* Service tabs */}
-            <div
-              role="tablist"
-              aria-label={t("service_tabs_aria")}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-2 border-y border-[#e6d9b8] py-3"
-            >
-              {SERVICES.map((s) => {
-                const Icon = s.icon;
-                const active = service === s.id;
-                return (
-                  <button
-                    key={s.id}
-                    type="button"
-                    role="tab"
-                    aria-selected={active}
-                    onClick={() => {
-                      setService(s.id);
-                      setErrors({});
-                      setStep(1);
-                    }}
-                    className={`flex items-center justify-center gap-2 px-3 py-2.5 text-[11px] uppercase tracking-[0.18em] transition ${
-                      active
-                        ? "bg-[#1a3d2e] text-[#f4ecd8]"
-                        : "text-[#1a3d2e]/60 hover:text-[#1a3d2e] hover:bg-[#f4ecd8]"
-                    }`}
-                  >
-                    <Icon className="h-4 w-4" />
-                    {s.label}
-                  </button>
-                );
-              })}
+              <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70 mb-2">
+                {t("eyebrow")}
+              </p>
+              <h2
+                id="booking-title"
+                className="font-display text-3xl sm:text-4xl text-[#0b1410]"
+              >
+                {t("title")} <em className="italic text-[#1a3d2e]">{t("title_em")}</em>
+              </h2>
+
+              {/* Service tabs */}
+              <div
+                role="tablist"
+                aria-label={t("service_tabs_aria")}
+                className="mt-5 grid grid-cols-2 sm:grid-cols-4 gap-2"
+              >
+                {SERVICES.map((s) => {
+                  const Icon = s.icon;
+                  const active = service === s.id;
+                  return (
+                    <button
+                      key={s.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={active}
+                      onClick={() => {
+                        setService(s.id);
+                        setErrors({});
+                        setStep(1);
+                      }}
+                      className={`flex items-center justify-center gap-2 px-3 py-2.5 text-[11px] uppercase tracking-[0.16em] font-medium border transition ${
+                        active
+                          ? "bg-[#1a3d2e] text-[#f4ecd8] border-[#1a3d2e]"
+                          : "text-[#1a3d2e]/75 border-[#e6d9b8] hover:text-[#1a3d2e] hover:bg-[#f4ecd8]"
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {s.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* 3-step rail (hotel only) */}
+              {service === "hotel" && (
+                <ol className="mt-5 flex items-center gap-2 sm:gap-3 text-[10px] sm:text-[11px] uppercase tracking-[0.16em]">
+                  {[
+                    ["1", th("step_room")],
+                    ["2", th("step_dates")],
+                    ["3", th("step_contacts")],
+                  ].map(([n, lbl], i) => {
+                    const idx = i + 1;
+                    const cur =
+                      step === 1 && !roomCategorySlug ? 1 : step === 1 ? 2 : 3;
+                    const active = idx === cur;
+                    const done = idx < cur;
+                    return (
+                      <li key={n} className="flex items-center gap-2 sm:gap-3">
+                        <span
+                          className={`flex h-7 w-7 items-center justify-center rounded-full border text-[12px] font-medium ${
+                            active
+                              ? "bg-[#1a3d2e] text-[#f4ecd8] border-[#1a3d2e]"
+                              : done
+                                ? "bg-[#1a3d2e]/10 text-[#1a3d2e] border-[#1a3d2e]/30"
+                                : "text-[#1a3d2e]/40 border-[#e6d9b8]"
+                          }`}
+                        >
+                          {n}
+                        </span>
+                        <span
+                          className={
+                            active ? "text-[#1a3d2e]" : "text-[#1a3d2e]/45"
+                          }
+                        >
+                          {lbl}
+                        </span>
+                        {idx < 3 && (
+                          <span className="ml-0.5 h-px w-4 sm:w-6 bg-[#e6d9b8]" />
+                        )}
+                      </li>
+                    );
+                  })}
+                </ol>
+              )}
             </div>
 
-            <p className="mt-4 font-display italic text-[#1a3d2e] text-center text-lg">
-              {activeService.description}
-            </p>
-
             {/* Body */}
-            <div className="relative mt-6">
+            <div className="relative px-6 py-7 sm:px-10 sm:py-9">
               {pending && (
                 <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#faf6ec]/80">
                   <Loader2 className="h-8 w-8 animate-spin text-[#1a3d2e]" />
@@ -599,7 +638,7 @@ export default function BookingDialog() {
                   <div className="space-y-6">
                     <div>
                       <Label>{th("pick_hotel")}</Label>
-                      <div className="mt-2 flex flex-wrap gap-2">
+                      <div className="mt-2 inline-flex flex-wrap gap-1 rounded-[2px] border border-[#e6d9b8] bg-[#f4ecd8]/40 p-1">
                         {HOTEL_CATALOG.map((h) => {
                           const active = activeHotelTab === h.slug;
                           return (
@@ -607,10 +646,10 @@ export default function BookingDialog() {
                               key={h.slug}
                               type="button"
                               onClick={() => setActiveHotelTab(h.slug)}
-                              className={`px-4 py-2 text-[11px] uppercase tracking-[0.18em] border transition ${
+                              className={`px-4 py-2.5 text-[12px] sm:text-[13px] font-medium uppercase tracking-[0.1em] rounded-[2px] transition ${
                                 active
-                                  ? "bg-[#1a3d2e] text-[#f4ecd8] border-[#1a3d2e]"
-                                  : "border-[#e6d9b8] text-[#1a3d2e] hover:bg-[#f4ecd8]"
+                                  ? "bg-[#1a3d2e] text-[#f4ecd8] shadow-sm"
+                                  : "text-[#1a3d2e]/75 hover:text-[#1a3d2e] hover:bg-[#f4ecd8]"
                               }`}
                             >
                               {tRoot(h.nameKey as Parameters<typeof tRoot>[0])}
@@ -622,7 +661,7 @@ export default function BookingDialog() {
 
                     <div>
                       <Label>{th("pick_room")}</Label>
-                      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                         {(
                           HOTEL_CATALOG.find((h) => h.slug === activeHotelTab)
                             ?.rooms ?? []
@@ -636,25 +675,25 @@ export default function BookingDialog() {
                               key={room.slug}
                               type="button"
                               onClick={() => pickRoom(activeHotelTab, room)}
-                              className="group flex gap-3 border border-[#e6d9b8] hover:border-[#1a3d2e] p-2 text-left transition"
+                              className="group flex flex-col overflow-hidden rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec] text-left transition hover:border-[#1a3d2e] hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1a3d2e]"
                             >
-                              <span className="relative h-16 w-20 flex-shrink-0 overflow-hidden rounded-[3px] ring-1 ring-[#1a3d2e]/10">
+                              <span className="relative block aspect-[4/3] w-full overflow-hidden">
                                 <Image
                                   src={room.photo}
                                   alt={name}
                                   fill
-                                  sizes="80px"
+                                  sizes="(max-width: 640px) 100vw, 320px"
                                   placeholder="blur"
                                   blurDataURL={BLUR_DATA_URL}
                                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                                 />
                               </span>
-                              <span className="flex-1 min-w-0 flex flex-col justify-center">
-                                <span className="text-sm font-display text-[#1a3d2e] leading-snug">
+                              <span className="flex flex-1 flex-col gap-1.5 p-4">
+                                <span className="font-display text-lg font-semibold leading-tight text-[#1a3d2e]">
                                   {name}
                                 </span>
                                 {price && (
-                                  <span className="text-[11px] text-[#0f1f18]/65 font-display italic mt-0.5 leading-snug line-clamp-2">
+                                  <span className="mt-auto pt-1 text-[14px] font-semibold leading-snug text-[#0b1410]">
                                     {price}
                                   </span>
                                 )}
@@ -664,7 +703,7 @@ export default function BookingDialog() {
                         })}
                       </div>
                       {errors.roomType && (
-                        <p className="mt-2 text-xs text-red-700">
+                        <p className="mt-3 text-sm text-red-700">
                           {errors.roomType}
                         </p>
                       )}
@@ -995,7 +1034,7 @@ export default function BookingDialog() {
                 )}
               </fieldset>
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>,
