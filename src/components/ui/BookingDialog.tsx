@@ -784,7 +784,7 @@ export default function BookingDialog() {
 
                       {availability?.tracked && (
                         <p
-                          className={`text-[11px] font-medium uppercase tracking-[0.14em] ${
+                          className={`text-[12px] font-medium tracking-wide ${
                             availability.available > 0
                               ? "text-[#1a3d2e]"
                               : "text-[#7a1d1d]"
@@ -1017,7 +1017,7 @@ export default function BookingDialog() {
                           )}
                           {availability?.tracked && (
                             <p
-                              className={`text-[11px] mt-1 font-medium uppercase tracking-[0.14em] ${
+                              className={`text-[12px] mt-1 font-medium tracking-wide ${
                                 availability.available > 0
                                   ? "text-[#1a3d2e]"
                                   : "text-[#7a1d1d]"
