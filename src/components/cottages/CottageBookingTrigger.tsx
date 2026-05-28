@@ -8,6 +8,8 @@ interface Props {
   prefill: string;
   priceLabel?: string;
   cottageSlug?: string;
+  roomName?: string;
+  photoUrl?: string;
   light: boolean;
 }
 
@@ -21,6 +23,8 @@ export function CottageBookingTrigger({
   prefill,
   priceLabel,
   cottageSlug,
+  roomName,
+  photoUrl,
   light,
 }: Props) {
   const fullPrefill = priceLabel ? `${prefill} Тариф: ${priceLabel}.` : prefill;
@@ -33,6 +37,8 @@ export function CottageBookingTrigger({
           hotelSlug: "cottages",
           roomCategorySlug: cottageSlug,
           priceLabel,
+          roomName,
+          photoUrl,
         })
       }
       className={`inline-flex items-center gap-2.5 px-6 py-3.5 text-sm font-medium tracking-wide transition-colors min-h-[44px] ${

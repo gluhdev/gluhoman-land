@@ -25,7 +25,7 @@ export async function generateMetadata({
       locale: locale === "uk" ? "uk_UA" : "en_US",
       images: [
         {
-          url: "/images/hotels/central/15.jpg",
+          url: "/images/hotels/central/49.jpg",
           width: 1920,
           height: 1280,
           alt: t("meta.og_image_alt"),
@@ -187,6 +187,11 @@ async function RoomCard({
             roomCategorySlug={slug}
             roomName={t(k("name"))}
             priceLabel={price}
+            photoUrl={
+              slug === "brewery-balcony"
+                ? "/images/hotels/central/49.jpg"
+                : "/images/hotels/central/56.jpg"
+            }
             label={t("labels.book_cta", { name: t(k("name")) })}
           />
           <span className="font-display italic text-[14px] text-[#1a3d2e]/60">
@@ -229,7 +234,7 @@ export default async function HotelBreweryPage({
       <section className="relative min-h-[92svh] flex items-center justify-center overflow-clip bg-[#0b1410] text-[#f4ecd8] rest-grain">
         <HeroParallax>
           <Image
-            src="/images/hotels/central/15.jpg"
+            src="/images/hotels/central/49.jpg"
             alt={t("hero.img_alt")}
             fill
             priority

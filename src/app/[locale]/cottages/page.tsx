@@ -332,6 +332,8 @@ async function CottageBlock({
                 prefill={t(k("book_prefill"))}
                 priceLabel={price}
                 cottageSlug={cottage.slug}
+                roomName={t(k("name"))}
+                photoUrl={`/images/cottages/${cottage.slug}/${cottage.photos[0]}.jpg`}
                 light={light}
               />
               <span

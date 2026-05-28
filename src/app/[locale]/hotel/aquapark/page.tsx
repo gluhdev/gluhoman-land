@@ -256,6 +256,7 @@ async function RoomBlock({
                 roomCategorySlug={room.slug}
                 roomName={t(k("name"))}
                 priceLabel={price}
+                photoUrl={`/images/hotels/aquapark/${room.slug}/${room.photos[0]}.jpg`}
                 label={t("labels.book_cta", { name: t(k("name")) })}
                 light={light}
               />

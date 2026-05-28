@@ -9,6 +9,7 @@ interface Props {
   roomCategorySlug: string;
   roomName: string;
   priceLabel?: string;
+  photoUrl?: string;
   light?: boolean;
 }
 
@@ -26,6 +27,7 @@ export function HotelBookingTrigger({
   roomCategorySlug,
   roomName,
   priceLabel,
+  photoUrl,
   light = false,
 }: Props) {
   const prefillComment = priceLabel
@@ -40,6 +42,8 @@ export function HotelBookingTrigger({
           hotelSlug,
           roomCategorySlug,
           priceLabel,
+          roomName,
+          photoUrl,
         })
       }
       className={`inline-flex items-center gap-2.5 px-6 py-3.5 text-sm font-medium tracking-wide transition-colors min-h-[44px] ${

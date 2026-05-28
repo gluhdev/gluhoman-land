@@ -47,6 +47,8 @@ export interface BookingPrefill {
   hotelSlug?: "aquapark" | "central" | "cottages" | "brewery";
   roomCategorySlug?: string;
   priceLabel?: string;
+  roomName?: string;
+  photoUrl?: string;
 }
 
 export function openBookingDialog(
@@ -190,6 +192,8 @@ export default function BookingDialog() {
   const [priceLabel, setPriceLabelState] = useState<string | undefined>(
     undefined
   );
+  const [roomName, setRoomNameState] = useState<string | undefined>(undefined);
+  const [photoUrl, setPhotoUrlState] = useState<string | undefined>(undefined);
 
   const [errors, setErrors] = useState<Errors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -230,6 +234,8 @@ export default function BookingDialog() {
     setHotelSlugState(undefined);
     setRoomCategorySlugState(undefined);
     setPriceLabelState(undefined);
+    setRoomNameState(undefined);
+    setPhotoUrlState(undefined);
   }, []);
 
   useEffect(() => {
@@ -248,6 +254,8 @@ export default function BookingDialog() {
         setRoomCategorySlugState(detail.prefill.roomCategorySlug);
       if (detail?.prefill?.priceLabel)
         setPriceLabelState(detail.prefill.priceLabel);
+      if (detail?.prefill?.roomName) setRoomNameState(detail.prefill.roomName);
+      if (detail?.prefill?.photoUrl) setPhotoUrlState(detail.prefill.photoUrl);
       setOpen(true);
     }
     window.addEventListener(BOOKING_OPEN_EVENT, onOpen);
@@ -588,15 +596,28 @@ export default function BookingDialog() {
 
                 {step === 2 && (
                   <form onSubmit={handleSubmit} className="space-y-5 max-w-xl mx-auto">
-                    {priceLabel && hotelSlug && (
-                      <div className="bg-[#1a3d2e]/5 border border-[#1a3d2e]/15 px-4 py-3 flex items-start gap-3">
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[10px] uppercase tracking-[0.22em] text-[#1a3d2e]/55 font-medium">
-                            Тариф
-                          </p>
-                          <p className="text-sm text-[#0f1f18] font-display italic mt-0.5 leading-snug">
-                            {priceLabel}
-                          </p>
+                    {hotelSlug && (roomName || priceLabel) && (
+                      <div className="bg-[#1a3d2e]/5 border border-[#1a3d2e]/15 p-3 flex items-stretch gap-3">
+                        {photoUrl && (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={photoUrl}
+                            alt={roomName ?? ""}
+                            className="h-16 w-20 flex-shrink-0 rounded-[3px] object-cover ring-1 ring-[#1a3d2e]/15"
+                            loading="lazy"
+                          />
+                        )}
+                        <div className="flex-1 min-w-0 flex flex-col justify-center">
+                          {roomName && (
+                            <p className="text-sm text-[#1a3d2e] font-display leading-snug">
+                              {roomName}
+                            </p>
+                          )}
+                          {priceLabel && (
+                            <p className="text-[12px] text-[#0f1f18]/70 font-display italic mt-0.5 leading-snug">
+                              {priceLabel}
+                            </p>
+                          )}
                         </div>
                       </div>
                     )}
