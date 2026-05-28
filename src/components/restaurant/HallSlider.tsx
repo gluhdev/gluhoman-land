@@ -4,6 +4,7 @@ import { useRef, useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { BLUR_DATA_URL } from '@/lib/blur-placeholder';
 
 export interface HallSlide {
   n: number;
@@ -118,7 +119,11 @@ export function HallSlider({
                 alt={p.alt}
                 fill
                 sizes="(min-width: 1024px) 66vw, 100vw"
-                loading={i === 0 ? 'eager' : 'lazy'}
+                // First slide eager; the next two are also eager so a quick
+                // swipe lands on an already-loaded image. Rest stay lazy.
+                loading={i <= 2 ? 'eager' : 'lazy'}
+                placeholder="blur"
+                blurDataURL={BLUR_DATA_URL}
                 style={
                   p.objectPosition ? { objectPosition: p.objectPosition } : undefined
                 }
@@ -184,6 +189,8 @@ export function HallSlider({
                       fill
                       sizes="88px"
                       loading="lazy"
+                      placeholder="blur"
+                      blurDataURL={BLUR_DATA_URL}
                       style={
                         p.objectPosition
                           ? { objectPosition: p.objectPosition }

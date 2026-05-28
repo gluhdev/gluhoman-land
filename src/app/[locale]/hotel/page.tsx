@@ -155,7 +155,7 @@ export default async function HotelsOverviewPage({
       key: "brewery",
       href: "/hotel/brewery",
       // Use a Central-Hotel photo as brewery placeholder until user supplies dedicated photos.
-      image: "/images/hotels/central/40.jpg",
+      image: "/images/hotels/central/15.jpg",
     },
   ];
 

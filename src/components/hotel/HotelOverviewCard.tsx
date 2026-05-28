@@ -45,11 +45,13 @@ export function HotelOverviewCard({
               : "object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-[1.05]"
           }
         />
+        {/* Bottom + top scrims: bottom for depth, top so the white kicker
+            label stays readable even over a bright sky / building sign. */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-[#0f1f18]/55 via-transparent to-transparent"
+          className="absolute inset-0 bg-gradient-to-t from-[#0f1f18]/55 via-transparent to-[#0f1f18]/45"
         />
-        <div className="absolute top-4 left-4 flex items-center gap-3 text-[#f4ecd8]">
+        <div className="absolute top-4 left-4 flex items-center gap-3 text-[#f4ecd8] drop-shadow-[0_1px_6px_rgba(0,0,0,0.7)]">
           <span className="font-display italic text-3xl leading-none">
             {ROMAN[index] ?? ""}
           </span>
@@ -85,13 +87,13 @@ export function HotelOverviewCard({
         )}
 
         {!disabled && cta && href && (
-          <div className="mt-6 pt-5 border-t border-[#1a3d2e]/10 flex items-center gap-2 text-[11px] uppercase tracking-[0.24em] font-medium text-[#1a3d2e] group-hover:text-[#0f1f18] transition-colors">
+          <div className="mt-auto pt-5 border-t border-[#1a3d2e]/10 flex items-center gap-2 text-[11px] uppercase tracking-[0.24em] font-medium text-[#1a3d2e] group-hover:text-[#0f1f18] transition-colors">
             <span>{cta}</span>
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </div>
         )}
         {disabled && disabledLabel && (
-          <div className="mt-6 pt-5 border-t border-[#1a3d2e]/10 text-[11px] uppercase tracking-[0.24em] font-medium text-[#1a3d2e]/40">
+          <div className="mt-auto pt-5 border-t border-[#1a3d2e]/10 text-[11px] uppercase tracking-[0.24em] font-medium text-[#1a3d2e]/40">
             {disabledLabel}
           </div>
         )}

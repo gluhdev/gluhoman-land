@@ -25,7 +25,7 @@ export async function generateMetadata({
       locale: locale === "uk" ? "uk_UA" : "en_US",
       images: [
         {
-          url: "/images/hotels/central/40.jpg",
+          url: "/images/hotels/central/15.jpg",
           width: 1920,
           height: 1280,
           alt: t("meta.og_image_alt"),
@@ -229,7 +229,7 @@ export default async function HotelBreweryPage({
       <section className="relative min-h-[92svh] flex items-center justify-center overflow-clip bg-[#0b1410] text-[#f4ecd8] rest-grain">
         <HeroParallax>
           <Image
-            src="/images/hotels/central/40.jpg"
+            src="/images/hotels/central/15.jpg"
             alt={t("hero.img_alt")}
             fill
             priority
