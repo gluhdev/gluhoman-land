@@ -3133,5 +3133,12 @@
   "hotel_brewery.final.title_italic": "f57dc11b987254e9589522b894ea2c65ea6a3273",
   "hotel_brewery.final.body": "093f805f5723be4692141eea1277d734f0c9508c",
   "hotel_brewery.final.cta": "4266d4d55459e0164e67f23630327ab095939aae",
-  "hotel_brewery.final.prefix": "0bd1d8daa980f72329c8b029ce8e8c6992f43119"
+  "hotel_brewery.final.prefix": "0bd1d8daa980f72329c8b029ce8e8c6992f43119",
+  "ui.booking_dialog_hotel.pick_hotel": "3f5c2d64730609bbf01aca364cf9a052833a391e",
+  "ui.booking_dialog_hotel.pick_room": "6f546fa384d82f8ee68b59b331a35d5c61b78411",
+  "ui.booking_dialog_hotel.change_room": "b1e405a71da435a5070dbddfc93a206aaddb9f91",
+  "ui.booking_dialog_hotel.select_room_hint": "c3a5657efe8a36a2cd85dccc6788fcb51fdfab7e",
+  "ui.booking_dialog_hotel.checking_availability": "eb8bc0f8608f8f07886fed51ed2e478e7ebfe258",
+  "ui.booking_dialog_hotel.rooms_free": "70ea94c7a00cd0f889d3a1a5a9d162c913ad4b4b",
+  "ui.booking_dialog_hotel.rooms_none": "29ead2829f35016b0d2bec3b3ea7e950bad94765"
 }

@@ -24,14 +24,21 @@ import {
   Users,
   Sparkles,
 } from "lucide-react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { checkAvailability, type AvailabilityResult } from "@/app/actions/availability";
+import {
+  checkAvailability,
+  getAllRoomPrices,
+  type AvailabilityResult,
+} from "@/app/actions/availability";
 import {
   submitBooking,
   type BookingService,
   type BookingPayload,
 } from "@/app/actions/booking";
 import { CONTACT_INFO } from "@/constants";
+import { HOTEL_CATALOG, type HotelSlug } from "@/lib/hotel-catalog";
+import { BLUR_DATA_URL } from "@/lib/blur-placeholder";
 import { Calendar, toISO, fromISO, type DateRange } from "./Calendar";
 
 const SERVICE_ICONS: Record<BookingService, typeof Hotel> = {
@@ -126,6 +133,10 @@ export default function BookingDialog() {
   const t = useTranslations("ui.booking_dialog");
   const tv = useTranslations("ui.booking_dialog_validation");
   const ts = useTranslations("ui.booking_dialog_services");
+  const th = useTranslations("ui.booking_dialog_hotel");
+  const tcRoot = useTranslations("ui.booking_dialog_counter");
+  // Root translator to resolve catalog name keys across hotel_* / cottages namespaces.
+  const tRoot = useTranslations();
 
   const SERVICES: {
     id: BookingService;
@@ -197,6 +208,9 @@ export default function BookingDialog() {
   const [photoUrl, setPhotoUrlState] = useState<string | undefined>(undefined);
   const [availability, setAvailability] = useState<AvailabilityResult | null>(null);
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  // Multi-hotel room picker (catalog prices + which hotel tab is open)
+  const [catalogPrices, setCatalogPrices] = useState<Record<string, string>>({});
+  const [activeHotelTab, setActiveHotelTab] = useState<HotelSlug>("aquapark");
 
   const [errors, setErrors] = useState<Errors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -272,6 +286,26 @@ export default function BookingDialog() {
     setTimeout(resetAll, 150);
   }, [resetAll]);
 
+  // Load admin-editable room prices once when the hotel service is first opened.
+  useEffect(() => {
+    if (!open || service !== "hotel") return;
+    if (Object.keys(catalogPrices).length > 0) return;
+    let cancelled = false;
+    getAllRoomPrices()
+      .then((p) => {
+        if (!cancelled) setCatalogPrices(p);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [open, service, catalogPrices]);
+
+  // Keep the open hotel tab in sync when a room was deep-link prefilled.
+  useEffect(() => {
+    if (hotelSlug) setActiveHotelTab(hotelSlug);
+  }, [hotelSlug]);
+
   // Real-time availability for the selected hotel room + date range.
   const dateFromISO = dateRange.from ? toISO(dateRange.from) : "";
   const dateToISO = dateRange.to ? toISO(dateRange.to) : "";
@@ -315,6 +349,9 @@ export default function BookingDialog() {
   const validateStep1 = (): Errors => {
     const errs: Errors = {};
     if (service === "hotel") {
+      if (!roomCategorySlug) {
+        errs.roomType = th("select_room_hint");
+      }
       if (!dateRange.from || !dateRange.to) {
         errs.dateFrom = tv("hotel_dates_required");
       } else if (dateRange.to.getTime() <= dateRange.from.getTime()) {
@@ -363,6 +400,29 @@ export default function BookingDialog() {
       setStep(2);
       setSubmitError(null);
     }
+  };
+
+  // Select a room from the picker → populate the same state the deep-link prefill uses.
+  const pickRoom = (
+    hSlug: HotelSlug,
+    room: { slug: string; nameKey: string; priceKey: string; photo: string }
+  ) => {
+    const name = tRoot(room.nameKey as Parameters<typeof tRoot>[0]);
+    const price = catalogPrices[room.priceKey];
+    setHotelSlugState(hSlug);
+    setRoomCategorySlugState(room.slug);
+    setRoomNameState(name);
+    setPhotoUrlState(room.photo);
+    if (price) setPriceLabelState(price);
+    setErrors({});
+  };
+
+  const resetRoom = () => {
+    setRoomCategorySlugState(undefined);
+    setRoomNameState(undefined);
+    setPhotoUrlState(undefined);
+    setPriceLabelState(undefined);
+    setAvailability(null);
   };
 
   const goBack = () => {
@@ -534,23 +594,93 @@ export default function BookingDialog() {
               )}
 
               <fieldset disabled={pending} className="contents">
-                {step === 1 && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {/* Calendar */}
-                    <div className="border border-[#e6d9b8] p-5 bg-[#faf6ec]">
-                      {service === "hotel" ? (
-                        <Calendar
-                          mode="range"
-                          selected={dateRange}
-                          onRangeSelect={setDateRange}
-                        />
-                      ) : (
-                        <Calendar
-                          mode="single"
-                          selected={dateSingle}
-                          onSelect={setDateSingle}
-                        />
+                {/* HOTEL · step 1a — pick hotel + room (no room chosen yet) */}
+                {step === 1 && service === "hotel" && !roomCategorySlug && (
+                  <div className="space-y-6">
+                    <div>
+                      <Label>{th("pick_hotel")}</Label>
+                      <div className="mt-2 flex flex-wrap gap-2">
+                        {HOTEL_CATALOG.map((h) => {
+                          const active = activeHotelTab === h.slug;
+                          return (
+                            <button
+                              key={h.slug}
+                              type="button"
+                              onClick={() => setActiveHotelTab(h.slug)}
+                              className={`px-4 py-2 text-[11px] uppercase tracking-[0.18em] border transition ${
+                                active
+                                  ? "bg-[#1a3d2e] text-[#f4ecd8] border-[#1a3d2e]"
+                                  : "border-[#e6d9b8] text-[#1a3d2e] hover:bg-[#f4ecd8]"
+                              }`}
+                            >
+                              {tRoot(h.nameKey as Parameters<typeof tRoot>[0])}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div>
+                      <Label>{th("pick_room")}</Label>
+                      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {(
+                          HOTEL_CATALOG.find((h) => h.slug === activeHotelTab)
+                            ?.rooms ?? []
+                        ).map((room) => {
+                          const name = tRoot(
+                            room.nameKey as Parameters<typeof tRoot>[0]
+                          );
+                          const price = catalogPrices[room.priceKey];
+                          return (
+                            <button
+                              key={room.slug}
+                              type="button"
+                              onClick={() => pickRoom(activeHotelTab, room)}
+                              className="group flex gap-3 border border-[#e6d9b8] hover:border-[#1a3d2e] p-2 text-left transition"
+                            >
+                              <span className="relative h-16 w-20 flex-shrink-0 overflow-hidden rounded-[3px] ring-1 ring-[#1a3d2e]/10">
+                                <Image
+                                  src={room.photo}
+                                  alt={name}
+                                  fill
+                                  sizes="80px"
+                                  placeholder="blur"
+                                  blurDataURL={BLUR_DATA_URL}
+                                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                />
+                              </span>
+                              <span className="flex-1 min-w-0 flex flex-col justify-center">
+                                <span className="text-sm font-display text-[#1a3d2e] leading-snug">
+                                  {name}
+                                </span>
+                                {price && (
+                                  <span className="text-[11px] text-[#0f1f18]/65 font-display italic mt-0.5 leading-snug line-clamp-2">
+                                    {price}
+                                  </span>
+                                )}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {errors.roomType && (
+                        <p className="mt-2 text-xs text-red-700">
+                          {errors.roomType}
+                        </p>
                       )}
+                    </div>
+                  </div>
+                )}
+
+                {/* HOTEL · step 1b — room chosen: dates + guests */}
+                {step === 1 && service === "hotel" && roomCategorySlug && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="border border-[#e6d9b8] p-5 bg-[#faf6ec]">
+                      <Calendar
+                        mode="range"
+                        selected={dateRange}
+                        onRangeSelect={setDateRange}
+                      />
                       {(errors.dateFrom || errors.dateTo) && (
                         <p className="mt-3 text-xs text-red-700">
                           {errors.dateFrom || errors.dateTo}
@@ -558,20 +688,139 @@ export default function BookingDialog() {
                       )}
                     </div>
 
-                    {/* Service-specific extras */}
                     <div className="space-y-5">
-                      {service === "hotel" && (
-                        <HotelExtras
-                          roomType={roomType}
-                          setRoomType={setRoomType}
-                          adults={adults}
-                          setAdults={setAdults}
-                          childrenCount={children}
-                          setChildrenCount={setChildren}
-                          breakfast={breakfast}
-                          setBreakfast={setBreakfast}
-                        />
+                      {/* Selected room summary */}
+                      <div className="flex gap-3 border border-[#1a3d2e]/20 bg-[#1a3d2e]/[0.04] p-2">
+                        {photoUrl && (
+                          <span className="relative h-16 w-20 flex-shrink-0 overflow-hidden rounded-[3px] ring-1 ring-[#1a3d2e]/10">
+                            <Image
+                              src={photoUrl}
+                              alt={roomName ?? ""}
+                              fill
+                              sizes="80px"
+                              placeholder="blur"
+                              blurDataURL={BLUR_DATA_URL}
+                              className="object-cover"
+                            />
+                          </span>
+                        )}
+                        <span className="flex-1 min-w-0 flex flex-col justify-center">
+                          {roomName && (
+                            <span className="text-sm font-display text-[#1a3d2e] leading-snug">
+                              {roomName}
+                            </span>
+                          )}
+                          {priceLabel && (
+                            <span className="text-[11px] text-[#0f1f18]/65 font-display italic mt-0.5 leading-snug line-clamp-1">
+                              {priceLabel}
+                            </span>
+                          )}
+                          <button
+                            type="button"
+                            onClick={resetRoom}
+                            className="mt-1 self-start text-[10px] uppercase tracking-[0.18em] text-[#1a3d2e]/70 hover:text-[#1a3d2e] underline underline-offset-2"
+                          >
+                            {th("change_room")}
+                          </button>
+                        </span>
+                      </div>
+
+                      {availability?.tracked && (
+                        <p
+                          className={`text-[11px] font-medium uppercase tracking-[0.14em] ${
+                            availability.available > 0
+                              ? "text-[#1a3d2e]"
+                              : "text-[#7a1d1d]"
+                          }`}
+                        >
+                          {availabilityLoading
+                            ? th("checking_availability")
+                            : availability.available > 0
+                              ? th("rooms_free", {
+                                  available: availability.available,
+                                  total: availability.total,
+                                })
+                              : th("rooms_none")}
+                        </p>
                       )}
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <Counter
+                          label={th("adults_label")}
+                          decreaseAria={tcRoot("decrease_aria", { label: th("adults_label") })}
+                          increaseAria={tcRoot("increase_aria", { label: th("adults_label") })}
+                          value={adults}
+                          setValue={setAdults}
+                          min={1}
+                          max={4}
+                        />
+                        <Counter
+                          label={th("children_label")}
+                          decreaseAria={tcRoot("decrease_aria", { label: th("children_label") })}
+                          increaseAria={tcRoot("increase_aria", { label: th("children_label") })}
+                          value={children}
+                          setValue={setChildren}
+                          min={0}
+                          max={4}
+                        />
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => setBreakfast(!breakfast)}
+                        className={`w-full flex items-center justify-between border px-4 py-3 transition ${
+                          breakfast
+                            ? "border-[#1a3d2e] bg-[#f4ecd8]"
+                            : "border-[#e6d9b8] hover:bg-[#f4ecd8]"
+                        }`}
+                      >
+                        <span className="text-sm text-[#0b1410]">{th("breakfast_label")}</span>
+                        <span
+                          className={`h-5 w-9 relative rounded-full transition ${
+                            breakfast ? "bg-[#1a3d2e]" : "bg-[#e6d9b8]"
+                          }`}
+                        >
+                          <span
+                            className={`absolute top-0.5 h-4 w-4 rounded-full transition ${
+                              breakfast ? "left-[18px] bg-[#faf6ec]" : "left-0.5 bg-[#faf6ec]"
+                            }`}
+                          />
+                        </span>
+                      </button>
+
+                      {errors.guests && (
+                        <p className="text-xs text-red-700">{errors.guests}</p>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={goNext}
+                        className="w-full inline-flex items-center justify-center gap-2 bg-[#1a3d2e] text-[#f4ecd8] px-6 py-4 text-[11px] uppercase tracking-[0.22em] hover:bg-[#0f1f18] transition"
+                      >
+                        {t("next_label")}
+                        <ArrowRight className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* OTHER SERVICES · unchanged */}
+                {step === 1 && service !== "hotel" && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="border border-[#e6d9b8] p-5 bg-[#faf6ec]">
+                      <Calendar
+                        mode="single"
+                        selected={dateSingle}
+                        onSelect={setDateSingle}
+                      />
+                      {(errors.dateFrom || errors.dateTo) && (
+                        <p className="mt-3 text-xs text-red-700">
+                          {errors.dateFrom || errors.dateTo}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="space-y-5">
                       {service === "aquapark" && (
                         <AquaparkExtras
                           tariff={tariff}
@@ -755,89 +1004,6 @@ export default function BookingDialog() {
 }
 
 // ── Subcomponents ──────────────────────────────────────────────────────────
-
-function HotelExtras({
-  roomType,
-  setRoomType,
-  adults,
-  setAdults,
-  childrenCount,
-  setChildrenCount,
-  breakfast,
-  setBreakfast,
-}: {
-  roomType: "standard" | "family" | "lux";
-  setRoomType: (v: "standard" | "family" | "lux") => void;
-  adults: number;
-  setAdults: (n: number) => void;
-  childrenCount: number;
-  setChildrenCount: (n: number) => void;
-  breakfast: boolean;
-  setBreakfast: (v: boolean) => void;
-}) {
-  const t = useTranslations("ui.booking_dialog_hotel");
-  const tc = useTranslations("ui.booking_dialog_counter");
-  const rooms: { id: "standard" | "family" | "lux"; label: string; hint: string }[] = [
-    { id: "standard", label: t("room_standard_label"), hint: t("room_standard_hint") },
-    { id: "family", label: t("room_family_label"), hint: t("room_family_hint") },
-    { id: "lux", label: t("room_lux_label"), hint: t("room_lux_hint") },
-  ];
-  return (
-    <div className="space-y-5">
-      <div>
-        <Label>{t("room_type_label")}</Label>
-        <div className="grid grid-cols-3 gap-2 mt-2">
-          {rooms.map((r) => {
-            const active = roomType === r.id;
-            return (
-              <button
-                key={r.id}
-                type="button"
-                onClick={() => setRoomType(r.id)}
-                className={`flex flex-col items-center justify-center border p-3 text-center transition ${
-                  active
-                    ? "border-[#1a3d2e] bg-[#1a3d2e] text-[#f4ecd8]"
-                    : "border-[#e6d9b8] text-[#1a3d2e] hover:bg-[#f4ecd8]"
-                }`}
-              >
-                <span className="font-display text-base">{r.label}</span>
-                <span className="text-[10px] uppercase tracking-[0.15em] opacity-70 mt-1">
-                  {r.hint}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        <Counter label={t("adults_label")} decreaseAria={tc("decrease_aria", { label: t("adults_label") })} increaseAria={tc("increase_aria", { label: t("adults_label") })} value={adults} setValue={setAdults} min={1} max={4} />
-        <Counter label={t("children_label")} decreaseAria={tc("decrease_aria", { label: t("children_label") })} increaseAria={tc("increase_aria", { label: t("children_label") })} value={childrenCount} setValue={setChildrenCount} min={0} max={4} />
-      </div>
-      <button
-        type="button"
-        onClick={() => setBreakfast(!breakfast)}
-        className={`w-full flex items-center justify-between border px-4 py-3 transition ${
-          breakfast
-            ? "border-[#1a3d2e] bg-[#f4ecd8]"
-            : "border-[#e6d9b8] hover:bg-[#f4ecd8]"
-        }`}
-      >
-        <span className="text-sm text-[#0b1410]">{t("breakfast_label")}</span>
-        <span
-          className={`h-5 w-9 relative rounded-full transition ${
-            breakfast ? "bg-[#1a3d2e]" : "bg-[#e6d9b8]"
-          }`}
-        >
-          <span
-            className={`absolute top-0.5 h-4 w-4 rounded-full bg-[#e6d9b8] transition ${
-              breakfast ? "left-[18px] bg-[#faf6ec]" : "left-0.5"
-            }`}
-          />
-        </span>
-      </button>
-    </div>
-  );
-}
 
 function AquaparkExtras({
   tariff,

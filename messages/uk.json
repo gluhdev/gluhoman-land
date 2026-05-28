@@ -2629,7 +2629,14 @@
       "room_lux_hint": "з терасою",
       "adults_label": "Дорослих",
       "children_label": "Дітей",
-      "breakfast_label": "Сніданок включений"
+      "breakfast_label": "Сніданок включений",
+      "pick_hotel": "Оберіть готель",
+      "pick_room": "Оберіть номер",
+      "change_room": "Змінити номер",
+      "select_room_hint": "Оберіть номер, щоб продовжити",
+      "checking_availability": "Перевіряємо наявність…",
+      "rooms_free": "Вільно: {available} з {total}",
+      "rooms_none": "На ці дати немає вільних номерів"
     },
     "booking_dialog_aquapark": {
       "tariff_label": "Тариф",

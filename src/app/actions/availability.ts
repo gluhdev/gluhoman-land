@@ -3,6 +3,34 @@
 import { prisma } from "@/lib/prisma";
 import { roomInventory } from "@/lib/room-inventory";
 
+/**
+ * Load every room-price string from SiteContent in one query, keyed by the
+ * `*.price` content key. Used by the booking dialog's room picker so each
+ * room card shows its admin-editable price. Missing keys simply won't appear
+ * (caller falls back to a default label).
+ */
+export async function getAllRoomPrices(): Promise<Record<string, string>> {
+  try {
+    const rows = await prisma.siteContent.findMany({
+      where: { key: { endsWith: ".price" } },
+      select: { key: true, value: true },
+    });
+    const out: Record<string, string> = {};
+    for (const r of rows) {
+      let parsed: unknown = r.value;
+      try {
+        parsed = JSON.parse(r.value);
+      } catch {
+        /* value stored as plain string */
+      }
+      if (typeof parsed === "string" && parsed.trim()) out[r.key] = parsed;
+    }
+    return out;
+  } catch {
+    return {};
+  }
+}
+
 export interface AvailabilityResult {
   ok: boolean;
   /** total rooms of this category */

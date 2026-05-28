@@ -2629,7 +2629,14 @@
       "room_lux_hint": "with terrace",
       "adults_label": "Adults",
       "children_label": "Children",
-      "breakfast_label": "Breakfast is included"
+      "breakfast_label": "Breakfast is included",
+      "pick_hotel": "Choose a hotel",
+      "pick_room": "Select a number",
+      "change_room": "Change the number",
+      "select_room_hint": "Select a number to continue",
+      "checking_availability": "We check the availability of..",
+      "rooms_free": "Available: {available} from {total}",
+      "rooms_none": "No rooms available for these dates"
     },
     "booking_dialog_aquapark": {
       "tariff_label": "Tariff",
