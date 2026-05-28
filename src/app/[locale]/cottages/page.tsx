@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import Script from "next/script";
 import {
   Clock,
   Coffee,
@@ -384,10 +383,8 @@ export default async function CottagesPage({
 
   return (
     <>
-      <Script
-        id="cottages-jsonld"
+      <script
         type="application/ld+json"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(cottagesJsonLd) }}
       />
 

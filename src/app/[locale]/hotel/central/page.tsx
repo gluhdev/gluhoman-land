@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import Script from "next/script";
 import { Clock, Coffee, Users, Check, Phone, Wifi, Car, Bed } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { HallSlider, type HallSlide } from "@/components/restaurant/HallSlider";
@@ -249,10 +248,8 @@ export default async function HotelCentralPage({
 
   return (
     <>
-      <Script
-        id="hotel-central-jsonld"
+      <script
         type="application/ld+json"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(centralJsonLd) }}
       />
 
@@ -336,6 +333,8 @@ export default async function HotelCentralPage({
                 src="/images/hotels/central/8.jpg"
                 alt={t("hero.img_alt")}
                 fill
+                priority
+                fetchPriority="high"
                 sizes="(min-width: 768px) 50vw, 100vw"
                 className="object-cover"
               />

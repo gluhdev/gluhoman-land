@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import Script from "next/script";
 import {
   Wifi,
   Car,
@@ -173,10 +172,8 @@ export default async function HotelsOverviewPage({
 
   return (
     <>
-      <Script
-        id="hotels-overview-jsonld"
+      <script
         type="application/ld+json"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(hotelsJsonLd) }}
       />
 

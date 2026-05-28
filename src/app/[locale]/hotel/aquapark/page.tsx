@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import Script from "next/script";
 import { Clock, Coffee, Users, Check, Phone, Wifi, Car } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { HallSlider, type HallSlide } from "@/components/restaurant/HallSlider";
@@ -308,10 +307,8 @@ export default async function HotelAquaparkPage({
 
   return (
     <>
-      <Script
-        id="hotel-aquapark-jsonld"
+      <script
         type="application/ld+json"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aquaparkJsonLd) }}
       />
 
@@ -394,6 +391,8 @@ export default async function HotelAquaparkPage({
                 src="/images/hotels/aquapark/exterior/2.jpg"
                 alt={t("hero.img_alt")}
                 fill
+                priority
+                fetchPriority="high"
                 sizes="(min-width: 768px) 50vw, 100vw"
                 className="object-cover"
               />

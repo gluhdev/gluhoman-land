@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import Script from "next/script";
 import { Clock, Coffee, Users, Check, Phone, Wifi, Car } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { Reveal } from "@/components/restaurant/Reveal";
@@ -221,10 +220,8 @@ export default async function HotelBreweryPage({
 
   return (
     <>
-      <Script
-        id="hotel-brewery-jsonld"
+      <script
         type="application/ld+json"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breweryJsonLd) }}
       />
 
