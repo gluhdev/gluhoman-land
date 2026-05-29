@@ -46,6 +46,7 @@ import {
   type PriceTiers,
 } from "@/lib/room-prices";
 import { BLUR_DATA_URL } from "@/lib/blur-placeholder";
+import { roomGallery } from "@/lib/room-gallery";
 import { Calendar, toISO, fromISO, type DateRange } from "./Calendar";
 
 const SERVICE_ICONS: Record<BookingService, typeof Hotel> = {
@@ -215,6 +216,8 @@ export default function BookingDialog() {
   const [photoUrl, setPhotoUrlState] = useState<string | undefined>(undefined);
   const [availability, setAvailability] = useState<AvailabilityResult | null>(null);
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  // Active photo index within the selected room's gallery
+  const [galleryIdx, setGalleryIdx] = useState(0);
   // Multi-hotel room picker — which hotel tab is open
   const [activeHotelTab, setActiveHotelTab] = useState<HotelSlug>("aquapark");
   // Admin price overrides (/admin/rooms) keyed `${hotel}:${slug}`; merged over
@@ -325,6 +328,11 @@ export default function BookingDialog() {
   useEffect(() => {
     if (hotelSlug) setActiveHotelTab(hotelSlug);
   }, [hotelSlug]);
+
+  // Reset the gallery to the first photo whenever the chosen room changes.
+  useEffect(() => {
+    setGalleryIdx(0);
+  }, [roomCategorySlug, hotelSlug]);
 
   // Real-time availability for the selected hotel room + date range.
   const dateFromISO = dateRange.from ? toISO(dateRange.from) : "";
@@ -439,6 +447,8 @@ export default function BookingDialog() {
   // Structured per-occupancy pricing for the currently selected room.
   const selectedTiers = effectiveTiers(hotelSlug, roomCategorySlug);
   const selectedPrice = priceForGuests(selectedTiers, adults);
+  // Booking.com-style photo gallery for the chosen room (falls back to cover)
+  const gallery = roomGallery(hotelSlug, roomCategorySlug, photoUrl);
 
   const resetRoom = () => {
     setRoomCategorySlugState(undefined);
@@ -551,12 +561,18 @@ export default function BookingDialog() {
       role="dialog"
       aria-modal="true"
       aria-labelledby="booking-title"
-      className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center bg-[#0b1410]/80 backdrop-blur-sm p-0 sm:p-6"
+      className="fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-[#0b1410]/80 backdrop-blur-sm"
       onClick={(e) => {
         if (e.target === e.currentTarget) close();
       }}
     >
-      <div className="relative w-full sm:max-w-3xl lg:max-w-5xl h-[100dvh] sm:h-auto sm:max-h-[92vh] overflow-y-auto bg-[#faf6ec] shadow-2xl sm:rounded-[2px] ring-1 ring-[#0b1410]/10">
+      <div
+        className="flex min-h-full items-stretch justify-center sm:items-center sm:p-6"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) close();
+        }}
+      >
+      <div className="relative w-full sm:max-w-3xl lg:max-w-5xl min-h-[100dvh] sm:min-h-0 bg-[#faf6ec] shadow-2xl sm:rounded-[2px] ring-1 ring-[#0b1410]/10">
         {success ? (
           <SuccessScreen onClose={close} bookingId={successId} />
         ) : (
@@ -762,7 +778,74 @@ export default function BookingDialog() {
 
                 {/* HOTEL · step 1b — room chosen: dates + guests */}
                 {step === 1 && service === "hotel" && roomCategorySlug && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-6">
+                    {/* Booking.com-style room photo gallery */}
+                    {gallery.length > 0 && (
+                      <div>
+                        <div className="relative w-full overflow-hidden rounded-[2px] ring-1 ring-[#1a3d2e]/10 aspect-[16/10]">
+                          <Image
+                            key={gallery[galleryIdx]}
+                            src={gallery[galleryIdx]}
+                            alt={roomName ?? ""}
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 1024px"
+                            placeholder="blur"
+                            blurDataURL={BLUR_DATA_URL}
+                            className="object-cover"
+                          />
+                          {/* Room name + change-room control overlaid on the hero */}
+                          <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-3 bg-gradient-to-b from-[#0b1410]/70 to-transparent p-3">
+                            {roomName && (
+                              <h3 className="min-w-0 truncate font-display text-base text-[#faf6ec] drop-shadow">
+                                {roomName}
+                              </h3>
+                            )}
+                            <button
+                              type="button"
+                              onClick={resetRoom}
+                              className="shrink-0 rounded-full bg-[#0b1410]/60 px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-[#f4ecd8] ring-1 ring-[#f4ecd8]/30 transition hover:bg-[#0b1410]/80"
+                            >
+                              {th("change_room")}
+                            </button>
+                          </div>
+                          {gallery.length > 1 && (
+                            <div className="absolute bottom-2 right-2 rounded-full bg-[#0b1410]/70 px-2 py-0.5 text-[11px] text-[#f4ecd8]">
+                              {galleryIdx + 1} / {gallery.length}
+                            </div>
+                          )}
+                        </div>
+                        {gallery.length > 1 && (
+                          <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
+                            {gallery.map((src, i) => (
+                              <button
+                                key={src}
+                                type="button"
+                                onClick={() => setGalleryIdx(i)}
+                                aria-label={`${roomName ?? ""} — ${i + 1} / ${gallery.length}`}
+                                aria-current={i === galleryIdx}
+                                className={`relative h-16 w-24 shrink-0 overflow-hidden rounded-[2px] transition ${
+                                  i === galleryIdx
+                                    ? "ring-2 ring-[#1a3d2e]"
+                                    : "opacity-80 ring-1 ring-[#1a3d2e]/10 hover:opacity-100"
+                                }`}
+                              >
+                                <Image
+                                  src={src}
+                                  alt=""
+                                  fill
+                                  sizes="96px"
+                                  placeholder="blur"
+                                  blurDataURL={BLUR_DATA_URL}
+                                  className="object-cover"
+                                />
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="border border-[#e6d9b8] p-5 bg-[#faf6ec]">
                       <Calendar
                         mode="range"
@@ -940,6 +1023,7 @@ export default function BookingDialog() {
                         <ArrowRight className="h-4 w-4" />
                       </button>
                     </div>
+                    </div>
                   </div>
                 )}
 
@@ -1021,7 +1105,7 @@ export default function BookingDialog() {
                           <img
                             src={photoUrl}
                             alt={roomName ?? ""}
-                            className="h-16 w-20 flex-shrink-0 rounded-[3px] object-cover ring-1 ring-[#1a3d2e]/15"
+                            className="h-24 w-32 sm:h-28 sm:w-40 flex-shrink-0 rounded-[3px] object-cover ring-1 ring-[#1a3d2e]/15"
                             loading="lazy"
                           />
                         )}
@@ -1146,6 +1230,7 @@ export default function BookingDialog() {
             </div>
           </>
         )}
+      </div>
       </div>
     </div>,
     document.body
