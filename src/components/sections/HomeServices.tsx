@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { ArrowUpRight, Calendar, ChevronDown } from "lucide-react";
+import { ArrowUpRight, Calendar } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { HOTEL_CATALOG, type HotelSlug } from "@/lib/hotel-catalog";
 
@@ -155,81 +154,114 @@ const HOTEL_ROOM_COUNTS = HOTEL_CATALOG.reduce<Record<HotelSlug, number>>(
 
 const CORPUS_ORDER: HotelSlug[] = ["aquapark", "central", "brewery", "cottages"];
 
+// Physical room/unit totals per corpus (the catalog tracks categories, not
+// individual rooms, so the absolute counts are curated here).
+const HOTEL_UNIT_COUNTS: Record<HotelSlug, number> = {
+  aquapark: 17,
+  central: 18,
+  brewery: 4,
+  cottages: 4,
+};
+
+// One representative exterior photo per corpus. All verified to exist.
+const CORPUS_IMAGE: Record<HotelSlug, string> = {
+  aquapark: "/images/hotels/aquapark/exterior/1.jpg",
+  central: "/images/hotels/central/1.jpg",
+  brewery: "/images/hotels/central/49.jpg",
+  cottages: "/images/cottages/yaga/1.jpg",
+};
+
 // Root translations resolve the dotted hotel-name keys (uk + en).
-function HotelCorpusExpander({
+function HotelCorpusGrid({
   t,
   tRoot,
 }: {
   t: TFunc;
   tRoot: ReturnType<typeof useTranslations>;
 }) {
-  const [open, setOpen] = useState(false);
-
   return (
-    <div className="mt-8 w-full">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        aria-controls="hotel-corpus-list"
-        className="group inline-flex items-center gap-3 rounded-full border px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors"
-        style={{ borderColor: `${INK}30`, color: INK, backgroundColor: `${INK}05` }}
-      >
-        {open ? t("hotel.expand_hide") : t("hotel.expand_show")}
-        <ChevronDown
-          className={`h-3.5 w-3.5 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
-        />
-      </button>
+    <div className="mt-12 w-full">
+      <div className="mb-6 flex items-center gap-4">
+        <span
+          className="text-[10px] uppercase tracking-[0.3em]"
+          style={{ color: `${INK}99` }}
+        >
+          {t("hotel.expand_heading")}
+        </span>
+        <span className="h-px flex-1" style={{ backgroundColor: `${INK}1A` }} />
+      </div>
 
-      {open && (
-        <div id="hotel-corpus-list" className="mt-6">
-          <p
-            className="mb-4 text-[10px] uppercase tracking-[0.3em]"
-            style={{ color: `${INK}99` }}
-          >
-            {t("hotel.expand_heading")}
-          </p>
-          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {CORPUS_ORDER.map((slug) => {
-              const count = HOTEL_ROOM_COUNTS[slug] ?? 0;
-              return (
-                <li key={slug}>
-                  <Link
-                    href={`/hotel/booking?hotel=${slug}`}
-                    className="group/c flex h-full flex-col gap-1.5 rounded-sm border bg-white p-5 shadow-[0_10px_30px_-18px_rgba(20,36,27,0.45)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_34px_-16px_rgba(20,36,27,0.5)]"
-                    style={{ borderColor: `${INK}1F` }}
+      <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {CORPUS_ORDER.map((slug, i) => {
+          const cats = HOTEL_ROOM_COUNTS[slug] ?? 0;
+          const units = HOTEL_UNIT_COUNTS[slug] ?? 0;
+          const unitsLabel =
+            slug === "cottages"
+              ? t("hotel.units_cottages", { count: units })
+              : t("hotel.units_rooms", { count: units });
+          return (
+            <li key={slug}>
+              <Link
+                href={`/hotel/booking?hotel=${slug}`}
+                className="group/c flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-[0_18px_44px_-26px_rgba(20,36,27,0.55)] ring-1 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_56px_-22px_rgba(20,36,27,0.6)]"
+                style={{ ["--tw-ring-color" as string]: `${INK}14` }}
+              >
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
+                  <Image
+                    src={CORPUS_IMAGE[slug]}
+                    alt={tRoot(`nav.hotel_menu.${slug}.title`)}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    loading={i === 0 ? "eager" : "lazy"}
+                    className="object-cover transition-transform duration-700 ease-out group-hover/c:scale-[1.06]"
+                  />
+                  <div
+                    className="pointer-events-none absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(to top, rgba(15,31,24,0.55) 0%, rgba(15,31,24,0.08) 38%, rgba(15,31,24,0) 60%)",
+                    }}
+                  />
+                  <span
+                    className="absolute left-3 top-3 inline-flex items-center rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] backdrop-blur-sm"
+                    style={{
+                      backgroundColor: `${CREAM}E6`,
+                      color: MOSS,
+                    }}
                   >
-                    <div className="flex items-baseline justify-between gap-3">
-                      <span
-                        className="font-display text-lg leading-tight"
-                        style={{ color: INK }}
-                      >
-                        {tRoot(`nav.hotel_menu.${slug}.title`)}
-                      </span>
-                      <span
-                        className="shrink-0 text-[11px] uppercase tracking-[0.16em]"
-                        style={{ color: MOSS }}
-                      >
-                        {t("hotel.rooms_count", { count })}
-                      </span>
-                    </div>
-                    <p className="text-[13px] leading-snug" style={{ color: `${INK}B3` }}>
-                      {t(`hotel.corpus.${slug}` as Parameters<typeof t>[0])}
-                    </p>
-                    <span
-                      className="mt-1 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] transition-colors"
-                      style={{ color: MOSS }}
-                    >
-                      {t("hotel.corpus_book")}
-                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/c:-translate-y-0.5 group-hover/c:translate-x-0.5" />
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      )}
+                    {t("hotel.rooms_full", {
+                      cats: t("hotel.cats_short", { count: cats }),
+                      units: unitsLabel,
+                    })}
+                  </span>
+                </div>
+
+                <div className="flex flex-1 flex-col gap-2 p-5">
+                  <span
+                    className="font-display text-lg leading-tight"
+                    style={{ color: INK }}
+                  >
+                    {tRoot(`nav.hotel_menu.${slug}.title`)}
+                  </span>
+                  <p
+                    className="text-[13px] leading-snug"
+                    style={{ color: `${INK}B3` }}
+                  >
+                    {t(`hotel.corpus.${slug}` as Parameters<typeof t>[0])}
+                  </p>
+                  <span
+                    className="mt-auto inline-flex items-center gap-2 pt-2 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors"
+                    style={{ color: GOLD }}
+                  >
+                    {t("hotel.corpus_book")}
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/c:-translate-y-0.5 group-hover/c:translate-x-0.5" />
+                  </span>
+                </div>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
@@ -434,7 +466,7 @@ function PanelHotel({
 
         {/* Full-width: all four corpus + room counts */}
         <div className="col-span-12">
-          <HotelCorpusExpander t={t} tRoot={tRoot} />
+          <HotelCorpusGrid t={t} tRoot={tRoot} />
         </div>
       </div>
     </section>

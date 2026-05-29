@@ -96,125 +96,137 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
         isPending ? "opacity-70" : ""
       }`}
     >
-      {/* Step 1 — hotel */}
-      <div>
-        <StepLabel n={1} text={t("step_hotel")} />
-        <div className="mt-2 grid grid-cols-1 gap-2 sm:flex sm:flex-wrap">
-          {hotels.map((h) => {
-            const active = h.slug === current.hotel;
-            return (
-              <button
-                key={h.slug}
-                type="button"
-                onClick={() => setParams({ hotel: h.slug }, { clearRoom: true })}
-                className={`w-full rounded-[2px] px-3.5 py-2.5 text-center text-sm transition sm:w-auto sm:py-2 ${
-                  active
-                    ? "bg-[#1a3d2e] text-[#e6d9b8]"
-                    : "ring-1 ring-[#1a3d2e]/15 text-[#1a3d2e] hover:bg-[#1a3d2e]/5"
-                }`}
-                aria-pressed={active}
-              >
-                {h.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Selected hotel — description + photo (shows right after the hotel choice) */}
-      <div className="mt-5 flex flex-col gap-4 rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10 sm:flex-row sm:items-center">
-        {intro.image && (
-          <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-[2px] sm:h-24 sm:w-40">
-            <Image
-              src={intro.image}
-              alt={intro.label}
-              fill
-              sizes="(max-width: 640px) 100vw, 10rem"
-              className="object-cover"
-            />
-          </div>
-        )}
-        <div>
-          <h2 className="font-display text-xl text-[#1a3d2e] sm:text-2xl">
-            {intro.label}
-          </h2>
-          <p className="mt-1 text-[14px] leading-relaxed text-[#0f1f18]/75">
-            {intro.description}
-          </p>
-        </div>
-      </div>
-
-      {/* Step 2 (dates) + Step 3 (guests) */}
-      <div className="mt-6 grid gap-6 lg:grid-cols-[auto_1fr]">
-        {/* Inline calendar */}
-        <div>
-          <StepLabel n={2} text={t("step_dates")} />
-          <div className="mt-2 w-full max-w-[20rem] rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec]/50 p-3">
-            <Calendar
-              mode="range"
-              minDate={new Date()}
-              selected={range}
-              onRangeSelect={handleRangeSelect}
-            />
-          </div>
-        </div>
-
-        {/* Guests + summary */}
+      {/* Desktop: two-column search block (40/60). Mobile: stacked. */}
+      <div className="grid gap-6 lg:grid-cols-[2fr_3fr] lg:gap-8">
+        {/* LEFT column — Step 1: hotel choice (tabs + intro) */}
         <div className="flex flex-col gap-5">
+          {/* Step 1 — hotel */}
           <div>
-            <StepLabel n={3} text={t("step_guests")} />
-            <div className="mt-2 flex flex-wrap gap-3">
-              <Stepper
-                label={t("adults")}
-                value={current.adults}
-                decreaseAria={adultsDecAria}
-                increaseAria={adultsIncAria}
-                onChange={(n) => setParams({ adults: String(n) })}
-                min={ADULTS_MIN}
-                max={ADULTS_MAX}
-              />
-              <Stepper
-                label={t("children")}
-                value={current.children}
-                decreaseAria={childrenDecAria}
-                increaseAria={childrenIncAria}
-                onChange={(n) => setParams({ children: String(n) })}
-                min={CHILDREN_MIN}
-                max={CHILDREN_MAX}
+            <StepLabel n={1} text={t("step_hotel")} />
+            <div className="mt-2 grid grid-cols-1 gap-2 sm:flex sm:flex-wrap">
+              {hotels.map((h) => {
+                const active = h.slug === current.hotel;
+                return (
+                  <button
+                    key={h.slug}
+                    type="button"
+                    onClick={() =>
+                      setParams({ hotel: h.slug }, { clearRoom: true })
+                    }
+                    className={`w-full rounded-[2px] px-3.5 py-2.5 text-center text-sm transition sm:w-auto sm:py-2 ${
+                      active
+                        ? "bg-[#1a3d2e] text-[#e6d9b8]"
+                        : "ring-1 ring-[#1a3d2e]/15 text-[#1a3d2e] hover:bg-[#1a3d2e]/5"
+                    }`}
+                    aria-pressed={active}
+                  >
+                    {h.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Selected hotel — description + photo (below the hotel choice) */}
+          <div className="flex flex-col gap-4 rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10 sm:flex-row sm:items-center lg:flex-col lg:items-start">
+            {intro.image && (
+              <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-[2px] sm:h-24 sm:w-40 lg:h-44 lg:w-full">
+                <Image
+                  src={intro.image}
+                  alt={intro.label}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 10rem, 40vw"
+                  className="object-cover"
+                />
+              </div>
+            )}
+            <div>
+              <h2 className="font-display text-xl text-[#1a3d2e] sm:text-2xl">
+                {intro.label}
+              </h2>
+              <p className="mt-1 text-[14px] leading-relaxed text-[#0f1f18]/75">
+                {intro.description}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT column — Step 2: dates (calendar) + Step 3: guests + summary */}
+        <div className="flex flex-col gap-6">
+          {/* Inline calendar */}
+          <div>
+            <StepLabel n={2} text={t("step_dates")} />
+            <div className="mt-2 w-full max-w-[20rem] rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec]/50 p-3">
+              <Calendar
+                mode="range"
+                minDate={new Date()}
+                selected={range}
+                onRangeSelect={handleRangeSelect}
               />
             </div>
           </div>
 
-          {/* Selected-range summary / hint */}
-          <div className="rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10">
-            {complete ? (
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="space-y-1 text-[14px] text-[#0f1f18]">
-                  <p>
-                    <span className="text-[#1a3d2e]/60">{t("checkin")}: </span>
-                    <span className="font-medium">{fmtDay(range.from!)}</span>
-                  </p>
-                  <p>
-                    <span className="text-[#1a3d2e]/60">{t("checkout")}: </span>
-                    <span className="font-medium">{fmtDay(range.to!)}</span>
-                  </p>
-                  <p className="text-[13px] text-[#1a3d2e]/70">
-                    {t("nights_count", { count: nights })}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={clearDates}
-                  className="text-[13px] text-[#1a3d2e]/70 underline underline-offset-2 hover:text-[#1a3d2e]"
-                >
-                  {t("clear_dates")}
-                </button>
+          {/* Guests + summary */}
+          <div className="flex flex-col gap-5">
+            <div>
+              <StepLabel n={3} text={t("step_guests")} />
+              <div className="mt-2 flex flex-wrap gap-3">
+                <Stepper
+                  label={t("adults")}
+                  value={current.adults}
+                  decreaseAria={adultsDecAria}
+                  increaseAria={adultsIncAria}
+                  onChange={(n) => setParams({ adults: String(n) })}
+                  min={ADULTS_MIN}
+                  max={ADULTS_MAX}
+                />
+                <Stepper
+                  label={t("children")}
+                  value={current.children}
+                  decreaseAria={childrenDecAria}
+                  increaseAria={childrenIncAria}
+                  onChange={(n) => setParams({ children: String(n) })}
+                  min={CHILDREN_MIN}
+                  max={CHILDREN_MAX}
+                />
               </div>
-            ) : (
-              <p className="text-[13px] leading-relaxed text-[#1a3d2e]/70">
-                {range.from ? t("pick_checkout") : t("select_dates_hint")}
-              </p>
-            )}
+            </div>
+
+            {/* Selected-range summary / hint */}
+            <div className="rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10">
+              {complete ? (
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="space-y-1 text-[14px] text-[#0f1f18]">
+                    <p>
+                      <span className="text-[#1a3d2e]/60">
+                        {t("checkin")}:{" "}
+                      </span>
+                      <span className="font-medium">{fmtDay(range.from!)}</span>
+                    </p>
+                    <p>
+                      <span className="text-[#1a3d2e]/60">
+                        {t("checkout")}:{" "}
+                      </span>
+                      <span className="font-medium">{fmtDay(range.to!)}</span>
+                    </p>
+                    <p className="text-[13px] text-[#1a3d2e]/70">
+                      {t("nights_count", { count: nights })}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={clearDates}
+                    className="text-[13px] text-[#1a3d2e]/70 underline underline-offset-2 hover:text-[#1a3d2e]"
+                  >
+                    {t("clear_dates")}
+                  </button>
+                </div>
+              ) : (
+                <p className="text-[13px] leading-relaxed text-[#1a3d2e]/70">
+                  {range.from ? t("pick_checkout") : t("select_dates_hint")}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       </div>

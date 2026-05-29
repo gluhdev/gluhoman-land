@@ -236,6 +236,10 @@
         "expand_hide": "Згорнути",
         "expand_heading": "Чотири корпуси для бронювання",
         "rooms_count": "{count, plural, one {# категорія номерів} few {# категорії номерів} many {# категорій номерів} other {# категорії номерів}}",
+        "rooms_full": "{cats} · {units}",
+        "cats_short": "{count, plural, one {# категорія} few {# категорії} many {# категорій} other {# категорії}}",
+        "units_rooms": "{count, plural, one {# номер} few {# номери} many {# номерів} other {# номери}}",
+        "units_cottages": "{count, plural, one {# будиночок} few {# будиночки} many {# будиночків} other {# будиночки}}",
         "corpus_book": "Забронювати",
         "corpus": {
           "aquapark": "Номери просто над аквапарком — від люксів з балконом до сімейних мансард.",
