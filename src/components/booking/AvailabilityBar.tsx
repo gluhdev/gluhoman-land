@@ -156,7 +156,7 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
           {/* Inline calendar */}
           <div>
             <StepLabel n={2} text={t("step_dates")} />
-            <div className="mt-2 w-full max-w-[20rem] rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec]/50 p-3">
+            <div className="mt-2 w-full max-w-sm rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec]/50 p-3 sm:p-4">
               <Calendar
                 mode="range"
                 minDate={new Date()}

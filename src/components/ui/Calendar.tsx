@@ -227,22 +227,25 @@ export function Calendar({
           const endpoint = isRangeStart || isRangeEnd || isSingleSel;
 
           const base =
-            "relative h-10 w-10 mx-auto flex items-center justify-center text-sm transition";
+            "relative flex aspect-square w-full items-center justify-center text-[14px] transition";
           let stateCls = "";
           if (isPast) {
-            stateCls = "text-[#1a3d2e]/25 cursor-not-allowed";
+            stateCls = "text-[#1a3d2e]/20 cursor-not-allowed";
           } else if (endpoint) {
             stateCls =
-              "bg-[#e6d9b8] text-[#0f1f18] font-medium rounded-full cursor-pointer";
+              "rounded-lg bg-[#1a3d2e] font-semibold text-[#faf6ec] shadow-sm cursor-pointer";
           } else if (inRange) {
             stateCls =
-              "bg-[#f4ecd8] text-[#1a3d2e] cursor-pointer";
+              "rounded-md bg-[#e6d9b8]/70 font-medium text-[#1a3d2e] cursor-pointer";
+          } else if (isToday) {
+            stateCls =
+              "rounded-lg font-semibold text-[#1a3d2e] ring-1 ring-inset ring-[#c9a95c] hover:bg-[#1a3d2e]/[0.06] cursor-pointer";
           } else {
             stateCls =
-              "text-[#0b1410] hover:bg-[#f4ecd8]/60 rounded-full cursor-pointer";
+              "rounded-lg font-medium text-[#0f1f18] hover:bg-[#1a3d2e]/[0.06] cursor-pointer";
           }
-          if (!inMonth && !endpoint && !inRange) {
-            stateCls += " text-[#1a3d2e]/30";
+          if (!inMonth && !endpoint && !inRange && !isPast) {
+            stateCls += " text-[#1a3d2e]/35";
           }
 
           return (
@@ -258,9 +261,6 @@ export function Calendar({
               aria-pressed={endpoint}
             >
               <span>{d.getDate()}</span>
-              {isToday && !endpoint && (
-                <span className="absolute bottom-1 h-1 w-1 rounded-full bg-[#e6d9b8]" />
-              )}
             </button>
           );
         })}

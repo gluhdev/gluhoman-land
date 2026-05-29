@@ -53,6 +53,20 @@ export default function RoomResults({
   const [avail, setAvail] = useState<Record<string, AvailabilityResult>>({});
   const [, startAvail] = useTransition();
   const panelRef = useRef<HTMLDivElement | null>(null);
+  const roomsRef = useRef<HTMLDivElement | null>(null);
+  const datesMounted = useRef(false);
+
+  // After the guest picks BOTH dates, smoothly scroll down to the room list
+  // (skip the very first render so a deep-linked ?from&to doesn't auto-scroll).
+  useEffect(() => {
+    if (!datesMounted.current) {
+      datesMounted.current = true;
+      return;
+    }
+    if (from && to) {
+      roomsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [from, to]);
 
   // NOTE: deliberately do NOT auto-scroll to the deep-linked room on mount —
   // the page must open from the top (choose dates first). The room is still
@@ -126,7 +140,7 @@ export default function RoomResults({
       />
 
       {rooms.length > 0 && (
-        <div className="mt-8 mb-4">
+        <div ref={roomsRef} className="mt-8 mb-4 scroll-mt-24">
           <h2 className="font-display text-2xl text-[#1a3d2e]">
             {t("choose_room")}
           </h2>
