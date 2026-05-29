@@ -1,6 +1,7 @@
 // src/lib/reservation-notify.ts
 import "server-only";
 import { prisma } from "@/lib/prisma";
+import { CONTACT_INFO } from "@/constants";
 import type { BookingPayload, BookingService } from "@/app/actions/booking";
 
 type ChannelName = "telegram" | "email";
@@ -153,10 +154,51 @@ export interface NotifyResult { anyOk: boolean; hadChannels: boolean }
  * Send Telegram + email for a Booking and persist delivery status on the row.
  * Used by submitBooking (immediate) and markPaid('reservation') (on payment).
  */
+/** Confirmation email sent to the GUEST (their own email). */
+async function sendGuestConfirmation(
+  payload: BookingPayload, bookingId: string, opts: NotifyOpts = {},
+): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const from = process.env.BOOKING_EMAIL_FROM;
+  const to = payload.email?.trim();
+  if (!apiKey || !from || !to) return;
+  const ref = bookingId.slice(0, 8);
+  const subject = opts.paid
+    ? `Бронювання підтверджено — Глухомань (#${ref})`
+    : `Заявку прийнято — Глухомань (#${ref})`;
+  const lines = [
+    opts.paid
+      ? `Дякуємо! Вашу бронь #${ref} підтверджено та оплачено.`
+      : `Дякуємо! Вашу заявку #${ref} прийнято — ми зв'яжемося з вами для підтвердження.`,
+    "",
+    payload.hotelSlug ? `Готель: ${HOTEL_SLUG_LABEL[payload.hotelSlug]}` : "",
+    payload.dateFrom ? `Заїзд: ${payload.dateFrom}` : "",
+    payload.dateTo ? `Виїзд: ${payload.dateTo}` : "",
+    `Гостей: ${payload.guests}`,
+    opts.amount ? `Сума: ${opts.amount} грн` : "",
+    "Сніданок включено.",
+    "",
+    `Контакт: ${CONTACT_INFO.phone?.[0] ?? ""}`,
+  ].filter(Boolean);
+  try {
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${apiKey}` },
+      body: JSON.stringify({ from, to, subject, text: lines.join("\n") }),
+      cache: "no-store",
+    });
+  } catch (e) {
+    console.error("[reservation] guest confirmation failed", e);
+  }
+}
+
 export async function notifyReservation(
   payload: BookingPayload, bookingId: string, opts: NotifyOpts = {}
 ): Promise<NotifyResult> {
   const message = formatMessage(payload, bookingId, opts);
+
+  // Always try to confirm to the guest's own email (fire-and-forget).
+  void sendGuestConfirmation(payload, bookingId, opts);
   const telegramConfigured = !!process.env.TELEGRAM_BOT_TOKEN && !!process.env.TELEGRAM_CHAT_ID;
   const emailConfigured =
     !!process.env.RESEND_API_KEY && !!process.env.BOOKING_EMAIL_FROM && !!process.env.BOOKING_EMAIL_TO;

@@ -150,6 +150,12 @@ export async function createRoomReservation(
   input: RoomReservationInput,
 ): Promise<RoomReservationResult> {
   const guests = input.adults + (input.children ?? 0);
+
+  // Email is required for room reservations (guest confirmation is sent to it).
+  if (!input.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.email.trim())) {
+    return { ok: false, error: "Введіть коректний email" };
+  }
+
   const payload: BookingPayload = {
     service: "hotel",
     name: input.name, phone: input.phone, email: input.email,

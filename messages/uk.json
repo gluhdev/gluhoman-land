@@ -3911,7 +3911,11 @@
     "pick_checkout": "Тепер оберіть дату виїзду",
     "choose_room": "Оберіть номер",
     "rooms_for_dates": "Доступність показана для обраних дат",
-    "rooms_pick_dates_hint": "Оберіть дати вище, щоб побачити вільні номери"
+    "rooms_pick_dates_hint": "Оберіть дати вище, щоб побачити вільні номери",
+    "err_email_required": "Введіть email",
+    "field_email_required": "Email",
+    "email_confirmation_note": "На цей email надійде підтвердження бронювання.",
+    "breakfast_included": "Сніданок включено"
   },
   "booking_hub": {
     "title": "Що бажаєте забронювати?",
