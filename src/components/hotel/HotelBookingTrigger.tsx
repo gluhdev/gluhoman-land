@@ -1,51 +1,32 @@
-"use client";
-
+import Link from "next/link";
 import { Calendar } from "lucide-react";
-import { openBookingDialog } from "@/components/ui/BookingDialog";
 
 interface Props {
   label: string;
   hotelSlug: "aquapark" | "central" | "cottages" | "brewery";
   roomCategorySlug: string;
-  roomName: string;
+  // Retained for call-site compatibility (no longer used for navigation); cleaned up in a later phase.
+  roomName?: string;
   priceLabel?: string;
   photoUrl?: string;
   light?: boolean;
 }
 
 /**
- * Per-room "Забронювати" trigger used on /hotel/aquapark and /hotel/central
- * detail pages. Opens the shared BookingDialog pre-populated with hotel +
- * room context so the resulting submission carries `hotelSlug` and
- * `roomCategorySlug` to the server action — which then routes the Telegram
- * notification to the correct administrator's chat and stores the structured
- * data in the Booking record for the admin panel.
+ * Per-room "Забронювати" trigger used on /hotel/aquapark, /hotel/central,
+ * /hotel/brewery, and /cottages detail pages.
+ * Navigates to the full booking page pre-seeded with hotel + room context
+ * via query params, replacing the previous modal-based flow.
  */
 export function HotelBookingTrigger({
   label,
   hotelSlug,
   roomCategorySlug,
-  roomName,
-  priceLabel,
-  photoUrl,
   light = false,
 }: Props) {
-  const prefillComment = priceLabel
-    ? `Готель: ${labelFor(hotelSlug)} · Номер: ${roomName} · Тариф: ${priceLabel}.`
-    : `Готель: ${labelFor(hotelSlug)} · Номер: ${roomName}.`;
   return (
-    <button
-      type="button"
-      onClick={() =>
-        openBookingDialog("hotel", {
-          comment: prefillComment,
-          hotelSlug,
-          roomCategorySlug,
-          priceLabel,
-          roomName,
-          photoUrl,
-        })
-      }
+    <Link
+      href={`/hotel/booking?hotel=${hotelSlug}&room=${roomCategorySlug}`}
       className={`inline-flex items-center gap-2.5 px-6 py-3.5 text-sm font-medium tracking-wide transition-colors min-h-[44px] ${
         light
           ? "bg-[#e6d9b8] text-[#0f1f18] hover:bg-[#f4ecd8]"
@@ -54,19 +35,6 @@ export function HotelBookingTrigger({
     >
       <Calendar className="w-4 h-4" strokeWidth={2} />
       {label}
-    </button>
+    </Link>
   );
-}
-
-function labelFor(slug: Props["hotelSlug"]): string {
-  switch (slug) {
-    case "aquapark":
-      return "Готель-Аквапарк";
-    case "central":
-      return "Центральний Готель";
-    case "cottages":
-      return "Будиночки";
-    case "brewery":
-      return "Корпус Броварні";
-  }
 }
