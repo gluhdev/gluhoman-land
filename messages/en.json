@@ -3891,5 +3891,9 @@
     "gallery_close": "Close the gallery",
     "submitting": "Wait..",
     "pay_error": "Failed to initiate payment"
+  },
+  "booking_hub": {
+    "title": "What do you want to book?",
+    "subtitle": "Choose a service and we will prepare everything."
   }
 }
