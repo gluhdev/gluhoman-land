@@ -11,7 +11,7 @@
  */
 import "server-only";
 import { prisma } from "@/lib/prisma";
-import { ROOM_PRICES, type PriceTiers } from "@/lib/room-prices";
+import { ROOM_PRICES, priceForGuests, type PriceTiers } from "@/lib/room-prices";
 import { ROOM_INVENTORY } from "@/lib/room-inventory";
 
 export interface RoomConfig {
@@ -149,4 +149,34 @@ export async function resolvedInventory(
     /* ignore */
   }
   return ROOM_INVENTORY[key] ?? null;
+}
+
+/** Number of nights between two dates (min 1). */
+export function nightsBetween(from: Date, to: Date | null | undefined): number {
+  if (!to) return 1;
+  const ms = startOfDayMs(to) - startOfDayMs(from);
+  const n = Math.round(ms / 86_400_000);
+  return Math.max(1, n);
+}
+function startOfDayMs(d: Date): number {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+}
+
+/**
+ * Suggested total price (грн) for a reservation: the per-night tier for the
+ * given guest count (override-aware) × nights. Returns 0 when the room has no
+ * fixed price («за запитом») so the admin must enter the amount manually.
+ */
+export async function suggestedReservationAmount(
+  hotelSlug: string | undefined,
+  roomSlug: string | undefined,
+  guests: number,
+  nights: number
+): Promise<number> {
+  if (!hotelSlug || !roomSlug) return 0;
+  const map = await getRoomConfigMap();
+  const tiers = map[`${hotelSlug}:${roomSlug}`]?.tiers ?? null;
+  const perNight = priceForGuests(tiers, guests);
+  if (!perNight) return 0;
+  return perNight * Math.max(1, nights);
 }

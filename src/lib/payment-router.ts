@@ -20,8 +20,12 @@ import { notifyNewOrder } from '@/lib/order-notify';
 import { notifyNewBooking } from '@/lib/booking-notify';
 import { notifyNewAquaparkTicket } from '@/lib/aquapark-notify';
 import { notifyNewSaunaSlot } from '@/lib/sauna-notify';
+import { prisma } from '@/lib/prisma';
+import { hotelLabel } from '@/lib/admin-hotels';
 
-export type PaymentType = 'order' | 'hotel' | 'aquapark' | 'sauna';
+// 'reservation' = the live Booking model (site form + admin manual booking),
+// distinct from 'hotel' which is the legacy HotelBooking CRM.
+export type PaymentType = 'order' | 'hotel' | 'aquapark' | 'sauna' | 'reservation';
 
 export interface PaymentEntity {
   type: PaymentType;
@@ -43,7 +47,14 @@ export function decodeOrderId(orderId: string): { type: PaymentType; id: string 
   if (idx === -1) return null;
   const prefix = orderId.slice(0, idx);
   const id = orderId.slice(idx + 1);
-  if (prefix !== 'order' && prefix !== 'hotel' && prefix !== 'aquapark' && prefix !== 'sauna') return null;
+  if (
+    prefix !== 'order' &&
+    prefix !== 'hotel' &&
+    prefix !== 'aquapark' &&
+    prefix !== 'sauna' &&
+    prefix !== 'reservation'
+  )
+    return null;
   return { type: prefix as PaymentType, id };
 }
 
@@ -104,6 +115,20 @@ export async function lookupEntity(type: PaymentType, id: string): Promise<Payme
       isPaid: s.paymentStatus === 'paid',
     };
   }
+  if (type === 'reservation') {
+    const b = await prisma.booking.findUnique({ where: { id } });
+    if (!b || !b.totalAmount || b.totalAmount <= 0) return null;
+    return {
+      type: 'reservation',
+      id: b.id,
+      number: 0,
+      total: b.totalAmount,
+      description: `Бронювання — ${hotelLabel(b.hotelSlug)} (Глухомань)`,
+      successPath: `/uk/pay/success?id=${b.id}`,
+      failPath: `/uk/pay/${b.id}?fail=1`,
+      isPaid: b.paymentStatus === 'paid',
+    };
+  }
   return null;
 }
 
@@ -150,6 +175,28 @@ export async function markPaid(
     if (updated) {
       notifyNewSaunaSlot(updated).catch(() => {});
     }
+    return;
+  }
+  if (type === 'reservation') {
+    const b = await prisma.booking.update({
+      where: { id },
+      data: {
+        status: 'CONFIRMED',
+        paymentStatus: 'paid',
+        paymentExternalId: externalId,
+      },
+    });
+    await prisma.payment.upsert({
+      where: { bookingId: id },
+      create: {
+        provider: externalId?.startsWith('stub') ? 'stub' : 'liqpay',
+        externalId,
+        status: 'success',
+        amount: b.totalAmount ?? 0,
+        bookingId: id,
+      },
+      update: { status: 'success', externalId },
+    });
   }
 }
 
@@ -168,5 +215,12 @@ export async function markFailed(type: PaymentType, id: string): Promise<void> {
   }
   if (type === 'sauna') {
     await saunaStorage.updatePayment(id, 'failed');
+    return;
+  }
+  if (type === 'reservation') {
+    await prisma.booking.update({
+      where: { id },
+      data: { paymentStatus: 'failed' },
+    });
   }
 }

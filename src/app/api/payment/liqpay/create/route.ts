@@ -23,7 +23,7 @@ import {
 
 const Schema = z
   .object({
-    entityType: z.enum(['order', 'hotel', 'aquapark', 'sauna']).optional(),
+    entityType: z.enum(['order', 'hotel', 'aquapark', 'sauna', 'reservation']).optional(),
     entityId: z.string().min(1).optional(),
     orderId: z.string().min(1).optional(),
   })

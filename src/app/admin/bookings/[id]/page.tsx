@@ -11,6 +11,8 @@ import {
 } from 'lucide-react';
 import { prisma } from '@/lib/prisma';
 import { StatusActions } from './StatusActions';
+import { PaymentLinkPanel } from './PaymentLinkPanel';
+import { suggestedReservationAmount, nightsBetween } from '@/lib/room-config';
 import type { BookingStatusValue } from '../actions';
 
 export const dynamic = 'force-dynamic';
@@ -76,6 +78,17 @@ export default async function AdminBookingDetailPage({
   const booking = await prisma.booking.findUnique({ where: { id } });
   if (!booking) notFound();
 
+  const nights = nightsBetween(booking.dateFrom, booking.dateTo);
+  const suggestedAmount =
+    booking.service === 'HOTEL'
+      ? await suggestedReservationAmount(
+          booking.hotelSlug ?? undefined,
+          booking.roomCategorySlug ?? undefined,
+          booking.guests,
+          nights
+        )
+      : 0;
+
   return (
     <div className="p-6 lg:p-10 max-w-5xl">
       <Link
@@ -127,6 +140,15 @@ export default async function AdminBookingDetailPage({
           current={booking.status as BookingStatusValue}
         />
       </section>
+
+      {booking.service === 'HOTEL' && (
+        <PaymentLinkPanel
+          bookingId={booking.id}
+          currentAmount={booking.totalAmount ?? null}
+          suggestedAmount={suggestedAmount}
+          paymentStatus={booking.paymentStatus}
+        />
+      )}
 
       {/* Two-column meta */}
       <section className="grid md:grid-cols-2 gap-px bg-[#1a3d2e]/10 border border-[#1a3d2e]/10 mb-10">

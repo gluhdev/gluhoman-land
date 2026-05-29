@@ -61,6 +61,12 @@ model Booking {
   hotelSlug        String?
   roomCategorySlug String?
 
+  // Payment link (admin-generated → LiqPay). totalAmount in грн.
+  totalAmount       Int?
+  paymentStatus     String   @default("unpaid") // unpaid | paid | failed
+  paymentExternalId String?
+  payment           Payment?
+
   // Delivery tracking — did the notification reach the operator?
   telegramStatus DeliveryStatus @default(PENDING)
   telegramError  String?
@@ -306,6 +312,8 @@ model Payment {
   aquaparkTicket   AquaparkTicket? @relation(fields: [aquaparkTicketId], references: [id])
   saunaSlotId      String?         @unique
   saunaSlot        SaunaSlot?      @relation(fields: [saunaSlotId], references: [id])
+  bookingId        String?         @unique
+  booking          Booking?        @relation(fields: [bookingId], references: [id])
 }
 
 // =============================================================================

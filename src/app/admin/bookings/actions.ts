@@ -5,6 +5,47 @@ import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
 import { isHotelSlug } from '@/lib/admin-hotels';
 
+/**
+ * Set the agreed price for a booking so it can be paid online, and return the
+ * public payment-link path (/uk/pay/<id>) the admin sends to the guest. Once
+ * the guest pays via LiqPay, the callback flips the booking to CONFIRMED/paid.
+ * Hotel managers may only touch their own hotel's bookings.
+ */
+export async function createPaymentLink(
+  bookingId: string,
+  amount: number
+): Promise<{ ok: boolean; error?: string; path?: string }> {
+  const session = await auth();
+  if (!session?.user?.id) return { ok: false, error: 'Немає доступу' };
+  if (!bookingId) return { ok: false, error: 'Missing id' };
+
+  const amt = Math.trunc(amount);
+  if (!Number.isFinite(amt) || amt <= 0)
+    return { ok: false, error: 'Вкажіть суму більше 0' };
+
+  const booking = await prisma.booking.findUnique({ where: { id: bookingId } });
+  if (!booking) return { ok: false, error: 'Бронювання не знайдено' };
+
+  const scoped = session.user.hotelSlug ?? null;
+  if (scoped && booking.hotelSlug !== scoped)
+    return { ok: false, error: 'Немає доступу до цього готелю' };
+
+  try {
+    await prisma.booking.update({
+      where: { id: bookingId },
+      data: {
+        totalAmount: amt,
+        // a freshly (re)issued link is unpaid until the guest pays
+        paymentStatus: booking.paymentStatus === 'paid' ? 'paid' : 'unpaid',
+      },
+    });
+    revalidatePath(`/admin/bookings/${bookingId}`);
+    return { ok: true, path: `/uk/pay/${bookingId}` };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : 'Помилка' };
+  }
+}
+
 export type BookingStatusValue = 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'COMPLETED';
 
 export interface ManualBookingInput {
