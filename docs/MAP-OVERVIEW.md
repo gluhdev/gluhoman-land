@@ -25,6 +25,9 @@ Content language in the UI is **Ukrainian** (with English translations). Never i
 | [MAP-ADMIN.md](MAP-ADMIN.md) | Auth & roles, admin shell/nav, every `/admin/*` page, server actions, the SiteContent CMS |
 | [MAP-DATA.md](MAP-DATA.md) | Prisma models (both schemas), hotel/room domain, constants, types, every `src/lib/*` module |
 | [MAP-COMMERCE.md](MAP-COMMERCE.md) | The 4 booking/commerce flows end-to-end, LiqPay payments, Telegram notifications |
+| [MAP-API.md](MAP-API.md) | Every `src/app/api/*` endpoint with method + auth, plus server actions |
+| [MAP-ENV.md](MAP-ENV.md) | All environment variables, grouped, with required/optional notes |
+| [MAP-STYLING.md](MAP-STYLING.md) | Design system: brand palette, fonts, Tailwind v4, the scroll gotcha |
 
 Other long-form docs (older, may be partially stale): `ARCHITECTURE.md`, `SETUP.md`, `TECH_STACK.md`, `DEPLOYMENT.md`, `PRODUCTION.md`, `VPS-SETUP.md`, `CI-CD.md`, `SECURITY.md`, `OPERATIONS.md`, `BOOKING_RUNBOOK.md`, `TELEGRAM_BOT.md`, `BOT-DEPLOY.md`, `CRM_PLAN.md`, `MENU_PAGE_PLAN.md`, plus audit reports (`A11Y-AUDIT.md`, `MOBILE-AUDIT.md`, `FUNCTIONAL-AUDIT.md`, `LIGHTHOUSE-REPORT.md`, `IOS-*.md`).
 
