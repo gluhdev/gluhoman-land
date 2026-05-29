@@ -99,7 +99,7 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
       {/* Step 1 — hotel */}
       <div>
         <StepLabel n={1} text={t("step_hotel")} />
-        <div className="mt-2 flex flex-wrap gap-2">
+        <div className="mt-2 grid grid-cols-1 gap-2 sm:flex sm:flex-wrap">
           {hotels.map((h) => {
             const active = h.slug === current.hotel;
             return (
@@ -107,7 +107,7 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
                 key={h.slug}
                 type="button"
                 onClick={() => setParams({ hotel: h.slug }, { clearRoom: true })}
-                className={`rounded-[2px] px-3.5 py-2 text-sm transition ${
+                className={`w-full rounded-[2px] px-3.5 py-2.5 text-center text-sm transition sm:w-auto sm:py-2 ${
                   active
                     ? "bg-[#1a3d2e] text-[#e6d9b8]"
                     : "ring-1 ring-[#1a3d2e]/15 text-[#1a3d2e] hover:bg-[#1a3d2e]/5"
