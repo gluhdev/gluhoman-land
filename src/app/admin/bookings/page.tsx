@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Phone, Calendar, Users, Mail, MessageSquare, Search } from 'lucide-react';
+import { Phone, Calendar, Users, Mail, MessageSquare, Search, Plus } from 'lucide-react';
 import type { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
@@ -145,15 +145,25 @@ export default async function AdminBookingsListPage({
     <div className="p-6 lg:p-10">
       {/* Header */}
       <header className="mb-10">
-        <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 font-medium">
-          CRM · Замовлення з сайту
-          {scopedHotel && (
-            <span className="text-[#c9a95c]"> · {hotelLabel(scopedHotel)}</span>
-          )}
-        </p>
-        <h1 className="font-display text-4xl lg:text-5xl text-[#1a3d2e] mt-2 leading-[1.1]">
-          Заявки <span className="italic text-[#1a3d2e]/75">на бронювання</span>
-        </h1>
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 font-medium">
+              CRM · Замовлення з сайту
+              {scopedHotel && (
+                <span className="text-[#c9a95c]"> · {hotelLabel(scopedHotel)}</span>
+              )}
+            </p>
+            <h1 className="font-display text-4xl lg:text-5xl text-[#1a3d2e] mt-2 leading-[1.1]">
+              Заявки <span className="italic text-[#1a3d2e]/75">на бронювання</span>
+            </h1>
+          </div>
+          <Link
+            href="/admin/bookings/new"
+            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-3 bg-[#1a3d2e] text-[#f4ecd8] text-[11px] uppercase tracking-[0.22em] font-medium hover:bg-[#0b1410] transition-colors"
+          >
+            <Plus className="h-4 w-4" /> Нове бронювання
+          </Link>
+        </div>
         <div className="mt-5 h-px w-24 bg-[#1a3d2e]/30" />
         <p className="mt-6 text-sm text-[#1a3d2e]/70 max-w-xl leading-relaxed">
           Бронювання, надіслані гостями через форми сайту. Усього{' '}

@@ -150,31 +150,31 @@ function RoomCard({ hotel, room }: { hotel: string; room: RoomRow }) {
               За запитом
             </label>
           </div>
-          {!onRequest && (
-            <div className="space-y-1.5">
-              {Array.from({ length: room.maxGuests }, (_, i) => i + 1).map((g) => (
-                <div key={g} className="flex items-center justify-between gap-2">
-                  <span className="text-sm text-[#1a3d2e]/70">
-                    {g} {g === 1 ? 'гість' : 'гостей'}
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <input
-                      type="number"
-                      inputMode="numeric"
-                      min={0}
-                      value={prices[g] ?? ''}
-                      onChange={(e) =>
-                        setPrices((p) => ({ ...p, [g]: e.target.value }))
-                      }
-                      placeholder="—"
-                      className={inputCls}
-                    />
-                    <span className="text-xs text-[#1a3d2e]/50">грн</span>
-                  </div>
+          <div className={`space-y-1.5 ${onRequest ? 'opacity-50' : ''}`}>
+            {Array.from({ length: room.maxGuests }, (_, i) => i + 1).map((g) => (
+              <div key={g} className="flex items-center justify-between gap-2">
+                <span className="text-sm text-[#1a3d2e]/70">
+                  {g} {g === 1 ? 'гість' : 'гостей'}
+                </span>
+                <div className="flex items-center gap-1">
+                  <input
+                    type="number"
+                    inputMode="numeric"
+                    min={0}
+                    value={prices[g] ?? ''}
+                    onChange={(e) => {
+                      setPrices((p) => ({ ...p, [g]: e.target.value }));
+                      // Typing a price means the room has a fixed price, not «за запитом».
+                      if (e.target.value.trim() !== '') setOnRequest(false);
+                    }}
+                    placeholder="—"
+                    className={inputCls}
+                  />
+                  <span className="text-xs text-[#1a3d2e]/50">грн</span>
                 </div>
-              ))}
-            </div>
-          )}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Inventory */}

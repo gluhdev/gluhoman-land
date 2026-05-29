@@ -30,11 +30,11 @@ const aq = (slug: string, photo: number): CatalogRoom => ({
   photo: `/images/hotels/aquapark/${slug}/${photo}.jpg`,
 });
 
-const ce = (slug: string): CatalogRoom => ({
+const ce = (slug: string, photo: number): CatalogRoom => ({
   slug,
   nameKey: `hotel_central.rooms.${slug}.name`,
   priceKey: `hotel.central.${slug}.price`,
-  photo: "/images/hotels/central/1.jpg",
+  photo: `/images/hotels/central/${photo}.jpg`,
 });
 
 const br = (slug: string, photo: number): CatalogRoom => ({
@@ -68,11 +68,11 @@ export const HOTEL_CATALOG: CatalogHotel[] = [
     slug: "central",
     nameKey: "nav.hotel_menu.central.title",
     rooms: [
-      ce("lux-balcony"),
-      ce("standard-balcony-1f"),
-      ce("standard-balcony-2f"),
-      ce("standard-no-balcony-twin"),
-      ce("standard-no-balcony-double"),
+      ce("lux-balcony", 15),
+      ce("standard-balcony-1f", 20),
+      ce("standard-balcony-2f", 16),
+      ce("standard-no-balcony-twin", 35),
+      ce("standard-no-balcony-double", 17),
     ],
   },
   {
