@@ -22,6 +22,16 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: 'CRM — Глухомань',
   robots: { index: false, follow: false },
+  // Admin renders its own <html>, so set the brand favicon explicitly
+  // (otherwise it falls back to the default app/favicon.ico).
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon-16.png', sizes: '16x16', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
+  },
 };
 
 // Admin routes live outside the [locale] segment, so they don't inherit the

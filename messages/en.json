@@ -3900,7 +3900,15 @@
     "hotel_desc_aquapark": "Rooms by the aquapark — perfect for families with kids and active leisure.",
     "hotel_desc_central": "Cosy rooms in the heart of the complex — next to the restaurant, sauna and aquapark.",
     "hotel_desc_brewery": "Atmospheric rooms in the brewery wing — full of character and charm.",
-    "hotel_desc_cottages": "Private cottages for a secluded getaway in nature."
+    "hotel_desc_cottages": "Private cottages for a secluded getaway in nature.",
+    "step_hotel": "Choose a hotel",
+    "step_dates": "Select the dates",
+    "step_guests": "Guests",
+    "checkin": "Check in",
+    "checkout": "Departure",
+    "nights_count": "{count, plural, one {# night} few {# nights} other {# nights}}",
+    "clear_dates": "Clear",
+    "pick_checkout": "Now select the date of departure"
   },
   "booking_hub": {
     "title": "What do you want to book?",

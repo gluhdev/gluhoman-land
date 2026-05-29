@@ -9,6 +9,14 @@ import ReservePanel from "@/components/booking/ReservePanel";
 import { checkAvailability, type AvailabilityResult } from "@/app/actions/availability";
 import type { RoomVM, BookingHotelSlug } from "@/lib/hotel-rooms";
 
+// Representative exterior/general photo per hotel (matches each hotel page hero).
+const HOTEL_HERO: Record<string, string> = {
+  aquapark: "/images/hotels/aquapark/exterior/1.jpg",
+  central: "/images/hotels/central/1.jpg",
+  brewery: "/images/hotels/central/49.jpg",
+  cottages: "/images/cottages/yaga/1.jpg",
+};
+
 interface Props {
   hotels: { slug: string; label: string }[];
   hotel: BookingHotelSlug;
@@ -39,7 +47,9 @@ export default function RoomResults({
 
   const hotelLabel =
     hotels.find((h) => h.slug === hotel)?.label ?? "";
-  const hotelImage = rooms[0]?.cover;
+  // Representative hotel photo (exterior / general shot) — same images used as
+  // the hero on each hotel's marketing page. NOT a room photo.
+  const hotelImage = HOTEL_HERO[hotel] ?? rooms[0]?.cover;
   const [avail, setAvail] = useState<Record<string, AvailabilityResult>>({});
   const [, startAvail] = useTransition();
   const panelRef = useRef<HTMLDivElement | null>(null);

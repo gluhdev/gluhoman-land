@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { CalendarDays } from "lucide-react";
 import { Calendar, toISO, fromISO, type DateRange } from "../ui/Calendar";
 
 interface Props {
@@ -22,15 +21,14 @@ const ADULTS_MAX = 10;
 const CHILDREN_MIN = 0;
 const CHILDREN_MAX = 6;
 
-function formatRange(from?: string, to?: string): string | null {
-  if (!from || !to) return null;
-  const f = fromISO(from);
-  const t = fromISO(to);
-  const fmt = (d: Date) =>
-    `${String(d.getDate()).padStart(2, "0")}.${String(
-      d.getMonth() + 1
-    ).padStart(2, "0")}`;
-  return `${fmt(f)} – ${fmt(t)}`;
+function fmtDay(d: Date): string {
+  return `${String(d.getDate()).padStart(2, "0")}.${String(
+    d.getMonth() + 1,
+  ).padStart(2, "0")}.${d.getFullYear()}`;
+}
+
+function nightsBetween(from: Date, to: Date): number {
+  return Math.max(1, Math.round((to.getTime() - from.getTime()) / 86400000));
 }
 
 export default function AvailabilityBar({ hotels, current }: Props) {
@@ -42,12 +40,9 @@ export default function AvailabilityBar({ hotels, current }: Props) {
   const sp = useSearchParams();
   const [isPending, start] = useTransition();
 
-  const [datesOpen, setDatesOpen] = useState(false);
-  const popoverRef = useRef<HTMLDivElement | null>(null);
-
   const setParams = (
     kv: Record<string, string | undefined>,
-    opts?: { clearRoom?: boolean }
+    opts?: { clearRoom?: boolean },
   ) => {
     const p = new URLSearchParams(sp.toString());
     for (const [k, v] of Object.entries(kv)) {
@@ -58,37 +53,31 @@ export default function AvailabilityBar({ hotels, current }: Props) {
     start(() => router.replace(`${pathname}?${p.toString()}`, { scroll: false }));
   };
 
-  // Close the dates popover on outside click / Escape.
-  useEffect(() => {
-    if (!datesOpen) return;
-    const onClick = (e: MouseEvent) => {
-      if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
-        setDatesOpen(false);
-      }
-    };
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setDatesOpen(false);
-    };
-    document.addEventListener("mousedown", onClick);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onClick);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [datesOpen]);
-
-  const selectedRange: DateRange = {
+  // Local range state lets the in-progress (first-click) selection persist —
+  // the URL is only written once BOTH ends are chosen.
+  const fromURL = (): DateRange => ({
     from: current.from ? fromISO(current.from) : undefined,
     to: current.to ? fromISO(current.to) : undefined,
+  });
+  const [range, setRange] = useState<DateRange>(fromURL);
+  useEffect(() => {
+    setRange(fromURL());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current.from, current.to]);
+
+  const handleRangeSelect = (r: DateRange) => {
+    setRange(r);
+    if (r.from && r.to) {
+      setParams({ from: toISO(r.from), to: toISO(r.to) });
+    } else if (current.from || current.to) {
+      // first click of a new range — clear the previously committed URL range
+      setParams({ from: undefined, to: undefined });
+    }
   };
 
-  const rangeLabel = formatRange(current.from, current.to);
-
-  const handleRangeSelect = (range: DateRange) => {
-    if (range.from && range.to) {
-      setParams({ from: toISO(range.from), to: toISO(range.to) });
-      setDatesOpen(false);
-    }
+  const clearDates = () => {
+    setRange({ from: undefined, to: undefined });
+    setParams({ from: undefined, to: undefined });
   };
 
   const adultsDecAria = tc("decrease_aria", { label: t("adults") });
@@ -96,106 +85,126 @@ export default function AvailabilityBar({ hotels, current }: Props) {
   const childrenDecAria = tc("decrease_aria", { label: t("children") });
   const childrenIncAria = tc("increase_aria", { label: t("children") });
 
-  const hasDates = Boolean(current.from && current.to);
+  const complete = Boolean(range.from && range.to);
+  const nights = complete ? nightsBetween(range.from!, range.to!) : 0;
 
   return (
-    <div className="sticky top-16 z-30 bg-[#faf6ec]/95 backdrop-blur border-b border-[#e6d9b8]">
-      <div
-        className={`mx-auto max-w-6xl px-4 py-3 sm:px-6 ${
-          isPending ? "opacity-70 pointer-events-none" : ""
-        }`}
-      >
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between lg:gap-4">
-          {/* Hotel tabs (left) */}
-          <div className="flex flex-wrap gap-2">
-            {hotels.map((h) => {
-              const active = h.slug === current.hotel;
-              return (
-                <button
-                  key={h.slug}
-                  type="button"
-                  onClick={() =>
-                    setParams({ hotel: h.slug }, { clearRoom: true })
-                  }
-                  className={`rounded-[2px] px-3 py-2 text-sm transition ${
-                    active
-                      ? "bg-[#1a3d2e] text-[#e6d9b8]"
-                      : "ring-1 ring-[#1a3d2e]/15 text-[#1a3d2e] hover:bg-[#1a3d2e]/5"
-                  }`}
-                  aria-pressed={active}
-                >
-                  {h.label}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Dates (center, prominent) */}
-          <div className="relative lg:flex-1 lg:max-w-sm">
-            <span className="mb-1 block text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70">
-              {t("pick_dates")}
-            </span>
-            <button
-              type="button"
-              onClick={() => setDatesOpen((v) => !v)}
-              className="flex w-full items-center gap-2 rounded-[2px] border border-[#1a3d2e]/20 bg-white px-4 py-2.5 text-[#1a3d2e] transition hover:border-[#1a3d2e]/40"
-              aria-expanded={datesOpen}
-            >
-              <CalendarDays
-                className="h-4 w-4 shrink-0 text-[#1a3d2e]"
-                strokeWidth={1.7}
-              />
-              <span className={rangeLabel ? "" : "text-[#1a3d2e]/55"}>
-                {rangeLabel ?? t("pick_dates_prominent")}
-              </span>
-            </button>
-
-            {datesOpen && (
-              <div
-                ref={popoverRef}
-                className="absolute left-0 top-full z-40 mt-2 w-[calc(100vw-2rem)] max-w-[20rem] rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec] p-3 shadow-lg sm:w-auto"
+    <div
+      className={`rounded-[2px] bg-white p-4 ring-1 ring-[#1a3d2e]/10 sm:p-6 ${
+        isPending ? "opacity-70" : ""
+      }`}
+    >
+      {/* Step 1 — hotel */}
+      <div>
+        <StepLabel n={1} text={t("step_hotel")} />
+        <div className="mt-2 flex flex-wrap gap-2">
+          {hotels.map((h) => {
+            const active = h.slug === current.hotel;
+            return (
+              <button
+                key={h.slug}
+                type="button"
+                onClick={() => setParams({ hotel: h.slug }, { clearRoom: true })}
+                className={`rounded-[2px] px-3.5 py-2 text-sm transition ${
+                  active
+                    ? "bg-[#1a3d2e] text-[#e6d9b8]"
+                    : "ring-1 ring-[#1a3d2e]/15 text-[#1a3d2e] hover:bg-[#1a3d2e]/5"
+                }`}
+                aria-pressed={active}
               >
-                <Calendar
-                  mode="range"
-                  minDate={new Date()}
-                  selected={selectedRange}
-                  onRangeSelect={handleRangeSelect}
-                />
-              </div>
-            )}
-          </div>
+                {h.label}
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-          {/* Guests (right) */}
-          <div className="flex items-end gap-3">
-            <Stepper
-              label={t("adults")}
-              value={current.adults}
-              decreaseAria={adultsDecAria}
-              increaseAria={adultsIncAria}
-              onChange={(n) => setParams({ adults: String(n) })}
-              min={ADULTS_MIN}
-              max={ADULTS_MAX}
-            />
-            <Stepper
-              label={t("children")}
-              value={current.children}
-              decreaseAria={childrenDecAria}
-              increaseAria={childrenIncAria}
-              onChange={(n) => setParams({ children: String(n) })}
-              min={CHILDREN_MIN}
-              max={CHILDREN_MAX}
+      {/* Step 2 (dates) + Step 3 (guests) */}
+      <div className="mt-6 grid gap-6 lg:grid-cols-[auto_1fr]">
+        {/* Inline calendar */}
+        <div>
+          <StepLabel n={2} text={t("step_dates")} />
+          <div className="mt-2 w-full max-w-[20rem] rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec]/50 p-3">
+            <Calendar
+              mode="range"
+              minDate={new Date()}
+              selected={range}
+              onRangeSelect={handleRangeSelect}
             />
           </div>
         </div>
 
-        {/* Hint when no dates chosen yet */}
-        {!hasDates && (
-          <p className="mt-2.5 text-[13px] text-[#1a3d2e]/60">
-            {t("select_dates_hint")}
-          </p>
-        )}
+        {/* Guests + summary */}
+        <div className="flex flex-col gap-5">
+          <div>
+            <StepLabel n={3} text={t("step_guests")} />
+            <div className="mt-2 flex flex-wrap gap-3">
+              <Stepper
+                label={t("adults")}
+                value={current.adults}
+                decreaseAria={adultsDecAria}
+                increaseAria={adultsIncAria}
+                onChange={(n) => setParams({ adults: String(n) })}
+                min={ADULTS_MIN}
+                max={ADULTS_MAX}
+              />
+              <Stepper
+                label={t("children")}
+                value={current.children}
+                decreaseAria={childrenDecAria}
+                increaseAria={childrenIncAria}
+                onChange={(n) => setParams({ children: String(n) })}
+                min={CHILDREN_MIN}
+                max={CHILDREN_MAX}
+              />
+            </div>
+          </div>
+
+          {/* Selected-range summary / hint */}
+          <div className="rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10">
+            {complete ? (
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="space-y-1 text-[14px] text-[#0f1f18]">
+                  <p>
+                    <span className="text-[#1a3d2e]/60">{t("checkin")}: </span>
+                    <span className="font-medium">{fmtDay(range.from!)}</span>
+                  </p>
+                  <p>
+                    <span className="text-[#1a3d2e]/60">{t("checkout")}: </span>
+                    <span className="font-medium">{fmtDay(range.to!)}</span>
+                  </p>
+                  <p className="text-[13px] text-[#1a3d2e]/70">
+                    {t("nights_count", { count: nights })}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={clearDates}
+                  className="text-[13px] text-[#1a3d2e]/70 underline underline-offset-2 hover:text-[#1a3d2e]"
+                >
+                  {t("clear_dates")}
+                </button>
+              </div>
+            ) : (
+              <p className="text-[13px] leading-relaxed text-[#1a3d2e]/70">
+                {range.from ? t("pick_checkout") : t("select_dates_hint")}
+              </p>
+            )}
+          </div>
+        </div>
       </div>
     </div>
+  );
+}
+
+function StepLabel({ n, text }: { n: number; text: string }) {
+  return (
+    <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-[#1a3d2e]/70">
+      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-[#1a3d2e] text-[10px] text-[#e6d9b8]">
+        {n}
+      </span>
+      {text}
+    </span>
   );
 }
 
