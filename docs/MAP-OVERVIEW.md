@@ -31,6 +31,8 @@ Content language in the UI is **Ukrainian** (with English translations). Never i
 | [MAP-DEPLOY.md](MAP-DEPLOY.md) | Docker/VPS deploy, nginx/TLS, CI/CD, Postgres migrations, the `bot/` service, prod gotchas |
 | [MAP-I18N.md](MAP-I18N.md) | Translation namespaces (32) + the `i18n:sync` (DeepL) workflow |
 | [MAP-COMPONENTS.md](MAP-COMPONENTS.md) | Inventory of every `src/components/*` with a one-line purpose |
+| [MAP-BOT.md](MAP-BOT.md) | The standalone `bot/` Telegraf admin bot (separate from the app's notifications) |
+| [README.md](README.md) | Full docs index — `MAP-*` (current) + older reference docs |
 
 Other long-form docs (older, may be partially stale): `ARCHITECTURE.md`, `SETUP.md`, `TECH_STACK.md`, `DEPLOYMENT.md`, `PRODUCTION.md`, `VPS-SETUP.md`, `CI-CD.md`, `SECURITY.md`, `OPERATIONS.md`, `BOOKING_RUNBOOK.md`, `TELEGRAM_BOT.md`, `BOT-DEPLOY.md`, `CRM_PLAN.md`, `MENU_PAGE_PLAN.md`, plus audit reports (`A11Y-AUDIT.md`, `MOBILE-AUDIT.md`, `FUNCTIONAL-AUDIT.md`, `LIGHTHOUSE-REPORT.md`, `IOS-*.md`).
 
