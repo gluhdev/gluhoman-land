@@ -3890,7 +3890,17 @@
     "gallery_open": "Open the gallery",
     "gallery_close": "Close the gallery",
     "submitting": "Wait..",
-    "pay_error": "Failed to initiate payment"
+    "pay_error": "Failed to initiate payment",
+    "price_from": "from",
+    "guests_one": "guest",
+    "guests_few": "guests",
+    "guests_many": "guests",
+    "pick_dates_prominent": "Select check-in and check-out dates",
+    "select_dates_hint": "Select dates to see available rooms and prices",
+    "hotel_desc_aquapark": "Rooms by the aquapark — perfect for families with kids and active leisure.",
+    "hotel_desc_central": "Cosy rooms in the heart of the complex — next to the restaurant, sauna and aquapark.",
+    "hotel_desc_brewery": "Atmospheric rooms in the brewery wing — full of character and charm.",
+    "hotel_desc_cottages": "Private cottages for a secluded getaway in nature."
   },
   "booking_hub": {
     "title": "What do you want to book?",

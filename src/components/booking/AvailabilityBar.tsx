@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { CalendarDays } from "lucide-react";
 import { Calendar, toISO, fromISO, type DateRange } from "../ui/Calendar";
 
 interface Props {
@@ -95,85 +96,104 @@ export default function AvailabilityBar({ hotels, current }: Props) {
   const childrenDecAria = tc("decrease_aria", { label: t("children") });
   const childrenIncAria = tc("increase_aria", { label: t("children") });
 
+  const hasDates = Boolean(current.from && current.to);
+
   return (
-    <div className="sticky top-0 z-30 bg-[#faf6ec]/95 backdrop-blur border-b border-[#e6d9b8]">
+    <div className="sticky top-16 z-30 bg-[#faf6ec]/95 backdrop-blur border-b border-[#e6d9b8]">
       <div
-        className={`mx-auto flex max-w-6xl flex-wrap items-end gap-3 px-4 py-3 sm:gap-4 sm:px-6 ${
+        className={`mx-auto max-w-6xl px-4 py-3 sm:px-6 ${
           isPending ? "opacity-70 pointer-events-none" : ""
         }`}
       >
-        {/* Hotel tabs */}
-        <div className="flex flex-wrap gap-2">
-          {hotels.map((h) => {
-            const active = h.slug === current.hotel;
-            return (
-              <button
-                key={h.slug}
-                type="button"
-                onClick={() => setParams({ hotel: h.slug }, { clearRoom: true })}
-                className={`rounded-[2px] px-3 py-2 text-sm transition ${
-                  active
-                    ? "bg-[#1a3d2e] text-[#e6d9b8]"
-                    : "ring-1 ring-[#1a3d2e]/15 text-[#1a3d2e] hover:bg-[#1a3d2e]/5"
-                }`}
-                aria-pressed={active}
-              >
-                {h.label}
-              </button>
-            );
-          })}
-        </div>
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between lg:gap-4">
+          {/* Hotel tabs (left) */}
+          <div className="flex flex-wrap gap-2">
+            {hotels.map((h) => {
+              const active = h.slug === current.hotel;
+              return (
+                <button
+                  key={h.slug}
+                  type="button"
+                  onClick={() =>
+                    setParams({ hotel: h.slug }, { clearRoom: true })
+                  }
+                  className={`rounded-[2px] px-3 py-2 text-sm transition ${
+                    active
+                      ? "bg-[#1a3d2e] text-[#e6d9b8]"
+                      : "ring-1 ring-[#1a3d2e]/15 text-[#1a3d2e] hover:bg-[#1a3d2e]/5"
+                  }`}
+                  aria-pressed={active}
+                >
+                  {h.label}
+                </button>
+              );
+            })}
+          </div>
 
-        {/* Dates */}
-        <div className="relative">
-          <span className="mb-1 block text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70">
-            {t("pick_dates")}
-          </span>
-          <button
-            type="button"
-            onClick={() => setDatesOpen((v) => !v)}
-            className="rounded-[2px] ring-1 ring-[#1a3d2e]/15 px-3 py-2 text-sm text-[#1a3d2e] hover:bg-[#1a3d2e]/5 transition"
-            aria-expanded={datesOpen}
-          >
-            {rangeLabel ?? t("pick_dates")}
-          </button>
-
-          {datesOpen && (
-            <div
-              ref={popoverRef}
-              className="absolute left-0 top-full z-40 mt-2 w-[calc(100vw-2rem)] max-w-[20rem] rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec] p-3 shadow-lg sm:w-auto"
+          {/* Dates (center, prominent) */}
+          <div className="relative lg:flex-1 lg:max-w-sm">
+            <span className="mb-1 block text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70">
+              {t("pick_dates")}
+            </span>
+            <button
+              type="button"
+              onClick={() => setDatesOpen((v) => !v)}
+              className="flex w-full items-center gap-2 rounded-[2px] border border-[#1a3d2e]/20 bg-white px-4 py-2.5 text-[#1a3d2e] transition hover:border-[#1a3d2e]/40"
+              aria-expanded={datesOpen}
             >
-              <Calendar
-                mode="range"
-                minDate={new Date()}
-                selected={selectedRange}
-                onRangeSelect={handleRangeSelect}
+              <CalendarDays
+                className="h-4 w-4 shrink-0 text-[#1a3d2e]"
+                strokeWidth={1.7}
               />
-            </div>
-          )}
+              <span className={rangeLabel ? "" : "text-[#1a3d2e]/55"}>
+                {rangeLabel ?? t("pick_dates_prominent")}
+              </span>
+            </button>
+
+            {datesOpen && (
+              <div
+                ref={popoverRef}
+                className="absolute left-0 top-full z-40 mt-2 w-[calc(100vw-2rem)] max-w-[20rem] rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec] p-3 shadow-lg sm:w-auto"
+              >
+                <Calendar
+                  mode="range"
+                  minDate={new Date()}
+                  selected={selectedRange}
+                  onRangeSelect={handleRangeSelect}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Guests (right) */}
+          <div className="flex items-end gap-3">
+            <Stepper
+              label={t("adults")}
+              value={current.adults}
+              decreaseAria={adultsDecAria}
+              increaseAria={adultsIncAria}
+              onChange={(n) => setParams({ adults: String(n) })}
+              min={ADULTS_MIN}
+              max={ADULTS_MAX}
+            />
+            <Stepper
+              label={t("children")}
+              value={current.children}
+              decreaseAria={childrenDecAria}
+              increaseAria={childrenIncAria}
+              onChange={(n) => setParams({ children: String(n) })}
+              min={CHILDREN_MIN}
+              max={CHILDREN_MAX}
+            />
+          </div>
         </div>
 
-        {/* Guests */}
-        <div className="flex items-end gap-3">
-          <Stepper
-            label={t("adults")}
-            value={current.adults}
-            decreaseAria={adultsDecAria}
-            increaseAria={adultsIncAria}
-            onChange={(n) => setParams({ adults: String(n) })}
-            min={ADULTS_MIN}
-            max={ADULTS_MAX}
-          />
-          <Stepper
-            label={t("children")}
-            value={current.children}
-            decreaseAria={childrenDecAria}
-            increaseAria={childrenIncAria}
-            onChange={(n) => setParams({ children: String(n) })}
-            min={CHILDREN_MIN}
-            max={CHILDREN_MAX}
-          />
-        </div>
+        {/* Hint when no dates chosen yet */}
+        {!hasDates && (
+          <p className="mt-2.5 text-[13px] text-[#1a3d2e]/60">
+            {t("select_dates_hint")}
+          </p>
+        )}
       </div>
     </div>
   );

@@ -3,7 +3,7 @@
 import { Check, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import RoomGallery from "@/components/booking/RoomGallery";
-import { priceForGuests } from "@/lib/room-prices";
+import { priceForGuests, formatUAH } from "@/lib/room-prices";
 import type { RoomVM } from "@/lib/hotel-rooms";
 import type { AvailabilityResult } from "@/app/actions/availability";
 
@@ -58,9 +58,35 @@ export default function RoomResultCard({
     return t("nights_many", { count: n });
   };
 
+  /** Ukrainian plural rule for guests: 1 (not 11–14) → one; 2–4 (not 12–14) → few; else many. */
+  const pluralGuests = (n: number): string => {
+    const mod10 = n % 10;
+    const mod100 = n % 100;
+    if (mod10 === 1 && mod100 !== 11) return t("guests_one");
+    if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) {
+      return t("guests_few");
+    }
+    return t("guests_many");
+  };
+
   const perNight =
     hasDates && room.tiers ? priceForGuests(room.tiers, guests) : null;
   const hasStayTotal = typeof perNight === "number";
+
+  // Per-occupancy tiers, sorted by guest count, for the price pills.
+  const tierRows = room.tiers
+    ? Object.entries(room.tiers)
+        .map(([g, price]) => ({ guests: Number(g), price }))
+        .sort((a, b) => a.guests - b.guests)
+    : [];
+
+  // Which pill matches the chosen guest count (highlight when dates are set).
+  const activeTierGuests =
+    hasStayTotal && tierRows.length
+      ? tierRows.reduce((best, row) =>
+          row.guests <= guests && row.guests >= best.guests ? row : best,
+        tierRows[0]).guests
+      : null;
 
   // Availability badge state (only meaningful when dates are chosen).
   const showAvailability = hasDates;
@@ -160,43 +186,73 @@ export default function RoomResultCard({
             </div>
           )}
 
-          {/* Price + CTA */}
-          <div className="mt-auto pt-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              {hasStayTotal ? (
-                <>
-                  <p className="font-display text-3xl text-[#1a3d2e] leading-none">
-                    {perNight! * nights} грн
-                  </p>
-                  <p className="mt-1 text-[13px] text-[#0f1f18]/70">
-                    {t("total_for_stay", { nights: nightsLabel(nights) })}
-                  </p>
-                  <p className="mt-0.5 text-[12px] text-[#1a3d2e]/55">
-                    {perNight} грн {t("per_night")}
-                  </p>
-                </>
-              ) : (
+          {/* Price block */}
+          <div className="mt-auto pt-5">
+            {hasStayTotal ? (
+              <>
                 <p className="font-display text-3xl text-[#1a3d2e] leading-none">
-                  {room.priceLabel}
+                  {formatUAH(perNight! * nights)} грн
                 </p>
-              )}
-            </div>
-
-            <div className="flex flex-col items-stretch sm:items-end gap-1.5">
-              <button
-                type="button"
-                onClick={onReserve}
-                disabled={ctaDisabled}
-                className={`w-full sm:w-auto rounded-[2px] px-6 py-3 text-[15px] font-medium transition ${ctaClass}`}
-              >
-                {t("reserve")}
-              </button>
-              {!hasDates && (
-                <span className="text-[12px] text-[#1a3d2e]/55 text-center sm:text-right">
-                  {t("change_dates_first")}
+                <p className="mt-1 text-[13px] text-[#0f1f18]/70">
+                  {t("total_for_stay", { nights: nightsLabel(nights) })}
+                </p>
+                <p className="mt-0.5 text-[12px] text-[#1a3d2e]/55">
+                  {formatUAH(perNight!)} грн {t("per_night")}
+                </p>
+              </>
+            ) : room.tiers ? (
+              <p className="flex items-baseline gap-1.5">
+                <span className="font-display text-2xl text-[#1a3d2e] leading-none">
+                  {t("price_from")} {formatUAH(room.priceFrom!)} грн
                 </span>
-              )}
-            </div>
+                <span className="text-[12px] text-[#1a3d2e]/55">
+                  / {t("per_night")}
+                </span>
+              </p>
+            ) : (
+              <p className="font-display text-2xl text-[#1a3d2e] leading-none">
+                {room.priceLabel}
+              </p>
+            )}
+
+            {/* Per-occupancy pills */}
+            {tierRows.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {tierRows.map((row) => {
+                  const active = row.guests === activeTierGuests;
+                  return (
+                    <span
+                      key={row.guests}
+                      className={`inline-flex items-center gap-1.5 rounded-full border border-[#1a3d2e]/12 bg-[#1a3d2e]/[0.03] px-3 py-1 text-[13px] text-[#1a3d2e]${
+                        active ? " ring-2 ring-[#c9a95c]" : ""
+                      }`}
+                    >
+                      {row.guests} {pluralGuests(row.guests)} ·{" "}
+                      <span className="font-medium tabular-nums">
+                        {formatUAH(row.price)} ₴
+                      </span>
+                    </span>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* CTA */}
+          <div className="mt-4 flex flex-col items-stretch gap-1.5 sm:flex-row sm:items-center sm:justify-end">
+            <button
+              type="button"
+              onClick={onReserve}
+              disabled={ctaDisabled}
+              className={`w-full sm:w-auto rounded-[2px] px-6 py-3 text-[15px] font-medium transition ${ctaClass}`}
+            >
+              {t("reserve")}
+            </button>
+            {!hasDates && (
+              <span className="text-[12px] text-[#1a3d2e]/55 text-center sm:text-right">
+                {t("change_dates_first")}
+              </span>
+            )}
           </div>
         </div>
       </div>
