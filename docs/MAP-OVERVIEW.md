@@ -28,6 +28,9 @@ Content language in the UI is **Ukrainian** (with English translations). Never i
 | [MAP-API.md](MAP-API.md) | Every `src/app/api/*` endpoint with method + auth, plus server actions |
 | [MAP-ENV.md](MAP-ENV.md) | All environment variables, grouped, with required/optional notes |
 | [MAP-STYLING.md](MAP-STYLING.md) | Design system: brand palette, fonts, Tailwind v4, the scroll gotcha |
+| [MAP-DEPLOY.md](MAP-DEPLOY.md) | Docker/VPS deploy, nginx/TLS, CI/CD, Postgres migrations, the `bot/` service, prod gotchas |
+| [MAP-I18N.md](MAP-I18N.md) | Translation namespaces (32) + the `i18n:sync` (DeepL) workflow |
+| [MAP-COMPONENTS.md](MAP-COMPONENTS.md) | Inventory of every `src/components/*` with a one-line purpose |
 
 Other long-form docs (older, may be partially stale): `ARCHITECTURE.md`, `SETUP.md`, `TECH_STACK.md`, `DEPLOYMENT.md`, `PRODUCTION.md`, `VPS-SETUP.md`, `CI-CD.md`, `SECURITY.md`, `OPERATIONS.md`, `BOOKING_RUNBOOK.md`, `TELEGRAM_BOT.md`, `BOT-DEPLOY.md`, `CRM_PLAN.md`, `MENU_PAGE_PLAN.md`, plus audit reports (`A11Y-AUDIT.md`, `MOBILE-AUDIT.md`, `FUNCTIONAL-AUDIT.md`, `LIGHTHOUSE-REPORT.md`, `IOS-*.md`).
 
@@ -102,8 +105,10 @@ prisma/
   migrations/, seed.ts, dev.db
 messages/
   uk.json, en.json          # Translations (+ .hashes.json tracking)
-scripts/i18n/               # sync.ts, sync-menu.ts, check.ts, glossary.ts
+scripts/                    # i18n/ (sync, check, glossary) + deploy/ops (vps-*.sh, nginx, backup, seed-admin, migrate-sqlite-to-postgres)
 docs/                       # This documentation
+bot/                        # SEPARATE Telegram (Telegraf) bot service — own package.json, Dockerfile, prisma, src
+Dockerfile, docker-compose*.yml, .github/workflows/   # Containerization + CI/CD — see MAP-DEPLOY.md
 ```
 
 ## Key architectural facts to remember
