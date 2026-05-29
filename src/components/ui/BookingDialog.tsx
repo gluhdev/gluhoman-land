@@ -28,6 +28,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import {
   checkAvailability,
+  getRoomPriceOverrides,
   type AvailabilityResult,
 } from "@/app/actions/availability";
 import {
@@ -42,6 +43,7 @@ import {
   priceForGuests,
   priceFrom,
   formatUAH,
+  type PriceTiers,
 } from "@/lib/room-prices";
 import { BLUR_DATA_URL } from "@/lib/blur-placeholder";
 import { Calendar, toISO, fromISO, type DateRange } from "./Calendar";
@@ -215,6 +217,11 @@ export default function BookingDialog() {
   const [availabilityLoading, setAvailabilityLoading] = useState(false);
   // Multi-hotel room picker — which hotel tab is open
   const [activeHotelTab, setActiveHotelTab] = useState<HotelSlug>("aquapark");
+  // Admin price overrides (/admin/rooms) keyed `${hotel}:${slug}`; merged over
+  // static room-prices.ts so admin edits show in the dialog immediately.
+  const [priceOverrides, setPriceOverrides] = useState<
+    Record<string, PriceTiers | null>
+  >({});
 
   const [errors, setErrors] = useState<Errors>({});
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -224,6 +231,30 @@ export default function BookingDialog() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
+
+  // Load admin price overrides once on mount (cheap single query, cached map).
+  useEffect(() => {
+    let active = true;
+    getRoomPriceOverrides()
+      .then((map) => {
+        if (active) setPriceOverrides(map);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // Effective tiers = admin override (if any) → static room-prices.ts default.
+  const effectiveTiers = useCallback(
+    (hotel: string | undefined, slug: string | undefined): PriceTiers | null => {
+      if (!hotel || !slug) return null;
+      const key = `${hotel}:${slug}`;
+      if (key in priceOverrides) return priceOverrides[key];
+      return priceTiers(hotel, slug);
+    },
+    [priceOverrides]
+  );
 
   const resetAll = useCallback(() => {
     setStep(1);
@@ -406,7 +437,7 @@ export default function BookingDialog() {
   };
 
   // Structured per-occupancy pricing for the currently selected room.
-  const selectedTiers = priceTiers(hotelSlug, roomCategorySlug);
+  const selectedTiers = effectiveTiers(hotelSlug, roomCategorySlug);
   const selectedPrice = priceForGuests(selectedTiers, adults);
 
   const resetRoom = () => {
@@ -672,7 +703,7 @@ export default function BookingDialog() {
                           const name = tRoot(
                             room.nameKey as Parameters<typeof tRoot>[0]
                           );
-                          const tiers = priceTiers(activeHotelTab, room.slug);
+                          const tiers = effectiveTiers(activeHotelTab, room.slug);
                           const from = priceFrom(tiers);
                           return (
                             <button

@@ -7,9 +7,13 @@ import {
   Clock,
   CheckCircle2,
   ArrowRight,
+  Inbox,
+  Calendar,
 } from 'lucide-react';
 import { prisma } from '@/lib/prisma';
 import { formatPrice } from '@/types/cart';
+import { auth } from '@/lib/auth';
+import { hotelLabel } from '@/lib/admin-hotels';
 
 export const dynamic = 'force-dynamic';
 
@@ -58,6 +62,12 @@ const STATUS_LABEL: Record<string, string> = {
 };
 
 export default async function AdminDashboard() {
+  const session = await auth();
+  const scopedHotel = session?.user?.hotelSlug ?? null;
+  if (scopedHotel) {
+    return <HotelAdminDashboard hotelSlug={scopedHotel} />;
+  }
+
   const stats = await loadStats();
 
   return (
@@ -185,7 +195,7 @@ export default async function AdminDashboard() {
               icon={<UtensilsCrossed className="h-4 w-4" />}
             />
             <QuickTile
-              href="/admin/hotel/rooms"
+              href="/admin/rooms"
               eyebrow="III"
               label="Номери"
               icon={<Hotel className="h-4 w-4" />}
@@ -195,6 +205,167 @@ export default async function AdminDashboard() {
               eyebrow="IV"
               label="Тарифи"
               icon={<Banknote className="h-4 w-4" />}
+            />
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+// ── Per-hotel admin dashboard (User.hotelSlug set) ───────────────────────────
+async function loadHotelStats(hotelSlug: string) {
+  const now = new Date();
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  const [todayCheckIns, monthCount, pendingCount, total, recent] = await Promise.all([
+    prisma.booking.count({
+      where: {
+        hotelSlug,
+        status: { not: 'CANCELLED' },
+        dateFrom: { gte: startOfDay, lt: new Date(startOfDay.getTime() + 86_400_000) },
+      },
+    }),
+    prisma.booking.count({ where: { hotelSlug, createdAt: { gte: startOfMonth } } }),
+    prisma.booking.count({ where: { hotelSlug, status: 'PENDING' } }),
+    prisma.booking.count({ where: { hotelSlug } }),
+    prisma.booking.findMany({
+      where: { hotelSlug },
+      orderBy: { createdAt: 'desc' },
+      take: 6,
+    }),
+  ]);
+
+  return { todayCheckIns, monthCount, pendingCount, total, recent };
+}
+
+const BOOKING_STATUS_LABEL: Record<string, string> = {
+  PENDING: 'Очікує',
+  CONFIRMED: 'Підтверджено',
+  COMPLETED: 'Виконано',
+  CANCELLED: 'Скасовано',
+};
+
+async function HotelAdminDashboard({ hotelSlug }: { hotelSlug: string }) {
+  const stats = await loadHotelStats(hotelSlug);
+  const label = hotelLabel(hotelSlug);
+
+  return (
+    <div className="p-6 lg:p-10">
+      <div className="mb-10">
+        <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 font-medium">
+          Огляд · {label}
+        </p>
+        <h1 className="font-display text-4xl lg:text-5xl text-[#1a3d2e] mt-2 leading-[1.1]">
+          Бронювання{' '}
+          <span className="italic text-[#1a3d2e]/80">вашого готелю</span>
+        </h1>
+        <div className="mt-5 h-px w-24 bg-[#1a3d2e]/30" />
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 border-y border-[#1a3d2e]/15 mb-12">
+        <StatCell
+          eyebrow="Заїзди сьогодні"
+          value={stats.todayCheckIns.toString()}
+          hint="на сьогодні"
+          icon={<Calendar className="h-4 w-4" />}
+        />
+        <StatCell
+          eyebrow="За місяць"
+          value={stats.monthCount.toString()}
+          hint="нових заявок"
+          icon={<Inbox className="h-4 w-4" />}
+        />
+        <StatCell
+          eyebrow="Очікують"
+          value={stats.pendingCount.toString()}
+          hint="підтвердження"
+          icon={<Clock className="h-4 w-4" />}
+        />
+        <StatCell
+          eyebrow="Всього"
+          value={stats.total.toString()}
+          hint="за весь час"
+          icon={<CheckCircle2 className="h-4 w-4" />}
+          last
+        />
+      </div>
+
+      <div className="grid lg:grid-cols-5 gap-10">
+        <section className="lg:col-span-3">
+          <div className="flex items-end justify-between mb-5">
+            <div>
+              <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 font-medium">
+                Хронологія · I
+              </p>
+              <h2 className="font-display text-2xl text-[#1a3d2e] mt-1">
+                Останні <span className="italic">заявки</span>
+              </h2>
+            </div>
+            <Link
+              href="/admin/bookings"
+              className="inline-flex items-center gap-1 text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e] font-medium hover:text-[#0b1410]"
+            >
+              Усі <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
+
+          <div className="border-t border-[#1a3d2e]/15">
+            {stats.recent.length === 0 ? (
+              <div className="py-12 text-center text-sm italic text-[#1a3d2e]/50 font-display">
+                Заявок ще немає
+              </div>
+            ) : (
+              <ul>
+                {stats.recent.map((b) => (
+                  <li key={b.id} className="border-b border-[#1a3d2e]/10">
+                    <Link
+                      href={`/admin/bookings/${b.id}`}
+                      className="flex items-center justify-between gap-4 py-4 hover:bg-[#1a3d2e]/5 transition-colors px-1"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm text-[#1a3d2e] truncate">{b.name}</p>
+                        <p className="text-[10px] uppercase tracking-[0.22em] text-[#1a3d2e]/50 font-medium mt-0.5">
+                          {BOOKING_STATUS_LABEL[b.status] ?? b.status} · {b.phone}
+                        </p>
+                      </div>
+                      <span className="font-display text-[#1a3d2e] tabular-nums whitespace-nowrap text-sm">
+                        {new Intl.DateTimeFormat('uk-UA', {
+                          day: '2-digit',
+                          month: '2-digit',
+                        }).format(b.dateFrom)}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </section>
+
+        <section className="lg:col-span-2">
+          <div className="mb-5">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 font-medium">
+              Розділи · II
+            </p>
+            <h2 className="font-display text-2xl text-[#1a3d2e] mt-1">
+              Швидкий <span className="italic">доступ</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 gap-px bg-[#1a3d2e]/15 border border-[#1a3d2e]/15">
+            <QuickTile
+              href="/admin/bookings?status=PENDING"
+              eyebrow="I"
+              label="Нові заявки"
+              icon={<Inbox className="h-4 w-4" />}
+            />
+            <QuickTile
+              href="/admin/rooms"
+              eyebrow="II"
+              label="Номери"
+              icon={<Hotel className="h-4 w-4" />}
             />
           </div>
         </section>

@@ -54,6 +54,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           email: user.email,
           name: user.name ?? undefined,
           role: user.role,
+          hotelSlug: user.hotelSlug ?? null,
         };
       },
     }),
@@ -63,6 +64,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (user) {
         token.id = user.id;
         token.role = (user as { role?: string }).role ?? 'admin';
+        token.hotelSlug = (user as { hotelSlug?: string | null }).hotelSlug ?? null;
       }
       return token;
     },
@@ -70,6 +72,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (session.user) {
         (session.user as { id?: string }).id = token.id as string;
         (session.user as { role?: string }).role = (token.role as string) ?? 'admin';
+        (session.user as { hotelSlug?: string | null }).hotelSlug =
+          (token.hotelSlug as string | null) ?? null;
       }
       return session;
     },

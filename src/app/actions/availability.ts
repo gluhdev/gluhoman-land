@@ -1,7 +1,20 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { roomInventory } from "@/lib/room-inventory";
+import { resolvedInventory, getPriceOverrides } from "@/lib/room-config";
+import type { PriceTiers } from "@/lib/room-prices";
+
+/**
+ * Admin price overrides (from /admin/rooms), keyed `${hotel}:${slug}`.
+ * The booking dialog merges these over the static room-prices.ts defaults so
+ * edits made in the admin take effect immediately. A key present with value
+ * null means «Ціна за запитом».
+ */
+export async function getRoomPriceOverrides(): Promise<
+  Record<string, PriceTiers | null>
+> {
+  return getPriceOverrides();
+}
 
 /**
  * Load every room-price string from SiteContent in one query, keyed by the
@@ -58,7 +71,7 @@ export async function checkAvailability(
   fromISO: string,
   toISO: string
 ): Promise<AvailabilityResult> {
-  const total = roomInventory(hotelSlug, roomCategorySlug);
+  const total = await resolvedInventory(hotelSlug, roomCategorySlug);
   if (total == null) {
     return { ok: true, total: 0, booked: 0, available: 0, tracked: false };
   }

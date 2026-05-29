@@ -8,37 +8,52 @@ import {
   LayoutDashboard,
   ShoppingBag,
   Inbox,
+  BedDouble,
   UtensilsCrossed,
   Hotel,
   Waves,
   Flame,
   FileText,
+  Users,
   LogOut,
   Menu as MenuIcon,
   X,
 } from 'lucide-react';
 import type { Session } from 'next-auth';
+import { hotelLabel } from '@/lib/admin-hotels';
 
 interface Props {
   children: ReactNode;
   session: Session | null;
 }
 
-const NAV = [
+interface NavItem {
+  href: string;
+  label: string;
+  icon: typeof LayoutDashboard;
+  exact?: boolean;
+  superAdminOnly?: boolean;
+}
+
+const NAV: NavItem[] = [
   { href: '/admin', label: 'Огляд', icon: LayoutDashboard, exact: true },
   { href: '/admin/orders', label: 'Замовлення', icon: ShoppingBag },
   { href: '/admin/bookings', label: 'Заявки', icon: Inbox },
+  { href: '/admin/rooms', label: 'Номери', icon: BedDouble },
   { href: '/admin/menu', label: 'Меню', icon: UtensilsCrossed },
   { href: '/admin/hotel', label: 'Готель', icon: Hotel },
   { href: '/admin/aquapark', label: 'Аквапарк', icon: Waves },
   { href: '/admin/sauna', label: 'Лазня', icon: Flame },
   { href: '/admin/content', label: 'Контент сайту', icon: FileText },
+  { href: '/admin/staff', label: 'Адміністратори', icon: Users, superAdminOnly: true },
 ];
 
 const SECTION_LABEL: Record<string, string> = {
   '/admin': 'Огляд',
   '/admin/orders': 'Замовлення',
   '/admin/bookings': 'Заявки',
+  '/admin/rooms': 'Номери',
+  '/admin/staff': 'Адміністратори',
   '/admin/menu': 'Меню',
   '/admin/hotel': 'Готель',
   '/admin/aquapark': 'Аквапарк',
@@ -159,7 +174,9 @@ function Sidebar({
 
       {/* Nav */}
       <nav className="flex-1 -mx-6">
-        {NAV.map((item) => {
+        {NAV.filter(
+          (item) => !item.superAdminOnly || !session?.user?.hotelSlug
+        ).map((item) => {
           const isActive = item.exact
             ? pathname === item.href
             : pathname.startsWith(item.href);
@@ -191,8 +208,10 @@ function Sidebar({
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-sm text-[#f4ecd8] truncate">{session.user.email}</p>
-              <p className="text-[10px] uppercase tracking-[0.22em] text-[#e6d9b8]/50 font-medium mt-0.5">
-                Адміністратор
+              <p className="text-[10px] uppercase tracking-[0.22em] text-[#c9a95c] font-medium mt-0.5 truncate">
+                {session.user.hotelSlug
+                  ? hotelLabel(session.user.hotelSlug)
+                  : 'Головний адміністратор'}
               </p>
             </div>
           </div>

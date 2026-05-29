@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { Phone, Calendar, Users, Mail, MessageSquare, Search } from 'lucide-react';
 import type { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/lib/auth';
+import { ADMIN_HOTELS, HOTEL_LABEL, hotelLabel } from '@/lib/admin-hotels';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,12 +29,6 @@ const SERVICE_LABEL: Record<string, string> = {
   SAUNA: 'Лазня',
 };
 
-const HOTEL_LABEL: Record<string, string> = {
-  aquapark: 'Готель-Аквапарк',
-  central: 'Центральний Готель',
-  cottages: 'Будиночки',
-};
-
 const STATUS_FILTERS = [
   { id: 'all', label: 'Усі' },
   { id: 'PENDING', label: 'Очікують' },
@@ -43,9 +39,7 @@ const STATUS_FILTERS = [
 
 const HOTEL_FILTERS = [
   { id: 'all', label: 'Усі готелі' },
-  { id: 'aquapark', label: 'Аквапарк' },
-  { id: 'central', label: 'Центральний' },
-  { id: 'cottages', label: 'Будиночки' },
+  ...ADMIN_HOTELS.map((h) => ({ id: h.slug, label: h.label })),
 ];
 
 const SERVICE_FILTERS = [
@@ -79,16 +73,22 @@ export default async function AdminBookingsListPage({
   }>;
 }) {
   const sp = await searchParams;
+  const session = await auth();
+  // Hotel admins (User.hotelSlug set) are locked to their own hotel; the
+  // hotel filter is hidden and the param ignored. Super-admins (null) see all.
+  const scopedHotel = session?.user?.hotelSlug ?? null;
+
   const status = sp.status ?? 'all';
   const service = sp.service ?? 'all';
-  const hotel = sp.hotel ?? 'all';
+  const hotel = scopedHotel ?? sp.hotel ?? 'all';
 
   const where: Prisma.BookingWhereInput = {};
   if (status !== 'all')
     where.status = status as 'PENDING' | 'CONFIRMED' | 'COMPLETED' | 'CANCELLED';
   if (service !== 'all')
     where.service = service as 'HOTEL' | 'AQUAPARK' | 'RESTAURANT' | 'SAUNA';
-  if (hotel !== 'all') where.hotelSlug = hotel;
+  if (scopedHotel) where.hotelSlug = scopedHotel;
+  else if (hotel !== 'all') where.hotelSlug = hotel;
   if (sp.from || sp.to) {
     const and: Prisma.BookingWhereInput[] = [];
     if (sp.from) and.push({ dateFrom: { gte: new Date(sp.from) } });
@@ -147,6 +147,9 @@ export default async function AdminBookingsListPage({
       <header className="mb-10">
         <p className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/60 font-medium">
           CRM · Замовлення з сайту
+          {scopedHotel && (
+            <span className="text-[#c9a95c]"> · {hotelLabel(scopedHotel)}</span>
+          )}
         </p>
         <h1 className="font-display text-4xl lg:text-5xl text-[#1a3d2e] mt-2 leading-[1.1]">
           Заявки <span className="italic text-[#1a3d2e]/75">на бронювання</span>
@@ -243,17 +246,19 @@ export default async function AdminBookingsListPage({
         ))}
       </FilterRow>
 
-      <FilterRow label="Готель">
-        {HOTEL_FILTERS.map((f) => (
-          <FilterPill
-            key={f.id}
-            href={makeFilterHref({ hotel: f.id })}
-            active={hotel === f.id}
-          >
-            {f.label}
-          </FilterPill>
-        ))}
-      </FilterRow>
+      {!scopedHotel && (
+        <FilterRow label="Готель">
+          {HOTEL_FILTERS.map((f) => (
+            <FilterPill
+              key={f.id}
+              href={makeFilterHref({ hotel: f.id })}
+              active={hotel === f.id}
+            >
+              {f.label}
+            </FilterPill>
+          ))}
+        </FilterRow>
+      )}
 
       {/* List */}
       {bookings.length === 0 ? (
