@@ -20,7 +20,7 @@ export default async function PaySuccessPage({
   const paid = booking?.paymentStatus === 'paid';
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-6 py-20">
+    <div className="min-h-[70vh] flex items-center justify-center px-6 pt-28 md:pt-36 pb-20">
       <div className="w-full max-w-md text-center">
         {paid ? (
           <CheckCircle2 className="h-14 w-14 text-[#1a3d2e] mx-auto" strokeWidth={1.2} />

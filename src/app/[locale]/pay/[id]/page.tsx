@@ -24,7 +24,7 @@ export default async function PayPage({
 
   if (!booking || !booking.totalAmount || booking.totalAmount <= 0) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center px-6 py-20">
+      <div className="min-h-[60vh] flex items-center justify-center px-6 pt-28 md:pt-36 pb-20">
         <div className="max-w-md text-center">
           <h1 className="font-display text-3xl text-[#1a3d2e]">
             Посилання недійсне

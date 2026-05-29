@@ -15,7 +15,7 @@ export default async function HotelBookingFailPage() {
   const t = await getTranslations('booking.hotel');
   const tc = await getTranslations('booking.common');
   return (
-    <main className="bg-[#faf6ec] min-h-[calc(100vh-6rem)] py-16">
+    <main className="bg-[#faf6ec] min-h-[calc(100vh-6rem)] pt-28 md:pt-36 pb-16">
       <div className="container max-w-2xl mx-auto px-6">
         <div className="bg-[#fdfaf0] border border-[#1a3d2e]/12 rounded-3xl p-10 shadow-[0_2px_24px_-12px_rgba(26,61,46,0.18)] text-center">
           <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-5">

@@ -5,7 +5,7 @@ export default async function AquaparkBookingPage() {
   const t = await getTranslations("ui.booking_dialog_services");
   return (
     <main className="bg-[#faf6ec] min-h-[calc(100vh-6rem)]">
-      <div className="container mx-auto px-4 lg:px-8 py-12">
+      <div className="container mx-auto px-4 lg:px-8 pt-28 md:pt-36 pb-16">
         <header className="text-center">
           <h1 className="font-display text-3xl lg:text-4xl text-[#1a3d2e]">
             {t("aquapark_label")}

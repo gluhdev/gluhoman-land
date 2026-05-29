@@ -56,7 +56,7 @@ export default async function PrivacyPage() {
   return (
     <main className="min-h-[100svh] bg-[#faf6ec]">
       {/* Editorial hero */}
-      <section className="py-24 bg-[#faf6ec]">
+      <section className="pt-28 md:pt-36 pb-24 bg-[#faf6ec]">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <div className="text-[11px] uppercase tracking-[0.22em] font-medium text-[#1a3d2e] mb-6">
             {t("hero.eyebrow")}

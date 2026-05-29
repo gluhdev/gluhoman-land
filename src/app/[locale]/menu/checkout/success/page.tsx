@@ -19,7 +19,7 @@ export default async function SuccessPage({
   const id = sp.id ?? '';
 
   return (
-    <main className="bg-[#faf6ec] min-h-[calc(100vh-6rem)] py-16">
+    <main className="bg-[#faf6ec] min-h-[calc(100vh-6rem)] pt-28 md:pt-36 pb-16">
       <div className="container max-w-2xl mx-auto px-6">
         <SuccessClient orderId={id} />
       </div>

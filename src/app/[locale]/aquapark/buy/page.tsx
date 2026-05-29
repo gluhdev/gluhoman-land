@@ -19,7 +19,7 @@ export default async function AquaparkBuyPage() {
 
   return (
     <main className="bg-[#faf6ec] min-h-[calc(100vh-6rem)]">
-      <div className="container max-w-5xl mx-auto px-6 lg:px-8 py-12 lg:py-16">
+      <div className="container max-w-5xl mx-auto px-6 lg:px-8 pt-28 md:pt-36 pb-16">
         <div className="mb-10 text-center">
           <p className="font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-[#1a3d2e]/55 mb-2">
             {t('page_eyebrow')}

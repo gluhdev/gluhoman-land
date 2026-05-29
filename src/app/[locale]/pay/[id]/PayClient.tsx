@@ -79,7 +79,7 @@ export function PayClient({
   }
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-6 py-16">
+    <div className="min-h-[70vh] flex items-center justify-center px-6 pt-28 md:pt-36 pb-16">
       <div className="w-full max-w-md bg-white border border-[#1a3d2e]/12 shadow-sm">
         <div className="bg-[#0f1f18] text-[#e6d9b8] px-7 py-6">
           <p className="text-[11px] uppercase tracking-[0.22em] text-[#e6d9b8]/60 font-medium">
