@@ -150,7 +150,7 @@ export default function ReservePanel({
     const pay = (await r.json()) as LiqPayCreateResponse;
 
     if (pay.mode === "stub" || pay.mode === "already-paid") {
-      router.push(pay.entity?.successPath ?? `/uk/pay/success?id=${res.bookingId}`);
+      router.push(pay.entity?.successPath ?? `/pay/success?id=${res.bookingId}`);
       return;
     }
     if (pay.mode === "liqpay" && pay.endpoint && pay.data && pay.signature) {
