@@ -6,6 +6,7 @@ import { Reveal } from "@/components/restaurant/Reveal";
 import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { HotelBookingTrigger } from "@/components/hotel/HotelBookingTrigger";
+import { RoomPrice } from "@/components/hotel/RoomPrice";
 import { getText } from "@/lib/site-content";
 
 export async function generateMetadata({
@@ -181,7 +182,8 @@ async function RoomCard({
           </p>
         )}
 
-        <div className="mt-auto pt-6 border-t border-[#1a3d2e]/10 flex flex-wrap items-center gap-x-4 gap-y-2">
+        <div className="mt-auto pt-6 border-t border-[#1a3d2e]/10 space-y-4">
+          <RoomPrice hotelSlug="brewery" slug={slug} locale={locale} fallback={price} />
           <HotelBookingTrigger
             hotelSlug="brewery"
             roomCategorySlug={slug}
@@ -194,9 +196,6 @@ async function RoomCard({
             }
             label={t("labels.book_cta", { name: t(k("name")) })}
           />
-          <span className="font-display italic text-[14px] text-[#1a3d2e]/60">
-            {price}
-          </span>
         </div>
       </article>
     </Reveal>

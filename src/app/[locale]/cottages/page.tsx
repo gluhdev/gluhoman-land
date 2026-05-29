@@ -20,6 +20,7 @@ import { Reveal } from "@/components/restaurant/Reveal";
 import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { CottageBookingTrigger } from "@/components/cottages/CottageBookingTrigger";
+import { RoomPrice } from "@/components/hotel/RoomPrice";
 import { getText } from "@/lib/site-content";
 
 export async function generateMetadata({
@@ -326,7 +327,14 @@ async function CottageBlock({
               </div>
             </div>
 
-            <div className="mt-10 flex flex-wrap items-center gap-5">
+            <div className="mt-10 space-y-5">
+              <RoomPrice
+                hotelSlug="cottages"
+                slug={cottage.slug}
+                locale={locale}
+                fallback={price}
+                light={light}
+              />
               <CottageBookingTrigger
                 label={t("labels.book_cta", { name: t(k("name")) })}
                 prefill={t(k("book_prefill"))}
@@ -336,13 +344,6 @@ async function CottageBlock({
                 photoUrl={`/images/cottages/${cottage.slug}/${cottage.photos[0]}.jpg`}
                 light={light}
               />
-              <span
-                className={`font-display italic text-[15px] ${
-                  light ? "text-[#e6d9b8]/70" : "text-[#1a3d2e]/65"
-                }`}
-              >
-                {price}
-              </span>
             </div>
           </Reveal>
 

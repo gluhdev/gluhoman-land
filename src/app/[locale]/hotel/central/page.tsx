@@ -7,6 +7,7 @@ import { Reveal } from "@/components/restaurant/Reveal";
 import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { HotelBookingTrigger } from "@/components/hotel/HotelBookingTrigger";
+import { RoomPrice } from "@/components/hotel/RoomPrice";
 import { getText } from "@/lib/site-content";
 
 export async function generateMetadata({
@@ -55,6 +56,16 @@ const ROOMS: RoomSlug[] = [
   "standard-no-balcony-twin",
   "standard-no-balcony-double",
 ];
+
+// Distinct cover photo per room category (matches HOTEL_CATALOG in
+// src/lib/hotel-catalog.ts so the booking dialog shows the same image).
+const ROOM_PHOTO: Record<RoomSlug, string> = {
+  "lux-balcony": "/images/hotels/central/15.jpg",
+  "standard-balcony-1f": "/images/hotels/central/20.jpg",
+  "standard-balcony-2f": "/images/hotels/central/16.jpg",
+  "standard-no-balcony-twin": "/images/hotels/central/35.jpg",
+  "standard-no-balcony-double": "/images/hotels/central/17.jpg",
+};
 
 const ROMAN = ["I", "II", "III", "IV", "V"] as const;
 
@@ -203,18 +214,16 @@ async function RoomCard({
           </p>
         )}
 
-        <div className="mt-auto pt-6 border-t border-[#1a3d2e]/10 flex flex-wrap items-center gap-x-4 gap-y-2">
+        <div className="mt-auto pt-6 border-t border-[#1a3d2e]/10 space-y-4">
+          <RoomPrice hotelSlug="central" slug={slug} locale={locale} fallback={price} />
           <HotelBookingTrigger
             hotelSlug="central"
             roomCategorySlug={slug}
             roomName={t(k("name"))}
             priceLabel={price}
-            photoUrl="/images/hotels/central/1.jpg"
+            photoUrl={ROOM_PHOTO[slug]}
             label={t("labels.book_cta", { name: t(k("name")) })}
           />
-          <span className="font-display italic text-[14px] text-[#1a3d2e]/60">
-            {price}
-          </span>
         </div>
       </article>
     </Reveal>

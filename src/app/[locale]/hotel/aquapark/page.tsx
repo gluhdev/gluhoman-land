@@ -7,6 +7,7 @@ import { Reveal } from "@/components/restaurant/Reveal";
 import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { HotelBookingTrigger } from "@/components/hotel/HotelBookingTrigger";
+import { RoomPrice } from "@/components/hotel/RoomPrice";
 import { getText } from "@/lib/site-content";
 
 export async function generateMetadata({
@@ -250,7 +251,14 @@ async function RoomBlock({
               </div>
             )}
 
-            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <div className="mt-10 space-y-5">
+              <RoomPrice
+                hotelSlug="aquapark"
+                slug={room.slug}
+                locale={locale}
+                fallback={price}
+                light={light}
+              />
               <HotelBookingTrigger
                 hotelSlug="aquapark"
                 roomCategorySlug={room.slug}
@@ -260,13 +268,6 @@ async function RoomBlock({
                 label={t("labels.book_cta", { name: t(k("name")) })}
                 light={light}
               />
-              <span
-                className={`font-display italic text-[15px] ${
-                  light ? "text-[#e6d9b8]/70" : "text-[#1a3d2e]/65"
-                }`}
-              >
-                {price}
-              </span>
             </div>
           </Reveal>
 
