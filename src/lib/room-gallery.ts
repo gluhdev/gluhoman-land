@@ -25,13 +25,6 @@ function range(from: number, to: number): number[] {
  * One ordered photo sequence per hotel (sourced from the central hotel docx).
  * All central rooms share this pool; brewery rooms reuse it led by their cover.
  */
-const CENTRAL_POOL: string[] = build("hotels/central", range(1, 64));
-
-/** Central pool re-ordered so `cover` comes first (used by brewery rooms). */
-function breweryGallery(cover: string): string[] {
-  return [cover, ...CENTRAL_POOL.filter((url) => url !== cover)];
-}
-
 /**
  * Curated galleries keyed by `${hotel}:${slug}`.
  * Arrays are emitted as literal URL lists (built once at module load).
@@ -52,16 +45,17 @@ const GALLERIES: Record<string, string[]> = {
   "cottages:teremok": build("cottages/teremok", range(1, 8)),
   "cottages:terem-lux": build("cottages/terem-lux", range(1, 10)),
 
-  // ── Central hotel — full shared 63-photo pool ────────────────────
-  "central:lux-balcony": CENTRAL_POOL,
-  "central:standard-balcony-1f": CENTRAL_POOL,
-  "central:standard-balcony-2f": CENTRAL_POOL,
-  "central:standard-no-balcony-twin": CENTRAL_POOL,
-  "central:standard-no-balcony-double": CENTRAL_POOL,
+  // ── Central hotel — per-room sets (mapped from central docx order) ─
+  // Images 1–11 are exterior/general and excluded.
+  "central:lux-balcony": build("hotels/central", range(12, 19)),
+  "central:standard-balcony-1f": build("hotels/central", range(20, 28)),
+  "central:standard-balcony-2f": build("hotels/central", range(29, 35)),
+  "central:standard-no-balcony-twin": build("hotels/central", range(36, 41)),
+  "central:standard-no-balcony-double": build("hotels/central", range(42, 49)),
 
-  // ── Brewery — central pool led by each room's cover ──────────────
-  "brewery:brewery-balcony": breweryGallery("/images/hotels/central/49.jpg"),
-  "brewery:brewery-bunk": breweryGallery("/images/hotels/central/56.jpg"),
+  // ── Brewery — per-room sets from central docx (brewery section) ───
+  "brewery:brewery-balcony": build("hotels/central", range(50, 56)),
+  "brewery:brewery-bunk": build("hotels/central", range(57, 64)),
 };
 
 /**
