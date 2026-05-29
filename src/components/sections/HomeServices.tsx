@@ -189,18 +189,15 @@ function HotelCorpusExpander({
           >
             {t("hotel.expand_heading")}
           </p>
-          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {CORPUS_ORDER.map((slug) => {
               const count = HOTEL_ROOM_COUNTS[slug] ?? 0;
               return (
                 <li key={slug}>
                   <Link
                     href={`/hotel/booking?hotel=${slug}`}
-                    className="group/c flex h-full flex-col gap-1.5 rounded-sm border p-4 transition-colors"
-                    style={{
-                      borderColor: `${INK}1A`,
-                      backgroundColor: `${CREAM}`,
-                    }}
+                    className="group/c flex h-full flex-col gap-1.5 rounded-sm border bg-white p-5 shadow-[0_10px_30px_-18px_rgba(20,36,27,0.45)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_34px_-16px_rgba(20,36,27,0.5)]"
+                    style={{ borderColor: `${INK}1F` }}
                   >
                     <div className="flex items-baseline justify-between gap-3">
                       <span
@@ -397,8 +394,6 @@ function PanelHotel({
             <DetailLink href={p.href} dark={false} t={t} />
           </div>
 
-          <HotelCorpusExpander t={t} tRoot={tRoot} />
-
           {p.booking && (
             <a
               href={p.booking.href}
@@ -436,6 +431,11 @@ function PanelHotel({
             </a>
           )}
         </motion.div>
+
+        {/* Full-width: all four corpus + room counts */}
+        <div className="col-span-12">
+          <HotelCorpusExpander t={t} tRoot={tRoot} />
+        </div>
       </div>
     </section>
   );

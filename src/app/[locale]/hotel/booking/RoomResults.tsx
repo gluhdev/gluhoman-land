@@ -54,14 +54,9 @@ export default function RoomResults({
   const [, startAvail] = useTransition();
   const panelRef = useRef<HTMLDivElement | null>(null);
 
-  // Scroll the initial room into view on mount (guarded).
-  useEffect(() => {
-    if (!initialRoom) return;
-    document
-      .getElementById(`room-${initialRoom}`)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // NOTE: deliberately do NOT auto-scroll to the deep-linked room on mount —
+  // the page must open from the top (choose dates first). The room is still
+  // pre-selected via selectedSlug above.
 
   // Availability fetching: debounced, inside a transition, keyed on inputs.
   useEffect(() => {
