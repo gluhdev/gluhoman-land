@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import AvailabilityBar from "@/components/booking/AvailabilityBar";
 import RoomResultCard from "@/components/booking/RoomResultCard";
@@ -50,6 +49,7 @@ export default function RoomResults({
   // Representative hotel photo (exterior / general shot) — same images used as
   // the hero on each hotel's marketing page. NOT a room photo.
   const hotelImage = HOTEL_HERO[hotel] ?? rooms[0]?.cover;
+  const hasDates = Boolean(from && to);
   const [avail, setAvail] = useState<Record<string, AvailabilityResult>>({});
   const [, startAvail] = useTransition();
   const panelRef = useRef<HTMLDivElement | null>(null);
@@ -123,34 +123,25 @@ export default function RoomResults({
       <AvailabilityBar
         hotels={hotels}
         current={{ hotel, from, to, adults, children }}
+        intro={{
+          image: hotelImage,
+          label: hotelLabel,
+          description: t(`hotel_desc_${hotel}`),
+        }}
       />
 
-      {/* Hotel intro */}
       {rooms.length > 0 && (
-        <div className="mt-6 flex flex-col gap-5 rounded-[2px] bg-white p-5 ring-1 ring-[#1a3d2e]/10 sm:flex-row sm:items-center mb-6">
-          {hotelImage && (
-            <div className="relative h-32 w-full shrink-0 overflow-hidden rounded-[2px] sm:w-52">
-              <Image
-                src={hotelImage}
-                alt={hotelLabel}
-                fill
-                sizes="(max-width: 640px) 100vw, 13rem"
-                className="object-cover"
-              />
-            </div>
-          )}
-          <div>
-            <h2 className="font-display text-2xl text-[#1a3d2e]">
-              {hotelLabel}
-            </h2>
-            <p className="mt-1.5 text-[14px] text-[#0f1f18]/75 leading-relaxed">
-              {t(`hotel_desc_${hotel}`)}
-            </p>
-          </div>
+        <div className="mt-8 mb-4">
+          <h2 className="font-display text-2xl text-[#1a3d2e]">
+            {t("choose_room")}
+          </h2>
+          <p className="mt-1 text-[14px] text-[#1a3d2e]/60">
+            {hasDates ? t("rooms_for_dates") : t("rooms_pick_dates_hint")}
+          </p>
         </div>
       )}
 
-      <div className="mt-6 lg:grid lg:grid-cols-[1fr_22rem] lg:gap-6">
+      <div className="lg:grid lg:grid-cols-[1fr_22rem] lg:gap-6">
         {/* Room list */}
         <div className="space-y-6">
           {rooms.length === 0 ? (

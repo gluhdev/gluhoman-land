@@ -3908,7 +3908,10 @@
     "checkout": "Departure",
     "nights_count": "{count, plural, one {# night} few {# nights} other {# nights}}",
     "clear_dates": "Clear",
-    "pick_checkout": "Now select the date of departure"
+    "pick_checkout": "Now select the date of departure",
+    "choose_room": "Select a number",
+    "rooms_for_dates": "Availability is shown for selected dates",
+    "rooms_pick_dates_hint": "Select the dates above to see the available rooms"
   },
   "booking_hub": {
     "title": "What do you want to book?",

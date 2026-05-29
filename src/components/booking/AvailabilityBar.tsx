@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
+import Image from "next/image";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Calendar, toISO, fromISO, type DateRange } from "../ui/Calendar";
@@ -14,6 +15,7 @@ interface Props {
     adults: number;
     children: number;
   };
+  intro: { image?: string; label: string; description: string };
 }
 
 const ADULTS_MIN = 1;
@@ -31,7 +33,7 @@ function nightsBetween(from: Date, to: Date): number {
   return Math.max(1, Math.round((to.getTime() - from.getTime()) / 86400000));
 }
 
-export default function AvailabilityBar({ hotels, current }: Props) {
+export default function AvailabilityBar({ hotels, current, intro }: Props) {
   const t = useTranslations("booking_page");
   const tc = useTranslations("ui.booking_dialog_counter");
 
@@ -116,6 +118,29 @@ export default function AvailabilityBar({ hotels, current }: Props) {
               </button>
             );
           })}
+        </div>
+      </div>
+
+      {/* Selected hotel — description + photo (shows right after the hotel choice) */}
+      <div className="mt-5 flex flex-col gap-4 rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10 sm:flex-row sm:items-center">
+        {intro.image && (
+          <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-[2px] sm:h-24 sm:w-40">
+            <Image
+              src={intro.image}
+              alt={intro.label}
+              fill
+              sizes="(max-width: 640px) 100vw, 10rem"
+              className="object-cover"
+            />
+          </div>
+        )}
+        <div>
+          <h2 className="font-display text-xl text-[#1a3d2e] sm:text-2xl">
+            {intro.label}
+          </h2>
+          <p className="mt-1 text-[14px] leading-relaxed text-[#0f1f18]/75">
+            {intro.description}
+          </p>
         </div>
       </div>
 
