@@ -4,9 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Marketing site for the "Глухомань" recreational complex in с. Нижні Млини, Полтавська область, Ukraine. Next.js 15 App Router + React 19 + TypeScript 5 + Tailwind v4 + shadcn/ui (Radix primitives), deployed on Vercel. Content language is **Ukrainian** throughout — do not introduce Russian or English copy into the UI.
+Site for the "Глухомань" recreational complex in с. Нижні Млини, Полтавська область, Ukraine. Next.js 15 App Router + React 19 + TypeScript 5 + Tailwind v4 + shadcn/ui (Radix primitives), deployed on Vercel and a standalone VPS. Primary UI language is **Ukrainian**; the site is now **bilingual** (next-intl, `uk` default + `en`). Do not introduce Russian into the UI.
 
-Additional long-form docs live in `docs/ARCHITECTURE.md`, `docs/SETUP.md`, `docs/TECH_STACK.md`.
+> ⚠️ The project has grown well beyond a marketing site: it now has i18n, a Prisma database (SQLite dev / Postgres prod), a full admin panel/CMS, and **four commerce flows** (hotel booking, sauna booking, aquapark QR tickets, restaurant ordering) with LiqPay + Telegram. Parts of this CLAUDE.md below are historical/stale. **For the accurate, current structure, read `docs/MAP-OVERVIEW.md` and the `docs/MAP-*.md` set first.**
+
+Additional long-form docs live in `docs/MAP-*.md` (current source of truth), plus older `docs/ARCHITECTURE.md`, `docs/SETUP.md`, `docs/TECH_STACK.md`.
 
 ## Essential Commands
 
