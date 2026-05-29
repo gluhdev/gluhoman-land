@@ -4,13 +4,14 @@ import { useState, useEffect } from 'react';
 import { CalendarCheck, MessageCircle, Phone, ChevronUp, Send, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { CONTACT_INFO } from '@/constants';
-import { openBookingDialog } from '@/components/ui/BookingDialog';
 import { useTranslations } from 'next-intl';
+import { useRouter } from '@/i18n/routing';
 
 const phoneDigits = CONTACT_INFO.phone[0].replace(/\D/g, '');
 
 export default function FloatingButtons() {
   const t = useTranslations('ui.floating_buttons');
+  const router = useRouter();
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showContactOptions, setShowContactOptions] = useState(false);
   const [showFab, setShowFab] = useState(false);
@@ -35,7 +36,7 @@ export default function FloatingButtons() {
     {
       icon: CalendarCheck,
       label: t('book_label'),
-      action: () => { openBookingDialog(); },
+      action: () => { router.push('/booking'); },
       className: 'bg-primary hover:bg-primary/90',
       delay: 0
     },

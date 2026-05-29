@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from '@/i18n/routing';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Calendar, ArrowRight } from 'lucide-react';
-import { openBookingDialog } from '@/components/ui/BookingDialog';
 import { useTranslations } from 'next-intl';
 
 type SplashPanel = {
@@ -338,13 +337,13 @@ export default function HeroSlider() {
                         </span>
                       </div>
                     ) : (
-                      <button
-                        onClick={() => openBookingDialog()}
+                      <Link
+                        href="/booking"
                         className="group inline-flex items-center justify-center gap-3 px-9 py-4 rounded-full bg-white text-[#0f1f18] font-medium text-sm uppercase tracking-[0.18em] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.4)] hover:bg-[#faf6ec] hover:-translate-y-0.5 transition-all duration-300"
                       >
                         <Calendar className="h-4 w-4" />
                         {t('book_now')}
-                      </button>
+                      </Link>
                     )}
 
                     {slide.href && (

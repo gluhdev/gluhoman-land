@@ -13,7 +13,6 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
-import { openBookingDialog } from '@/components/ui/BookingDialog';
 import { ADDITIONAL_SERVICES, CONTACT_INFO } from '@/constants';
 import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher';
@@ -335,9 +334,8 @@ export default function Header() {
               <span className="hidden xl:inline">{phone}</span>
             </a>
             <LanguageSwitcher className="ml-1" />
-            <button
-              type="button"
-              onClick={() => openBookingDialog()}
+            <Link
+              href="/booking"
               className={`text-[11px] uppercase tracking-[0.22em] font-medium px-5 py-2.5 border rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${
                 scrolled
                   ? 'border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white'
@@ -345,7 +343,7 @@ export default function Header() {
               }`}
             >
               {t('header.book_now')}
-            </button>
+            </Link>
           </div>
 
           {/* Mobile cluster ---------------------------------------- */}
@@ -546,16 +544,13 @@ export default function Header() {
             </nav>
 
             <div className="px-6 py-5 border-t border-black/10">
-              <button
-                type="button"
-                onClick={() => {
-                  setMobileOpen(false);
-                  openBookingDialog();
-                }}
-                className="w-full text-[12px] uppercase tracking-[0.22em] font-medium px-5 py-3.5 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              <Link
+                href="/booking"
+                onClick={() => setMobileOpen(false)}
+                className="block w-full text-center text-[12px] uppercase tracking-[0.22em] font-medium px-5 py-3.5 border border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
               >
                 {t('header.book_now')}
-              </button>
+              </Link>
             </div>
           </div>
         </div>

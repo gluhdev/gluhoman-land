@@ -5,7 +5,6 @@ import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FloatingButtons from "@/components/ui/FloatingButtons";
-import BookingDialog from "@/components/ui/BookingDialog";
 import { LocalBusinessJsonLd } from "@/components/seo/StructuredData";
 import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 import { BuildMarker } from "@/components/dev/BuildMarker";
@@ -114,7 +113,6 @@ export default async function LocaleLayout({
             </div>
           </SmoothScrollProvider>
           <FloatingButtons />
-          <BookingDialog />
         </NextIntlClientProvider>
       </body>
     </html>

@@ -3185,5 +3185,7 @@
   "booking_page.pay_error": "5c4133c763a5cafece6b9199e42a06bbb453e737",
   "booking_page.summary_dates": "9ceff84405c1b73bd5f09e55d4edf3bb98ddcda7",
   "booking_page.summary_nights": "60a9cbfaa2a96b4f65a881e2c705af87af004e88",
-  "booking_page.close": "a622766452d849bb19235f8ce264efe9dba902a0"
+  "booking_page.close": "a622766452d849bb19235f8ce264efe9dba902a0",
+  "booking_hub.title": "e5ea604443ed23028d0f17e714ae30813f6b7fd4",
+  "booking_hub.subtitle": "81fa55e13d9f14acb5acef2fbc54048149f6ce63"
 }

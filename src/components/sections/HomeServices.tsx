@@ -4,7 +4,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { ArrowUpRight, Calendar } from "lucide-react";
-import { openBookingDialog } from "@/components/ui/BookingDialog";
 import { useTranslations } from "next-intl";
 
 /* ---------- palette ---------- */
@@ -101,9 +100,8 @@ function BookButton({
     );
   }
   return (
-    <button
-      type="button"
-      onClick={() => openBookingDialog()}
+    <Link
+      href="/booking"
       className={`inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-300 hover:-translate-y-0.5 ${
         dark
           ? "bg-[#faf6ec] text-[#0f1f18] hover:bg-white"
@@ -112,7 +110,7 @@ function BookButton({
     >
       <Calendar className="h-3.5 w-3.5" />
       {t('book_now')}
-    </button>
+    </Link>
   );
 }
 

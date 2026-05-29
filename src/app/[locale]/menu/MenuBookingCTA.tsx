@@ -1,8 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { CalendarCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { openBookingDialog } from '@/components/ui/BookingDialog';
 
 interface Props {
   label: string;
@@ -10,13 +10,11 @@ interface Props {
 
 export function MenuBookingCTA({ label }: Props) {
   return (
-    <Button
-      size="lg"
-      onClick={() => openBookingDialog('restaurant')}
-      className="gap-2"
-    >
-      <CalendarCheck className="h-5 w-5" />
-      {label}
+    <Button asChild size="lg" className="gap-2">
+      <Link href="/restaurant/booking">
+        <CalendarCheck className="h-5 w-5" />
+        {label}
+      </Link>
     </Button>
   );
 }

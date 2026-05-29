@@ -18,7 +18,6 @@ import {
   MAIN_SERVICES,
   ADDITIONAL_SERVICES,
 } from '@/constants';
-import { openBookingDialog } from '@/components/ui/BookingDialog';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/routing';
 
@@ -145,9 +144,8 @@ export default function Footer() {
               {t('book_cta_desc')}
             </p>
 
-            <button
-              type="button"
-              onClick={() => openBookingDialog()}
+            <Link
+              href="/booking"
               className="group mt-6 inline-flex w-full items-center justify-between border border-white/25 px-5 py-3 text-[11px] uppercase tracking-[0.22em] text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-[#1a3d2e]"
             >
               <span>{t('book_cta_button')}</span>
@@ -155,7 +153,7 @@ export default function Footer() {
                 className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 strokeWidth={1.5}
               />
-            </button>
+            </Link>
 
             <p className={`${EYEBROW} mt-8`}>{t('write_us')}</p>
             <div className="mt-4 flex flex-col gap-2">

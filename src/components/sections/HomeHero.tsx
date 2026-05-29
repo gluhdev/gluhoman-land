@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useIsTouch } from "@/lib/use-is-touch";
 import { useRef } from "react";
-import { openBookingDialog } from "@/components/ui/BookingDialog";
+import { Link } from "@/i18n/routing";
 import { ArrowDown } from "lucide-react";
 
 export default function HomeHero() {
@@ -104,14 +104,14 @@ export default function HomeHero() {
             </p>
 
             <div className="flex flex-wrap items-center gap-4">
-              <button
-                onClick={() => openBookingDialog()}
+              <Link
+                href="/booking"
                 className="group relative inline-flex items-center gap-3 overflow-hidden rounded-full bg-[#f4ecd8] px-8 py-4 text-sm font-medium uppercase tracking-[0.18em] text-[#1a3d2e] transition-transform hover:-translate-y-0.5"
               >
                 <span className="relative z-10">Забронювати</span>
                 <span className="relative z-10 inline-block h-1.5 w-1.5 rounded-full bg-[#1a3d2e] transition-transform group-hover:translate-x-1" />
                 <span className="absolute inset-0 origin-left scale-x-0 bg-white transition-transform duration-500 ease-out group-hover:scale-x-100" />
-              </button>
+              </Link>
               <a
                 href="#story"
                 className="inline-flex items-center gap-2 text-sm uppercase tracking-[0.18em] text-white/85 transition-colors hover:text-white"

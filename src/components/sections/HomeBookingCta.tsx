@@ -5,7 +5,7 @@ import { useIsTouch } from "@/lib/use-is-touch";
 import { useRef } from "react";
 import Image from "next/image";
 import { Calendar, Phone } from "lucide-react";
-import { openBookingDialog } from "@/components/ui/BookingDialog";
+import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 
 const CONTACT_PHONE = "+38 050 850 3555";
@@ -179,9 +179,8 @@ export default function HomeBookingCta() {
             className="mt-14 grid max-w-3xl grid-cols-1 gap-5 md:grid-cols-2"
           >
             {/* Primary — book online */}
-            <button
-              type="button"
-              onClick={() => openBookingDialog()}
+            <Link
+              href="/booking"
               className="group relative flex items-center justify-between overflow-hidden rounded-sm border border-[#e6d9b8]/30 bg-[#f4ecd8]/[0.03] px-7 py-6 text-left transition-all duration-500 hover:border-[#e6d9b8] hover:bg-[#f4ecd8] hover:text-[#0b1410]"
             >
               <span className="pointer-events-none absolute inset-0 origin-left scale-x-0 bg-[#f4ecd8] transition-transform duration-700 ease-out group-hover:scale-x-100" />
@@ -194,7 +193,7 @@ export default function HomeBookingCta() {
                 </div>
               </div>
               <Calendar className="relative z-10 h-6 w-6 shrink-0 text-[#f4ecd8] transition-all duration-500 group-hover:translate-x-1 group-hover:text-[#0b1410]" />
-            </button>
+            </Link>
 
             {/* Secondary — call */}
             <a

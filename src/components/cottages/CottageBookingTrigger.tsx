@@ -1,7 +1,7 @@
 "use client";
 
+import Link from "next/link";
 import { Calendar } from "lucide-react";
-import { openBookingDialog } from "@/components/ui/BookingDialog";
 
 interface Props {
   label: string;
@@ -14,33 +14,17 @@ interface Props {
 }
 
 /**
- * Per-cottage "Забронювати" trigger. Uses the shared hotel-booking flow
- * with a prefilled comment so the request that lands in Telegram already
- * names the cottage the guest is interested in.
+ * Per-cottage "Забронювати" trigger. Links to the shared hotel-booking page,
+ * preselecting the "cottages" hotel and (when known) the specific room so the
+ * booking page opens already scoped to the cottage the guest is interested in.
  */
-export function CottageBookingTrigger({
-  label,
-  prefill,
-  priceLabel,
-  cottageSlug,
-  roomName,
-  photoUrl,
-  light,
-}: Props) {
-  const fullPrefill = priceLabel ? `${prefill} Тариф: ${priceLabel}.` : prefill;
+export function CottageBookingTrigger({ label, cottageSlug, light }: Props) {
+  const href = cottageSlug
+    ? `/hotel/booking?hotel=cottages&room=${encodeURIComponent(cottageSlug)}`
+    : "/hotel/booking?hotel=cottages";
   return (
-    <button
-      type="button"
-      onClick={() =>
-        openBookingDialog("hotel", {
-          comment: fullPrefill,
-          hotelSlug: "cottages",
-          roomCategorySlug: cottageSlug,
-          priceLabel,
-          roomName,
-          photoUrl,
-        })
-      }
+    <Link
+      href={href}
       className={`inline-flex items-center gap-2.5 px-6 py-3.5 text-sm font-medium tracking-wide transition-colors min-h-[44px] ${
         light
           ? "bg-[#e6d9b8] text-[#0f1f18] hover:bg-[#f4ecd8]"
@@ -49,6 +33,6 @@ export function CottageBookingTrigger({
     >
       <Calendar className="w-4 h-4" strokeWidth={2} />
       {label}
-    </button>
+    </Link>
   );
 }
