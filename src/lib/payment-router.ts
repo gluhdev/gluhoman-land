@@ -18,6 +18,8 @@ import { aquaparkStorage } from '@/lib/aquapark-storage';
 import { saunaStorage } from '@/lib/sauna-storage';
 import { notifyNewOrder } from '@/lib/order-notify';
 import { notifyNewBooking } from '@/lib/booking-notify';
+import { notifyReservation } from "@/lib/reservation-notify";
+import type { BookingPayload } from "@/app/actions/booking";
 import { notifyNewAquaparkTicket } from '@/lib/aquapark-notify';
 import { notifyNewSaunaSlot } from '@/lib/sauna-notify';
 import { prisma } from '@/lib/prisma';
@@ -178,25 +180,39 @@ export async function markPaid(
     return;
   }
   if (type === 'reservation') {
+    // Idempotency: LiqPay can deliver duplicate callbacks. Skip notify if already paid.
+    const before = await prisma.booking.findUnique({ where: { id } });
+    if (!before) return;
+    const alreadyPaid = before.paymentStatus === 'paid';
+
     const b = await prisma.booking.update({
       where: { id },
-      data: {
-        status: 'CONFIRMED',
-        paymentStatus: 'paid',
-        paymentExternalId: externalId,
-      },
+      data: { status: 'CONFIRMED', paymentStatus: 'paid', paymentExternalId: externalId },
     });
     await prisma.payment.upsert({
       where: { bookingId: id },
       create: {
         provider: externalId?.startsWith('stub') ? 'stub' : 'liqpay',
-        externalId,
-        status: 'success',
-        amount: b.totalAmount ?? 0,
-        bookingId: id,
+        externalId, status: 'success', amount: b.totalAmount ?? 0, bookingId: id,
       },
       update: { status: 'success', externalId },
     });
+
+    if (!alreadyPaid) {
+      const payload: BookingPayload = {
+        service: 'hotel',
+        name: b.name, phone: b.phone, email: b.email ?? undefined,
+        guests: b.guests,
+        dateFrom: b.dateFrom.toISOString().slice(0, 10),
+        dateTo: b.dateTo ? b.dateTo.toISOString().slice(0, 10) : undefined,
+        comment: b.comment ?? undefined,
+        hotelSlug: (b.hotelSlug ?? undefined) as BookingPayload['hotelSlug'],
+        roomCategorySlug: b.roomCategorySlug ?? undefined,
+      };
+      notifyReservation(payload, b.id, { paid: true, amount: b.totalAmount ?? undefined })
+        .catch((e) => console.error('[reservation] paid-notify failed', e));
+    }
+    return;
   }
 }
 
