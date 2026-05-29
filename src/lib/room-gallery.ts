@@ -4,8 +4,8 @@
  * Maps `${hotel}:${slug}` to an ordered list of image URLs that exist on disk
  * under /public/images. Verified against the filesystem.
  *
- * Rooms without a dedicated photo folder (central + brewery rooms) fall back to
- * the single cover image passed in by the caller.
+ * Rooms without a curated gallery fall back to the single cover image passed in
+ * by the caller.
  */
 
 /** Build /images/<base>/<n>.jpg for each n in `nums`. */
@@ -18,6 +18,18 @@ function range(from: number, to: number): number[] {
   const out: number[] = [];
   for (let n = from; n <= to; n++) out.push(n);
   return out;
+}
+
+/**
+ * Full central-complex photo pool: /images/hotels/central/1.jpg .. 64.jpg.
+ * One ordered photo sequence per hotel (sourced from the central hotel docx).
+ * All central rooms share this pool; brewery rooms reuse it led by their cover.
+ */
+const CENTRAL_POOL: string[] = build("hotels/central", range(1, 64));
+
+/** Central pool re-ordered so `cover` comes first (used by brewery rooms). */
+function breweryGallery(cover: string): string[] {
+  return [cover, ...CENTRAL_POOL.filter((url) => url !== cover)];
 }
 
 /**
@@ -39,6 +51,17 @@ const GALLERIES: Record<string, string[]> = {
   "cottages:lisovyk": build("cottages/lisovyk", range(1, 9)),
   "cottages:teremok": build("cottages/teremok", range(1, 8)),
   "cottages:terem-lux": build("cottages/terem-lux", range(1, 10)),
+
+  // ── Central hotel — full shared 63-photo pool ────────────────────
+  "central:lux-balcony": CENTRAL_POOL,
+  "central:standard-balcony-1f": CENTRAL_POOL,
+  "central:standard-balcony-2f": CENTRAL_POOL,
+  "central:standard-no-balcony-twin": CENTRAL_POOL,
+  "central:standard-no-balcony-double": CENTRAL_POOL,
+
+  // ── Brewery — central pool led by each room's cover ──────────────
+  "brewery:brewery-balcony": breweryGallery("/images/hotels/central/49.jpg"),
+  "brewery:brewery-bunk": breweryGallery("/images/hotels/central/56.jpg"),
 };
 
 /**
