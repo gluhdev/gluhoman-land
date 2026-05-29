@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import { Link2, Copy, Check, Loader2, CreditCard, X } from 'lucide-react';
 import { createPaymentLink } from '../actions';
 
@@ -28,6 +28,7 @@ export function PaymentLinkPanel({
   );
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const fullLink =
     path && typeof window !== 'undefined' ? `${window.location.origin}${path}` : path ?? '';
@@ -45,12 +46,32 @@ export function PaymentLinkPanel({
     });
   }
 
-  function copy() {
+  async function copy() {
     if (!fullLink) return;
-    navigator.clipboard?.writeText(fullLink).then(() => {
+    // Always select the field first so the user can Ctrl/Cmd+C even if the
+    // Clipboard API is unavailable or blocked.
+    inputRef.current?.focus();
+    inputRef.current?.select();
+    let ok = false;
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(fullLink);
+        ok = true;
+      }
+    } catch {
+      ok = false;
+    }
+    if (!ok) {
+      try {
+        ok = document.execCommand('copy');
+      } catch {
+        ok = false;
+      }
+    }
+    if (ok) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    });
+    }
   }
 
   return (
@@ -122,10 +143,12 @@ export function PaymentLinkPanel({
           {path && (
             <div className="mt-5 flex items-center gap-2 max-w-2xl">
               <input
+                ref={inputRef}
                 readOnly
                 value={fullLink}
                 onFocus={(e) => e.currentTarget.select()}
-                className="flex-1 px-3.5 py-2.5 border border-[#1a3d2e]/15 bg-[#faf6ec] text-sm text-[#1a3d2e] font-mono"
+                onClick={(e) => e.currentTarget.select()}
+                className="flex-1 px-3.5 py-2.5 border border-[#1a3d2e]/15 bg-[#faf6ec] text-sm text-[#1a3d2e] font-mono cursor-pointer"
               />
               <button
                 type="button"
