@@ -245,16 +245,27 @@
         "title": "Hotel",
         "title_italic": "\"Glukhoman\"",
         "tagline": "Wake up to birdsong 20 meters from the pond.",
-        "description": "Wooden rooms on the territory of the complex - from standard to family cottages. A step to the restaurant, water park and bathhouse, the silence of the pine forest and private parking near the building.",
-        "h1": "Wooden rooms with a terrace",
+        "description": "Four separate accommodation buildings across the complex — from rooms in the Hotel-Aquapark and the Central Hotel to the Brewery Building and authentic cottages. All bookable online, a step away from the restaurant, water park and bathhouse.",
+        "h1": "Four buildings to choose from",
         "h2": "Pond, swans, fountains under the window",
         "h3": "Breakfast in the restaurant of the complex",
-        "stat_label": "rooms and cottages",
+        "stat_label": "buildings to book",
         "price_hint": "from 1 400 UAH / night",
         "hours": "Check in 14:00 - Check out 12:00",
         "booking_label": "Great",
         "booking_reviews": "reviews on Booking.com",
-        "image_alt": "Hotel Glukhoman at night"
+        "image_alt": "Hotel Glukhoman at night",
+        "expand_show": "All buildings & rooms",
+        "expand_hide": "Collapse",
+        "expand_heading": "Four buildings to book",
+        "rooms_count": "{count, plural, one {# room category} other {# room categories}}",
+        "corpus_book": "Book",
+        "corpus": {
+          "aquapark": "Rooms right above the water park — from balcony suites to family attics.",
+          "central": "The heart of the complex: suites and standard rooms with balconies next to the restaurant.",
+          "brewery": "Atmospheric rooms above the craft brewery — for groups and couples.",
+          "cottages": "Standalone wooden cottages in the forest — privacy and full autonomy."
+        }
       },
       "aquapark": {
         "kicker": "Water and sun",

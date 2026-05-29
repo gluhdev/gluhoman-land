@@ -1,10 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
-import { ArrowUpRight, Calendar } from "lucide-react";
+import { ArrowUpRight, Calendar, ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { HOTEL_CATALOG, type HotelSlug } from "@/lib/hotel-catalog";
 
 /* ---------- palette ---------- */
 const CREAM = "#faf6ec";
@@ -41,7 +43,7 @@ const PANELS_META = [
   {
     n: "01", total: "04", verticalLabel: "HOTEL",
     href: "/hotel", image: "/images/9.jpg",
-    stat: { value: "10" },
+    stat: { value: "4" },
     booking: { rating: "9.2", href: "https://www.booking.com/hotel/ua/gluhoman.uk.html" },
   },
   {
@@ -139,12 +141,113 @@ function Hairline({ dark }: { dark: boolean }) {
   );
 }
 
+/* ---------- hotel corpus expander ---------- */
+
+// Number of room categories per hotel, derived from HOTEL_CATALOG so counts
+// stay accurate if the catalog changes.
+const HOTEL_ROOM_COUNTS = HOTEL_CATALOG.reduce<Record<HotelSlug, number>>(
+  (acc, h) => {
+    acc[h.slug] = h.rooms.length;
+    return acc;
+  },
+  {} as Record<HotelSlug, number>
+);
+
+const CORPUS_ORDER: HotelSlug[] = ["aquapark", "central", "brewery", "cottages"];
+
+// Root translations resolve the dotted hotel-name keys (uk + en).
+function HotelCorpusExpander({
+  t,
+  tRoot,
+}: {
+  t: TFunc;
+  tRoot: ReturnType<typeof useTranslations>;
+}) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="mt-8 w-full">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-controls="hotel-corpus-list"
+        className="group inline-flex items-center gap-3 rounded-full border px-6 py-3 text-[11px] font-medium uppercase tracking-[0.2em] transition-colors"
+        style={{ borderColor: `${INK}30`, color: INK, backgroundColor: `${INK}05` }}
+      >
+        {open ? t("hotel.expand_hide") : t("hotel.expand_show")}
+        <ChevronDown
+          className={`h-3.5 w-3.5 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {open && (
+        <div id="hotel-corpus-list" className="mt-6">
+          <p
+            className="mb-4 text-[10px] uppercase tracking-[0.3em]"
+            style={{ color: `${INK}99` }}
+          >
+            {t("hotel.expand_heading")}
+          </p>
+          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {CORPUS_ORDER.map((slug) => {
+              const count = HOTEL_ROOM_COUNTS[slug] ?? 0;
+              return (
+                <li key={slug}>
+                  <Link
+                    href={`/hotel/booking?hotel=${slug}`}
+                    className="group/c flex h-full flex-col gap-1.5 rounded-sm border p-4 transition-colors"
+                    style={{
+                      borderColor: `${INK}1A`,
+                      backgroundColor: `${CREAM}`,
+                    }}
+                  >
+                    <div className="flex items-baseline justify-between gap-3">
+                      <span
+                        className="font-display text-lg leading-tight"
+                        style={{ color: INK }}
+                      >
+                        {tRoot(`nav.hotel_menu.${slug}.title`)}
+                      </span>
+                      <span
+                        className="shrink-0 text-[11px] uppercase tracking-[0.16em]"
+                        style={{ color: MOSS }}
+                      >
+                        {t("hotel.rooms_count", { count })}
+                      </span>
+                    </div>
+                    <p className="text-[13px] leading-snug" style={{ color: `${INK}B3` }}>
+                      {t(`hotel.corpus.${slug}` as Parameters<typeof t>[0])}
+                    </p>
+                    <span
+                      className="mt-1 inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] transition-colors"
+                      style={{ color: MOSS }}
+                    >
+                      {t("hotel.corpus_book")}
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/c:-translate-y-0.5 group-hover/c:translate-x-0.5" />
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ---------- panel layouts (each unique) ---------- */
 
 type PanelProps = { p: Panel; reduced: boolean; t: TFunc };
 
 // Panel 01 — Готель: photo-left / structured info-card right with vertical HOTEL label
-function PanelHotel({ p, reduced, t }: PanelProps) {
+function PanelHotel({
+  p,
+  reduced,
+  t,
+  tRoot,
+}: PanelProps & { tRoot: ReturnType<typeof useTranslations> }) {
   return (
     <section
       className="relative overflow-hidden"
@@ -293,6 +396,8 @@ function PanelHotel({ p, reduced, t }: PanelProps) {
             <BookButton seasonLocked={p.seasonLocked} dark={false} t={t} />
             <DetailLink href={p.href} dark={false} t={t} />
           </div>
+
+          <HotelCorpusExpander t={t} tRoot={tRoot} />
 
           {p.booking && (
             <a
@@ -925,6 +1030,7 @@ function PanelBanya({ p, reduced, t }: PanelProps) {
 export default function HomeServices() {
   const reduced = useReducedMotion() ?? false;
   const t = useTranslations('home.services');
+  const tRoot = useTranslations();
 
   const PANELS: Panel[] = [
     {
@@ -1055,7 +1161,7 @@ export default function HomeServices() {
       </div>
 
       {/* Four alternating panels — each unique */}
-      <PanelHotel p={PANELS[0]} reduced={reduced} t={t} />
+      <PanelHotel p={PANELS[0]} reduced={reduced} t={t} tRoot={tRoot} />
       <PanelAqua p={PANELS[1]} reduced={reduced} t={t} />
       <PanelRestaurant p={PANELS[2]} reduced={reduced} t={t} />
       <PanelBanya p={PANELS[3]} reduced={reduced} t={t} />

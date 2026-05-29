@@ -8,6 +8,8 @@ import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { HotelBookingTrigger } from "@/components/hotel/HotelBookingTrigger";
 import { RoomPrice } from "@/components/hotel/RoomPrice";
+import RoomGallery from "@/components/booking/RoomGallery";
+import { roomGallery } from "@/lib/room-gallery";
 import { getText } from "@/lib/site-content";
 
 export async function generateMetadata({
@@ -174,56 +176,64 @@ async function RoomCard({
 
   return (
     <Reveal>
-      <article className="h-full p-7 md:p-8 bg-white ring-1 ring-[#1a3d2e]/10 shadow-[0_20px_60px_-30px_rgba(26,61,46,0.2)] flex flex-col">
-        <div className="flex items-baseline gap-3 mb-4">
-          <span className="font-display italic text-3xl text-[#1a3d2e]/35 leading-none">
-            {ROMAN[index] ?? ""}
-          </span>
-          <Eyebrow>{t(k("kicker"))}</Eyebrow>
-        </div>
-        <h3 className="font-display text-2xl md:text-[26px] leading-[1.15] text-[#1a3d2e]">
-          {t(k("name"))}
-        </h3>
-        <p className="mt-1 font-display italic text-[16px] text-[#1a3d2e]/65 leading-snug">
-          {t(k("tagline"))}
-        </p>
-        <p className="mt-4 text-[15px] text-[#0f1f18]/80 leading-[1.7]">
-          {t(k("subtitle"))}
-        </p>
-
-        {bullets.length > 0 && (
-          <ul className="mt-5 space-y-2.5">
-            {bullets.map((b, i) => (
-              <li key={i} className="flex items-start gap-2.5">
-                <Check
-                  className="w-4 h-4 mt-1 text-[#1a3d2e] flex-shrink-0"
-                  strokeWidth={1.7}
-                />
-                <span className="text-[14px] leading-[1.5] text-[#0f1f18]/80">
-                  {b}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        {t(k("capacity")) && (
-          <p className="mt-5 flex items-start gap-2.5 text-[13px] text-[#1a3d2e]/70 leading-snug">
-            <Users className="w-4 h-4 mt-0.5 flex-shrink-0" strokeWidth={1.7} />
-            <span>{t(k("capacity"))}</span>
-          </p>
-        )}
-
-        <div className="mt-auto pt-6 border-t border-[#1a3d2e]/10 space-y-4">
-          <RoomPrice hotelSlug="central" slug={slug} locale={locale} fallback={price} />
-          <HotelBookingTrigger
-            hotelSlug="central"
-            roomCategorySlug={slug}
-            roomName={t(k("name"))}
-            priceLabel={price}
-            photoUrl={ROOM_PHOTO[slug]}
-            label={t("labels.book_cta", { name: t(k("name")) })}
+      <article className="h-full overflow-hidden bg-white ring-1 ring-[#1a3d2e]/10 shadow-[0_20px_60px_-30px_rgba(26,61,46,0.2)] flex flex-col">
+        <div className="p-3 pb-0">
+          <RoomGallery
+            images={roomGallery("central", slug, ROOM_PHOTO[slug])}
+            alt={t(k("name"))}
           />
+        </div>
+        <div className="p-7 md:p-8 pt-6 flex flex-col flex-1">
+          <div className="flex items-baseline gap-3 mb-4">
+            <span className="font-display italic text-3xl text-[#1a3d2e]/35 leading-none">
+              {ROMAN[index] ?? ""}
+            </span>
+            <Eyebrow>{t(k("kicker"))}</Eyebrow>
+          </div>
+          <h3 className="font-display text-2xl md:text-[26px] leading-[1.15] text-[#1a3d2e]">
+            {t(k("name"))}
+          </h3>
+          <p className="mt-1 font-display italic text-[16px] text-[#1a3d2e]/65 leading-snug">
+            {t(k("tagline"))}
+          </p>
+          <p className="mt-4 text-[15px] text-[#0f1f18]/80 leading-[1.7]">
+            {t(k("subtitle"))}
+          </p>
+
+          {bullets.length > 0 && (
+            <ul className="mt-5 space-y-2.5">
+              {bullets.map((b, i) => (
+                <li key={i} className="flex items-start gap-2.5">
+                  <Check
+                    className="w-4 h-4 mt-1 text-[#1a3d2e] flex-shrink-0"
+                    strokeWidth={1.7}
+                  />
+                  <span className="text-[14px] leading-[1.5] text-[#0f1f18]/80">
+                    {b}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {t(k("capacity")) && (
+            <p className="mt-5 flex items-start gap-2.5 text-[13px] text-[#1a3d2e]/70 leading-snug">
+              <Users className="w-4 h-4 mt-0.5 flex-shrink-0" strokeWidth={1.7} />
+              <span>{t(k("capacity"))}</span>
+            </p>
+          )}
+
+          <div className="mt-auto pt-6 border-t border-[#1a3d2e]/10 space-y-4">
+            <RoomPrice hotelSlug="central" slug={slug} locale={locale} fallback={price} />
+            <HotelBookingTrigger
+              hotelSlug="central"
+              roomCategorySlug={slug}
+              roomName={t(k("name"))}
+              priceLabel={price}
+              photoUrl={ROOM_PHOTO[slug]}
+              label={t("labels.book_cta", { name: t(k("name")) })}
+            />
+          </div>
         </div>
       </article>
     </Reveal>
