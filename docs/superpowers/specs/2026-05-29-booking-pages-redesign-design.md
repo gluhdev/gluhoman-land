@@ -157,6 +157,63 @@ i18n:sync`).
 - Changing admin panel, calendar, or pricing/inventory data.
 - New photography (only existing `/public/images` assets).
 
+## Research findings that refine implementation
+
+UX (booking.com/OTA best practice, single-property variant) and technical research
+(Next 15 + repo APIs) produced these binding refinements:
+
+**UX**
+- Single property → one page: hero/intro, **sticky availability bar** (dates+guests) that
+  re-triggers the room list, room cards, then **reserve → details → pay** as 2–3 steps
+  with a visible progress indicator.
+- Room card anatomy: gallery (left desktop / top mobile), name, **occupancy as person
+  icons**, ≤5 amenity icons, **total-for-stay price** (nights × tier) primary + per-night
+  secondary, high-contrast CTA. Cheapest room first.
+- Guest form **after** room selection; **6–8 fields max**, single name field, **guest
+  checkout (no account)**, **inline validation on blur**.
+- Booking summary: **sticky sidebar desktop / sticky bottom bar mobile**, full price
+  breakdown, no hidden fees.
+- Gallery: thumb strip → **full-screen lightbox** (focus trap, Esc, arrows, swipe), lazy
+  `next/image` except first slide; no auto-rotate.
+- **Honest scarcity only** ("Залишився 1 номер") driven by real `checkAvailability`
+  counts; never fabricated. No "sold-out" dead-ends — keep the picker editable.
+- Mobile: sticky bottom CTA bar; ≥44px tap targets; thumb-zone actions.
+- **Do NOT put `overflow`/`overscroll` on `html`/`body`** (macOS trackpad-scroll memory) —
+  keep sticky/scroll on inner containers only.
+
+**Technical (Next 15.5 / React 19.1 / repo)**
+- `searchParams` is a **Promise** in the server page — `await` it; it is the source of
+  truth (server reads run availability/price). Client filter bar mutates the URL via
+  `router.replace(?…, { scroll:false })` inside `useTransition`; `useSearchParams`
+  consumers need a `<Suspense>` boundary. Use `push` only at meaningful steps.
+- `checkAvailability` called imperatively from the client island, **debounced ~300ms**
+  inside `useTransition` (not `useActionState` — that's for form submit).
+- **Payment requires `Booking.totalAmount > 0`.** `submitBooking` does not set it →
+  new `createRoomReservation()` computes `suggestedReservationAmount(hotel, slug, guests,
+  nightsBetween(from,to))` and persists it on the row. Rooms priced «за запитом»
+  (amount 0) cannot use pay-to-confirm → fall back to a request (immediate notify, no
+  LiqPay) for those.
+- **Do NOT `redirect()` from the action** for payment. Action returns
+  `{ ok, bookingId, totalAmount, error }`; client then `POST /api/payment/liqpay/create`
+  `{ entityType:'reservation', entityId: bookingId }` and **auto-submits the returned
+  LiqPay form** (the `document.createElement('form')` pattern from `BookingFlow.tsx`).
+  Handle `mode: 'stub' | 'already-paid'` → push success directly.
+- **`markPaid('reservation')` sends no notification today.** Extract `submitBooking`'s
+  private notify block (`formatMessage`, `chatIdForHotel` per-hotel `TELEGRAM_CHAT_ID_*`
+  routing, `sendTelegram`, `sendEmail`) into a shared `notifyBooking(booking)` module;
+  call it from `markPaid` (reservation) on success, and keep calling it immediately inside
+  `submitBooking` for the request-based services.
+- Branch UI on **`bookingId` presence**, not just `ok` (`submitBooking` returns `ok:true`
+  even if notifications fail).
+- **Calendar:** reuse the repo's custom `Calendar.tsx` (`mode="range"`, i18n, past dates
+  auto-disabled, design-system styled) for consistency. Per-day "fully booked" disabling
+  and min-nights are out of Phase-1 scope (custom Calendar lacks them; availability is
+  communicated per-room). react-day-picker v9 remains available if range-level disabling
+  is needed later.
+- **Locale gotcha:** `reservation` success/fail paths are hardcoded `/uk/...` in
+  `payment-router.ts`. Acceptable (uk default) for Phase 1; note for `en` follow-up.
+- Reuse existing `BookingReviews` / `GoogleReviews` for social proof.
+
 ## Verification
 
 - `npx tsc --noEmit` and `npm run lint` clean.
