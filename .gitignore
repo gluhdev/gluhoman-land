@@ -84,3 +84,6 @@ prisma/migrations/dev.db
 test-results/
 yarn-debug.log*
 yarn-error.log*
+
+# local QA screenshots/scripts
+.playwright-audit/
