@@ -8,8 +8,10 @@ import {
   type JSX,
 } from 'react';
 import { createPortal } from 'react-dom';
+import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { BLUR_CREAM } from '@/lib/blur';
 
 export interface LightboxImage {
   src: string;
@@ -197,16 +199,39 @@ export function Lightbox({
         </button>
       )}
 
-      {/* Image + caption */}
-      <div className="flex max-h-full max-w-full flex-col items-center justify-center px-4 py-16 md:px-20">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={current.src}
-          alt={current.alt}
-          className="max-h-[80vh] max-w-full rounded-lg object-contain shadow-2xl"
-        />
+      {/* Image + caption. next/image (optimized WebP, sized to the viewport)
+          instead of the raw full-resolution original — far fewer bytes on slow
+          mobile connections. The cream blur placeholder fills the frame while
+          the photo decodes, so swiping never flashes an empty black box.
+          The two off-screen neighbours are also mounted so prev/next are
+          already cached before the swipe. */}
+      <div className="flex h-full w-full max-w-6xl flex-col items-center justify-center gap-4 px-4 py-16 md:px-20">
+        <div className="relative w-full flex-1 min-h-0">
+          {images.map((img, i) => {
+            const neighbour =
+              i === index ||
+              i === (index + 1) % count ||
+              i === (index - 1 + count) % count;
+            if (!neighbour) return null;
+            return (
+              <Image
+                key={img.src}
+                src={img.src}
+                alt={img.alt}
+                fill
+                sizes="100vw"
+                placeholder="blur"
+                blurDataURL={BLUR_CREAM}
+                priority={i === index}
+                className={`object-contain drop-shadow-2xl transition-opacity duration-200 ${
+                  i === index ? 'opacity-100' : 'opacity-0'
+                }`}
+              />
+            );
+          })}
+        </div>
         {current.caption && (
-          <p className="mt-4 max-w-2xl text-center text-sm text-white/85 md:text-base">
+          <p className="max-w-2xl text-center text-sm text-white/85 md:text-base">
             {current.caption}
           </p>
         )}

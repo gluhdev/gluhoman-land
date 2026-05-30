@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Calendar, toISO, fromISO, type DateRange } from "../ui/Calendar";
+import { BLUR_CREAM } from "@/lib/blur";
 
 interface Props {
   hotels: { slug: string; label: string }[];
@@ -135,7 +136,10 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
                   src={intro.image}
                   alt={intro.label}
                   fill
+                  priority
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 14rem, 40vw"
+                  placeholder="blur"
+                  blurDataURL={BLUR_CREAM}
                   className="object-cover object-[center_35%]"
                 />
               </div>

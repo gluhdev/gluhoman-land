@@ -6,6 +6,19 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { BLUR_CREAM } from "@/lib/blur";
+
+/** True when slide `i` is the current one or an immediate neighbour (with wrap).
+ *  Those get eager loading so the next/prev photo is already cached before the
+ *  user clicks — no white flash on navigation. Far slides stay lazy to save
+ *  bandwidth on slow mobile connections. */
+function nearby(i: number, idx: number, count: number): boolean {
+  return (
+    i === idx ||
+    i === (idx + 1) % count ||
+    i === (idx - 1 + count) % count
+  );
+}
 
 interface RoomGalleryProps {
   images: string[];
@@ -34,24 +47,43 @@ export default function RoomGallery({ images, alt }: RoomGalleryProps) {
 
   return (
     <div className="w-full min-w-0">
-      <div className="relative w-full aspect-[16/10] rounded-[2px] ring-1 ring-[#1a3d2e]/10 overflow-hidden">
+      <div className="relative w-full aspect-[16/10] rounded-[2px] ring-1 ring-[#1a3d2e]/10 overflow-hidden bg-[#faf6ec]">
+        {/* All slides stay mounted in a translate track: already-seen photos are
+            instant on the way back, and neighbours preload so the next click has
+            its image ready. */}
+        <div
+          className="flex h-full transition-transform duration-300 ease-out"
+          style={{ transform: `translateX(-${idx * 100}%)` }}
+        >
+          {images.map((src, i) => (
+            <div
+              key={src}
+              className="relative h-full w-full shrink-0 grow-0 basis-full bg-[#faf6ec]"
+            >
+              <Image
+                src={src}
+                alt={alt}
+                fill
+                sizes="(min-width:1024px) 60vw, 100vw"
+                placeholder="blur"
+                blurDataURL={BLUR_CREAM}
+                {...(i === 0
+                  ? { priority: true }
+                  : { loading: nearby(i, idx, count) ? "eager" : "lazy" })}
+                className="object-cover"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Transparent overlay opens the lightbox (sits under the nav arrows). */}
         <button
           ref={triggerRef}
           type="button"
           onClick={() => setOpen(true)}
           aria-label={t("gallery_open")}
-          className="absolute inset-0 z-0 cursor-zoom-in"
-        >
-          <Image
-            key={images[idx]}
-            src={images[idx]}
-            alt={alt}
-            fill
-            sizes="(min-width:1024px) 60vw, 100vw"
-            priority={idx === 0}
-            className="object-cover"
-          />
-        </button>
+          className="absolute inset-0 z-[1] cursor-zoom-in"
+        />
 
         {count > 1 && (
           <>
@@ -91,7 +123,16 @@ export default function RoomGallery({ images, alt }: RoomGalleryProps) {
                 i === idx ? "ring-2 ring-[#1a3d2e]" : "ring-1 ring-[#1a3d2e]/15"
               }`}
             >
-              <Image src={src} alt="" fill sizes="80px" className="object-cover" />
+              <Image
+                src={src}
+                alt=""
+                fill
+                sizes="80px"
+                loading="lazy"
+                placeholder="blur"
+                blurDataURL={BLUR_CREAM}
+                className="object-cover"
+              />
             </button>
           ))}
         </div>
@@ -225,6 +266,8 @@ function Lightbox({
                 alt={alt}
                 fill
                 sizes="100vw"
+                placeholder="blur"
+                blurDataURL={BLUR_CREAM}
                 className="object-contain"
               />
             </div>
