@@ -77,6 +77,10 @@ function toSlot(row: PrismaSaunaSlot): SaunaSlot {
   };
 }
 
+// An unpaid sauna hold older than this is an abandoned checkout — it must stop
+// blocking the window (mirrors the hotel stale-pending sweep).
+const STALE_SAUNA_MS = 30 * 60 * 1000;
+
 function createPrismaSaunaStorage(): SaunaStorage {
   return {
     async getAvailability(date) {
@@ -87,6 +91,12 @@ function createPrismaSaunaStorage(): SaunaStorage {
         where: {
           date: { gte: day, lt: next },
           status: { notIn: ['cancelled'] },
+          // Abandoned unpaid holds no longer block the window.
+          NOT: {
+            status: 'reserved',
+            paymentStatus: 'pending',
+            createdAt: { lt: new Date(Date.now() - STALE_SAUNA_MS) },
+          },
         },
       });
 
@@ -139,6 +149,12 @@ function createPrismaSaunaStorage(): SaunaStorage {
             startTime: input.startTime,
             saunaType: input.saunaType,
             status: { notIn: ['cancelled'] },
+            // An abandoned unpaid hold doesn't count as a conflict.
+            NOT: {
+              status: 'reserved',
+              paymentStatus: 'pending',
+              createdAt: { lt: new Date(Date.now() - STALE_SAUNA_MS) },
+            },
           },
         });
         if (conflict) {

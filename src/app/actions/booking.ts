@@ -69,6 +69,15 @@ function validate(p: BookingPayload): string | null {
   if (!p.phone || p.phone.replace(/\D/g, "").length < 10)
     return "Введіть коректний телефон";
   if (!p.dateFrom) return "Оберіть дату";
+  {
+    // Past-date guard for ALL services (the server trusts raw ISO from the body;
+    // the client min-date is bypassable).
+    const f = new Date(p.dateFrom);
+    if (Number.isNaN(f.getTime())) return "Невірна дата";
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (f < today) return "Дата не може бути в минулому";
+  }
   if (p.service === "hotel" && !p.dateTo) return "Оберіть дату виїзду";
   if (p.service === "hotel" && p.dateTo) {
     // Server-side date sanity: the client uses minDate, but the action trusts
@@ -83,6 +92,22 @@ function validate(p: BookingPayload): string | null {
     if (f < today) return "Дата заїзду не може бути в минулому";
   }
   if (p.service === "restaurant" && !p.time) return "Оберіть час";
+  if (p.service === "restaurant" && p.time) {
+    // Reject an already-passed time when booking for today.
+    const f = new Date(p.dateFrom);
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const fStart = new Date(f);
+    fStart.setHours(0, 0, 0, 0);
+    if (fStart.getTime() === todayStart.getTime()) {
+      const [hh, mm] = p.time.split(":").map(Number);
+      if (Number.isFinite(hh)) {
+        const slot = new Date();
+        slot.setHours(hh, mm || 0, 0, 0);
+        if (slot.getTime() <= Date.now()) return "Цей час уже минув";
+      }
+    }
+  }
   if (p.service === "sauna" && !p.time) return "Оберіть час";
   if (!p.guests || p.guests < 1 || p.guests > 50)
     return "Кількість гостей від 1 до 50";

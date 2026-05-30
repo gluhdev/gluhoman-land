@@ -139,52 +139,45 @@ export async function markPaid(
   id: string,
   externalId?: string
 ): Promise<void> {
-  // LiqPay can deliver the same callback more than once (S2S retries). For every
-  // entity, only fire the operator notification if the row was NOT already paid
-  // before this update — otherwise duplicate callbacks re-spam Telegram. (The DB
-  // write itself is idempotent; only the side-effect needs guarding.)
+  // LiqPay delivers callbacks more than once (S2S retries), and a stray success
+  // callback can arrive AFTER a ticket has been scanned/used. If the entity is
+  // already paid, skip the write ENTIRELY (idempotent) — re-running updatePayment
+  // would reset status:'paid' and could re-open a consumed aquapark ticket for a
+  // second entry — and skip the duplicate operator notification.
   if (type === 'order') {
-    const wasPaid = (await orderStorage.get(id))?.paymentStatus === 'paid';
+    if ((await orderStorage.get(id))?.paymentStatus === 'paid') return;
     const updated = await orderStorage.updatePayment(id, 'paid', {
       status: 'PAID',
       paymentExternalId: externalId,
     });
-    if (updated && !wasPaid) {
-      notifyNewOrder(updated).catch(() => {});
-    }
+    if (updated) notifyNewOrder(updated).catch(() => {});
     return;
   }
   if (type === 'hotel') {
-    const wasPaid = (await bookingStorage.get(id))?.paymentStatus === 'paid';
+    if ((await bookingStorage.get(id))?.paymentStatus === 'paid') return;
     const updated = await bookingStorage.updatePayment(id, 'paid', {
       status: 'paid',
       paymentExternalId: externalId,
     });
-    if (updated && !wasPaid) {
-      notifyNewBooking(updated).catch(() => {});
-    }
+    if (updated) notifyNewBooking(updated).catch(() => {});
     return;
   }
   if (type === 'aquapark') {
-    const wasPaid = (await aquaparkStorage.get(id))?.paymentStatus === 'paid';
+    if ((await aquaparkStorage.get(id))?.paymentStatus === 'paid') return;
     const updated = await aquaparkStorage.updatePayment(id, 'paid', {
       status: 'paid',
       paymentExternalId: externalId,
     });
-    if (updated && !wasPaid) {
-      notifyNewAquaparkTicket(updated).catch(() => {});
-    }
+    if (updated) notifyNewAquaparkTicket(updated).catch(() => {});
     return;
   }
   if (type === 'sauna') {
-    const wasPaid = (await saunaStorage.get(id))?.paymentStatus === 'paid';
+    if ((await saunaStorage.get(id))?.paymentStatus === 'paid') return;
     const updated = await saunaStorage.updatePayment(id, 'paid', {
       status: 'paid',
       paymentExternalId: externalId,
     });
-    if (updated && !wasPaid) {
-      notifyNewSaunaSlot(updated).catch(() => {});
-    }
+    if (updated) notifyNewSaunaSlot(updated).catch(() => {});
     return;
   }
   if (type === 'reservation') {
@@ -225,23 +218,34 @@ export async function markPaid(
 }
 
 export async function markFailed(type: PaymentType, id: string): Promise<void> {
+  // Never fail an already-paid entity: late / out-of-order LiqPay callbacks can
+  // carry a failed status after a success (which would wrongly show a paid guest
+  // the "payment failed" screen and reject their valid ticket at the gate).
+  // For slot/inventory flows a genuine failure must FREE the held window, so set
+  // status:'cancelled' (getAvailability / conflict checks exclude 'cancelled').
   if (type === 'order') {
+    if ((await orderStorage.get(id))?.paymentStatus === 'paid') return;
     await orderStorage.updatePayment(id, 'failed');
     return;
   }
   if (type === 'hotel') {
-    await bookingStorage.updatePayment(id, 'failed');
+    if ((await bookingStorage.get(id))?.paymentStatus === 'paid') return;
+    await bookingStorage.updatePayment(id, 'failed', { status: 'cancelled' });
     return;
   }
   if (type === 'aquapark') {
-    await aquaparkStorage.updatePayment(id, 'failed');
+    if ((await aquaparkStorage.get(id))?.paymentStatus === 'paid') return;
+    await aquaparkStorage.updatePayment(id, 'failed', { status: 'cancelled' });
     return;
   }
   if (type === 'sauna') {
-    await saunaStorage.updatePayment(id, 'failed');
+    if ((await saunaStorage.get(id))?.paymentStatus === 'paid') return;
+    await saunaStorage.updatePayment(id, 'failed', { status: 'cancelled' });
     return;
   }
   if (type === 'reservation') {
+    const before = await prisma.booking.findUnique({ where: { id } });
+    if (before?.paymentStatus === 'paid') return;
     await prisma.booking.update({
       where: { id },
       data: { paymentStatus: 'failed' },

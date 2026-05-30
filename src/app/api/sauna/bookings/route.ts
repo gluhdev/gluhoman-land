@@ -42,6 +42,15 @@ export async function POST(req: NextRequest) {
   if (new Date(data.date) < today) {
     return NextResponse.json({ error: 'Дата має бути сьогодні або в майбутньому' }, { status: 400 });
   }
+  // Reject a slot whose start time has already passed (e.g. booking the 10:00
+  // window at 20:00 today). Parsed as server-local time to match the grid.
+  const slotStart = new Date(`${data.date}T${data.startTime}:00`);
+  if (!Number.isNaN(slotStart.getTime()) && slotStart.getTime() <= Date.now()) {
+    return NextResponse.json(
+      { error: 'Цей час уже минув. Оберіть пізніший слот.' },
+      { status: 400 }
+    );
+  }
 
   try {
     const slot = await saunaStorage.create({
