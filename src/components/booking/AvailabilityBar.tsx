@@ -135,8 +135,8 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
                   src={intro.image}
                   alt={intro.label}
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 10rem, 40vw"
-                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 14rem, 40vw"
+                  className="object-cover object-top"
                 />
               </div>
             )}
