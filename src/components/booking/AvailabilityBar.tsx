@@ -130,13 +130,13 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
           {/* Selected hotel — photo + name + description + facts */}
           <div className="flex flex-col gap-4 rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10 sm:flex-row sm:items-start lg:flex-col">
             {intro.image && (
-              <div className="relative h-44 w-full shrink-0 overflow-hidden rounded-[2px] sm:h-32 sm:w-56 lg:h-56 lg:w-full">
+              <div className="relative h-52 w-full shrink-0 overflow-hidden rounded-[2px] sm:h-36 sm:w-56 lg:h-64 lg:w-full">
                 <Image
                   src={intro.image}
                   alt={intro.label}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 14rem, 40vw"
-                  className="object-cover object-top"
+                  className="object-cover object-[center_35%]"
                 />
               </div>
             )}
