@@ -341,7 +341,7 @@ export default function ServiceBookingForm({ service }: Props) {
             <button
               type="submit"
               disabled={pending || !contactReady}
-              className="w-full inline-flex items-center justify-center gap-2 bg-[#c9a95c] hover:bg-[#b8923f] text-[#1a3d2e] px-6 py-4 text-[11px] uppercase tracking-[0.22em] disabled:opacity-60 disabled:cursor-not-allowed transition"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-[2px] bg-[#1a3d2e] text-[#f4ecd8] px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] shadow-[0_10px_28px_-12px_rgba(15,31,24,0.5)] transition hover:bg-[#0f1f18] disabled:bg-[#1a3d2e]/20 disabled:text-[#1a3d2e]/45 disabled:shadow-none disabled:cursor-not-allowed"
             >
               {pending && <Loader2 className="h-4 w-4 animate-spin" />}
               {pending ? t("submit_loading") : t("submit_label")}

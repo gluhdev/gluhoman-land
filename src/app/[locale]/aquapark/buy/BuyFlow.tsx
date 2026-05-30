@@ -26,6 +26,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { formatPrice } from '@/types/cart';
 import { AquaparkTariff } from '@/types/aquapark';
+import { Calendar as DateCalendar, toISO, fromISO } from "@/components/ui/Calendar";
 
 type Step = 'date' | 'tariffs' | 'confirm';
 
@@ -173,14 +174,14 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
         </h2>
         <form onSubmit={handleDate} className="space-y-4 max-w-md">
           <Field label={tc('field_date')} icon={<Calendar className="h-3.5 w-3.5" />} required>
-            <input
-              type="date"
-              required
-              min={todayISO()}
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              className={inputClass}
-            />
+            <div className="rounded-[2px] border border-[#1a3d2e]/15 p-3 sm:p-4">
+              <DateCalendar
+                mode="single"
+                minDate={new Date()}
+                selected={date ? fromISO(date) : undefined}
+                onSelect={(d) => setDate(toISO(d))}
+              />
+            </div>
           </Field>
           {error && <ErrorBox message={error} />}
           <button
