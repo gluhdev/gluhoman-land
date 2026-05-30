@@ -12,6 +12,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing, type Locale } from '@/i18n/routing';
+import { SITE_URL } from '@/lib/site-url';
 
 const manrope = Manrope({
   subsets: ["latin", "cyrillic"],
@@ -41,7 +42,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'layout' });
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gluhoman.com.ua";
+  const base = SITE_URL;
   return {
     metadataBase: new URL(base),
     // NOTE: no hardcoded `alternates` here. A layout-level canonical/hreflang is

@@ -12,6 +12,7 @@ import { FloatingNav } from "@/components/restaurant/FloatingNav";
 import { MenuDialog } from "@/components/restaurant/MenuDialog";
 import { MenuTrigger } from "@/components/restaurant/MenuTrigger";
 import { MenuPreview } from "@/components/restaurant/MenuPreview";
+import { SITE_URL } from "@/lib/site-url";
 
 export async function generateMetadata({
   params,
@@ -48,9 +49,9 @@ const restaurantJsonLd = {
   servesCuisine: ["Ukrainian", "European"],
   priceRange: "$$",
   image: [
-    `https://gluhoman.com.ua${P(1)}`,
-    `https://gluhoman.com.ua${P(8)}`,
-    `https://gluhoman.com.ua${P(15)}`,
+    `${SITE_URL}${P(1)}`,
+    `${SITE_URL}${P(8)}`,
+    `${SITE_URL}${P(15)}`,
   ],
   telephone: PHONE_PRIMARY_TEL,
   address: {

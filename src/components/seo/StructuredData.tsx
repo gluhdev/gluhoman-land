@@ -1,7 +1,6 @@
 import Script from "next/script";
 import { CONTACT_INFO } from "@/constants";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gluhoman.com.ua";
+import { SITE_URL } from "@/lib/site-url";
 
 export function LocalBusinessJsonLd() {
   const data = {

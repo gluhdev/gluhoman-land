@@ -9,6 +9,7 @@ import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { HotelBookingTrigger } from "@/components/hotel/HotelBookingTrigger";
 import { RoomPrice } from "@/components/hotel/RoomPrice";
 import { getText } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/site-url";
 
 export async function generateMetadata({
   params,
@@ -71,7 +72,7 @@ const aquaparkJsonLd = {
   description:
     "Готель «Глухомань» з прямим виходом до Аквапарку. 12 стандартних, 5 люксів, 1 з двома односпальними ліжками. Сніданок та напій включено.",
   image: ROOMS.flatMap((r) =>
-    r.photos.slice(0, 1).map((n) => `https://gluhoman.com.ua/images/hotels/aquapark/${r.slug}/${n}.jpg`)
+    r.photos.slice(0, 1).map((n) => `${SITE_URL}/images/hotels/aquapark/${r.slug}/${n}.jpg`)
   ),
   telephone: PHONE_RESERVATIONS_TEL,
   address: {

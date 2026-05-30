@@ -10,6 +10,7 @@ import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { FloatingNav } from "@/components/restaurant/FloatingNav";
 import { PriceList } from "@/components/sauna/PriceList";
+import { SITE_URL } from "@/lib/site-url";
 
 export async function generateMetadata({
   params,
@@ -55,9 +56,9 @@ const saunaJsonLd = {
   description:
     "Дві лазні на дровах з карпатськими чанами, масажі, скраби та крафтове пиво.",
   image: [
-    `https://gluhoman.com.ua${S(1)}`,
-    `https://gluhoman.com.ua${S(7)}`,
-    `https://gluhoman.com.ua${S(17)}`,
+    `${SITE_URL}${S(1)}`,
+    `${SITE_URL}${S(7)}`,
+    `${SITE_URL}${S(17)}`,
   ],
   telephone: PHONE_SAUNA_TEL,
   address: {

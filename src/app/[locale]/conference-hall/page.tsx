@@ -15,6 +15,7 @@ import { HallSlider, type HallSlide } from "@/components/restaurant/HallSlider";
 import { Reveal } from "@/components/restaurant/Reveal";
 import { SectionFlourish } from "@/components/restaurant/SectionFlourish";
 import { HeroParallax } from "@/components/restaurant/HeroParallax";
+import { SITE_URL } from "@/lib/site-url";
 
 export async function generateMetadata({
   params,
@@ -55,9 +56,9 @@ const conferenceJsonLd = {
   description:
     "Конференц-зал на 45 осіб у Готелі Аквапарку: мультимедійний проектор, кондиціонер, Wi-Fi, кейтеринг від ресторану. Оренда від 500 грн/год.",
   image: [
-    `https://gluhoman.com.ua${C(1)}`,
-    `https://gluhoman.com.ua${C(2)}`,
-    `https://gluhoman.com.ua${C(3)}`,
+    `${SITE_URL}${C(1)}`,
+    `${SITE_URL}${C(2)}`,
+    `${SITE_URL}${C(3)}`,
   ],
   maximumAttendeeCapacity: 45,
   telephone: PHONE_CONFERENCE_TEL,

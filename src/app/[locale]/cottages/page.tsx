@@ -22,6 +22,7 @@ import { HeroParallax } from "@/components/restaurant/HeroParallax";
 import { CottageBookingTrigger } from "@/components/cottages/CottageBookingTrigger";
 import { RoomPrice } from "@/components/hotel/RoomPrice";
 import { getText } from "@/lib/site-content";
+import { SITE_URL } from "@/lib/site-url";
 
 export async function generateMetadata({
   params,
@@ -76,7 +77,7 @@ const cottagesJsonLd = {
   description:
     "Чотири авторські будиночки на території комплексу «Глухомань»: казкові інтерʼєри, повна комплектація, сніданок та 2 години карпатського чану включено.",
   image: COTTAGES.map(
-    (c) => `https://gluhoman.com.ua/images/cottages/${c.slug}/1.jpg`
+    (c) => `${SITE_URL}/images/cottages/${c.slug}/1.jpg`
   ),
   telephone: "+380508503555",
   address: {

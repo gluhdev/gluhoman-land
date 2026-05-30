@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { CONTACT_INFO } from '@/constants';
 import { getTranslations } from 'next-intl/server';
+import { SITE_URL } from '@/lib/site-url';
 
 export async function generateMetadata({
   params,
@@ -85,7 +86,7 @@ export default async function AquaparkPage() {
     '@type': 'TouristAttraction',
     name: t('jsonld.name'),
     description: t('jsonld.description'),
-    image: 'https://gluhoman.com.ua/images/akvapark.webp',
+    image: `${SITE_URL}/images/akvapark.webp`,
     telephone: phonePrimary,
     address: {
       '@type': 'PostalAddress',
