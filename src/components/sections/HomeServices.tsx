@@ -250,8 +250,7 @@ function HotelCorpusGrid({
                     {t(`hotel.corpus.${slug}` as Parameters<typeof t>[0])}
                   </p>
                   <span
-                    className="mt-auto inline-flex items-center gap-2 pt-2 text-[11px] font-medium uppercase tracking-[0.18em] transition-colors"
-                    style={{ color: GOLD }}
+                    className="mt-auto inline-flex w-fit items-center gap-2 rounded-[2px] bg-[#1a3d2e] px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#f4ecd8] transition-colors group-hover/c:bg-[#0f1f18]"
                   >
                     {t("hotel.corpus_book")}
                     <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover/c:-translate-y-0.5 group-hover/c:translate-x-0.5" />

@@ -113,10 +113,10 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
                     onClick={() =>
                       setParams({ hotel: h.slug }, { clearRoom: true })
                     }
-                    className={`w-full rounded-[2px] px-3.5 py-2.5 text-center text-sm transition sm:w-auto sm:py-2 ${
+                    className={`w-full rounded-[2px] px-3.5 py-2.5 text-center text-sm font-medium transition sm:w-auto sm:py-2 ${
                       active
-                        ? "bg-[#1a3d2e] text-[#e6d9b8]"
-                        : "ring-1 ring-[#1a3d2e]/15 text-[#1a3d2e] hover:bg-[#1a3d2e]/5"
+                        ? "bg-[#1a3d2e] text-[#e6d9b8] shadow-[0_8px_20px_-10px_rgba(15,31,24,0.5)]"
+                        : "bg-[#1a3d2e]/[0.04] ring-1 ring-[#1a3d2e]/30 text-[#1a3d2e] hover:bg-[#1a3d2e]/10 hover:ring-[#1a3d2e]/50"
                     }`}
                     aria-pressed={active}
                   >

@@ -100,7 +100,7 @@ export default function RoomResultCard({
 
   const ctaClass = ctaDisabled
     ? "bg-[#1a3d2e]/15 text-[#1a3d2e]/40 cursor-not-allowed"
-    : "bg-[#c9a95c] hover:bg-[#b8923f] text-[#1a3d2e]";
+    : "bg-[#1a3d2e] text-[#f4ecd8] uppercase tracking-[0.14em] hover:bg-[#0f1f18] shadow-[0_10px_28px_-12px_rgba(15,31,24,0.5)] hover:shadow-[0_14px_32px_-12px_rgba(15,31,24,0.6)]";
 
   const visibleAmenities = room.amenities.slice(0, MAX_AMENITIES);
   const extraAmenities = room.amenities.length - visibleAmenities.length;

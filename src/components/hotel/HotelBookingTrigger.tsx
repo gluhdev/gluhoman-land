@@ -27,10 +27,10 @@ export function HotelBookingTrigger({
   return (
     <Link
       href={`/hotel/booking?hotel=${hotelSlug}&room=${roomCategorySlug}`}
-      className={`inline-flex items-center gap-2.5 px-6 py-3.5 text-sm font-medium tracking-wide transition-colors min-h-[44px] ${
+      className={`inline-flex items-center justify-center gap-2.5 rounded-[2px] px-6 py-3.5 text-[13px] font-semibold uppercase tracking-[0.14em] transition-all duration-300 min-h-[48px] ${
         light
-          ? "bg-[#e6d9b8] text-[#0f1f18] hover:bg-[#f4ecd8]"
-          : "bg-[#1a3d2e] text-[#f4ecd8] hover:bg-[#0f1f18]"
+          ? "bg-[#1a3d2e] text-[#f4ecd8] ring-1 ring-[#c9a95c]/60 hover:bg-[#0f1f18]"
+          : "bg-[#1a3d2e] text-[#f4ecd8] shadow-[0_10px_28px_-12px_rgba(15,31,24,0.5)] hover:bg-[#0f1f18] hover:shadow-[0_14px_32px_-12px_rgba(15,31,24,0.6)]"
       }`}
     >
       <Calendar className="w-4 h-4" strokeWidth={2} />
