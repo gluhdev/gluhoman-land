@@ -3930,7 +3930,8 @@
     "err_email_required": "Введіть email",
     "field_email_required": "Email",
     "email_confirmation_note": "На цей email надійде підтвердження бронювання.",
-    "breakfast_included": "Сніданок включено"
+    "breakfast_included": "Сніданок включено",
+    "room_options": "{count, plural, one {# варіант номера} few {# варіанти номерів} other {# варіантів номерів}}"
   },
   "booking_hub": {
     "title": "Що бажаєте забронювати?",

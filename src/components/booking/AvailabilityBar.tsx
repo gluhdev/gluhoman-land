@@ -15,7 +15,7 @@ interface Props {
     adults: number;
     children: number;
   };
-  intro: { image?: string; label: string; description: string };
+  intro: { image?: string; label: string; description: string; roomCount: number };
 }
 
 const ADULTS_MIN = 1;
@@ -96,9 +96,9 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
         isPending ? "opacity-70" : ""
       }`}
     >
-      {/* Desktop: two-column search block (40/60). Mobile: stacked. */}
+      {/* Desktop: LEFT = Step 1 (hotel) + Step 3 (guests); RIGHT = Step 2 (calendar). Mobile: stacked. */}
       <div className="grid gap-6 lg:grid-cols-[2fr_3fr] lg:gap-8">
-        {/* LEFT column — Step 1: hotel choice (tabs + intro) */}
+        {/* LEFT — Step 1 (hotel + info) and Step 3 (guests) */}
         <div className="flex flex-col gap-5">
           {/* Step 1 — hotel */}
           <div>
@@ -127,10 +127,10 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
             </div>
           </div>
 
-          {/* Selected hotel — description + photo (below the hotel choice) */}
-          <div className="flex flex-col gap-4 rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10 sm:flex-row sm:items-center lg:flex-col lg:items-start">
+          {/* Selected hotel — photo + name + description + facts */}
+          <div className="flex flex-col gap-4 rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10 sm:flex-row sm:items-start lg:flex-col">
             {intro.image && (
-              <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-[2px] sm:h-24 sm:w-40 lg:h-44 lg:w-full">
+              <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-[2px] sm:h-28 sm:w-40 lg:h-44 lg:w-full">
                 <Image
                   src={intro.image}
                   alt={intro.label}
@@ -147,87 +147,88 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
               <p className="mt-1 text-[14px] leading-relaxed text-[#0f1f18]/75">
                 {intro.description}
               </p>
+              <ul className="mt-3 space-y-1.5 text-[13px] text-[#1a3d2e]/90">
+                <li className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#c9a95c]" />
+                  {t("room_options", { count: intro.roomCount })}
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#c9a95c]" />
+                  {t("breakfast_included")}
+                </li>
+              </ul>
             </div>
           </div>
-        </div>
 
-        {/* RIGHT column — Step 2: dates (calendar) + Step 3: guests + summary */}
-        <div className="flex flex-col gap-6">
-          {/* Inline calendar */}
+          {/* Step 3 — guests */}
           <div>
-            <StepLabel n={2} text={t("step_dates")} />
-            <div className="mt-2 w-full rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec]/50 p-4 sm:p-5">
-              <Calendar
-                mode="range"
-                minDate={new Date()}
-                numberOfMonths={2}
-                selected={range}
-                onRangeSelect={handleRangeSelect}
+            <StepLabel n={3} text={t("step_guests")} />
+            <div className="mt-2 flex flex-wrap gap-3">
+              <Stepper
+                label={t("adults")}
+                value={current.adults}
+                decreaseAria={adultsDecAria}
+                increaseAria={adultsIncAria}
+                onChange={(n) => setParams({ adults: String(n) })}
+                min={ADULTS_MIN}
+                max={ADULTS_MAX}
+              />
+              <Stepper
+                label={t("children")}
+                value={current.children}
+                decreaseAria={childrenDecAria}
+                increaseAria={childrenIncAria}
+                onChange={(n) => setParams({ children: String(n) })}
+                min={CHILDREN_MIN}
+                max={CHILDREN_MAX}
               />
             </div>
           </div>
 
-          {/* Guests + summary */}
-          <div className="flex flex-col gap-5">
-            <div>
-              <StepLabel n={3} text={t("step_guests")} />
-              <div className="mt-2 flex flex-wrap gap-3">
-                <Stepper
-                  label={t("adults")}
-                  value={current.adults}
-                  decreaseAria={adultsDecAria}
-                  increaseAria={adultsIncAria}
-                  onChange={(n) => setParams({ adults: String(n) })}
-                  min={ADULTS_MIN}
-                  max={ADULTS_MAX}
-                />
-                <Stepper
-                  label={t("children")}
-                  value={current.children}
-                  decreaseAria={childrenDecAria}
-                  increaseAria={childrenIncAria}
-                  onChange={(n) => setParams({ children: String(n) })}
-                  min={CHILDREN_MIN}
-                  max={CHILDREN_MAX}
-                />
-              </div>
-            </div>
-
-            {/* Selected-range summary / hint */}
-            <div className="rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10">
-              {complete ? (
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="space-y-1 text-[14px] text-[#0f1f18]">
-                    <p>
-                      <span className="text-[#1a3d2e]/60">
-                        {t("checkin")}:{" "}
-                      </span>
-                      <span className="font-medium">{fmtDay(range.from!)}</span>
-                    </p>
-                    <p>
-                      <span className="text-[#1a3d2e]/60">
-                        {t("checkout")}:{" "}
-                      </span>
-                      <span className="font-medium">{fmtDay(range.to!)}</span>
-                    </p>
-                    <p className="text-[13px] text-[#1a3d2e]/70">
-                      {t("nights_count", { count: nights })}
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={clearDates}
-                    className="text-[13px] text-[#1a3d2e]/70 underline underline-offset-2 hover:text-[#1a3d2e]"
-                  >
-                    {t("clear_dates")}
-                  </button>
+          {/* Selected-range summary / hint */}
+          <div className="rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10">
+            {complete ? (
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="space-y-1 text-[14px] text-[#0f1f18]">
+                  <p>
+                    <span className="text-[#1a3d2e]/60">{t("checkin")}: </span>
+                    <span className="font-medium">{fmtDay(range.from!)}</span>
+                  </p>
+                  <p>
+                    <span className="text-[#1a3d2e]/60">{t("checkout")}: </span>
+                    <span className="font-medium">{fmtDay(range.to!)}</span>
+                  </p>
+                  <p className="text-[13px] text-[#1a3d2e]/70">
+                    {t("nights_count", { count: nights })}
+                  </p>
                 </div>
-              ) : (
-                <p className="text-[13px] leading-relaxed text-[#1a3d2e]/70">
-                  {range.from ? t("pick_checkout") : t("select_dates_hint")}
-                </p>
-              )}
-            </div>
+                <button
+                  type="button"
+                  onClick={clearDates}
+                  className="text-[13px] text-[#1a3d2e]/70 underline underline-offset-2 hover:text-[#1a3d2e]"
+                >
+                  {t("clear_dates")}
+                </button>
+              </div>
+            ) : (
+              <p className="text-[13px] leading-relaxed text-[#1a3d2e]/70">
+                {range.from ? t("pick_checkout") : t("select_dates_hint")}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* RIGHT — Step 2: dates (calendar) */}
+        <div>
+          <StepLabel n={2} text={t("step_dates")} />
+          <div className="mt-2 w-full rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec]/50 p-4 sm:p-5">
+            <Calendar
+              mode="range"
+              minDate={new Date()}
+              numberOfMonths={2}
+              selected={range}
+              onRangeSelect={handleRangeSelect}
+            />
           </div>
         </div>
       </div>

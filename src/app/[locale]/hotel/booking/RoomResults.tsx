@@ -114,6 +114,7 @@ export default function RoomResults({
           image: hotelImage,
           label: hotelLabel,
           description: t(`hotel_desc_${hotel}`),
+          roomCount: rooms.length,
         }}
       />
 

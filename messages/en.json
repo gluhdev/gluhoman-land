@@ -3930,7 +3930,8 @@
     "err_email_required": "Enter your email",
     "field_email_required": "Email",
     "email_confirmation_note": "You will receive a booking confirmation to this email.",
-    "breakfast_included": "Breakfast is included"
+    "breakfast_included": "Breakfast is included",
+    "room_options": "{count, plural, one {# number variant} several {# number variants} other {# number variants}}"
   },
   "booking_hub": {
     "title": "What do you want to book?",
