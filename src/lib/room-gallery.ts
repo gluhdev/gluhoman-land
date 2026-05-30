@@ -39,8 +39,7 @@ const GALLERIES: Record<string, string[]> = {
   "aquapark:standard-basic": build("hotels/aquapark/standard-basic", range(47, 51)),
 
   // ── Cottages ─────────────────────────────────────────────────────
-  // NOTE: yaga has no 3.jpg on disk.
-  "cottages:yaga": build("cottages/yaga", [1, 2, 4, 5, 6, 7, 8, 9, 10]),
+  "cottages:yaga": build("cottages/yaga", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
   "cottages:lisovyk": build("cottages/lisovyk", range(1, 9)),
   "cottages:teremok": build("cottages/teremok", range(1, 8)),
   "cottages:terem-lux": build("cottages/terem-lux", range(1, 10)),

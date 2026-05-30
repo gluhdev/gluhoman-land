@@ -63,7 +63,7 @@ interface Cottage {
 }
 
 const COTTAGES: Cottage[] = [
-  { slug: "yaga", capacity: 2, rooms: 1, photos: [1, 2, 4, 5, 6, 7, 8, 9, 10] },
+  { slug: "yaga", capacity: 2, rooms: 1, photos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
   { slug: "lisovyk", capacity: 2, rooms: 1, photos: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
   { slug: "teremok", capacity: 2, rooms: 1, photos: [1, 2, 3, 4, 5, 6, 7, 8] },
   { slug: "terem-lux", capacity: 4, rooms: 2, photos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
