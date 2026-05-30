@@ -37,11 +37,11 @@ const nextConfig: NextConfig = {
         source: "/images/:path*",
         headers: [
           {
-            // 30 days for raw /images/* — they're effectively content-addressed
-            // by path (room photos don't change in place; we add new slugs when
-            // content changes). Big perf win on repeat visits.
+            // 1 day, revalidatable (NOT immutable): photos are sometimes
+            // replaced in place, so browsers must be able to pick up new
+            // versions within a day instead of being stuck for a month.
             key: "Cache-Control",
-            value: "public, max-age=2592000, immutable",
+            value: "public, max-age=86400, must-revalidate",
           },
         ],
       },
@@ -57,10 +57,10 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 2560],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     qualities: [75, 85, 90, 95],
-    // 30 days — site photos are immutable per path. Long TTL means Next
-    // image optimizer hits its on-disk cache instead of re-encoding AVIF/WebP
-    // on every request; major perf gain for repeat visitors AND lower CPU.
-    minimumCacheTTL: 60 * 60 * 24 * 30,
+    // 1 day — long enough to keep the optimizer cache warm (good perf), short
+    // enough that an in-place photo replacement propagates to browsers within
+    // a day instead of a month.
+    minimumCacheTTL: 60 * 60 * 24,
     remotePatterns: [
       {
         protocol: 'https',
