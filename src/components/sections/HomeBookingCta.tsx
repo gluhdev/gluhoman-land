@@ -33,10 +33,16 @@ export default function HomeBookingCta() {
       ref={ref}
       className="relative overflow-hidden bg-[#0b1410] text-[#f4ecd8]"
     >
-      {/* Background photo with parallax */}
+      {/* Background photo with parallax.
+          inset-[-8%] is overscan for the parallax shift. When parallax is OFF
+          (mobile/touch + reduced-motion) there's no shift, so use inset-0 —
+          otherwise the −8% overscan leaks above/left of the section on mobile,
+          where mobile.css forces `section { overflow: visible !important }`. */}
       <motion.div
         style={disableParallax ? undefined : { y: bgY }}
-        className="absolute inset-[-8%] will-change-transform"
+        className={`absolute will-change-transform ${
+          disableParallax ? "inset-0" : "inset-[-8%]"
+        }`}
       >
         <Image
           src="/images/restaurant/exterior_summer_terrace_water.jpg"
