@@ -102,11 +102,12 @@ export function HallSlider({
           of the page. Mixing in data-lenis-prevent would make vertical wheels
           fall through to native scroll while Lenis is still running its RAF
           loop — that caused the jitter.
-          touch-action:pan-x lets mobile do horizontal swipe for the slider
-          while vertical swipes bubble to the page scroll. */}
+          No touch-action override (default auto): the browser axis-locks —
+          horizontal swipes scroll the slider, vertical swipes scroll the page.
+          (pan-x used to be here but it BLOCKED vertical page scroll on mobile.) */}
       <div
         ref={ref}
-        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide [touch-action:pan-x] [overscroll-behavior-x:contain]"
+        className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide [overscroll-behavior-x:contain]"
         style={{ scrollbarWidth: 'none' }}
       >
         {photos.map((p, i) => (
@@ -162,7 +163,7 @@ export function HallSlider({
           <div className="mt-5 flex items-center gap-4">
             <div
               ref={thumbsRef}
-              className="flex-1 flex items-center gap-2.5 overflow-x-auto scrollbar-hide [touch-action:pan-x] [overscroll-behavior-x:contain]"
+              className="flex-1 flex items-center gap-2.5 overflow-x-auto scrollbar-hide [overscroll-behavior-x:contain]"
               style={{ scrollbarWidth: 'none' }}
             >
               {photos.map((p, i) => {

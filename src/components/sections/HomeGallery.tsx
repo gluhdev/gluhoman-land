@@ -102,7 +102,9 @@ export default function HomeGallery() {
 
       {/* Embla edge-to-edge */}
       <div className="mt-14">
-        <div className="overflow-hidden" ref={emblaRef}>
+        {/* touch-pan-y on the Embla VIEWPORT (the gesture target) so vertical
+            swipes scroll the page; Embla still handles horizontal drag via JS. */}
+        <div className="overflow-hidden touch-pan-y" ref={emblaRef}>
           <div className="flex touch-pan-y gap-5 pl-6 pr-6 md:gap-6 md:pl-12 md:pr-12 lg:pl-16 lg:pr-16">
             {SLIDES.map((s, i) => (
               <div
