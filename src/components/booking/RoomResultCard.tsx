@@ -113,13 +113,16 @@ export default function RoomResultCard({
       className={cardBase + (selected ? " ring-2 ring-[#1a3d2e]" : "")}
     >
       <div className="grid md:grid-cols-[minmax(0,22rem)_1fr] gap-0">
-        {/* Gallery (top on mobile, left column on desktop) */}
-        <div className="md:p-3">
+        {/* Gallery (top on mobile, left column on desktop).
+            min-w-0: without it the single-column mobile grid item refuses to
+            shrink below the gallery's min-content (the fixed-width thumbnail
+            strip), overflowing the card and clipping the right arrow. */}
+        <div className="md:p-3 min-w-0">
           <RoomGallery images={galleryImages} alt={room.name} />
         </div>
 
         {/* Details */}
-        <div className="p-6 md:p-7 flex flex-col">
+        <div className="p-6 md:p-7 flex flex-col min-w-0">
           <span className="mb-2 inline-flex w-fit items-center gap-1.5 rounded-full bg-[#1a3d2e] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.08em] text-[#e6d9b8]">
             <Building2 className="h-3.5 w-3.5" strokeWidth={1.8} aria-hidden />
             {hotelLabel}

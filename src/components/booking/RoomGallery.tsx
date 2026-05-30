@@ -33,7 +33,7 @@ export default function RoomGallery({ images, alt }: RoomGalleryProps) {
   if (count === 0) return null;
 
   return (
-    <div>
+    <div className="w-full min-w-0">
       <div className="relative w-full aspect-[16/10] rounded-[2px] ring-1 ring-[#1a3d2e]/10 overflow-hidden">
         <button
           ref={triggerRef}

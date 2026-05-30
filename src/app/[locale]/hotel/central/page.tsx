@@ -177,7 +177,7 @@ async function RoomCard({
   return (
     <Reveal>
       <article className="h-full overflow-hidden bg-white ring-1 ring-[#1a3d2e]/10 shadow-[0_20px_60px_-30px_rgba(26,61,46,0.2)] flex flex-col">
-        <div className="p-3 pb-0">
+        <div className="p-3 pb-0 min-w-0">
           <RoomGallery
             images={roomGallery("central", slug, ROOM_PHOTO[slug])}
             alt={t(k("name"))}
