@@ -74,13 +74,24 @@ export default function Header() {
 
   const hamburgerRef = useRef<HTMLButtonElement | null>(null);
   const drawerRef = useRef<HTMLDivElement | null>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
 
   /* --- scroll state ---------------------------------------------- */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    // On mobile the document is locked and .app-scroll is the scroller; on
+    // desktop the document scrolls and .app-scroll stays at 0. Max covers both.
+    const scroller = document.querySelector('.app-scroll') as HTMLElement | null;
+    const onScroll = () => {
+      const y = Math.max(window.scrollY || 0, scroller?.scrollTop ?? 0);
+      setScrolled(y > 24);
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    scroller?.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      scroller?.removeEventListener('scroll', onScroll);
+    };
   }, []);
 
   /* --- mobile drawer: scroll lock + escape + focus trap ---------- */
@@ -89,6 +100,11 @@ export default function Header() {
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    // On mobile the real scroller is .app-scroll — lock it too, else the page
+    // behind the drawer can still scroll.
+    const scroller = document.querySelector('.app-scroll') as HTMLElement | null;
+    const previousScrollerOverflow = scroller?.style.overflow ?? '';
+    if (scroller) scroller.style.overflow = 'hidden';
 
     const drawer = drawerRef.current;
     const focusables = drawer
@@ -98,7 +114,8 @@ export default function Header() {
           )
         )
       : [];
-    focusables[0]?.focus();
+    // Focus the close button (NOT the logo) so the logo never gets a focus ring.
+    closeBtnRef.current?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -122,6 +139,7 @@ export default function Header() {
 
     return () => {
       document.body.style.overflow = previousOverflow;
+      if (scroller) scroller.style.overflow = previousScrollerOverflow;
       document.removeEventListener('keydown', onKeyDown);
       // restore focus to hamburger
       hamburgerRef.current?.focus();
@@ -170,7 +188,7 @@ export default function Header() {
           <Link
             href="/"
             aria-label={t('header.logo_aria')}
-            className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm"
+            className="flex items-center focus-visible:outline-none rounded-sm"
           >
             <Image
               src="/images/logo.png"
@@ -396,7 +414,7 @@ export default function Header() {
               <Link
                 href="/"
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm"
+                className="flex items-center focus-visible:outline-none rounded-sm"
               >
                 <Image
                   src="/images/logo.png"
@@ -409,6 +427,7 @@ export default function Header() {
               <div className="flex items-center gap-3">
                 <LanguageSwitcher />
                 <button
+                  ref={closeBtnRef}
                   type="button"
                   aria-label={t('nav.close_menu')}
                   onClick={() => setMobileOpen(false)}
@@ -435,6 +454,30 @@ export default function Header() {
                     >
                       {t(`nav.${item.key}`)}
                     </Link>
+                    {/* Hotel: show the 4 corpuses expanded inline (no accordion) */}
+                    {item.children && item.children.length > 0 && (
+                      <ul className="mt-1 space-y-0.5 pb-1 pl-3">
+                        {item.children
+                          .filter((child) => child.id !== 'all')
+                          .map((child) => (
+                            <li key={child.href}>
+                              <Link
+                                href={child.href}
+                                onClick={() => setMobileOpen(false)}
+                                className={`block py-2 text-[12px] tracking-[0.08em] ${
+                                  isActive(child.href)
+                                    ? 'text-primary font-medium'
+                                    : 'text-neutral-600 hover:text-neutral-900'
+                                }`}
+                              >
+                                {t(
+                                  `nav.${item.key}_menu.${child.id}.title` as Parameters<typeof t>[0]
+                                )}
+                              </Link>
+                            </li>
+                          ))}
+                      </ul>
+                    )}
                   </li>
                 ))}
 

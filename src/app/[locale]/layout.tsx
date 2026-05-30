@@ -104,12 +104,19 @@ export default async function LocaleLayout({
             {t('skip_to_content')}
           </a>
           <SmoothScrollProvider>
-            <div className="min-h-[100svh] flex flex-col prevent-horizontal-scroll">
+            {/* app-shell: on mobile this is locked (overflow hidden) and the
+                inner .app-scroll is the ONLY scroller, so the iOS address bar
+                can't toggle/resize the page. Header sits OUTSIDE .app-scroll so
+                its fixed positioning isn't trapped by the touch scroller.
+                On desktop both are normal flow (see mobile.css media query). */}
+            <div className="app-shell min-h-[100svh] flex flex-col prevent-horizontal-scroll">
               <Header />
-              <main id="main" className="flex-1">
-                {children}
-              </main>
-              <Footer />
+              <div className="app-scroll flex flex-1 flex-col">
+                <main id="main" className="flex-1">
+                  {children}
+                </main>
+                <Footer />
+              </div>
             </div>
           </SmoothScrollProvider>
           <FloatingButtons />
