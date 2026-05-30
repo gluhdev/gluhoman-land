@@ -10,6 +10,7 @@ import {
   MessageSquare,
 } from 'lucide-react';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/lib/auth';
 import { StatusActions } from './StatusActions';
 import { PaymentLinkPanel } from './PaymentLinkPanel';
 import { suggestedReservationAmount, nightsBetween } from '@/lib/room-config';
@@ -77,6 +78,14 @@ export default async function AdminBookingDetailPage({
   const { id } = await params;
   const booking = await prisma.booking.findUnique({ where: { id } });
   if (!booking) notFound();
+
+  // Hotel-scoped managers may only open their own hotel's bookings — without
+  // this a scoped admin could read any other hotel's guest PII by id. The list
+  // page is already scoped; this detail page was the gap. notFound() (not an
+  // error) so a wrong id is indistinguishable from a forbidden one.
+  const session = await auth();
+  const scoped = session?.user?.hotelSlug ?? null;
+  if (scoped && booking.hotelSlug !== scoped) notFound();
 
   const nights = nightsBetween(booking.dateFrom, booking.dateTo);
   const suggestedAmount =

@@ -180,3 +180,25 @@ export async function suggestedReservationAmount(
   if (!perNight) return 0;
   return perNight * Math.max(1, nights);
 }
+
+/**
+ * Highest guest count this room is priced for (override-aware) — its bookable
+ * capacity. The top price tier matches the displayed capacity (lux rooms price
+ * to 4 = «до 4 дорослих»; standard rooms price to 3 = «2 дорослих + 1 дитина»),
+ * and beyond it there is no price, so it's the natural online booking ceiling.
+ * Returns null when the room has no fixed tiers («за запитом») — capacity is
+ * then managed manually by the operator.
+ */
+export async function resolvedMaxOccupancy(
+  hotelSlug: string | undefined,
+  roomSlug: string | undefined,
+): Promise<number | null> {
+  if (!hotelSlug || !roomSlug) return null;
+  const map = await getRoomConfigMap();
+  const tiers = map[`${hotelSlug}:${roomSlug}`]?.tiers ?? null;
+  if (!tiers) return null;
+  const counts = Object.keys(tiers)
+    .map(Number)
+    .filter((n) => Number.isFinite(n));
+  return counts.length ? Math.max(...counts) : null;
+}

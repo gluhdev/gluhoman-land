@@ -6,7 +6,11 @@ import { prisma } from "@/lib/prisma";
 import {
   SERVICE_TO_DB, buildEnrichedComment, notifyReservation,
 } from "@/lib/reservation-notify";
-import { suggestedReservationAmount, nightsBetween } from "@/lib/room-config";
+import {
+  suggestedReservationAmount,
+  nightsBetween,
+  resolvedMaxOccupancy,
+} from "@/lib/room-config";
 import { checkAvailability } from "./availability";
 
 export type BookingService = "hotel" | "aquapark" | "restaurant" | "sauna";
@@ -180,6 +184,21 @@ export async function createRoomReservation(
 
   const error = validate(payload);
   if (error) return { ok: false, error };
+
+  // Capacity guard: a room is only priced up to its max-occupancy tier, and the
+  // client steppers (up to 10 adults + 6 children) can exceed it. Without this,
+  // priceForGuests silently clamps an over-capacity party to the top-tier price
+  // (undercharge + overbooking). Reject and point the guest to phone booking.
+  const maxOccupancy = await resolvedMaxOccupancy(
+    input.hotelSlug,
+    input.roomCategorySlug,
+  );
+  if (maxOccupancy != null && guests > maxOccupancy) {
+    return {
+      ok: false,
+      error: `Цей номер розрахований максимум на ${maxOccupancy} гостей. Для більшої компанії зателефонуйте нам: ${CONTACT_INFO.phone[0]}`,
+    };
+  }
 
   // Oversell guard: re-check live availability server-side. The client CTA
   // disable is advisory and races with concurrent bookings / stale tabs, so two
