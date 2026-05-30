@@ -139,42 +139,50 @@ export async function markPaid(
   id: string,
   externalId?: string
 ): Promise<void> {
+  // LiqPay can deliver the same callback more than once (S2S retries). For every
+  // entity, only fire the operator notification if the row was NOT already paid
+  // before this update — otherwise duplicate callbacks re-spam Telegram. (The DB
+  // write itself is idempotent; only the side-effect needs guarding.)
   if (type === 'order') {
+    const wasPaid = (await orderStorage.get(id))?.paymentStatus === 'paid';
     const updated = await orderStorage.updatePayment(id, 'paid', {
       status: 'PAID',
       paymentExternalId: externalId,
     });
-    if (updated) {
+    if (updated && !wasPaid) {
       notifyNewOrder(updated).catch(() => {});
     }
     return;
   }
   if (type === 'hotel') {
+    const wasPaid = (await bookingStorage.get(id))?.paymentStatus === 'paid';
     const updated = await bookingStorage.updatePayment(id, 'paid', {
       status: 'paid',
       paymentExternalId: externalId,
     });
-    if (updated) {
+    if (updated && !wasPaid) {
       notifyNewBooking(updated).catch(() => {});
     }
     return;
   }
   if (type === 'aquapark') {
+    const wasPaid = (await aquaparkStorage.get(id))?.paymentStatus === 'paid';
     const updated = await aquaparkStorage.updatePayment(id, 'paid', {
       status: 'paid',
       paymentExternalId: externalId,
     });
-    if (updated) {
+    if (updated && !wasPaid) {
       notifyNewAquaparkTicket(updated).catch(() => {});
     }
     return;
   }
   if (type === 'sauna') {
+    const wasPaid = (await saunaStorage.get(id))?.paymentStatus === 'paid';
     const updated = await saunaStorage.updatePayment(id, 'paid', {
       status: 'paid',
       paymentExternalId: externalId,
     });
-    if (updated) {
+    if (updated && !wasPaid) {
       notifyNewSaunaSlot(updated).catch(() => {});
     }
     return;
