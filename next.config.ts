@@ -48,7 +48,12 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
-    formats: ['image/avif', 'image/webp'],
+    // WebP-only (AVIF dropped intentionally): AVIF encoding is ~5–10× slower
+    // than WebP and is done on-demand by the standalone server. On the modest
+    // VPS that made first-load of large room photos crawl — especially right
+    // after a deploy when the optimizer cache is cold. WebP is plenty small
+    // and encodes fast. Pair this with the persisted .next/cache volume.
+    formats: ['image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 2560],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     qualities: [75, 85, 90, 95],

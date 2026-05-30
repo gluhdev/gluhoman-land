@@ -433,25 +433,6 @@ export default function Header() {
                     >
                       {t(`nav.${item.key}`)}
                     </Link>
-                    {item.children && item.children.length > 0 && (
-                      <ul className="pl-3 py-2 space-y-1">
-                        {item.children.map((child) => (
-                          <li key={child.href}>
-                            <Link
-                              href={child.href}
-                              onClick={() => setMobileOpen(false)}
-                              className={`block py-2 text-[12px] tracking-wide text-neutral-700 hover:text-neutral-900 ${
-                                isActive(child.href) ? 'text-primary font-medium' : ''
-                              }`}
-                            >
-                              {t(
-                                `nav.${item.key}_menu.${child.id}.title` as Parameters<typeof t>[0]
-                              )}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                   </li>
                 ))}
 
@@ -500,29 +481,6 @@ export default function Header() {
                       ))}
                     </div>
                   )}
-                </li>
-
-                <li>
-                  <Link
-                    href="/restaurant"
-                    onClick={() => setMobileOpen(false)}
-                    className={`block py-3 text-[13px] uppercase tracking-[0.22em] font-medium border-b border-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm ${
-                      isActive('/restaurant') ? 'text-primary' : 'text-neutral-900'
-                    }`}
-                  >
-                    {t('nav.restaurant')}
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/menu"
-                    onClick={() => setMobileOpen(false)}
-                    className={`block py-3 pl-4 text-[12px] uppercase tracking-[0.22em] font-medium border-b border-black/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-sm ${
-                      isActive('/menu') ? 'text-primary' : 'text-neutral-700'
-                    }`}
-                  >
-                    {t('nav.see_menu')}
-                  </Link>
                 </li>
               </ul>
 

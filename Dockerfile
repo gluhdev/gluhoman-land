@@ -49,6 +49,13 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/prisma ./node_modules/prisma
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
 
+# Persisted Next image-optimizer cache. Pre-create it owned by the runtime
+# user so the named volume mounted here in compose inherits nextjs ownership
+# and the optimizer can actually write encoded variants. Without persistence
+# every `docker compose build/up` wiped this dir → all room photos re-encoded
+# on-demand for the first visitor after each deploy (very slow).
+RUN mkdir -p .next/cache/images && chown -R nextjs:nodejs .next/cache
+
 USER nextjs
 
 EXPOSE 3000

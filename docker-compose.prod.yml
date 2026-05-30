@@ -68,6 +68,10 @@ services:
       - LIQPAY_PRIVATE_KEY=${LIQPAY_PRIVATE_KEY:-}
     ports:
       - "127.0.0.1:3000:3000"  # nginx host will reverse-proxy
+    volumes:
+      # Persist the Next image-optimizer cache across deploys/restarts so
+      # large room photos are encoded once, not re-encoded on every `up`.
+      - next-image-cache:/app/.next/cache
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/"]
       interval: 30s
@@ -115,6 +119,7 @@ services:
 volumes:
   postgres-data:
   redis-data:
+  next-image-cache:
 
 networks:
   internal:

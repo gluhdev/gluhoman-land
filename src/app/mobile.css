@@ -12,18 +12,26 @@
    into a scroll container that traps macOS trackpad events.
    Horizontal clipping lives on .prevent-horizontal-scroll wrapper. */
 
-/* iOS-специфичная фиксация высоты + iOS momentum scroll.
-   ВАЖНО: -webkit-overflow-scrolling: touch ДОЛЖНО применяться ТОЛЬКО
-   на iOS. На macOS Safari / Chrome это свойство превращает элемент
-   в "touch-styled scroll container", который после hydration глотает
-   wheel events → страница перестаёт скроллиться мышкой. Мы держим
-   это только внутри мобильного media-query. */
+/* iOS address-bar resize fix.
+   Раньше тут стояло html,body{height:100%;min-height:100%;overflow-y:auto} —
+   это превращало html/body в scroll-контейнер, ПРИВЯЗАННЫЙ к высоте visual
+   viewport. На iOS Safari при сворачивании/разворачивании адресной строки
+   viewport меняет высоту → контейнер ресайзится → весь контент визуально
+   "прыгает"/масштабируется. Это и есть тот баг.
+   Решение: НЕ задавать фиксированную высоту/overflow на html|body — пусть
+   документ скроллится нативно с естественной высотой контента (как на
+   десктопе). Тогда сворачивание адресной строки просто открывает больше
+   того же документа без relayout. svh-герои остаются стабильными.
+   (-webkit-overflow-scrolling: touch тоже убран — на современном iOS
+   документ и так имеет momentum-скролл, а свойство нужно лишь scroll-
+   контейнерам, которых мы здесь больше не создаём.) */
+
+/* background-attachment: fixed на iOS перерисовывает/масштабирует фон при
+   каждой смене высоты viewport (адресная строка) — на мобильных делаем
+   scroll, чтобы фон не "дышал" вместе со страницей. */
 @media screen and (max-width: 768px) {
-  html, body {
-    height: 100%;
-    min-height: 100%;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+  .bg-radial-gradient-green {
+    background-attachment: scroll !important;
   }
 }
 
