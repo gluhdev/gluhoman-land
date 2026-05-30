@@ -3918,7 +3918,7 @@
     "hotel_desc_cottages": "Separate houses for private relaxation alone with nature.",
     "step_hotel": "Choose a hotel",
     "step_dates": "Select the dates",
-    "step_guests": "Guests",
+    "step_guests": "Number of guests",
     "checkin": "Check in",
     "checkout": "Departure",
     "nights_count": "{count, plural, one {# night} few {# nights} other {# nights}}",

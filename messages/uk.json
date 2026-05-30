@@ -3918,7 +3918,7 @@
     "hotel_desc_cottages": "Окремі будиночки для приватного відпочинку наодинці з природою.",
     "step_hotel": "Оберіть готель",
     "step_dates": "Оберіть дати",
-    "step_guests": "Гості",
+    "step_guests": "Кількість гостей",
     "checkin": "Заїзд",
     "checkout": "Виїзд",
     "nights_count": "{count, plural, one {# ніч} few {# ночі} other {# ночей}}",

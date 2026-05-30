@@ -160,9 +160,13 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
             </div>
           </div>
 
-          {/* Step 3 — guests */}
+        </div>
+
+        {/* RIGHT — Step 2: guests, Step 3: dates (calendar) */}
+        <div className="flex flex-col gap-6">
+          {/* Step 2 — guests */}
           <div>
-            <StepLabel n={3} text={t("step_guests")} />
+            <StepLabel n={2} text={t("step_guests")} />
             <div className="mt-2 flex flex-wrap gap-3">
               <Stepper
                 label={t("adults")}
@@ -181,6 +185,20 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
                 onChange={(n) => setParams({ children: String(n) })}
                 min={CHILDREN_MIN}
                 max={CHILDREN_MAX}
+              />
+            </div>
+          </div>
+
+          {/* Step 3 — dates (calendar) */}
+          <div>
+            <StepLabel n={3} text={t("step_dates")} />
+            <div className="mt-2 w-full rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec]/50 p-4 sm:p-5">
+              <Calendar
+                mode="range"
+                minDate={new Date()}
+                numberOfMonths={2}
+                selected={range}
+                onRangeSelect={handleRangeSelect}
               />
             </div>
           </div>
@@ -215,20 +233,6 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
                 {range.from ? t("pick_checkout") : t("select_dates_hint")}
               </p>
             )}
-          </div>
-        </div>
-
-        {/* RIGHT — Step 2: dates (calendar) */}
-        <div>
-          <StepLabel n={2} text={t("step_dates")} />
-          <div className="mt-2 w-full rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec]/50 p-4 sm:p-5">
-            <Calendar
-              mode="range"
-              minDate={new Date()}
-              numberOfMonths={2}
-              selected={range}
-              onRangeSelect={handleRangeSelect}
-            />
           </div>
         </div>
       </div>
