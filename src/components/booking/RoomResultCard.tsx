@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Users } from "lucide-react";
+import { Building2, Check, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import RoomGallery from "@/components/booking/RoomGallery";
 import { priceForGuests, formatUAH } from "@/lib/room-prices";
@@ -10,6 +10,7 @@ import type { AvailabilityResult } from "@/app/actions/availability";
 interface Props {
   room: RoomVM;
   hotel: string;
+  hotelLabel: string;
   from?: string; // ISO
   to?: string; // ISO
   adults: number;
@@ -33,6 +34,7 @@ function nightsBetween(from: string, to: string): number {
 
 export default function RoomResultCard({
   room,
+  hotelLabel,
   from,
   to,
   adults,
@@ -118,6 +120,10 @@ export default function RoomResultCard({
 
         {/* Details */}
         <div className="p-6 md:p-7 flex flex-col">
+          <span className="mb-2 inline-flex w-fit items-center gap-1.5 rounded-full bg-[#1a3d2e] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.08em] text-[#e6d9b8]">
+            <Building2 className="h-3.5 w-3.5" strokeWidth={1.8} aria-hidden />
+            {hotelLabel}
+          </span>
           <h3 className="font-display text-2xl text-[#1a3d2e] leading-tight">
             {room.name}
           </h3>

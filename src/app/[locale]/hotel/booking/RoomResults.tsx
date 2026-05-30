@@ -156,6 +156,7 @@ export default function RoomResults({
               <RoomResultCard
                 room={room}
                 hotel={hotel}
+                hotelLabel={hotelLabel}
                 from={from}
                 to={to}
                 adults={adults}
