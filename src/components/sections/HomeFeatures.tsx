@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { TreePine } from "lucide-react";
+import { TreePine, ChevronRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type Feature = {
@@ -149,6 +149,21 @@ export default function HomeFeatures() {
             </motion.div>
           </div>
         </motion.div>
+
+        {/* Mobile-only swipe affordance — the mosaic scrolls horizontally on phones */}
+        <div
+          aria-hidden
+          className="mb-3 flex items-center justify-end gap-1 text-[#c9a95c] sm:hidden"
+        >
+          <motion.span
+            animate={{ x: [0, 8, 0] }}
+            transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+            className="flex items-center"
+          >
+            <ChevronRight className="h-5 w-5" strokeWidth={2} />
+            <ChevronRight className="-ml-3 h-5 w-5 opacity-50" strokeWidth={2} />
+          </motion.span>
+        </div>
 
         {/* Editorial asymmetric mosaic */}
         <motion.ul

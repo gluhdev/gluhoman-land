@@ -73,8 +73,8 @@
   "home.story.stat2_sub": "7285862b4d6baa6e0943155578ad01c167f28b88",
   "home.story.stat3_label": "80598138b5dea035059f7fe89425b6a3e24d3226",
   "home.story.stat3_sub": "8e10e01b79f4e01900f3d593d2fcd4febc5d556a",
-  "home.story.stat4_label": "924fa31afd4ad7115eb74e132606c45b698459fd",
-  "home.story.stat4_sub": "53b003be6abc17b8627a61037a3902a3de8eee64",
+  "home.story.stat4_label": "01eef18c31ea89cb063ce9d28f38c1f3b90ea1f5",
+  "home.story.stat4_sub": "44f9572e03a45e56191888b43e30c865af4c5906",
   "home.features.section_kicker": "40cb0cf366d57188e73db33d5ffacd184ff18c50",
   "home.features.headline": "6b13ee9b7a9398c7dab99b9e649c28c166a1db18",
   "home.features.headline_italic": "ddc30f96334c3d6911535f350d5539b41db4de6c",
@@ -3213,7 +3213,7 @@
   "booking_page.hotel_desc_cottages": "ef4aa72ec2d4fb8cc2f9b416e672b01fb82db10f",
   "booking_page.step_hotel": "3f5c2d64730609bbf01aca364cf9a052833a391e",
   "booking_page.step_dates": "d24dc56380cda2106f37657a3efe47946cf78d54",
-  "booking_page.step_guests": "1394b72b8b4a177c69bdf6e7f24d4c010c7030bc",
+  "booking_page.step_guests": "994b12a4e91015c1f4ed3832d798a17cef84ee54",
   "booking_page.checkin": "a295bf2d1d75f79dc78fd4508369d3b7538cd5f4",
   "booking_page.checkout": "563ee8f1dc2b1b99f296ed0b775e048174b8c58d",
   "booking_page.nights_count": "1eb2dd6b6e752188bda60a20afdceb78c69e1159",
@@ -3225,5 +3225,6 @@
   "booking_page.err_email_required": "974423e094a61adff6dbbb1be92a9b5004dcb529",
   "booking_page.field_email_required": "84add5b2952787581cb9a8851eef63d1ec75d22b",
   "booking_page.email_confirmation_note": "025ee60107e6a6d170736362f20cc2e020f24b83",
-  "booking_page.breakfast_included": "70678d2b9ffdae030626f618bf263a6b90efc48d"
+  "booking_page.breakfast_included": "70678d2b9ffdae030626f618bf263a6b90efc48d",
+  "booking_page.room_options": "baf92f67a11b1ed216f4eea8e26fb606625ba0ec"
 }

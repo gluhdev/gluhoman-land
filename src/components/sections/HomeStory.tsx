@@ -1,8 +1,30 @@
 "use client";
 
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, useInView, animate } from "framer-motion";
 import { useIsTouch } from "@/lib/use-is-touch";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
+
+/** Counts up from 0 to `value` once it scrolls into view (respects reduced motion). */
+function CountUp({ value }: { value: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "0px" });
+  const reduce = useReducedMotion();
+  const [display, setDisplay] = useState(0);
+  useEffect(() => {
+    if (reduce) {
+      setDisplay(value);
+      return;
+    }
+    if (!inView) return;
+    const controls = animate(0, value, {
+      duration: 1.1,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (v) => setDisplay(Math.round(v)),
+    });
+    return () => controls.stop();
+  }, [inView, value, reduce]);
+  return <span ref={ref}>{display}</span>;
+}
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 
@@ -206,7 +228,7 @@ export default function HomeStory() {
                       letterSpacing: "-0.035em",
                     }}
                   >
-                    {s.n}
+                    <CountUp value={Number(s.n)} />
                   </div>
                   <div className="mt-3 text-[10px] uppercase tracking-[0.22em] text-[#1a3d2e]/75 leading-tight font-medium">
                     {s.l}
@@ -260,7 +282,7 @@ export default function HomeStory() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "0px" }}
               transition={{ duration: 1, delay: 0.17, ease: [0.16, 1, 0.3, 1] }}
-              className="w-[70%] self-start lg:absolute lg:bottom-8 lg:-right-4 lg:left-auto lg:w-[95%] lg:self-auto"
+              className="hidden w-[70%] self-start lg:absolute lg:bottom-8 lg:-right-4 lg:left-auto lg:block lg:w-[95%] lg:self-auto"
             >
               <div className="relative aspect-[4/5] overflow-hidden rounded-sm shadow-[0_30px_60px_-30px_rgba(0,0,0,0.35)]">
                 <motion.div

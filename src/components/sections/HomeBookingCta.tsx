@@ -41,7 +41,7 @@ export default function HomeBookingCta() {
       <motion.div
         style={disableParallax ? undefined : { y: bgY }}
         className={`absolute will-change-transform ${
-          disableParallax ? "inset-0" : "inset-[-8%]"
+          disableParallax ? "inset-0" : "-inset-y-[8%] inset-x-0"
         }`}
       >
         <Image

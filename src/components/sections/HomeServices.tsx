@@ -71,10 +71,12 @@ function BookButton({
   seasonLocked,
   dark,
   t,
+  href = "/booking",
 }: {
   seasonLocked?: boolean;
   dark: boolean;
   t: TFunc;
+  href?: string;
 }) {
   if (seasonLocked) {
     return (
@@ -102,11 +104,11 @@ function BookButton({
   }
   return (
     <Link
-      href="/booking"
+      href={href}
       className={`inline-flex items-center gap-2.5 rounded-full px-7 py-3.5 text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-300 hover:-translate-y-0.5 ${
         dark
           ? "bg-[#faf6ec] text-[#0f1f18] hover:bg-white"
-          : "bg-[#0f1f18] text-[#faf6ec] hover:bg-[#1a3325]"
+          : "bg-[#1a3d2e] text-[#f4ecd8] shadow-[0_12px_30px_-12px_rgba(15,31,24,0.5)] hover:bg-[#0f1f18]"
       }`}
     >
       <Calendar className="h-3.5 w-3.5" />
@@ -591,7 +593,7 @@ function PanelAqua({ p, reduced, t }: PanelProps) {
                   {p.description}
                 </p>
                 <div className="mt-8 flex flex-wrap items-center gap-5">
-                  <BookButton seasonLocked={p.seasonLocked} dark={true} t={t} />
+                  <BookButton seasonLocked={false} dark={true} t={t} href="/aquapark/buy" />
                   <DetailLink href={p.href} dark={true} t={t} />
                 </div>
               </div>
