@@ -552,7 +552,7 @@ function PanelAqua({ p, reduced, t }: PanelProps) {
               border: `1px solid ${GOLD}33`,
             }}
           >
-            <div className="grid grid-cols-12 gap-8">
+            <div className="grid grid-cols-12 gap-y-8 sm:gap-8">
               <div className="col-span-12 md:col-span-7">
                 <p
                   className="mb-5 text-[10px] uppercase tracking-[0.32em]"
@@ -988,7 +988,7 @@ function PanelBanya({ p, reduced, t }: PanelProps) {
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px" }}
           transition={{ duration: 0.41, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-14 grid grid-cols-12 gap-y-10 gap-x-8"
+          className="mt-14 grid grid-cols-12 gap-y-10 sm:gap-x-8"
         >
           <div className="col-span-12 md:col-span-3">
             <div className="flex items-end gap-3">
@@ -1156,7 +1156,7 @@ export default function HomeServices() {
             whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "0px" }}
             transition={{ duration: 0.41, ease: [0.16, 1, 0.3, 1] }}
-            className="grid grid-cols-12 items-end gap-y-8 gap-x-10"
+            className="grid grid-cols-12 items-end gap-y-8 sm:gap-x-10"
           >
             <div className="col-span-12 lg:col-span-8">
               <p

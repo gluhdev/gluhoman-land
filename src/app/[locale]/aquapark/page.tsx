@@ -302,7 +302,7 @@ export default async function AquaparkPage() {
           <h1
             className="font-display mb-6"
             style={{
-              fontSize: 'clamp(3rem, 8vw, 7.5rem)',
+              fontSize: 'clamp(2.25rem, 9vw, 7.5rem)',
               lineHeight: 0.9,
               letterSpacing: '-0.02em',
               fontWeight: 300,

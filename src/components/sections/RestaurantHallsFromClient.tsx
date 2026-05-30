@@ -168,7 +168,7 @@ export function RestaurantHallsFromClient() {
             return (
               <article
                 key={hall.n}
-                className="grid items-center gap-10 md:grid-cols-2 md:gap-16"
+                className="grid items-center gap-10 md:grid-cols-2 md:gap-16 [&>*]:min-w-0"
               >
                 {/* Image */}
                 <div

@@ -200,7 +200,7 @@ async function CottageBlock({
       )}
       <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10">
         <div
-          className={`grid md:grid-cols-2 gap-12 md:gap-16 items-center ${
+          className={`grid md:grid-cols-2 gap-12 md:gap-16 items-center [&>*]:min-w-0 ${
             reverse ? "md:[&>*:first-child]:order-2" : ""
           }`}
         >

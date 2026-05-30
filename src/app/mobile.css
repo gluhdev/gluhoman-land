@@ -84,6 +84,17 @@ header {
     width: 100% !important;
   }
 
+  /* GLOBAL mobile overflow guard: grid items default to min-width:auto and
+     refuse to shrink below their content's min-content (a fixed-width thumbnail
+     strip, a long unbreakable label, a nested grid…). On the narrow mobile
+     grid that forces the item wider than its track and overflows the viewport
+     — the root cause of text/galleries spilling off-screen across the site.
+     min-width:0 lets grid items fit their track; it's a safe, standard default.
+     (Large non-responsive column-gaps are fixed separately at each grid.) */
+  .grid > * {
+    min-width: 0;
+  }
+
   /* The ONE scroll container on mobile. Explicit height (not just flex) so it
      scrolls reliably; native momentum; contained overscroll so the rubber-band
      never reaches the locked document. */
