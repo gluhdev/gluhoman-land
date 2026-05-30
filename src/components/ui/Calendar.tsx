@@ -262,7 +262,7 @@ export function Calendar({
         {months.map((m, idx) => (
           <div
             key={idx}
-            className={`mx-auto w-full max-w-[17.5rem] ${idx > 0 ? "hidden lg:block" : ""}`}
+            className={`mx-auto w-full max-w-[15.5rem] ${idx > 0 ? "hidden lg:block" : ""}`}
           >
             {renderMonth(m)}
           </div>

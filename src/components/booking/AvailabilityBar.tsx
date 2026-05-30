@@ -163,7 +163,7 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
         </div>
 
         {/* RIGHT — Step 2: guests, Step 3: dates (calendar) */}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4">
           {/* Step 2 — guests */}
           <div>
             <StepLabel n={2} text={t("step_guests")} />
@@ -204,7 +204,7 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
           </div>
 
           {/* Selected-range summary / hint */}
-          <div className="rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10">
+          <div className="rounded-[2px] bg-[#1a3d2e]/[0.03] p-3 ring-1 ring-[#1a3d2e]/10">
             {complete ? (
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="space-y-1 text-[14px] text-[#0f1f18]">

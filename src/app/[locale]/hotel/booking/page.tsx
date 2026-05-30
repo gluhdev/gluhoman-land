@@ -50,8 +50,8 @@ export default async function HotelBookingPage({
   return (
     <main className="bg-[#faf6ec] min-h-[calc(100vh-6rem)]">
       <div className="container mx-auto px-4 lg:px-8 pb-16">
-        <header className="pt-28 pb-5 text-center">
-          <h1 className="font-display text-3xl lg:text-4xl text-[#1a3d2e]">
+        <header className="pt-28 pb-3 text-center">
+          <h1 className="font-display text-2xl lg:text-3xl text-[#1a3d2e]">
             {t("title")}
           </h1>
           <p className="mt-2 text-[#0f1f18]/70 max-w-2xl mx-auto">
