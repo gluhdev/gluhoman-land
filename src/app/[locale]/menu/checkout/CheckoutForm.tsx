@@ -14,7 +14,7 @@
 
 import { useState, useMemo, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from "@/i18n/routing";
 import { ShoppingBag, Truck, Store, Phone, User, MapPin, Clock, MessageSquare, Lock, AlertCircle, ArrowLeft } from 'lucide-react';
 import {
   useCartStore,

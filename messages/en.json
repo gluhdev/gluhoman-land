@@ -179,7 +179,7 @@
       "prose": "In the village of Nyzhni Mlyny, amidst a willow grove and a quiet pond with swans, a whole world has been built for those who are tired of the city. A two-story restaurant in an old fairy-tale style, a hotel in the middle of nature, a wood-fired bathhouse with Carpathian herbs, and an outdoor water park are all in one place.",
       "pull_quote": "\"Three summer playgrounds on the water, surrounded by fountains and swans - this is where real relaxation begins.\"",
       "pull_quote_attr": "Family Glukhoman",
-      "stats_kicker": "gLOSSARY_0__ - in numbers",
+      "stats_kicker": "Glukhoman · in numbers",
       "stat1_label": "Specialties of the house",
       "stat1_sub": "in the menu",
       "stat2_label": "Unique halls",
@@ -188,7 +188,7 @@
       "stat3_sub": "with vats",
       "stat4_label": "Hotels",
       "stat4_sub": "different formats",
-      "prose_initial": "Н"
+      "prose_initial": "I"
     },
     "features": {
       "section_kicker": "Features of the complex",
@@ -258,7 +258,7 @@
         "expand_show": "All buildings and rooms",
         "expand_hide": "Collapse",
         "expand_heading": "Four buildings for booking",
-        "rooms_count": "{count, plural, one {# room category} few {# room categories} many {# room categories} other {# room categories}",
+        "rooms_count": "{count, plural, one {# room category} few {# room categories} many {# room categories} other {# room categories}}",
         "rooms_full": "{cats} · {units}",
         "cats_short": "{count, plural, one {# category} other {# categories}}",
         "units_rooms": "{count, plural, one {# room} other {# rooms}}",
@@ -306,7 +306,7 @@
         "title": "Bathhouse",
         "title_italic": "on wood",
         "tagline": "Vats of Carpathian herbs under the starry sky.",
-        "description": "Wood-burning vats with Carpathian herbs, a steam room with oak and bamboo brooms, a relaxation room with a samovar and a cold font. gLOSSARY_2__ Ukrainian tradition in a modern setting.",
+        "description": "Wood-burning vats with Carpathian herbs, a steam room with oak and bamboo brooms, a relaxation room with a samovar and a cold font. Classic Ukrainian tradition in a modern setting.",
         "h1": "Wood-fired vats with herbs",
         "h2": "Oak and bamboo brooms",
         "h3": "Samovar and relaxation room",
@@ -397,7 +397,7 @@
       "book_now": "Book now",
       "phone_label": "Phone",
       "village": "с. Nyzhni Mlyny",
-      "region": "gLOSSARY_4__"
+      "region": "Poltava region"
     },
     "conference": {
       "kicker": "For business",
@@ -1050,7 +1050,7 @@
     "jsonld": {
       "hotel_name": "Hotel Glukhoman",
       "hotel_description": "The hotel in the recreational complex \"Glukhoman\" offers comfortable rooms in the nature of Poltava region, with author's cuisine, SPA and water park.",
-      "address_region": "gLOSSARY_4__",
+      "address_region": "Poltava region",
       "address_locality": "Nyzhni Mlyny",
       "street_address": "Nyzhni Mlyny",
       "amenity_wifi": "Free Wi-Fi",
@@ -1263,7 +1263,7 @@
     "jsonld": {
       "name": "Water park Glukhoman",
       "description": "Modern water park of the Glukhoman recreational complex: water slides, swimming pools, children's area, bar and recreation area.",
-      "address_region": "gLOSSARY_4__",
+      "address_region": "Poltava region",
       "address_locality": "с. Nyzhni Mlyny"
     },
     "hero": {
@@ -1702,7 +1702,7 @@
       },
       "pryroda": {
         "label": "Nature",
-        "subtitle": "gLOSSARY_3__",
+        "subtitle": "Nyzhni Mlyny",
         "essay": "A picturesque area among willows and water - slow mornings, soft twilight, air that you want to take with you.",
         "title": "Nature"
       }
@@ -2660,7 +2660,7 @@
       "price_on_request": "Price on request",
       "price_table_title": "Cost per day",
       "price_total": "Total for your quantity",
-      "guests_count": "{count, plural, one {# of persons} few {# of persons} other {# of persons}"
+      "guests_count": "{count, plural, one {# person} few {# persons} other {# persons}}"
     },
     "booking_dialog_aquapark": {
       "tariff_label": "Tariff",
@@ -2694,7 +2694,7 @@
       "slot_evening_time": "18:00-22:00",
       "group_size_label": "Number of guests",
       "programme_label": "Program",
-      "prog_classic": "gLOSSARY_2__",
+      "prog_classic": "Klasychna",
       "prog_herbal": "Phyto",
       "prog_family": "Family"
     },
@@ -3130,7 +3130,7 @@
   "category_nav": {
     "menu_label": "Menu",
     "categories_label": "Categories",
-    "brand_label": "gLOSSARY_0__ - Kitchen"
+    "brand_label": "Glukhoman · Kitchen"
   },
   "hall_slider": {
     "prev_aria": "Previous photo",
@@ -3247,7 +3247,7 @@
       "capacity_label": "Capacity",
       "capacity_unit": "persons",
       "price_label": "Rent from",
-      "price_unit": "gLOSSARY_6__ / hour",
+      "price_unit": "UAH / hour",
       "note": "No hidden surcharges."
     },
     "catering": {
@@ -3876,7 +3876,7 @@
     "guests": "Guests",
     "adults": "Adults",
     "children": "Children",
-    "nights_one": "{ \"count\"",
+    "nights_one": "{count} night",
     "nights_few": "{count} nights",
     "nights_many": "{count} nights",
     "per_night": "overnight",

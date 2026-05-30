@@ -66,5 +66,5 @@ export const ROOM_TYPE_LABEL: Record<string, string> = {
   standard: 'Стандарт',
   lux: 'Люкс',
   family: 'Сімейний',
-  suite: 'Cвіт',
+  suite: 'Сьют',
 };

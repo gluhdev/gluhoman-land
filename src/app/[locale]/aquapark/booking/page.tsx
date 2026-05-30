@@ -1,23 +1,12 @@
-import { getTranslations } from "next-intl/server";
-import ServiceBookingForm from "@/components/booking/ServiceBookingForm";
+import { redirect } from "next/navigation";
 
-export default async function AquaparkBookingPage() {
-  const t = await getTranslations("ui.booking_dialog_services");
-  return (
-    <main className="bg-[#faf6ec] min-h-[calc(100vh-6rem)]">
-      <div className="container mx-auto px-4 lg:px-8 pt-28 md:pt-36 pb-16">
-        <header className="text-center">
-          <h1 className="font-display text-3xl lg:text-4xl text-[#1a3d2e]">
-            {t("aquapark_label")}
-          </h1>
-          <p className="mt-2 text-[#0f1f18]/70 max-w-xl mx-auto">
-            {t("aquapark_description")}
-          </p>
-        </header>
-        <div className="mt-8">
-          <ServiceBookingForm service="aquapark" />
-        </div>
-      </div>
-    </main>
-  );
+// Aquapark tickets are sold by an external system. Every "book aquapark" CTA
+// already points there in a new tab; this route only stays reachable via direct
+// URL / old links / SEO. It used to render an internal aquapark booking form,
+// which captured bookings the external system never saw (split-brain). Redirect
+// it to the canonical external booking site so there is a single source of truth.
+const AQUAPARK_BOOKING_URL = "https://gluhoman.pl.ua/";
+
+export default function AquaparkBookingPage() {
+  redirect(AQUAPARK_BOOKING_URL);
 }

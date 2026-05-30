@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Compass, Phone } from "lucide-react";
 import { SurfaceCard } from "@/components/ui/SurfaceCard";
 import { CONTACT_INFO } from "@/constants";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 import { SurfaceCard } from "@/components/ui/SurfaceCard";
 import { useTranslations } from "next-intl";
