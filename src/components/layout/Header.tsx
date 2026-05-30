@@ -140,9 +140,11 @@ export default function Header() {
   const phone = CONTACT_INFO.phone[0];
   const phoneHref = `tel:${phone.replace(/\s/g, '')}`;
 
+  // No hard bottom border — the black hairline read as ugly on light content
+  // pages. Use a soft diffuse drop-shadow for separation instead of a line.
   const headerBgClass = scrolled
-    ? 'bg-[#FBFAF6]/95 backdrop-blur-md border-b border-black/10 shadow-[0_1px_0_0_rgba(0,0,0,0.04)]'
-    : 'bg-gradient-to-b from-black/50 via-black/25 to-transparent border-b border-transparent backdrop-blur-[5px]';
+    ? 'bg-[#FBFAF6]/95 backdrop-blur-md shadow-[0_10px_30px_-16px_rgba(15,31,24,0.18)]'
+    : 'bg-gradient-to-b from-black/50 via-black/25 to-transparent backdrop-blur-[5px]';
 
   const heightClass = scrolled ? 'h-16' : 'h-24';
 

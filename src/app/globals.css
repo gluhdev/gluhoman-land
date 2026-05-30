@@ -814,6 +814,42 @@ body {
     animation: spinner-appear 0.5s ease-out 1.3s both;
   }
 
+  /* Premium full-screen preloader (logo + gold sweep) */
+  @keyframes preloader-fade-in {
+    from { opacity: 0; transform: translateY(10px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes preloader-breathe {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-4px) scale(1.015); }
+  }
+  @keyframes preloader-halo {
+    0%, 100% { opacity: 0.45; transform: translate(-50%, -50%) scale(0.9); }
+    50%      { opacity: 1;    transform: translate(-50%, -50%) scale(1.1); }
+  }
+  @keyframes preloader-sweep {
+    0%   { transform: translateX(-130%); }
+    100% { transform: translateX(360%); }
+  }
+  .animate-preloader-logo {
+    animation:
+      preloader-fade-in 0.8s ease-out both,
+      preloader-breathe 3.6s ease-in-out 0.8s infinite;
+  }
+  .animate-preloader-halo {
+    animation: preloader-halo 3.6s ease-in-out infinite;
+  }
+  .animate-preloader-sweep {
+    animation: preloader-sweep 1.5s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-preloader-logo,
+    .animate-preloader-halo,
+    .animate-preloader-sweep {
+      animation: none;
+    }
+  }
+
   /* Зеленый радиальный градиент фон */
   .bg-radial-gradient-green {
     background: radial-gradient(125% 125% at 50% 10%, #fff 40%, #22c55e 100%);
