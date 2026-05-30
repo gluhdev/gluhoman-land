@@ -23,6 +23,12 @@ const bot = new Telegraf(token);
 
 bot.command('start', startHandler);
 bot.command('help', helpHandler);
+bot.command('myid', async (ctx) => {
+  const id = ctx.from?.id ?? ctx.chat?.id;
+  await ctx.reply(
+    `Ваш Telegram ID: ${id}\n\nНадішліть цей номер адміністратору, щоб отримати доступ до керування бронюваннями.`
+  );
+});
 bot.command('bookings', (ctx) => bookingsHandler(ctx, adminIds));
 bot.command('booking', (ctx) => bookingByIdHandler(ctx, adminIds));
 bot.command('stats', (ctx) => statsHandler(ctx, adminIds));
