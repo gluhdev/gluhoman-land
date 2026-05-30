@@ -264,15 +264,22 @@ export default function HeroSlider() {
               </div>
             ) : (
               <div className="absolute inset-0">
-                <Image
-                  src={slide.image!}
-                  alt={slide.title}
-                  fill
-                  priority={i === 0}
-                  sizes="100vw"
-                  quality={95}
-                  className="object-cover"
-                />
+                {/* Only mount the active slide and the immediate next one. All
+                    slides sit at absolute inset-0 (opacity-0 when inactive), so
+                    without this next/image's observer eagerly fetches every
+                    full-viewport photo on mount — extra megabytes on slow mobile
+                    for slides the user may never reach. */}
+                {(active || i === (index + 1) % SLIDES.length) && (
+                  <Image
+                    src={slide.image!}
+                    alt={slide.title}
+                    fill
+                    priority={i === 0}
+                    sizes="100vw"
+                    quality={80}
+                    className="object-cover"
+                  />
+                )}
               </div>
             )}
             {!slide.panels && (

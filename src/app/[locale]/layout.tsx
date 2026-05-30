@@ -44,14 +44,13 @@ export async function generateMetadata({
   const base = process.env.NEXT_PUBLIC_SITE_URL ?? "https://gluhoman.com.ua";
   return {
     metadataBase: new URL(base),
-    alternates: {
-      canonical: locale === 'uk' ? '/' : '/en',
-      languages: {
-        uk: '/',
-        en: '/en',
-        'x-default': '/',
-      },
-    },
+    // NOTE: no hardcoded `alternates` here. A layout-level canonical/hreflang is
+    // inherited by EVERY page, and these values only describe the homepage — so
+    // /aquapark, /restaurant, etc. were all declaring canonical=homepage and a
+    // wrong uk/en hreflang pairing, telling search engines every inner page is a
+    // duplicate of the homepage. With no alternates, Next self-canonicals each
+    // page to its own URL (correct). Per-page hreflang can be added later via a
+    // path-aware helper in each page's generateMetadata.
     icons: {
       icon: [
         { url: "/favicon.svg", type: "image/svg+xml" },
