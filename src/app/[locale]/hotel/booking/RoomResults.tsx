@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import AvailabilityBar from "@/components/booking/AvailabilityBar";
 import RoomResultCard from "@/components/booking/RoomResultCard";
@@ -98,34 +98,12 @@ export default function RoomResults({
     };
   }, [hotel, from, to, rooms]);
 
-  const selectedRoom = useMemo(
-    () => rooms.find((r) => r.slug === selectedSlug) ?? null,
-    [rooms, selectedSlug],
-  );
-
   const handleReserve = (slug: string) => {
     setSelectedSlug(slug);
-    // Bring the reserve panel into view (matters on mobile where it stacks).
     requestAnimationFrame(() => {
       panelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   };
-
-  const panel = selectedRoom ? (
-    <div ref={panelRef} className="lg:sticky lg:top-24">
-      <ReservePanel
-        room={selectedRoom}
-        hotel={hotel}
-        from={from}
-        to={to}
-        adults={adults}
-        // children = number of child guests (a data prop), not React children
-        // eslint-disable-next-line react/no-children-prop
-        children={children}
-        onClose={() => setSelectedSlug(null)}
-      />
-    </div>
-  ) : null;
 
   return (
     <div>
@@ -150,35 +128,44 @@ export default function RoomResults({
         </div>
       )}
 
-      <div className="lg:grid lg:grid-cols-[1fr_22rem] lg:gap-6">
-        {/* Room list */}
-        <div className="space-y-6">
-          {rooms.length === 0 ? (
-            <p className="rounded-[2px] bg-white p-8 text-center text-[#0f1f18]/70 ring-1 ring-[#1a3d2e]/10">
-              {noRoomsLabel}
-            </p>
-          ) : (
-            rooms.map((room) => (
+      {/* Full-width room list; the reserve form expands inline under the chosen room */}
+      <div className="space-y-6">
+        {rooms.length === 0 ? (
+          <p className="rounded-[2px] bg-white p-8 text-center text-[#0f1f18]/70 ring-1 ring-[#1a3d2e]/10">
+            {noRoomsLabel}
+          </p>
+        ) : (
+          rooms.map((room) => (
+            <div key={room.slug}>
               <RoomResultCard
-                key={room.slug}
                 room={room}
                 hotel={hotel}
                 from={from}
                 to={to}
                 adults={adults}
-                // children = number of child guests (a data prop), not React children
                 // eslint-disable-next-line react/no-children-prop
                 children={children}
                 availability={avail[room.slug]}
                 selected={selectedSlug === room.slug}
                 onReserve={() => handleReserve(room.slug)}
               />
-            ))
-          )}
-        </div>
-
-        {/* Reserve panel — right column on desktop */}
-        {panel && <div className="mt-6 lg:mt-0">{panel}</div>}
+              {selectedSlug === room.slug && (
+                <div ref={panelRef} className="mt-4 scroll-mt-24">
+                  <ReservePanel
+                    room={room}
+                    hotel={hotel}
+                    from={from}
+                    to={to}
+                    adults={adults}
+                    // eslint-disable-next-line react/no-children-prop
+                    children={children}
+                    onClose={() => setSelectedSlug(null)}
+                  />
+                </div>
+              )}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

@@ -16,6 +16,8 @@ interface CalendarProps {
   onRangeSelect?: (range: DateRange) => void;
   minDate?: Date;
   maxDate?: Date;
+  /** How many months to show side-by-side (desktop). Mobile always shows 1. */
+  numberOfMonths?: number;
 }
 
 function startOfDay(d: Date): Date {
@@ -50,6 +52,10 @@ export function fromISO(s: string): Date {
   return new Date(s + "T00:00:00");
 }
 
+function monthStart(d: Date, offset = 0): Date {
+  return new Date(d.getFullYear(), d.getMonth() + offset, 1);
+}
+
 export function Calendar({
   mode,
   selected,
@@ -57,38 +63,24 @@ export function Calendar({
   onRangeSelect,
   minDate,
   maxDate,
+  numberOfMonths = 1,
 }: CalendarProps) {
   const t = useTranslations("ui.calendar");
 
   const MONTHS = [
-    t("months.1"),
-    t("months.2"),
-    t("months.3"),
-    t("months.4"),
-    t("months.5"),
-    t("months.6"),
-    t("months.7"),
-    t("months.8"),
-    t("months.9"),
-    t("months.10"),
-    t("months.11"),
-    t("months.12"),
+    t("months.1"), t("months.2"), t("months.3"), t("months.4"),
+    t("months.5"), t("months.6"), t("months.7"), t("months.8"),
+    t("months.9"), t("months.10"), t("months.11"), t("months.12"),
   ];
-
   const WEEKDAYS = [
-    t("weekdays.mon"),
-    t("weekdays.tue"),
-    t("weekdays.wed"),
-    t("weekdays.thu"),
-    t("weekdays.fri"),
-    t("weekdays.sat"),
-    t("weekdays.sun"),
+    t("weekdays.mon"), t("weekdays.tue"), t("weekdays.wed"), t("weekdays.thu"),
+    t("weekdays.fri"), t("weekdays.sat"), t("weekdays.sun"),
   ];
 
   const today = useMemo(() => startOfDay(new Date()), []);
   const effectiveMin = useMemo(
     () => startOfDay(minDate ?? today),
-    [minDate, today]
+    [minDate, today],
   );
   const effectiveMax = useMemo(() => {
     if (maxDate) return startOfDay(maxDate);
@@ -99,48 +91,14 @@ export function Calendar({
 
   const [viewDate, setViewDate] = useState<Date>(() => {
     if (mode === "range" && selected && typeof selected === "object" && "from" in selected && selected.from) {
-      return new Date(selected.from);
+      return monthStart(selected.from);
     }
     if (mode === "single" && selected instanceof Date) {
-      return new Date(selected);
+      return monthStart(selected);
     }
-    return new Date();
+    return monthStart(today);
   });
   const [hoverDate, setHoverDate] = useState<Date | null>(null);
-
-  const year = viewDate.getFullYear();
-  const month = viewDate.getMonth();
-
-  const grid = useMemo<Date[]>(() => {
-    const firstOfMonth = new Date(year, month, 1);
-    const jsDow = firstOfMonth.getDay();
-    const dowMondayBased = (jsDow + 6) % 7;
-    const start = new Date(year, month, 1 - dowMondayBased);
-    const dates: Date[] = [];
-    for (let i = 0; i < 42; i++) {
-      const d = new Date(start);
-      d.setDate(start.getDate() + i);
-      dates.push(startOfDay(d));
-    }
-    return dates;
-  }, [year, month]);
-
-  const prevMonth = () => {
-    const d = new Date(year, month - 1, 1);
-    if (d.getFullYear() < effectiveMin.getFullYear() ||
-      (d.getFullYear() === effectiveMin.getFullYear() && d.getMonth() < effectiveMin.getMonth())) {
-      return;
-    }
-    setViewDate(d);
-  };
-  const nextMonth = () => {
-    const d = new Date(year, month + 1, 1);
-    if (d.getFullYear() > effectiveMax.getFullYear() ||
-      (d.getFullYear() === effectiveMax.getFullYear() && d.getMonth() > effectiveMax.getMonth())) {
-      return;
-    }
-    setViewDate(d);
-  };
 
   // Resolve selected values
   let selFrom: Date | undefined;
@@ -154,7 +112,7 @@ export function Calendar({
   }
 
   // Preview range while hovering (after start selected, before end)
-  let previewFrom = selFrom;
+  const previewFrom = selFrom;
   let previewTo = selTo;
   if (mode === "range" && selFrom && !selTo && hoverDate && hoverDate.getTime() > selFrom.getTime()) {
     previewTo = hoverDate;
@@ -175,95 +133,137 @@ export function Calendar({
     }
   }
 
+  function buildGrid(year: number, month: number): Date[] {
+    const firstOfMonth = new Date(year, month, 1);
+    const jsDow = firstOfMonth.getDay();
+    const dowMondayBased = (jsDow + 6) % 7;
+    const start = new Date(year, month, 1 - dowMondayBased);
+    const dates: Date[] = [];
+    for (let i = 0; i < 42; i++) {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      dates.push(startOfDay(d));
+    }
+    return dates;
+  }
+
+  const count = Math.max(1, numberOfMonths);
+  const months = Array.from({ length: count }, (_, i) => monthStart(viewDate, i));
+
+  const canPrev =
+    new Date(viewDate.getFullYear(), viewDate.getMonth(), 0).getTime() >= effectiveMin.getTime();
+  const canNext =
+    monthStart(months[months.length - 1], 1).getTime() <=
+    monthStart(effectiveMax).getTime();
+
+  const navBtn =
+    "flex h-9 w-9 items-center justify-center rounded-full text-[#1a3d2e] transition hover:bg-[#1a3d2e]/[0.07] disabled:cursor-not-allowed disabled:opacity-25";
+
+  function renderMonth(m: Date) {
+    const year = m.getFullYear();
+    const month = m.getMonth();
+    const grid = buildGrid(year, month);
+    return (
+      <div>
+        <h3 className="mb-3 text-center font-display text-lg text-[#0b1410]">
+          {MONTHS[month]} <em className="italic text-[#1a3d2e]">{year}</em>
+        </h3>
+        <div className="mb-2 grid grid-cols-7 gap-1">
+          {WEEKDAYS.map((w) => (
+            <div
+              key={w}
+              className="py-1 text-center text-[10px] uppercase tracking-[0.16em] text-[#1a3d2e]/55"
+            >
+              {w}
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-7 gap-1">
+          {grid.map((d, i) => {
+            const inMonth = d.getMonth() === month;
+            // Hide adjacent-month days so it's always clear which month a date belongs to.
+            if (!inMonth) {
+              return <div key={i} aria-hidden className="aspect-square w-full" />;
+            }
+            const isPast =
+              d.getTime() < effectiveMin.getTime() || d.getTime() > effectiveMax.getTime();
+            const isToday = sameDay(d, today);
+            const isSingleSel = sameDay(d, selSingle);
+            const isStart = sameDay(d, previewFrom);
+            const isEnd = sameDay(d, previewTo);
+            const inRange = isBetween(d, previewFrom, previewTo);
+            const endpoint = isStart || isEnd || isSingleSel;
+
+            const base =
+              "relative flex aspect-square w-full items-center justify-center text-[14px] transition";
+            let cls: string;
+            if (isPast) {
+              cls = "text-[#1a3d2e]/20 cursor-not-allowed";
+            } else if (endpoint) {
+              cls =
+                "rounded-lg bg-[#1a3d2e] font-semibold text-[#faf6ec] shadow-sm cursor-pointer";
+            } else if (inRange) {
+              cls = "rounded-md bg-[#e6d9b8]/70 font-medium text-[#1a3d2e] cursor-pointer";
+            } else if (isToday) {
+              cls =
+                "rounded-lg font-semibold text-[#1a3d2e] ring-1 ring-inset ring-[#c9a95c] hover:bg-[#1a3d2e]/[0.06] cursor-pointer";
+            } else {
+              cls =
+                "rounded-lg font-medium text-[#0f1f18] hover:bg-[#1a3d2e]/[0.06] cursor-pointer";
+            }
+
+            return (
+              <button
+                key={i}
+                type="button"
+                disabled={isPast}
+                onClick={() => handleClick(d)}
+                onMouseEnter={() => setHoverDate(d)}
+                onMouseLeave={() => setHoverDate(null)}
+                className={`${base} ${cls}`}
+                aria-label={toISO(d)}
+                aria-pressed={endpoint}
+              >
+                <span>{d.getDate()}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full select-none">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      {/* Nav */}
+      <div className="mb-4 flex items-center justify-between">
         <button
           type="button"
-          onClick={prevMonth}
+          onClick={() => canPrev && setViewDate(monthStart(viewDate, -1))}
+          disabled={!canPrev}
           aria-label={t("previous_month_aria")}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-[#1a3d2e] hover:bg-[#f4ecd8] transition"
+          className={navBtn}
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
-        <h3 className="font-display text-xl text-[#0b1410]">
-          {MONTHS[month]} <em className="italic text-[#1a3d2e]">{year}</em>
-        </h3>
         <button
           type="button"
-          onClick={nextMonth}
+          onClick={() => canNext && setViewDate(monthStart(viewDate, 1))}
+          disabled={!canNext}
           aria-label={t("next_month_aria")}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-[#1a3d2e] hover:bg-[#f4ecd8] transition"
+          className={navBtn}
         >
           <ChevronRight className="h-5 w-5" />
         </button>
       </div>
 
-      {/* Weekday header */}
-      <div className="grid grid-cols-7 gap-1 mb-2">
-        {WEEKDAYS.map((w) => (
-          <div
-            key={w}
-            className="text-[10px] uppercase tracking-[0.18em] text-[#1a3d2e]/60 text-center py-1"
-          >
-            {w}
+      {/* Month(s) */}
+      <div className={`grid gap-6 lg:gap-10 ${count > 1 ? "lg:grid-cols-2" : ""}`}>
+        {months.map((m, idx) => (
+          <div key={idx} className={idx > 0 ? "hidden lg:block" : ""}>
+            {renderMonth(m)}
           </div>
         ))}
-      </div>
-
-      {/* Date grid */}
-      <div className="grid grid-cols-7 gap-1">
-        {grid.map((d, i) => {
-          const inMonth = d.getMonth() === month;
-          const isPast =
-            d.getTime() < effectiveMin.getTime() ||
-            d.getTime() > effectiveMax.getTime();
-          const isToday = sameDay(d, today);
-          const isSingleSel = sameDay(d, selSingle);
-          const isRangeStart = sameDay(d, previewFrom);
-          const isRangeEnd = sameDay(d, previewTo);
-          const inRange = isBetween(d, previewFrom, previewTo);
-          const endpoint = isRangeStart || isRangeEnd || isSingleSel;
-
-          const base =
-            "relative flex aspect-square w-full items-center justify-center text-[14px] transition";
-          let stateCls = "";
-          if (isPast) {
-            stateCls = "text-[#1a3d2e]/20 cursor-not-allowed";
-          } else if (endpoint) {
-            stateCls =
-              "rounded-lg bg-[#1a3d2e] font-semibold text-[#faf6ec] shadow-sm cursor-pointer";
-          } else if (inRange) {
-            stateCls =
-              "rounded-md bg-[#e6d9b8]/70 font-medium text-[#1a3d2e] cursor-pointer";
-          } else if (isToday) {
-            stateCls =
-              "rounded-lg font-semibold text-[#1a3d2e] ring-1 ring-inset ring-[#c9a95c] hover:bg-[#1a3d2e]/[0.06] cursor-pointer";
-          } else {
-            stateCls =
-              "rounded-lg font-medium text-[#0f1f18] hover:bg-[#1a3d2e]/[0.06] cursor-pointer";
-          }
-          if (!inMonth && !endpoint && !inRange && !isPast) {
-            stateCls += " text-[#1a3d2e]/35";
-          }
-
-          return (
-            <button
-              key={i}
-              type="button"
-              disabled={isPast}
-              onClick={() => handleClick(d)}
-              onMouseEnter={() => setHoverDate(d)}
-              onMouseLeave={() => setHoverDate(null)}
-              className={`${base} ${stateCls}`}
-              aria-label={toISO(d)}
-              aria-pressed={endpoint}
-            >
-              <span>{d.getDate()}</span>
-            </button>
-          );
-        })}
       </div>
     </div>
   );

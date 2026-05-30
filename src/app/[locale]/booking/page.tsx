@@ -11,30 +11,37 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+// Aquapark booking lives on an external system.
+const AQUAPARK_BOOKING_URL = "https://gluhoman.pl.ua/";
+
 const CARDS = [
   {
     href: "/hotel/booking",
     icon: BedDouble,
     labelKey: "hotel_label" as const,
     descKey: "hotel_description" as const,
+    external: false,
   },
   {
-    href: "/aquapark/booking",
+    href: AQUAPARK_BOOKING_URL,
     icon: Waves,
     labelKey: "aquapark_label" as const,
     descKey: "aquapark_description" as const,
+    external: true,
   },
   {
     href: "/restaurant/booking",
     icon: UtensilsCrossed,
     labelKey: "restaurant_label" as const,
     descKey: "restaurant_description" as const,
+    external: false,
   },
   {
     href: "/sauna/booking",
     icon: Flame,
     labelKey: "sauna_label" as const,
     descKey: "sauna_description" as const,
+    external: false,
   },
 ] as const;
 
@@ -62,26 +69,41 @@ export default async function BookingHubPage({
         </header>
 
         <div className="grid sm:grid-cols-2 gap-5 max-w-3xl mx-auto mt-10">
-          {CARDS.map(({ href, icon: Icon, labelKey, descKey }) => (
-            <Link
-              key={href}
-              href={href}
-              className="block bg-white rounded-[2px] ring-1 ring-[#1a3d2e]/10 p-7 hover:ring-[#1a3d2e]/30 hover:shadow-md transition"
-            >
-              <Icon
-                className="mb-4 text-[#c9a95c]"
-                size={32}
-                strokeWidth={1.5}
-                aria-hidden
-              />
-              <p className="font-display text-xl text-[#1a3d2e]">
-                {tServices(labelKey)}
-              </p>
-              <p className="mt-1 text-[14px] text-[#0f1f18]/70">
-                {tServices(descKey)}
-              </p>
-            </Link>
-          ))}
+          {CARDS.map(({ href, icon: Icon, labelKey, descKey, external }) => {
+            const cardClass =
+              "block bg-white rounded-[2px] ring-1 ring-[#1a3d2e]/10 p-7 hover:ring-[#1a3d2e]/30 hover:shadow-md transition";
+            const inner = (
+              <>
+                <Icon
+                  className="mb-4 text-[#c9a95c]"
+                  size={32}
+                  strokeWidth={1.5}
+                  aria-hidden
+                />
+                <p className="font-display text-xl text-[#1a3d2e]">
+                  {tServices(labelKey)}
+                </p>
+                <p className="mt-1 text-[14px] text-[#0f1f18]/70">
+                  {tServices(descKey)}
+                </p>
+              </>
+            );
+            return external ? (
+              <a
+                key={href}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={cardClass}
+              >
+                {inner}
+              </a>
+            ) : (
+              <Link key={href} href={href} className={cardClass}>
+                {inner}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </main>
