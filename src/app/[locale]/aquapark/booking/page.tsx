@@ -7,6 +7,11 @@ import { redirect } from "next/navigation";
 // it to the canonical external booking site so there is a single source of truth.
 const AQUAPARK_BOOKING_URL = "https://gluhoman.pl.ua/";
 
+// Force dynamic: redirect() to an EXTERNAL URL cannot be encoded into a static
+// page, so under static prerendering the route would serve an empty 200 instead
+// of redirecting. Rendering per-request makes redirect() issue a real 307.
+export const dynamic = "force-dynamic";
+
 export default function AquaparkBookingPage() {
   redirect(AQUAPARK_BOOKING_URL);
 }
