@@ -62,8 +62,14 @@ header {
      Lock the document so it NEVER scrolls. If body doesn't scroll, iOS
      Safari can't collapse/expand the address bar, so it physically can't
      resize the page. All scrolling moves into .app-scroll below. */
+  /* NOTE: globals.css has `html { height: auto !important }` (needed for the
+     macOS desktop scroll fix). We MUST use !important here to beat it on
+     mobile, otherwise html stays auto-height, .app-scroll gets no bounded
+     height, and content is clipped/unscrollable. svh = stable height (the
+     address bar can't toggle now that the document is locked). */
   html, body {
-    height: 100%;
+    height: 100vh !important;   /* fallback for pre-svh browsers */
+    height: 100svh !important;
     overflow: hidden !important;
     width: 100% !important;
     max-width: 100vw !important;
@@ -71,16 +77,19 @@ header {
 
   /* App shell fills the locked viewport and does NOT scroll itself. */
   body > .prevent-horizontal-scroll {
-    height: 100% !important;
+    height: 100vh !important;
+    height: 100svh !important;
     overflow: hidden !important;
     max-width: 100vw !important;
     width: 100% !important;
   }
 
-  /* The ONE scroll container on mobile. Native momentum; contained
-     overscroll so the rubber-band never reaches the locked document. */
+  /* The ONE scroll container on mobile. Explicit height (not just flex) so it
+     scrolls reliably; native momentum; contained overscroll so the rubber-band
+     never reaches the locked document. */
   .app-scroll {
-    flex: 1 1 auto;
+    height: 100vh;
+    height: 100svh;
     min-height: 0;
     overflow-y: auto;
     overflow-x: hidden;
