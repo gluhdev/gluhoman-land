@@ -92,7 +92,7 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
 
   return (
     <div
-      className={`rounded-[2px] bg-white p-4 ring-1 ring-[#1a3d2e]/10 sm:p-6 ${
+      className={`rounded-[2px] bg-white p-4 ring-1 ring-[#1a3d2e]/10 sm:p-5 ${
         isPending ? "opacity-70" : ""
       }`}
     >
@@ -130,7 +130,7 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
           {/* Selected hotel — photo + name + description + facts */}
           <div className="flex flex-col gap-4 rounded-[2px] bg-[#1a3d2e]/[0.03] p-4 ring-1 ring-[#1a3d2e]/10 sm:flex-row sm:items-start lg:flex-col">
             {intro.image && (
-              <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-[2px] sm:h-28 sm:w-40 lg:h-44 lg:w-full">
+              <div className="relative h-28 w-full shrink-0 overflow-hidden rounded-[2px] sm:h-24 sm:w-40 lg:h-36 lg:w-full">
                 <Image
                   src={intro.image}
                   alt={intro.label}
@@ -192,7 +192,7 @@ export default function AvailabilityBar({ hotels, current, intro }: Props) {
           {/* Step 3 — dates (calendar) */}
           <div>
             <StepLabel n={3} text={t("step_dates")} />
-            <div className="mt-2 w-full rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec]/50 p-4 sm:p-5">
+            <div className="mt-2 w-full rounded-[2px] border border-[#e6d9b8] bg-[#faf6ec]/50 p-3 sm:p-4">
               <Calendar
                 mode="range"
                 minDate={new Date()}

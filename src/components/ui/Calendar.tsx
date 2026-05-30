@@ -165,20 +165,20 @@ export function Calendar({
     const grid = buildGrid(year, month);
     return (
       <div>
-        <h3 className="mb-3 text-center font-display text-lg text-[#0b1410]">
+        <h3 className="mb-2 text-center font-display text-base text-[#0b1410]">
           {MONTHS[month]} <em className="italic text-[#1a3d2e]">{year}</em>
         </h3>
-        <div className="mb-2 grid grid-cols-7 gap-1">
+        <div className="mb-1 grid grid-cols-7 gap-0.5">
           {WEEKDAYS.map((w) => (
             <div
               key={w}
-              className="py-1 text-center text-[10px] uppercase tracking-[0.16em] text-[#1a3d2e]/55"
+              className="py-0.5 text-center text-[10px] uppercase tracking-[0.12em] text-[#1a3d2e]/55"
             >
               {w}
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-1">
+        <div className="grid grid-cols-7 gap-0.5">
           {grid.map((d, i) => {
             const inMonth = d.getMonth() === month;
             // Hide adjacent-month days so it's always clear which month a date belongs to.
@@ -195,7 +195,7 @@ export function Calendar({
             const endpoint = isStart || isEnd || isSingleSel;
 
             const base =
-              "relative flex aspect-square w-full items-center justify-center text-[14px] transition";
+              "relative flex aspect-square w-full items-center justify-center text-[13px] transition";
             let cls: string;
             if (isPast) {
               cls = "text-[#1a3d2e]/20 cursor-not-allowed";
@@ -236,7 +236,7 @@ export function Calendar({
   return (
     <div className="w-full select-none">
       {/* Nav */}
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-3 flex items-center justify-between">
         <button
           type="button"
           onClick={() => canPrev && setViewDate(monthStart(viewDate, -1))}
@@ -258,9 +258,12 @@ export function Calendar({
       </div>
 
       {/* Month(s) */}
-      <div className={`grid gap-6 lg:gap-10 ${count > 1 ? "lg:grid-cols-2" : ""}`}>
+      <div className={`grid gap-5 lg:gap-8 ${count > 1 ? "lg:grid-cols-2" : ""}`}>
         {months.map((m, idx) => (
-          <div key={idx} className={idx > 0 ? "hidden lg:block" : ""}>
+          <div
+            key={idx}
+            className={`mx-auto w-full max-w-[17.5rem] ${idx > 0 ? "hidden lg:block" : ""}`}
+          >
             {renderMonth(m)}
           </div>
         ))}

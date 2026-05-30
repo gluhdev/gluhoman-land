@@ -98,7 +98,15 @@ export default function RoomResults({
     };
   }, [hotel, from, to, rooms]);
 
+  const [needDates, setNeedDates] = useState(false);
   const handleReserve = (slug: string) => {
+    // Require dates before reserving — show a prompt and jump back to the calendar.
+    if (!from || !to) {
+      setNeedDates(true);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.setTimeout(() => setNeedDates(false), 3500);
+      return;
+    }
     setSelectedSlug(slug);
     requestAnimationFrame(() => {
       panelRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -107,6 +115,13 @@ export default function RoomResults({
 
   return (
     <div>
+      {needDates && (
+        <div className="fixed inset-x-0 top-24 z-[90] flex justify-center px-4">
+          <div className="rounded-[2px] bg-[#1a3d2e] px-5 py-3 text-[14px] font-medium text-[#e6d9b8] shadow-xl">
+            {t("change_dates_first")}
+          </div>
+        </div>
+      )}
       <AvailabilityBar
         hotels={hotels}
         current={{ hotel, from, to, adults, children }}
