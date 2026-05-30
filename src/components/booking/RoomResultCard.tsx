@@ -112,12 +112,12 @@ export default function RoomResultCard({
       id={`room-${room.slug}`}
       className={cardBase + (selected ? " ring-2 ring-[#1a3d2e]" : "")}
     >
-      <div className="grid md:grid-cols-[minmax(0,22rem)_1fr] gap-0">
+      <div className="grid md:grid-cols-[minmax(0,26rem)_1fr] gap-0">
         {/* Gallery (top on mobile, left column on desktop).
             min-w-0: without it the single-column mobile grid item refuses to
             shrink below the gallery's min-content (the fixed-width thumbnail
             strip), overflowing the card and clipping the right arrow. */}
-        <div className="md:p-3 min-w-0">
+        <div className="md:self-center md:p-3 min-w-0">
           <RoomGallery images={galleryImages} alt={room.name} />
         </div>
 
