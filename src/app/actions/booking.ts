@@ -7,6 +7,7 @@ import {
   SERVICE_TO_DB, buildEnrichedComment, notifyReservation,
 } from "@/lib/reservation-notify";
 import { suggestedReservationAmount, nightsBetween } from "@/lib/room-config";
+import { checkAvailability } from "./availability";
 
 export type BookingService = "hotel" | "aquapark" | "restaurant" | "sauna";
 
@@ -65,6 +66,18 @@ function validate(p: BookingPayload): string | null {
     return "Введіть коректний телефон";
   if (!p.dateFrom) return "Оберіть дату";
   if (p.service === "hotel" && !p.dateTo) return "Оберіть дату виїзду";
+  if (p.service === "hotel" && p.dateTo) {
+    // Server-side date sanity: the client uses minDate, but the action trusts
+    // raw ISO from the request body, so re-check here.
+    const f = new Date(p.dateFrom);
+    const t2 = new Date(p.dateTo);
+    if (Number.isNaN(f.getTime()) || Number.isNaN(t2.getTime()))
+      return "Невірні дати";
+    if (t2 <= f) return "Дата виїзду має бути пізніше дати заїзду";
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (f < today) return "Дата заїзду не може бути в минулому";
+  }
   if (p.service === "restaurant" && !p.time) return "Оберіть час";
   if (p.service === "sauna" && !p.time) return "Оберіть час";
   if (!p.guests || p.guests < 1 || p.guests > 50)
@@ -167,6 +180,23 @@ export async function createRoomReservation(
 
   const error = validate(payload);
   if (error) return { ok: false, error };
+
+  // Oversell guard: re-check live availability server-side. The client CTA
+  // disable is advisory and races with concurrent bookings / stale tabs, so two
+  // guests could otherwise both reserve the last room and both be charged.
+  const avail = await checkAvailability(
+    input.hotelSlug,
+    input.roomCategorySlug,
+    input.dateFrom,
+    input.dateTo,
+  );
+  if (avail.tracked && avail.available <= 0) {
+    return {
+      ok: false,
+      error:
+        "На жаль, цей номер щойно зайняли на обрані дати. Оберіть інші дати або інший номер.",
+    };
+  }
 
   const nights = nightsBetween(new Date(input.dateFrom), new Date(input.dateTo));
   const amount = await suggestedReservationAmount(

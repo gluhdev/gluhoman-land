@@ -8,6 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { orderStorage } from '@/lib/order-storage';
+import { menuPriceFor } from '@/lib/menu-prices';
 import {
   DELIVERY_FEE,
   FREE_DELIVERY_THRESHOLD,
@@ -63,8 +64,33 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Recalculate totals server-side — never trust client
-  const subtotal = data.items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  // Resolve every line's price from the server-side menu — NEVER trust the
+  // price the client sent (otherwise an attacker pays 1 грн for a 550 грн dish).
+  // An id no longer on the menu is rejected so stale carts can't order it.
+  const lineItems: {
+    menuItemId: string;
+    name: string;
+    price: number;
+    quantity: number;
+  }[] = [];
+  for (const i of data.items) {
+    const price = menuPriceFor(i.menuItemId);
+    if (price == null) {
+      return NextResponse.json(
+        { error: 'Деякі позиції більше недоступні. Оновіть кошик.' },
+        { status: 409 }
+      );
+    }
+    lineItems.push({
+      menuItemId: i.menuItemId,
+      name: i.name,
+      price,
+      quantity: i.quantity,
+    });
+  }
+
+  // Recalculate totals server-side from the resolved prices.
+  const subtotal = lineItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   if (subtotal < MIN_ORDER) {
     return NextResponse.json(
@@ -86,12 +112,7 @@ export async function POST(req: NextRequest) {
     address: data.deliveryType === 'delivery' ? data.address : undefined,
     scheduledAt: data.scheduledAt ?? null,
     comment: data.comment,
-    items: data.items.map((i) => ({
-      menuItemId: i.menuItemId,
-      name: i.name,
-      price: i.price,
-      quantity: i.quantity,
-    })),
+    items: lineItems,
     subtotal,
     deliveryFee,
     total,

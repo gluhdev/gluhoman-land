@@ -136,9 +136,21 @@ export async function updateBookingStatus(
   id: string,
   status: BookingStatusValue
 ): Promise<{ ok: boolean; error?: string }> {
+  // Server Actions are publicly addressable POST endpoints — without this check
+  // anyone could confirm/cancel any booking by id. Mirror the auth + hotel-scope
+  // guard used by createPaymentLink / createManualBooking.
+  const session = await auth();
+  if (!session?.user?.id) return { ok: false, error: 'Немає доступу' };
   if (!id) return { ok: false, error: 'Missing id' };
   if (!['PENDING', 'CONFIRMED', 'CANCELLED', 'COMPLETED'].includes(status))
     return { ok: false, error: 'Invalid status' };
+
+  const booking = await prisma.booking.findUnique({ where: { id } });
+  if (!booking) return { ok: false, error: 'Бронювання не знайдено' };
+
+  const scoped = session.user.hotelSlug ?? null;
+  if (scoped && booking.hotelSlug !== scoped)
+    return { ok: false, error: 'Немає доступу до цього готелю' };
 
   try {
     await prisma.booking.update({ where: { id }, data: { status } });

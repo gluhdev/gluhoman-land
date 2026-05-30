@@ -44,6 +44,10 @@ export async function getAllRoomPrices(): Promise<Record<string, string>> {
   }
 }
 
+// Grace window for an unpaid pay-to-confirm hold before it stops counting
+// against inventory. Matches the legacy hotel-availability stale sweep.
+const STALE_UNPAID_MS = 30 * 60 * 1000;
+
 export interface AvailabilityResult {
   ok: boolean;
   /** total rooms of this category */
@@ -79,6 +83,13 @@ export async function checkAvailability(
   const from = new Date(fromISO);
   const to = toISO ? new Date(toISO) : new Date(from.getTime() + 86400000);
 
+  // Pay-to-confirm holds that were never paid must not block inventory forever.
+  // A PENDING + unpaid booking that carries a price (totalAmount) and is older
+  // than the grace window is an abandoned checkout — exclude it so the room
+  // becomes bookable again. (Request bookings have no totalAmount and genuine
+  // PENDING admin-managed holds are kept.)
+  const staleCutoff = new Date(Date.now() - STALE_UNPAID_MS);
+
   try {
     const booked = await prisma.booking.count({
       where: {
@@ -87,6 +98,12 @@ export async function checkAvailability(
         status: { not: "CANCELLED" },
         dateFrom: { lt: to },
         OR: [{ dateTo: { gt: from } }, { dateTo: null, dateFrom: { gte: from } }],
+        NOT: {
+          status: "PENDING",
+          paymentStatus: "unpaid",
+          totalAmount: { not: null },
+          createdAt: { lt: staleCutoff },
+        },
       },
     });
 
