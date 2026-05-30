@@ -35,8 +35,20 @@ function detectLocale(request: NextRequest): 'uk' | 'en' {
   return primary.startsWith('en') ? 'en' : 'uk';
 }
 
+const AQUAPARK_BOOKING_URL = 'https://gluhoman.pl.ua/';
+
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Aquapark tickets are sold by an external system — every locale of
+  // /aquapark/booking must hard-redirect there. This lives in middleware (not
+  // the page's redirect()) because redirect() to an EXTERNAL URL only soft-
+  // redirects on client navigation; a direct browser hit needs a real HTTP 307,
+  // which only the routing layer can emit.
+  const withoutLocale = pathname.replace(/^\/(uk|en)(?=\/|$)/, '');
+  if (withoutLocale === '/aquapark/booking') {
+    return NextResponse.redirect(AQUAPARK_BOOKING_URL);
+  }
 
   // Admin routes: delegate entirely to NextAuth auth middleware
   if (pathname.startsWith('/admin')) {
