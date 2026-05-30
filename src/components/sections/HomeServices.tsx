@@ -437,7 +437,7 @@ function PanelHotel({
             >
               <div
                 className="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm font-display text-xl font-light"
-                style={{ backgroundColor: "#003b95", color: CREAM }}
+                style={{ backgroundColor: "#1a3d2e", color: CREAM }}
               >
                 {p.booking.rating}
               </div>

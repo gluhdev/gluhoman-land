@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Script from "next/script";
+import { CONTACT_INFO } from "@/constants";
 import {
   Flame,
   Utensils,
@@ -147,7 +148,7 @@ export default async function BbqZonePage() {
               {t("book_zone")} <ArrowUpRight className="h-4 w-4" />
             </BookingButton>
             <Link
-              href="tel:+380991234567"
+              href={`tel:${CONTACT_INFO.phone[0].replace(/\s+/g, "")}`}
               className="inline-flex items-center gap-2 px-8 py-4 text-sm uppercase tracking-[0.22em] border"
               style={{ borderColor: tan, color: cream }}
             >

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Script from "next/script";
+import { CONTACT_INFO } from "@/constants";
 import {
   Cat,
   Rabbit,
@@ -372,12 +373,12 @@ export default async function PettingZooPage() {
               style={{ backgroundColor: FOREST, opacity: 0.4 }}
             />
             <Link
-              href="tel:+380501234567"
+              href={`tel:${CONTACT_INFO.phone[0].replace(/\s+/g, "")}`}
               className="inline-flex items-center gap-3 px-8 py-4 text-sm uppercase tracking-[0.18em]"
               style={{ backgroundColor: FOREST, color: CREAM }}
             >
               <Phone className="w-4 h-4" />
-              +38 (050) 123 45 67
+              {CONTACT_INFO.phone[0]}
             </Link>
             <div
               className="h-px w-12"
