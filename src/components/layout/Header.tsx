@@ -227,11 +227,16 @@ export default function Header() {
                       <NavigationMenuItem key={item.href}>
                         <NavigationMenuTrigger
                           onClick={(e) => {
-                            // The trigger is a <button> that Radix uses to toggle
-                            // the dropdown. We also want a click to navigate to
-                            // the item's primary href (e.g. /hotel overview), so
-                            // we intercept and push manually. Dropdown still
-                            // opens/closes via Radix's own handler.
+                            // The trigger is a <button> Radix uses to toggle the
+                            // dropdown. On a real MOUSE click we also navigate to
+                            // the item's overview href (e.g. /hotel). But keyboard
+                            // activation (Enter/Space) produces a synthetic click
+                            // with e.detail === 0 — navigating there would steal
+                            // focus and the dropdown would never open, leaving the
+                            // submenu children unreachable for keyboard users. So
+                            // for keyboard activation we do nothing and let Radix
+                            // open the panel.
+                            if (e.detail === 0) return;
                             e.preventDefault();
                             router.push(item.href);
                           }}

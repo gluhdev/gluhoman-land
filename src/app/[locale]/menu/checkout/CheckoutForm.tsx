@@ -232,7 +232,11 @@ export function CheckoutForm() {
 
         {/* Delivery type */}
         <Section title={tco('section_delivery')} icon={<Truck className="h-4 w-4" />}>
-          <div className="grid grid-cols-2 gap-3">
+          <div
+            role="radiogroup"
+            aria-label={tco('section_delivery')}
+            className="grid grid-cols-2 gap-3"
+          >
             <RadioCard
               checked={form.deliveryType === 'delivery'}
               onClick={() => update('deliveryType', 'delivery')}
@@ -266,7 +270,11 @@ export function CheckoutForm() {
 
         {/* Time */}
         <Section title={tco('section_time')} icon={<Clock className="h-4 w-4" />}>
-          <div className="grid grid-cols-2 gap-3">
+          <div
+            role="radiogroup"
+            aria-label={tco('section_time')}
+            className="grid grid-cols-2 gap-3"
+          >
             <RadioCard
               checked={form.scheduledMode === 'asap'}
               onClick={() => update('scheduledMode', 'asap')}
@@ -370,7 +378,10 @@ export function CheckoutForm() {
 
         {/* Error message */}
         {error && (
-          <div className="p-3 rounded-xl bg-red-50 border border-red-200 flex items-start gap-2">
+          <div
+            role="alert"
+            className="p-3 rounded-xl bg-red-50 border border-red-200 flex items-start gap-2"
+          >
             <AlertCircle className="h-4 w-4 text-red-600 flex-shrink-0 mt-0.5" />
             <p className="text-xs text-red-800 leading-snug">{error}</p>
           </div>
@@ -467,6 +478,8 @@ function RadioCard({
   return (
     <button
       type="button"
+      role="radio"
+      aria-checked={checked}
       onClick={onClick}
       className={`text-left p-4 rounded-2xl border-2 transition-all duration-300 ${
         checked

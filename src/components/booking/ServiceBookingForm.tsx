@@ -1,6 +1,12 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import {
+  cloneElement,
+  isValidElement,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import {
   Loader2,
   AlertCircle,
@@ -148,7 +154,21 @@ export default function ServiceBookingForm({ service }: Props) {
     setSubmitError(null);
     const errs = validateAll();
     setErrors(errs);
-    if (Object.keys(errs).length > 0) return;
+    if (Object.keys(errs).length > 0) {
+      // Errors render on the next paint; wait a frame so the targets exist,
+      // then bring the first errored field/message into view and focus it.
+      requestAnimationFrame(() => {
+        const el = document.querySelector<HTMLElement>(
+          '[aria-invalid="true"], [data-error]'
+        );
+        if (!el) return;
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        const focusTarget =
+          el.matches("input, select, textarea, button") ? el : null;
+        focusTarget?.focus({ preventScroll: true });
+      });
+      return;
+    }
 
     const base = {
       name: name.trim(),
@@ -229,7 +249,13 @@ export default function ServiceBookingForm({ service }: Props) {
                 />
               </div>
               {errors.dateFrom && (
-                <p className="mt-2 text-xs text-red-700">{errors.dateFrom}</p>
+                <p
+                  role="alert"
+                  data-error
+                  className="mt-2 text-xs text-red-700"
+                >
+                  {errors.dateFrom}
+                </p>
               )}
             </div>
 
@@ -271,7 +297,9 @@ export default function ServiceBookingForm({ service }: Props) {
             )}
 
             {errors.guests && (
-              <p className="text-xs text-red-700">{errors.guests}</p>
+              <p role="alert" data-error className="text-xs text-red-700">
+                {errors.guests}
+              </p>
             )}
 
             {/* Contact fields */}
@@ -397,13 +425,18 @@ function AquaparkExtras({
     <div className="space-y-5">
       <div>
         <Label>{ta("tariff_label")}</Label>
-        <div className="grid grid-cols-2 gap-2 mt-2">
+        <div
+          role="group"
+          aria-label={ta("tariff_label")}
+          className="grid grid-cols-2 gap-2 mt-2"
+        >
           {tariffs.map((tr) => {
             const active = tariff === tr.id;
             return (
               <button
                 key={tr.id}
                 type="button"
+                aria-pressed={active}
                 onClick={() => setTariff(tr.id)}
                 className={`flex flex-col items-center border p-4 transition ${
                   active
@@ -427,7 +460,7 @@ function AquaparkExtras({
           increaseAria={tc("increase_aria", { label: ta("adults_label") })}
           value={adultsCount}
           setValue={setAdultsCount}
-          min={0}
+          min={1}
           max={20}
         />
         <Counter
@@ -497,6 +530,8 @@ function RestaurantExtras({
           <select
             value={time}
             onChange={(e) => setTime(e.target.value)}
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? "restaurant-time-err" : undefined}
             className={`${inputCls(error)} mt-2`}
           >
             {RESTAURANT_TIMES.map((t) => (
@@ -505,6 +540,16 @@ function RestaurantExtras({
               </option>
             ))}
           </select>
+          {error && (
+            <p
+              id="restaurant-time-err"
+              role="alert"
+              data-error
+              className="mt-1 text-xs text-red-700"
+            >
+              {error}
+            </p>
+          )}
         </div>
         <Counter
           label={tr("guests_label")}
@@ -518,7 +563,11 @@ function RestaurantExtras({
       </div>
       <div>
         <Label>{tr("occasion_label")}</Label>
-        <div className="grid grid-cols-5 gap-1.5 mt-2">
+        <div
+          role="group"
+          aria-label={tr("occasion_label")}
+          className="grid grid-cols-5 gap-1.5 mt-2"
+        >
           {occ.map((o) => {
             const active = occasion === o.id;
             const Icon = o.Icon;
@@ -526,6 +575,7 @@ function RestaurantExtras({
               <button
                 key={o.id}
                 type="button"
+                aria-pressed={active}
                 onClick={() => setOccasion(o.id)}
                 className={`flex flex-col items-center gap-1 border p-2 transition ${
                   active
@@ -599,13 +649,18 @@ function SaunaExtras({
     <div className="space-y-5">
       <div>
         <Label>{ts("slot_label")}</Label>
-        <div className="grid grid-cols-1 gap-2 mt-2">
+        <div
+          role="group"
+          aria-label={ts("slot_label")}
+          className="grid grid-cols-1 gap-2 mt-2"
+        >
           {slots.map((s) => {
             const active = slot === s.id;
             return (
               <button
                 key={s.id}
                 type="button"
+                aria-pressed={active}
                 onClick={() => setSlot(s.id)}
                 className={`flex items-center justify-between border px-4 py-3 transition ${
                   active
@@ -633,13 +688,18 @@ function SaunaExtras({
       />
       <div>
         <Label>{ts("programme_label")}</Label>
-        <div className="grid grid-cols-3 gap-2 mt-2">
+        <div
+          role="group"
+          aria-label={ts("programme_label")}
+          className="grid grid-cols-3 gap-2 mt-2"
+        >
           {progs.map((p) => {
             const active = programme === p.id;
             return (
               <button
                 key={p.id}
                 type="button"
+                aria-pressed={active}
                 onClick={() => setProgramme(p.id)}
                 className={`border px-3 py-3 text-center transition ${
                   active
@@ -752,15 +812,33 @@ function Field({
   error?: string;
   children: React.ReactNode;
 }) {
+  // Derive a stable error id from the label so the input can reference it.
+  const errId = error
+    ? `field-err-${label.replace(/\s+/g, "-").toLowerCase()}`
+    : undefined;
+  // Wire aria-invalid + aria-describedby onto the wrapped input/textarea.
+  const child = isValidElement(children)
+    ? cloneElement(children as React.ReactElement<Record<string, unknown>>, {
+        "aria-invalid": error ? true : undefined,
+        "aria-describedby": errId,
+      })
+    : children;
   return (
     <label className="block">
       <span className="text-[11px] uppercase tracking-[0.22em] text-[#1a3d2e]/70 mb-2 block">
         {label}
         {required && <span className="text-[#1a3d2e] ml-1">*</span>}
       </span>
-      {children}
+      {child}
       {error && (
-        <span className="mt-1.5 block text-xs text-red-700">{error}</span>
+        <span
+          id={errId}
+          role="alert"
+          data-error
+          className="mt-1.5 block text-xs text-red-700"
+        >
+          {error}
+        </span>
       )}
     </label>
   );
