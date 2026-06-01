@@ -1,4 +1,8 @@
+'use client';
+
 import { Save } from 'lucide-react';
+import { useActionState } from 'react';
+import { FieldErrorList, FormErrorSummary, type ActionErrorState } from '../_form-errors';
 
 interface Tariff {
   id?: string;
@@ -7,6 +11,13 @@ interface Tariff {
   description?: string | null;
   active: boolean;
 }
+
+const FIELD_LABELS: Record<string, string> = {
+  name: 'Назва тарифу',
+  price: 'Ціна',
+  description: 'Опис',
+  active: 'Активний',
+};
 
 export function TariffForm({
   initial,
@@ -17,9 +28,15 @@ export function TariffForm({
   action: (formData: FormData) => Promise<unknown> | void;
   submitLabel?: string;
 }) {
+  const [state, formAction, isPending] = useActionState(
+    async (_prev: ActionErrorState, formData: FormData) =>
+      ((await action(formData)) as ActionErrorState) ?? null,
+    null
+  );
+
   return (
     <form
-      action={action as (formData: FormData) => void}
+      action={formAction}
       className="bg-white border border-[#1a3d2e]/10 rounded-3xl p-6 lg:p-8 shadow-[0_2px_24px_-12px_rgba(26,61,46,0.12)] space-y-5"
     >
       <Field label="Назва тарифу" required>
@@ -31,6 +48,7 @@ export function TariffForm({
           placeholder="Дорослий"
           className={inputClass}
         />
+        <FieldErrorList errors={state?.error?.name} />
       </Field>
 
       <Field label="Ціна (грн)" required>
@@ -44,6 +62,7 @@ export function TariffForm({
           placeholder="450"
           className={inputClass}
         />
+        <FieldErrorList errors={state?.error?.price} />
       </Field>
 
       <Field label="Опис">
@@ -68,12 +87,15 @@ export function TariffForm({
         </span>
       </label>
 
+      <FormErrorSummary state={state} fieldLabels={FIELD_LABELS} />
+
       <button
         type="submit"
-        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors shadow-md"
+        disabled={isPending}
+        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors shadow-md disabled:opacity-60"
       >
         <Save className="h-4 w-4" />
-        {submitLabel}
+        {isPending ? 'Збереження…' : submitLabel}
       </button>
     </form>
   );

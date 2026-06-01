@@ -22,9 +22,9 @@ import {
   Flame,
   Clock,
 } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { formatPrice } from '@/types/cart';
-import { SAUNA_TYPE_LABEL, SaunaType, VirtualSlot } from '@/types/sauna';
+import { SaunaType, VirtualSlot } from '@/types/sauna';
 
 type Step = 'date' | 'slot' | 'confirm';
 
@@ -44,6 +44,9 @@ interface SelectedSlot {
 export function SaunaBookingFlow() {
   const tc = useTranslations('flow.common');
   const ts = useTranslations('flow.sauna');
+  const locale = useLocale();
+  const dateLocale = locale === 'en' ? 'en-GB' : 'uk-UA';
+  const typeLabel = (type: SaunaType) => ts(type === 'small' ? 'type_small' : 'type_big');
   const router = useRouter();
   const [step, setStep] = useState<Step>('date');
   const [date, setDate] = useState(todayISO(0));
@@ -206,7 +209,7 @@ export function SaunaBookingFlow() {
           {ts('step2_heading')}
         </h2>
         <p className="text-sm text-[#1a3d2e]/60 mb-6">
-          {ts('step2_date_slot', { date: new Date(date).toLocaleDateString('uk-UA', { dateStyle: 'long' }) })}
+          {ts('step2_date_slot', { date: new Date(date).toLocaleDateString(dateLocale, { dateStyle: 'long' }) })}
         </p>
 
         {loadingSlots ? (
@@ -225,7 +228,7 @@ export function SaunaBookingFlow() {
                     </div>
                     <div>
                       <h3 className="font-display text-lg font-semibold text-[#1a3d2e]">
-                        {SAUNA_TYPE_LABEL[type]}
+                        {typeLabel(type)}
                       </h3>
                       <p className="text-[10px] text-[#1a3d2e]/60 uppercase tracking-wider">
                         {ts('price_per_2h', { price: typeSlots[0]?.price ?? 0 })}
@@ -282,7 +285,7 @@ export function SaunaBookingFlow() {
                 {ts('slot_selected')}
               </p>
               <p className="text-sm font-semibold text-[#1a3d2e]">
-                {SAUNA_TYPE_LABEL[selectedSlot.saunaType]} · {selectedSlot.startTime}–{selectedSlot.endTime}
+                {typeLabel(selectedSlot.saunaType)} · {selectedSlot.startTime}–{selectedSlot.endTime}
               </p>
             </div>
             <button
@@ -362,13 +365,13 @@ export function SaunaBookingFlow() {
                 {tc('your_booking')}
               </p>
               <h3 className="font-display text-lg font-semibold text-[#1a3d2e] mt-1">
-                {SAUNA_TYPE_LABEL[selectedSlot.saunaType]}
+                {typeLabel(selectedSlot.saunaType)}
               </h3>
             </div>
             <div className="p-5 space-y-2 text-sm">
               <Row
                 label={ts('row_date')}
-                value={new Date(date).toLocaleDateString('uk-UA', { dateStyle: 'medium' })}
+                value={new Date(date).toLocaleDateString(dateLocale, { dateStyle: 'medium' })}
               />
               <Row label={ts('row_time')} value={`${selectedSlot.startTime} — ${selectedSlot.endTime}`} />
               <Row label={ts('row_duration')} value={ts('duration_value')} />

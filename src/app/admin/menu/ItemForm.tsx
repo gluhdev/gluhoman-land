@@ -1,4 +1,8 @@
+'use client';
+
 import { Save } from 'lucide-react';
+import { useActionState } from 'react';
+import { FieldErrorList, FormErrorSummary, type ActionErrorState } from '../_form-errors';
 
 interface CategoryOption {
   id: string;
@@ -18,6 +22,17 @@ interface Item {
   active: boolean;
 }
 
+const FIELD_LABELS: Record<string, string> = {
+  categoryId: 'Категорія',
+  name: 'Назва страви',
+  description: 'Опис',
+  price: 'Ціна',
+  weight: "Вага / Об'єм",
+  image: 'Зображення',
+  order: 'Порядок',
+  active: 'Активна',
+};
+
 export function ItemForm({
   initial,
   categories,
@@ -31,9 +46,15 @@ export function ItemForm({
   action: (formData: FormData) => Promise<unknown> | void;
   submitLabel?: string;
 }) {
+  const [state, formAction, isPending] = useActionState(
+    async (_prev: ActionErrorState, formData: FormData) =>
+      ((await action(formData)) as ActionErrorState) ?? null,
+    null
+  );
+
   return (
     <form
-      action={action as (formData: FormData) => void}
+      action={formAction}
       className="bg-white border border-[#1a3d2e]/10 rounded-3xl p-6 lg:p-8 shadow-[0_2px_24px_-12px_rgba(26,61,46,0.12)] space-y-5"
     >
       <Field label="Категорія" required>
@@ -53,6 +74,7 @@ export function ItemForm({
             </option>
           ))}
         </select>
+        <FieldErrorList errors={state?.error?.categoryId} />
       </Field>
 
       <Field label="Назва страви" required>
@@ -64,6 +86,7 @@ export function ItemForm({
           placeholder="Наприклад: Цезар з куркою"
           className={inputClass}
         />
+        <FieldErrorList errors={state?.error?.name} />
       </Field>
 
       <Field label="Опис">
@@ -88,6 +111,7 @@ export function ItemForm({
             placeholder="285"
             className={inputClass}
           />
+          <FieldErrorList errors={state?.error?.price} />
         </Field>
         <Field label="Вага / Об'єм">
           <input
@@ -133,12 +157,15 @@ export function ItemForm({
         </label>
       </div>
 
+      <FormErrorSummary state={state} fieldLabels={FIELD_LABELS} />
+
       <button
         type="submit"
-        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors shadow-md"
+        disabled={isPending}
+        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors shadow-md disabled:opacity-60"
       >
         <Save className="h-4 w-4" />
-        {submitLabel}
+        {isPending ? 'Збереження…' : submitLabel}
       </button>
     </form>
   );

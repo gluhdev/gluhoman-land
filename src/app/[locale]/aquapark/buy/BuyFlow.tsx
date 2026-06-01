@@ -207,6 +207,19 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
           {ta('step2_date', { date: new Date(date).toLocaleDateString('uk-UA', { dateStyle: 'long' }) })}
         </p>
 
+        {tariffs.length === 0 ? (
+          <div className="bg-[#f4ecd8]/40 border border-[#1a3d2e]/12 rounded-2xl p-8 text-center">
+            <Ticket className="h-10 w-10 text-[#1a3d2e]/30 mx-auto mb-3" />
+            <p className="text-sm text-[#1a3d2e]/70 mb-5">{ta('no_tariffs')}</p>
+            <button
+              type="button"
+              onClick={() => setStep('date')}
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors"
+            >
+              {tc('back')}
+            </button>
+          </div>
+        ) : (
         <form onSubmit={handleTariffs} className="space-y-3">
           {tariffs.map((tariff) => {
             const qty = quantities[tariff.id] ?? 0;
@@ -281,6 +294,7 @@ export function BuyFlow({ tariffs }: { tariffs: AquaparkTariff[] }) {
             {ta('step2_next')}
           </button>
         </form>
+        )}
       </Section>
     );
   }

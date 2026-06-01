@@ -3226,5 +3226,8 @@
   "booking_page.field_email_required": "84add5b2952787581cb9a8851eef63d1ec75d22b",
   "booking_page.email_confirmation_note": "025ee60107e6a6d170736362f20cc2e020f24b83",
   "booking_page.breakfast_included": "70678d2b9ffdae030626f618bf263a6b90efc48d",
-  "booking_page.room_options": "baf92f67a11b1ed216f4eea8e26fb606625ba0ec"
+  "booking_page.room_options": "baf92f67a11b1ed216f4eea8e26fb606625ba0ec",
+  "flow.sauna.type_small": "1acb96dd9bf59b1fdbe5d9fa46b7eaa946fb998c",
+  "flow.sauna.type_big": "09ce870d64813cb2a099e758c9b0fd67b8174a3e",
+  "flow.aquapark.no_tariffs": "66878979aa08774a2c2250d407cf2da410021041"
 }

@@ -1,5 +1,9 @@
+'use client';
+
 import { Save } from 'lucide-react';
+import { useActionState } from 'react';
 import { ImageUploader } from '@/components/admin/ImageUploader';
+import { FieldErrorList, FormErrorSummary, type ActionErrorState } from '../_form-errors';
 
 interface Room {
   id?: string;
@@ -19,6 +23,16 @@ const TYPE_OPTIONS = [
   { value: 'suite', label: 'Cвіт' },
 ];
 
+const FIELD_LABELS: Record<string, string> = {
+  number: 'Номер кімнати',
+  type: 'Тип',
+  capacity: 'Місткість',
+  pricePerNight: 'Ціна за ніч',
+  description: 'Опис',
+  images: 'Фото',
+  active: 'Активний',
+};
+
 export function RoomForm({
   initial,
   action,
@@ -28,6 +42,12 @@ export function RoomForm({
   action: (formData: FormData) => Promise<unknown> | void;
   submitLabel?: string;
 }) {
+  const [state, formAction, isPending] = useActionState(
+    async (_prev: ActionErrorState, formData: FormData) =>
+      ((await action(formData)) as ActionErrorState) ?? null,
+    null
+  );
+
   let initialImages: string[] = [];
   if (initial?.images) {
     try {
@@ -40,7 +60,7 @@ export function RoomForm({
 
   return (
     <form
-      action={action as (formData: FormData) => void}
+      action={formAction}
       className="bg-white border border-[#1a3d2e]/10 rounded-3xl p-6 lg:p-8 shadow-[0_2px_24px_-12px_rgba(26,61,46,0.12)] space-y-5"
     >
       <div className="grid sm:grid-cols-2 gap-5">
@@ -53,6 +73,7 @@ export function RoomForm({
             placeholder="101"
             className={inputClass}
           />
+          <FieldErrorList errors={state?.error?.number} />
         </Field>
         <Field label="Тип" required>
           <select
@@ -67,6 +88,7 @@ export function RoomForm({
               </option>
             ))}
           </select>
+          <FieldErrorList errors={state?.error?.type} />
         </Field>
       </div>
 
@@ -81,6 +103,7 @@ export function RoomForm({
             defaultValue={initial?.capacity ?? 2}
             className={inputClass}
           />
+          <FieldErrorList errors={state?.error?.capacity} />
         </Field>
         <Field label="Ціна за ніч (грн)" required>
           <input
@@ -93,6 +116,7 @@ export function RoomForm({
             placeholder="1500"
             className={inputClass}
           />
+          <FieldErrorList errors={state?.error?.pricePerNight} />
         </Field>
       </div>
 
@@ -122,12 +146,15 @@ export function RoomForm({
         </span>
       </label>
 
+      <FormErrorSummary state={state} fieldLabels={FIELD_LABELS} />
+
       <button
         type="submit"
-        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors shadow-md"
+        disabled={isPending}
+        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors shadow-md disabled:opacity-60"
       >
         <Save className="h-4 w-4" />
-        {submitLabel}
+        {isPending ? 'Збереження…' : submitLabel}
       </button>
     </form>
   );

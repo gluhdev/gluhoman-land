@@ -200,7 +200,11 @@ export function BookingForm({ mode, bookingId, rooms, initial = {} }: Props) {
               [
                 { v: 'cash', l: 'Готівка' },
                 { v: 'paid-offline', l: 'Вже оплачено' },
-                { v: 'online', l: 'Онлайн (LiqPay)' },
+                // 'online' (LiqPay) intentionally omitted: this legacy HotelBooking
+                // model has no payable link (the /pay/[id] flow targets the
+                // canonical Booking model), so an online hotel booking here would
+                // stall as unpaid forever. Online payment links are issued from
+                // /admin/bookings/[id] (PaymentLinkPanel) instead.
               ] as const
             ).map((opt) => (
               <button

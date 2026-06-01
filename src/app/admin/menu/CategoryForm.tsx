@@ -1,9 +1,17 @@
+'use client';
+
 /**
- * Server-rendered form for create/edit category.
+ * Client form for create/edit category.
  * Used by /admin/menu/categories/new and /admin/menu/categories/[id]/page (edit mode).
+ *
+ * The server action redirects on success (which throws and propagates) and
+ * returns { ok: false, error: fieldErrors } on zod failure. We surface those
+ * errors via useActionState so a silently-failing save is now visible.
  */
 
 import { Save } from 'lucide-react';
+import { useActionState } from 'react';
+import { FieldErrorList, FormErrorSummary, type ActionErrorState } from '../_form-errors';
 
 interface Category {
   id?: string;
@@ -12,6 +20,13 @@ interface Category {
   order: number;
   active: boolean;
 }
+
+const FIELD_LABELS: Record<string, string> = {
+  name: 'Назва',
+  icon: 'Іконка',
+  order: 'Порядок',
+  active: 'Активна',
+};
 
 export function CategoryForm({
   initial,
@@ -22,9 +37,15 @@ export function CategoryForm({
   action: (formData: FormData) => Promise<unknown> | void;
   submitLabel?: string;
 }) {
+  const [state, formAction, isPending] = useActionState(
+    async (_prev: ActionErrorState, formData: FormData) =>
+      ((await action(formData)) as ActionErrorState) ?? null,
+    null
+  );
+
   return (
     <form
-      action={action as (formData: FormData) => void}
+      action={formAction}
       className="bg-white border border-[#1a3d2e]/10 rounded-3xl p-6 shadow-[0_2px_24px_-12px_rgba(26,61,46,0.12)] space-y-5"
     >
       <Field label="Назва" required>
@@ -36,6 +57,7 @@ export function CategoryForm({
           placeholder="Наприклад: Холодні закуски"
           className={inputClass}
         />
+        <FieldErrorList errors={state?.error?.name} />
       </Field>
 
       <div className="grid sm:grid-cols-2 gap-5">
@@ -72,12 +94,15 @@ export function CategoryForm({
         </span>
       </label>
 
+      <FormErrorSummary state={state} fieldLabels={FIELD_LABELS} />
+
       <button
         type="submit"
-        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors shadow-md"
+        disabled={isPending}
+        className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a3d2e] text-[#fdfaf0] font-semibold text-sm hover:bg-[#0f2a1e] transition-colors shadow-md disabled:opacity-60"
       >
         <Save className="h-4 w-4" />
-        {submitLabel}
+        {isPending ? 'Збереження…' : submitLabel}
       </button>
     </form>
   );
