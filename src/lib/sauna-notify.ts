@@ -4,6 +4,7 @@
 
 import { SaunaSlot, SAUNA_TYPE_LABEL } from '@/types/sauna';
 import { formatPrice } from '@/types/cart';
+import { buildActionKeyboard } from '@/lib/status-notify';
 
 const PAYMENT_LABEL: Record<string, string> = {
   paid: 'Оплачено ✅',
@@ -37,7 +38,14 @@ async function notifyTelegram(s: SaunaSlot): Promise<void> {
     await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text: buildText(s) }),
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: buildText(s),
+        reply_markup:
+          s.status === 'completed' || s.status === 'cancelled'
+            ? undefined
+            : buildActionKeyboard('sauna', s.id),
+      }),
     });
   } catch (err) {
     console.warn('[sauna-notify] Telegram error:', err);

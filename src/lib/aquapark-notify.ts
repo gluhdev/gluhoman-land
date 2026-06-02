@@ -4,6 +4,7 @@
 
 import { AquaparkTicket } from '@/types/aquapark';
 import { formatPrice } from '@/types/cart';
+import { buildActionKeyboard } from '@/lib/status-notify';
 
 const PAYMENT_LABEL: Record<string, string> = {
   paid: 'Оплачено ✅',
@@ -42,7 +43,14 @@ async function notifyTelegram(t: AquaparkTicket): Promise<void> {
     await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text: buildText(t) }),
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: buildText(t),
+        reply_markup:
+          t.status === 'cancelled' || t.status === 'refunded' || t.status === 'used'
+            ? undefined
+            : buildActionKeyboard('aquapark', t.id),
+      }),
     });
   } catch (err) {
     console.warn('[aquapark-notify] Telegram error:', err);

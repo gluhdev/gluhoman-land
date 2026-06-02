@@ -10,6 +10,7 @@
  */
 
 import { Order, formatPrice } from '@/types/cart';
+import { buildActionKeyboard } from '@/lib/status-notify';
 
 const PAYMENT_LABEL: Record<string, string> = {
   paid: 'Оплачено ✅',
@@ -66,6 +67,10 @@ async function notifyTelegram(order: Order): Promise<void> {
         chat_id: chatId,
         text: buildText(order),
         parse_mode: 'HTML',
+        reply_markup:
+          order.status === 'COMPLETED' || order.status === 'CANCELLED'
+            ? undefined
+            : buildActionKeyboard('order', order.id),
       }),
     });
     if (!res.ok) {

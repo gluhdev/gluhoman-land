@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { auth } from '@/lib/auth';
 import { bookingStorage } from '@/lib/booking-storage';
-import { HotelBookingStatus } from '@/types/booking';
+import { changeStatus } from '@/lib/status-service';
 
 const Schema = z.object({
   status: z.enum(['pending', 'paid', 'confirmed', 'completed', 'cancelled']),
@@ -35,10 +35,14 @@ export async function POST(
   }
 
   const { id } = await params;
-  const updated = await bookingStorage.updateStatus(id, parsed.data.status as HotelBookingStatus);
-  if (!updated) {
-    return NextResponse.json({ error: 'Бронювання не знайдено' }, { status: 404 });
+  const result = await changeStatus('hotel', id, parsed.data.status, {
+    hotelSlug: session.user.hotelSlug ?? null,
+    notifyGuest: true,
+  });
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error }, { status: 400 });
   }
 
+  const updated = await bookingStorage.get(id);
   return NextResponse.json({ ok: true, booking: updated });
 }

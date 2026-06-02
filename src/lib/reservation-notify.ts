@@ -3,6 +3,7 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import { CONTACT_INFO } from "@/constants";
 import type { BookingPayload, BookingService } from "@/app/actions/booking";
+import { buildActionKeyboard } from "@/lib/status-notify";
 
 type ChannelName = "telegram" | "email";
 interface ChannelResult { ok: boolean; channel: ChannelName; error?: string }
@@ -99,13 +100,17 @@ function chatIdForHotel(hotelSlug?: BookingPayload["hotelSlug"]): string | undef
   return process.env.TELEGRAM_CHAT_ID;
 }
 
-async function sendTelegram(message: string, hotelSlug?: BookingPayload["hotelSlug"]): Promise<ChannelResult> {
+async function sendTelegram(message: string, hotelSlug?: BookingPayload["hotelSlug"], bookingId?: string): Promise<ChannelResult> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = chatIdForHotel(hotelSlug);
   try {
     const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text: message }), cache: "no-store",
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message,
+        reply_markup: bookingId ? buildActionKeyboard("reservation", bookingId) : undefined,
+      }), cache: "no-store",
     });
     if (!res.ok) {
       const body = await res.text();
@@ -204,7 +209,7 @@ export async function notifyReservation(
     !!process.env.RESEND_API_KEY && !!process.env.BOOKING_EMAIL_FROM && !!process.env.BOOKING_EMAIL_TO;
 
   const channels: Promise<ChannelResult>[] = [];
-  if (telegramConfigured) channels.push(sendTelegram(message, payload.hotelSlug));
+  if (telegramConfigured) channels.push(sendTelegram(message, payload.hotelSlug, bookingId));
   if (emailConfigured) channels.push(sendEmail(payload, message));
 
   if (channels.length === 0) {

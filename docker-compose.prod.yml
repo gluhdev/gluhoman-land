@@ -52,6 +52,9 @@ services:
       - TELEGRAM_CHAT_ID_COTTAGES=${TELEGRAM_CHAT_ID_COTTAGES:-}
       - TELEGRAM_CHAT_ID_BREWERY=${TELEGRAM_CHAT_ID_BREWERY:-}
       - TELEGRAM_WEBHOOK_SECRET=${TELEGRAM_WEBHOOK_SECRET:-}
+      # Comma-separated Telegram user ids allowed to manage from the bot
+      # (approve/cancel, /pending, /book). Empty = nobody (default closed).
+      - TELEGRAM_ADMIN_CHAT_IDS=${TELEGRAM_ADMIN_CHAT_IDS:-}
       - RESEND_API_KEY=${RESEND_API_KEY:-}
       - BOOKING_EMAIL_FROM=${BOOKING_EMAIL_FROM:-}
       - BOOKING_EMAIL_TO=${BOOKING_EMAIL_TO:-}
@@ -86,6 +89,11 @@ services:
     networks:
       - internal
 
+  # DEPRECATED: standalone Telegraf poller. Superseded by the in-app WEBHOOK bot
+  # (src/lib/telegram-bot.ts on TELEGRAM_BOT_TOKEN), which now also handles admin
+  # management (approve/cancel, /pending, /book). A Telegram token can only run
+  # ONE transport — do NOT run this with --profile bot while the webhook is set,
+  # or it will steal updates. Kept here only for reference / rollback.
   bot:
     profiles: ["bot"]  # only starts when --profile bot is passed
     build:

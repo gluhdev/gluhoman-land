@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { auth } from '@/lib/auth';
 import { saunaStorage } from '@/lib/sauna-storage';
-import { SaunaSlotStatus } from '@/types/sauna';
+import { changeStatus } from '@/lib/status-service';
 
 const Schema = z.object({
   status: z.enum(['free', 'reserved', 'paid', 'completed', 'cancelled']),
@@ -34,10 +34,14 @@ export async function POST(
   }
 
   const { id } = await params;
-  const updated = await saunaStorage.updateStatus(id, parsed.data.status as SaunaSlotStatus);
-  if (!updated) {
-    return NextResponse.json({ error: 'Не знайдено' }, { status: 404 });
+  const result = await changeStatus('sauna', id, parsed.data.status, {
+    hotelSlug: session.user.hotelSlug ?? null,
+    notifyGuest: true,
+  });
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error }, { status: 400 });
   }
 
+  const updated = await saunaStorage.get(id);
   return NextResponse.json({ ok: true, slot: updated });
 }

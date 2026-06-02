@@ -5,6 +5,7 @@
 
 import { HotelBooking, ROOM_TYPE_LABEL, getNights } from '@/types/booking';
 import { formatPrice } from '@/types/cart';
+import { buildActionKeyboard } from '@/lib/status-notify';
 
 const PAYMENT_LABEL: Record<string, string> = {
   paid: 'Оплачено ✅',
@@ -49,7 +50,14 @@ async function notifyTelegram(b: HotelBooking): Promise<void> {
     await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: chatId, text: buildText(b) }),
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: buildText(b),
+        reply_markup:
+          b.status === 'completed' || b.status === 'cancelled'
+            ? undefined
+            : buildActionKeyboard('hotel', b.id),
+      }),
     });
   } catch (err) {
     console.warn('[booking-notify] Telegram error:', err);

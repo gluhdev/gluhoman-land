@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { auth } from '@/lib/auth';
 import { aquaparkStorage } from '@/lib/aquapark-storage';
-import { AquaparkTicketStatus } from '@/types/aquapark';
+import { changeStatus } from '@/lib/status-service';
 
 const Schema = z.object({
   status: z.enum(['pending', 'paid', 'used', 'cancelled', 'refunded']),
@@ -35,10 +35,14 @@ export async function POST(
   }
 
   const { id } = await params;
-  const updated = await aquaparkStorage.updateStatus(id, parsed.data.status as AquaparkTicketStatus);
-  if (!updated) {
-    return NextResponse.json({ error: 'Квиток не знайдено' }, { status: 404 });
+  const result = await changeStatus('aquapark', id, parsed.data.status, {
+    hotelSlug: session.user.hotelSlug ?? null,
+    notifyGuest: true,
+  });
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error }, { status: 400 });
   }
 
+  const updated = await aquaparkStorage.get(id);
   return NextResponse.json({ ok: true, ticket: updated });
 }

@@ -13,6 +13,7 @@ import { prisma } from '@/lib/prisma';
 import { formatPrice } from '@/types/cart';
 import { ROOM_TYPE_LABEL } from '@/types/booking';
 import { SAUNA_TYPE_LABEL, SaunaType } from '@/types/sauna';
+import { TodayActions } from './TodayActions';
 
 export const dynamic = 'force-dynamic';
 
@@ -165,6 +166,7 @@ export default async function TodayPage() {
                       {formatPrice(o.total)}
                     </span>
                   </Link>
+                  <TodayActions type="order" id={o.id} currentStatus={o.status} />
                 </li>
               ))}
             </ul>
@@ -205,6 +207,7 @@ export default async function TodayPage() {
                       {formatPrice(b.total)}
                     </span>
                   </Link>
+                  <TodayActions type="hotel" id={b.id} currentStatus={b.status} />
                 </li>
               ))}
             </ul>
@@ -238,6 +241,7 @@ export default async function TodayPage() {
                     </div>
                     <PaymentBadge status={b.paymentStatus} />
                   </Link>
+                  <TodayActions type="hotel" id={b.id} currentStatus={b.status} />
                 </li>
               ))}
             </ul>
@@ -279,6 +283,7 @@ export default async function TodayPage() {
                         {formatPrice(t.total)}
                       </span>
                     </Link>
+                    <TodayActions type="aquapark" id={t.id} currentStatus={t.status} />
                   </li>
                 );
               })}
@@ -321,6 +326,7 @@ export default async function TodayPage() {
                       </span>
                     )}
                   </Link>
+                  <TodayActions type="sauna" id={s.id} currentStatus={s.status} />
                 </li>
               ))}
             </ul>
