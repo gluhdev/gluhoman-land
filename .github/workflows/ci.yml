@@ -44,7 +44,7 @@ jobs:
         env:
           DATABASE_URL: "file:./prisma/ci.db"
           NEXT_PUBLIC_SITE_URL: "https://gluhoman.com.ua"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: next-build
           path: .next/
@@ -76,7 +76,7 @@ jobs:
           NEXTAUTH_SECRET: "ci-test-secret-do-not-use-in-prod"
           AUTH_SECRET: "ci-test-secret-do-not-use-in-prod"
           NEXTAUTH_URL: "http://localhost:3002"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: playwright-report
