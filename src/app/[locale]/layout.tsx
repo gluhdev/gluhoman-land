@@ -67,6 +67,15 @@ export async function generateMetadata({
       description: t('meta_description'),
       type: "website",
       locale: locale === 'uk' ? 'uk_UA' : 'en_US',
+      images: [
+        { url: "/og-image.jpg", width: 1200, height: 630, alt: "Глухомань — рекреаційний комплекс" },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t('meta_title'),
+      description: t('meta_description'),
+      images: ["/og-image.jpg"],
     },
   };
 }
